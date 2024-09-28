@@ -1,0 +1,94 @@
+<div class="card section">
+    <h4 class="card-header text-center bg-light">
+        Resignation Letter For Approve
+    </h4>
+    <form [formGroup]="resignationApproveForm">
+        <br />
+        <div class="row">
+            <div class="col-md-8 center">
+                <div class="form-group row">
+                    <label class="col-form-label col-sm-4 "> Employee Id
+          <i class="text-danger">*</i>
+        </label>
+
+                    <div class="input-group col-sm-6">
+                        <app-employee-select-list [isRequired]="f['empCode'].invalid && (isSubmitted || f['empCode'].touched || f['empCode'].dirty)" (onChange)="getEmpInfo($event.empCode)" [setEmpCode]="formVal.empCode">
+                        </app-employee-select-list>
+                    </div>
+                    <label class="col-form-label col-sm-4 "></label>
+                    <div *ngIf="f['empCode'].invalid && (isSubmitted || f['empCode'].touched || f['empCode'].dirty)" class="text-danger">
+                        <i *ngIf="f['empCode'].errors['required']">Employee Code is required</i>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-form-label col-sm-4 ">Employee Name
+        </label>
+                    <div class="col-sm-6">
+                        <input formControlName="empName" type="text" disabled class="form-control" placeholder="Employee Name">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-form-label col-sm-4 ">Designation
+        </label>
+                    <div class="col-sm-6">
+                        <input formControlName="empDesignation" type="text" disabled class="form-control" placeholder="Designation">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-form-label col-sm-4 ">Remarks
+        </label>
+                    <div class="col-sm-6">
+                        <input formControlName="remarks" type="text" class="form-control" placeholder="Remarks">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <table class="table table-striped table-bordered mt-3">
+            <thead>
+                <tr>
+                    <th>SL</th>
+                    <th>EmpCode</th>
+                    <th>Employee Name</th>
+                    <th>Department </th>
+                    <th>Designation</th>
+                    <th>Reason</th>
+                    <th>Recommend</th>
+                    <th>Approve</th>
+                    <th>Cancel</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngIf="allResignationLetter.length==0">
+                    <td class="text-center" colspan="9"><i>No Data Available</i></td>
+                </tr>
+                <tr *ngFor="let item of allResignationLetter;let i=index">
+                    <th>{{i+1}}</th>
+                    <td>{{item.empCode}}</td>
+                    <td>{{item.empName}}</td>
+                    <td>{{item.department}}</td>
+                    <td>{{item.designation}}</td>
+                    <td>{{item.reason}}</td>
+                    <td><button (click)="updateStatus(i,2)" class="btn-action btn btn-primary btn-sm">Recommend</button></td>
+                    <td><button (click)="updateStatus(i,1)" class="btn-action btn btn-success btn-sm">Approve</button></td>
+                    <td><button (click)="cancel(i,3,cancelModal)" class="btn-action btn btn-danger btn-sm">Cancel</button></td>
+                </tr>
+            </tbody>
+        </table>
+
+    </form>
+</div>
+
+<ng-template #cancelModal>
+    <div class="card">
+        <h3 class="card-header">Are you sure want to Cancel?
+            <span class="fa fa-window-close pull-right text-danger" (click)="close()"></span></h3>
+        <div class="card-body">
+        </div>
+        <div class="card-footer">
+            <div class="pull-right demo-inline-spacing">
+                <button (click)="close()" class="btn btn-danger">Not now</button>
+                <button (click)="confirm()" class="btn btn-success">Confirm</button>
+            </div>
+        </div>
+    </div>
+</ng-template>

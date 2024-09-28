@@ -1,0 +1,230 @@
+<div class="card">
+    <h4 class="card-header text-center bg-light">KPI Agree By Boss</h4>
+    <div class="card-body">
+        <form [formGroup]="agreedEmployeeInfoform">
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group row">
+                        <label for="year" class="col-md-3">Year <span class="text-danger">*</span></label>
+                        <div class="col-md-7">
+                            <ng-select required formControlName="year" [items]="years" bindLabel="yearName" bindValue="id" name="year" id="year" placeholder="Select Year" [ngClass]="{'is-invalid':(isSubmitted || agreedEmployeeInfoform.controls.year.touched || agreedEmployeeInfoform.controls.year.dirty) && agreedEmployeeInfoform.controls.year.invalid}">
+                            </ng-select>
+                            <div *ngIf="(isSubmitted || agreedEmployeeInfoform.controls.year.touched || agreedEmployeeInfoform.controls.year.dirty) && agreedEmployeeInfoform.controls.year.invalid" class="text-danger">
+                                <i *ngIf="agreedEmployeeInfoform.controls.year.errors.required">Year is required</i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="quarter" class="col-md-3">Period <span class="text-danger">*</span></label>
+                        <div class="col-md-7">
+                            <ng-select required formControlName="quarter" [items]="quarters" bindLabel="shortName" bindValue="id" name="quarter" id="quarter" placeholder="Select Quarter" [ngClass]="{'is-invalid':(isSubmitted || agreedEmployeeInfoform.controls.quarter.touched || agreedEmployeeInfoform.controls.quarter.dirty) && agreedEmployeeInfoform.controls.quarter.invalid}">
+                            </ng-select>
+                            <div *ngIf="(isSubmitted || agreedEmployeeInfoform.controls.quarter.touched || agreedEmployeeInfoform.controls.quarter.dirty) && agreedEmployeeInfoform.controls.quarter.invalid" class="text-danger">
+                                <i *ngIf="agreedEmployeeInfoform.controls.quarter.errors.required">Quarter is
+                                    required</i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-10">
+                            <button (click)="show()" class="btn btn-info pull-right mt-3">Show</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-8">
+                    <div class="card p-0">
+                        <div class="card-header pt-2 pb-0 my-0 bg-lighter">
+                            <h5>All Reporting Employee</h5>
+                        </div>
+                        <div class="card-body p-0" style="padding: 0px !important;">
+                            <h4 *ngIf="isLoading" class="text-center pt-3 text-success">Loading...</h4>
+                            <div *ngIf="allemployees.length>0 && !isLoading" class="data-table" style="max-height: 200px;">
+                                <table class="table table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th width="15%">Code</th>
+                                            <th width="40%">Name</th>
+                                            <th width="20%">Employee</th>
+                                            <th width="15%">Boss</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr class="tr-border" *ngFor="let emp of allemployees" [ngClass]="{'font-weight-bold': (emp.employee!='---' && emp.boss!='---')}">
+                                            <td width="15%">{{emp.empCode}}</td>
+                                            <td width="40%">{{emp.empName}}</td>
+                                            <td><span class="badge badge-pill" [ngClass]="{'badge-success':emp.employee=='Agreed','badge-danger':emp.employee=='Pending'}">{{emp.employee}}</span></td>
+                                            <td><span class="badge badge-pill" [ngClass]="{'badge-success':emp.boss=='Agreed','badge-danger':emp.boss=='Pending'}">{{emp.boss}}</span></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div *ngIf="employees.length>0" class="row">
+                <div class="col-md-6">
+                    <div class="data-table">
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>Code</th>
+                                    <th>Name</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let emp of employees">
+                                    <td>{{emp.empCode}}</td>
+                                    <td>{{emp.empName}}</td>
+                                    <td>
+                                        <button (click)="empEdit(emp.empCode)" class="btn btn-info btn-xs"><span
+                                                class="fas fa-edit"></span></button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group row">
+                        <label for="employeeId" class="col-md-4">Code</label>
+                        <div class="col-md-8">
+                            <input type="text" formControlName="empCode" name="empCode" id="empCode" class="form-control">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="empName" class="col-md-4">Name</label>
+                        <div class="col-md-8">
+                            <input type="text" formControlName="empName" readonly name="empName" id="empName" class="form-control">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="department" class="col-md-4">Department</label>
+                        <div class="col-md-8">
+                            <input type="text" name="department" readonly formControlName="department" id="department" class="form-control">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="designation" class="col-md-4">Designation</label>
+                        <div class="col-md-8">
+                            <input type="text" name="designation" readonly formControlName="designation" id="designation" class="form-control">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+        <div class="card mt-3">
+            <div class="card-header pt-2 pb-0 my-0 bg-lighter">
+                <b class="text-big mt-3">Business Result</b>
+                <button (click)="addNewRow(1)" class="btn btn-primary pull-right py-1 my-1"><span
+                        class="fa fa-plus"></span></button>
+            </div>
+            <div class="card-body p-0">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th width="35%">KPI Name</th>
+                            <th width="35%">Target</th>
+                            <th width="20%">Weight</th>
+                            <th width="10%">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let empWiseKpiBusinessForm of empWiseKpiBusinessFormList.controls; let i=index" [formGroup]="empWiseKpiBusinessForm">
+                            <td class="p-0" width="35%">
+                                <!-- {{empWiseKpiBusinessForm.value.kpiName}} -->
+                                <app-kpi-select-list [selectedTag]="[empWiseKpiBusinessForm.value.kpiName]" [suggestedTags]="suggestedBusinessKpi" (onSelect)="onSelectKpiName(i, $event, 1)" [isRequired]="true">
+                                </app-kpi-select-list>
+                            </td>
+                            <td class="p-0" width="35%">
+                                <button *ngIf="getTargets(i,1).controls.length==0" (click)="addTarget(i,1)" class="btn text-success pull-right"><span class="fa fa-plus"></span></button>
+                                <div *ngFor="let targetGroup of getTargets(i,1).controls; let j=index" [formGroup]="targetGroup" class="input-group">
+                                    <textarea (keyup.enter)="addTarget(i,1)" (keydown.enter)="onKeyEnter($event)" rows="1" class="form-control p-1" formControlName="target"></textarea>
+                                    <button class="text-danger input-group-append" (click)="removeTarget(i,j,1)"><span class="fa fa-minus"></span></button>
+                                    <button class="text-success input-group-append" (click)="addTarget(i,1)"> <span  class="fa fa-plus"></span></button>
+                                </div>
+                            </td>
+                            <td width="20%" class="p-0">
+                                <input [ngClass]="{'is-invalid':(sumWeight<70 || sumWeight>80 || (this.sumWeight+this.sumWeightPeople)!=100)}" formControlName="weight" type="number" (change)="onChangeBusinessWeight(i)" (keyup)="onChangeBusinessWeight(i)" class="form-control">
+                            </td>
+                            <td width="10%" class=" text-big text-center">
+                                <span (click)="removeRow(i,1)" class="fa fa-window-close text-danger"></span>
+                                <span *ngIf="empWiseKpiBusinessFormList.controls.length==(i+1)" (click)="addNewRow(1)" class="fa fa-plus text-success"></span>
+                            </td>
+                        </tr>
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td>
+                                <b style="color:#2980B9;">Max Range : 70-80</b>
+                            </td>
+                            <td colspan="2" class="text-right pr-5" [ngClass]="{'bg-danger text-white':sumWeight<70 || sumWeight>80}">
+                                <b>Total: {{sumWeight}}</b></td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+
+
+        <div class="card mt-3">
+            <div class="card-header pt-2 pb-0 my-0 bg-lighter">
+                <b class="text-big mt-3">People Result</b>
+                <button (click)="addNewRow(2)" class="btn btn-primary pull-right py-1 my-1"><span class="fa fa-plus"></span></button>
+            </div>
+            <div class="card-body p-0">
+                <table class="table table-bordered m-0">
+                    <thead>
+                        <tr>
+                            <th width="35%">KPI Name</th>
+                            <th width="35%">Target</th>
+                            <th width="20%">Weight</th>
+                            <th width="10%">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let empWiseKpiPeopleForm of empWiseKpiPeopleFormList.controls; let i=index" [formGroup]="empWiseKpiPeopleForm">
+                            <td class="p-0" width="30%">
+                                <!-- {{empWiseKpiPeopleForm.value.kpiName}} -->
+                                <app-kpi-select-list [selectedTag]="[empWiseKpiPeopleForm.value.kpiName]" [suggestedTags]="suggestedPeopleKpi" (onSelect)="onSelectKpiName(i, $event, 2)" [isRequired]="true">
+                                </app-kpi-select-list>
+                            </td>
+                            <td class="p-0" width="35%">
+                                <div *ngFor="let targetGroup of getTargets(i,2).controls; let j=index" [formGroup]="targetGroup" class="input-group">
+                                    <textarea (keyup.enter)="addTarget(i,2)" (keydown.enter)="onKeyEnter($event)" rows="1" class="form-control p-1" formControlName="target"></textarea>
+                                    <button class="text-danger input-group-append " (click)="removeTarget(i,j,2)"><span class="fa fa-minus"></span></button>
+                                    <button class="text-success input-group-append" (click)="addTarget(i,2)"><span  class="fa fa-plus"></span></button>
+                                </div>
+                            </td>
+                            <td width="20%">
+                                <input [ngClass]="{'is-invalid':sumWeightPeople<20 || sumWeightPeople>30 || (this.sumWeight+this.sumWeightPeople)!=100}" formControlName="weight" type="number" (change)="onChangePeopleWeight(i)" (keyup)="onChangePeopleWeight(i)" class="form-control">
+                            </td>
+                            <td width="10%" class="text-center">
+                                <span (click)="removeRow(i,2)" class="fa fa-window-close text-danger text-big mr-2"></span>
+                                <span *ngIf="empWiseKpiPeopleFormList.controls.length==(i+1)" (click)="addNewRow(2)" class="fa fa-plus text-success text-big"></span>
+                            </td>
+                        </tr>
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td>
+                                <b>Max Range : 20-30</b>
+                            </td>
+                            <td colspan="2" class="text-right pr-5" [ngClass]="{'bg-danger text-white':sumWeightPeople<20 || sumWeightPeople>30}">
+                                <b>Total: {{sumWeightPeople}}</b></td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+        <div class="card-footer">
+            <button (click)="agree()" [disabled]="isAgreebtn" class="btn btn-success ml-5"><span
+                    class="fas fa-check-circle"></span> Agree</button>
+            <button (click)="update()" class="btn btn-success pull-right">Update</button>
+            <button (click)="resetKpi()" class="btn btn-primary pull-right mr-2"><span
+                    class="ion ion-ios-refresh"></span>
+                Reset</button>
+        </div>
+    </div>
+</div>

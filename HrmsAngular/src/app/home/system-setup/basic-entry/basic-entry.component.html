@@ -1,0 +1,83 @@
+<div class="card">
+    <h4 class="card-header text-center bg-light">
+        {{title}}
+        <span *ngIf="showCloseBtn" (click)="close()" class="pull-right text-danger fa fa-window-close"></span>
+    </h4>
+    <div class="card-body col-md-9" style="margin: 0 auto">
+        <form [formGroup]="basicEntryForm">
+            <div class="form-group row">
+                <label class="col-form-label col-sm-3 " for="sortOrder">Sort Order</label>
+                <div class="col-sm-4">
+                    <ng-select formControlName="sortOrder" [items]="allSortOrder" bindLabel="sortOrder" bindValue="sortOrder" placeholder="Sort Order">
+                    </ng-select>
+                </div>
+            </div>
+            <div *ngIf="descriptionFieldNumber==false" class="form-group row">
+                <label class="col-form-label col-sm-3 " for="description">Description</label>
+                <div class="col-sm-6">
+                    <textarea formControlName="description" class="form-control" name="description" id="description" placeholder="Description"></textarea>
+                    <div *ngIf="f['description'].invalid && (isSubmitted || f['description'].touched || f['description'].dirty)" class="text-danger">
+                        <i *ngIf="f['description'].errors.required">Please input Description</i>
+                    </div>
+                </div>
+            </div>
+
+
+            <div *ngIf="descriptionFieldNumber" class="form-group row">
+                <label class="col-form-label col-sm-3 " for="description">Description</label>
+                <div class="col-sm-6">
+                    <input formControlName="description" type="number" class="form-control" name="description" id="description" placeholder="Description">
+                    <div *ngIf="f['description'].invalid && (isSubmitted || f['description'].touched || f['description'].dirty)" class="text-danger">
+                        <i *ngIf="f['description'].errors.required">Please input Description</i>
+                    </div>
+                </div>
+            </div>
+
+        </form>
+        <div class="row">
+            <label for="" class="col-form-label col-sm-2 "></label>
+            <div class="demo-inline-spacing mt-3">
+                <button (click)="Reset()" class="btn btn-info"><span class="ion ion-ios-refresh"></span> Reset</button>
+                <button (click)="save()" class="btn btn-success">{{btnStatus}} </button>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4 ml-auto">
+                <input (keyup)="onFilter($event)" class="form-control" placeholder="Search by description">
+            </div>
+        </div>
+        <div class="row">
+            <div class="data-table">
+                <table class="table table-hover table-bordered mb-0">
+                    <thead>
+                        <tr>
+                            <th style="width:10%">ID</th>
+                            <th style="width:50%">Description</th>
+                            <th style="width:15%">Sort_Order</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngIf="filteredItem.length==0">
+                            <td colspan="3" class="font-italic text-center">No Item available</td>
+                        </tr>
+                        <tr *ngFor="let item of filteredItem; let i=index">
+                            <td style="width:10%">{{item.id}}</td>
+                            <td style="width:50%">{{item.description}}</td>
+                            <td style="width:15%">{{item.sortOrder}}</td>
+                            <td class="demo-inline-spacing">
+                                <button (click)="getById(item.id)" class="btn btn-info py-1 px-2 rounded-0"><span
+                                class="fas fa-edit"></span></button>
+                                <button (click)="delete(item.id, deleteModal)" class="btn btn-danger py-1 px-2"><span class="fas fa-trash-alt"></span></button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<ng-template #deleteModal>
+    <app-delete-confirmation [rowId]="selectedItemId" (onConfirmedId)="confirmDelete($event)"></app-delete-confirmation>
+</ng-template>

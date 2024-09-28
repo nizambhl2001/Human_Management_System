@@ -1,0 +1,132 @@
+<div class="card">
+    <h4 class="card-header text-center bg-light">
+        Salary Head Assign
+    </h4>
+    <div class="card-body">
+        <div class="col-md-7 center">
+            <form [formGroup]="glSalaryHeadAssignForm">
+                <!--Cost Head-->
+                <div class="form-group row">
+                    <label class="col-form-label col-sm-3 ">Cost Head<i class="text-danger">*</i></label>
+                    <div class="col-sm-9">
+                        <ng-select [ngClass]="{'is-invalid':( f.costHead.touched || f.costHead.dirty || isbtnSaveClick) && f.costHead.invalid}" formControlName="costHead" (change)="getAllGLSalaryHeadAssign()" [items]="costHeadList" bindLabel="costHead" bindValue="id" placeholder="Select Cost of Head"></ng-select>
+                        <div *ngIf="(isbtnSaveClick || f['costHead'].touched || f['costHead'].dirty) && f['costHead'].invalid" class="text-danger">
+                            <i *ngIf="f['costHead'].errors.required">Cost Head is required</i>
+                        </div>
+                    </div>
+                </div>
+                <!--Salary Head -->
+                <div class="form-group row">
+                    <label class="col-form-label col-sm-3 ">Salary Head<i class="text-danger">*</i></label>
+                    <div class="col-sm-9">
+                        <app-salaryhead-select-list [ngClass]="{'is-invalid':( f['salaryHead'].touched || f['salaryHead'].dirty || isbtnSaveClick) && f['salaryHead'].invalid}" [salaryhead]="f['salaryHead'].value" (onChange)="onSelect($event)"></app-salaryhead-select-list>
+                        <div *ngIf="(isbtnSaveClick || f['salaryHead'].touched || f['salaryHead'].dirty) && f['salaryHead'].invalid" class="text-danger">
+                            <i *ngIf="f['salaryHead'].errors.required">Salary Head is required</i>
+                        </div>
+                    </div>
+                </div>
+                <!--Date-->
+                <div class="form-group row">
+                    <label class="col-form-label col-sm-3 ">Date<i class="text-danger">*</i></label>
+                    <div class="col-sm-9">
+                        <div class="input-group">
+                            <app-date-control [ngClass]="{'is-invalid':( f['dateNgb'].touched || f['dateNgb'].dirty || isbtnSaveClick) && f['dateNgb'].invalid}" (getLocalDate)="f['date'].setValue($event)" (getNgbDate)="f['dateNgb'].setValue($event)" [setNgbDate]="f['dateNgb'].value"></app-date-control>
+                            <div *ngIf="(isbtnSaveClick || f['dateNgb'].touched || f['dateNgb'].dirty) && f['dateNgb'].invalid" class="text-danger">
+                                <i *ngIf="f['dateNgb'].errors.required">Date is required</i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--Note-->
+                <div class="form-group row">
+                    <label class="col-form-label col-sm-3 ">Note<i class="text-danger">*</i></label>
+                    <div class="col-sm-9">
+                        <input [ngClass]="{'is-invalid':( f['note'].touched || f['note'].dirty || isbtnSaveClick) && f['note'].invalid}" formControlName="note" type="text" class="form-control" placeholder="Note">
+                        <div *ngIf="(isbtnSaveClick || f['note'].touched || f['note'].dirty) && f['note'].invalid" class="text-danger">
+                            <i *ngIf="f['note'].errors.required">Note is required</i>
+                        </div>
+                    </div>
+                </div>
+
+                <!--Button-->
+                <div class="form-group row">
+                    <div class="demo-inline-spacing mt-3 center">
+                        <button (click)="reset()" type="clear" class="btn btn-info">
+                  <span class="ion ion-ios-refresh"></span> Reset</button>
+                        <button (click)="saveOrUpdateGLSalaryHeadAssign()" type="submit" class="btn btn-success"> {{btnStatus}}</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <!--Table-->
+        <!-- <div class="card">
+        <div class="card-header">
+            <div class="row">
+                <div class="col">
+                    Per page: &nbsp;
+                    <select [(ngModel)]="perPage" (change)="update()" class="custom-select custom-select-md d-inline-block w-auto">
+            <option *ngFor="let limit of [5,10, 20, 30, 40, 50]">{{limit}}</option>
+          </select>
+                </div>
+                <div class="col">
+
+                </div>
+            </div>
+        </div>
+        <div class="card-body">
+            <form autocomplete="off">
+                <div class="form-group">
+                    <div class="table-responsive mb-4">
+                        <table class="table table-hover table-striped mb-0">
+
+                        </table>
+                    </div>
+                    <div class="card-body py-0">
+
+                        <div class="row">
+                            <div class="col-sm text-sm-left text-center pt-3">
+                                <span class="text-muted" *ngIf="totalItems">Page {{ currentPage }} of {{ totalPages }}</span>
+                            </div>
+                            <div class="col-sm pt-3">
+                                <ngb-pagination [collectionSize]="totalItems" [pageSize]="perPage" [(page)]="currentPage" (pageChange)="update()" size="sm" class="d-flex justify-content-center justify-content-sm-end m-0">
+                                </ngb-pagination>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div> -->
+        <div class="row">
+            <div class="col-md-4 ml-auto">
+                <input type="text" [(ngModel)]="filterVal" (input)="currentPage = 1; update()" class="form-control form-control-md d-inline-block w-auto float-sm-right" placeholder="Search...">
+            </div>
+        </div>
+        <div class="row">
+            <div class="data-table">
+                <table class="table table-hover table-bordered table-striped mb-0">
+                    <thead>
+                        <tr>
+                            <th>Allowance</th>
+                            <th>Payment Type</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngIf="tempItems.length==0">
+                            <td colspan="2" class="font-italic text-center">No item available</td>
+                        </tr>
+                        <tr *ngFor="let item of tempItems; let i=index">
+                            <td>{{item.accountName}}</td>
+                            <td>{{item.costHeadName}}</td>
+                            <td>
+                                <button (click)="getGLSalaryHeadAssignByID(item.id)" class="btn btn-primary btn-sm"><span class="fas fa-edit"></span></button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>

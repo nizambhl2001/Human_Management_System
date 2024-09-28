@@ -1,0 +1,13 @@
+<div class="card">
+  <h5 class="card-header pr-1" style="box-shadow: 0px 0px 0px 0px;">Confirmation
+    <span class="pull-right btn btn-sm btn-danger" (click)="close()">X</span></h5>
+  <div class="card-body">
+    <h4>Are you sure want to Delete?</h4>
+  </div>
+  <div class="card-footer">
+    <div class="pull-right demo-inline-spacing">
+      <button (click)="close()" class="btn btn-success">Cancel</button>
+      <button (click)="confirmDelete();" class="btn btn-danger">Confirm</button>
+    </div>
+  </div>
+</div>

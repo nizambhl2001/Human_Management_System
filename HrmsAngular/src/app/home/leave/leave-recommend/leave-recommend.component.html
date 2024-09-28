@@ -1,0 +1,330 @@
+<div class="card">
+    <h4 class="card-header text-center bg-light">
+        Supervisor Approval
+    </h4>
+    <div class="card-body">
+        <div class="col-md-7 center">
+            <form [formGroup]="_forwardEmpForm">
+                <!--Employee Id-->
+                <div class="form-group row">
+                    <label class="col-form-label col-sm-3 ">Forward to ID</label>
+                    <div class="col-sm-9">
+                        <div class="input-group">
+                            <app-employee-select-list [fixedWidth]="'170px'" (onChange)="getForwardEmp($event.empCode)" [setEmpCode]="f.empCode">
+                            </app-employee-select-list>
+                        </div>
+                    </div>
+                </div>
+                <!--Name-->
+                <div class="form-group row">
+                    <label class="col-form-label col-sm-3 ">Name</label>
+                    <div class="col-sm-9">
+                        <input formControlName="empName" type="text" class="form-control" placeholder="Name" readonly>
+                    </div>
+                </div>
+                <!--Designation-->
+                <div class="form-group row">
+                    <label class="col-form-label col-sm-3 ">Designation</label>
+                    <div class="col-sm-9">
+                        <input formControlName="designation" type="text" class="form-control" placeholder="Designation" readonly>
+                    </div>
+                </div>
+                <!--Remark-->
+                <div class="form-group row">
+                    <label class="col-form-label col-sm-3 ">Remark</label>
+                    <div class="col-sm-9">
+                        <textarea formControlName="remarks" rows="2" class="form-control" placeholder="Remark"></textarea>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+  </div>
+  <!--Table Pagination-->
+  
+  <div class="row">
+    <div class="col-md-4 ml-auto">
+        <input type="text" [(ngModel)]="filterVal" (input)="currentPage = 1; update()" class="form-control form-control-md d-inline-block w-auto float-sm-right" placeholder="Search...">
+    </div>
+  </div>
+  <div class="row">
+    <div class="data-table table-bordered">
+        <table class="table table-hover table-bordered table-striped mb-0">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>E.Code</th>
+                    <th>Name</th>
+                    <th>Department</th>
+                    <th>Designation</th>
+                    <th>Apply Date</th>
+                    <th>Start Date</th>
+                    <th>End Date</th>
+                    <th>LeaveType</th>
+                    <th>Day(s)</th>
+                    <th>PayType</th>
+                    <th>Recommend</th>
+                    <!-- <th>Approve</th> -->
+                    <th>Cancel</th>
+                    <th>Edit</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngIf="_leaveApplications.length==0">
+                    <td colspan="12" class="font-italic text-center">No item available</td>
+                </tr>
+                <tr *ngFor="let la of _leaveApplications; let i=index">
+                    <td>{{i+1}}</td>
+                    <td class="text-center">{{la.empCode}}</td>
+                    <td style="width: 150px">{{la.empName}}</td>
+                    <td>{{la.department}}</td>
+                    <td>{{la.designation}}</td>
+                    <td>{{la.laDate | date: 'MM/dd/yyyy'}}</td>
+                    <td>{{la.lsDate | date: 'MM/dd/yyyy'}}</td>
+                    <td>{{la.leDate | date: 'MM/dd/yyyy'}}</td>
+                    <td>{{la.typeName}}</td>
+                    <td class="text-center">{{la.accepteDuration}}</td>
+                    <!-- <td *ngIf="la.withpay == 0">WithOut Pay</td>
+                    <td *ngIf="la.withpay == 1">Withpay</td> -->
+                    <td class="text-center">{{la.withpay}}</td>
+                    <td><button (click)="recommend(la, confirmRecommend)" class="btn-action btn btn-primary btn-sm">Recommend</button></td>
+                    <!-- <td><button (click)="approve(la.id, confirmApprove)" class="btn-action btn btn-success btn-sm">Approve</button>
+                    </td> -->
+                    <td><button (click)="cancelApplication(la.id, confirmCancel)" class="btn-action btn btn-danger btn-sm">Cancel</button></td>
+                    <td><button (click)="edit(la.id, editModal)" class="btn btn-info btn-action btn-sm">Edit</button></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+  </div>
+  
+  <ng-template #searchModal>
+    <app-search-employee (selectEvent)="getForwardEmp($event)"></app-search-employee>
+  </ng-template>
+  <ng-template #confirmRecommend>
+    <div class="card">
+        <h3 class="card-header">Are you sure want to recommend?
+            <span class="fa fa-window-close pull-right text-danger" (click)="cancel()"></span></h3>
+        <div class="card-body">
+            <form [formGroup]="_forwardEmpForm">
+                <!--Employee Id-->
+                <div class="form-group row">
+                    <label class="col-form-label col-sm-3 ">Forward to ID</label>
+                    <div class="col-sm-9">
+                        <div class="input-group">
+                            <input formControlName="empCode" (keyup)="getForwardEmp($event.target.value)" class="form-control" type="text" placeholder="Employee ID">
+                            <div class="input-group-append">
+                                <button class="input-group-text btn btn-primary" type="button">
+                  <span class="fas fa-search" style="cursor: pointer;"></span>
+                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--Name-->
+                <div class="form-group row">
+                    <label class="col-form-label col-sm-3 ">Name</label>
+                    <div class="col-sm-9">
+                        <input formControlName="empName" type="text" class="form-control" placeholder="Name" readonly>
+                    </div>
+                </div>
+                <!--Designation-->
+                <div class="form-group row">
+                    <label class="col-form-label col-sm-3 ">Designation</label>
+                    <div class="col-sm-9">
+                        <input formControlName="designation" type="text" class="form-control" placeholder="Designation" readonly>
+                    </div>
+                </div>
+                <!--Remark-->
+                <div class="form-group row">
+                    <label class="col-form-label col-sm-3 ">Remark</label>
+                    <div class="col-sm-9">
+                        <textarea formControlName="remarks" rows="2" class="form-control" placeholder="Remark"></textarea>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="card-footer">
+            <div class="demo-inline-spacing pull-right">
+                <button (click)="cancel()" class="btn btn-danger">Not now</button>
+                <button (click)="RecommendConfirmation()" class="btn btn-success">Confirm</button>
+            </div>
+        </div>
+    </div>
+  </ng-template>
+  <!-- <ng-template #confirmApprove>
+    <div class="card">
+        <h3 class="card-header">Are you sure want to Approve?
+            <span class="fa fa-window-close pull-right text-danger" (click)="cancel()"></span></h3>
+        <div class="card-body">
+            <form [formGroup]="_forwardEmpForm">
+                <div class="form-group row">
+                    <label class="col-form-label col-sm-3 ">Remark</label>
+                    <div class="col-sm-9">
+                        <textarea formControlName="remarks" rows="2" class="form-control" placeholder="Remark"></textarea>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="card-footer">
+            <div class="pull-right demo-inline-spacing">
+                <button (click)="cancel()" class="btn btn-danger">Not now</button>
+                <button (click)="approveConfirmation()" class="btn btn-success">Confirm</button>
+            </div>
+        </div>
+    </div>
+  </ng-template> -->
+  <ng-template #confirmCancel>
+    <div class="card">
+        <h3 class="card-header">Are you sure want to Cancel?
+            <span class="fa fa-window-close pull-right text-danger" (click)="cancel()"></span></h3>
+        <div class="card-body">
+            <form [formGroup]="_forwardEmpForm">
+                <div class="form-group row">
+                    <label class="col-form-label col-sm-3 ">Remark</label>
+                    <div class="col-sm-9">
+                        <textarea formControlName="remarks" rows="2" class="form-control" placeholder="Remark"></textarea>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="card-footer">
+            <div class="pull-right demo-inline-spacing">
+                <button (click)="cancel()" class="btn btn-danger">Not now</button>
+                <button (click)="cancelConfirmation()" class="btn btn-success">Confirm</button>
+            </div>
+        </div>
+    </div>
+  </ng-template>
+  
+  <ng-template #editModal>
+    <div class="card">
+        <h5 class="card-header bg-light">Edit Application <span (click)="cancel()" class="fa fa-window-close pull-right text-danger"></span></h5>
+        <div class="card-body">
+            <div [formGroup]="_leaveApplicationForm">
+                <div class="form-group row">
+                    <label class="col-form-label col-sm-4 ">Employee Id</label>
+                    <div class="col-sm-8">
+                        <input formControlName="empCode" type="text" class="form-control" placeholder="Employee Id">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-form-label col-sm-4 ">Name</label>
+                    <div class="col-sm-8">
+                        <input formControlName="empName" type="text" class="form-control" placeholder="Employee Name" readonly>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-form-label col-sm-4 ">Leave Type</label>
+                    <div class="col-sm-8">
+                        <!-- <ng-select formControlName="lTypedID" [items]="leaveTypes" bindLabel="typeName" bindValue="id"
+              placeholder="Select Leave Type">
+            </ng-select> -->
+                        <select formControlName="lTypedID" class="form-control">
+              <option *ngFor="let t of leaveTypes" [value]="t.id">{{t.typeName}}</option>
+            </select>
+                    </div>
+                </div>
+                <!--From Date-->
+                <div class="form-group row">
+                    <label class="col-form-label col-sm-4 ">From Date</label>
+                    <div class="col-sm-8">
+                        <div class="input-group">
+                            <input (ngModelChange)="dateDiff()" formControlName="lsDateNgb" class="form-control" name="fromDate" placeholder="dd-mm-yyyy" ngbDatepicker #d1="ngbDatepicker" readonly>
+                            <div class="input-group-append">
+                                <button class="input-group-text" (click)="d1.toggle();" type="button">
+                  <span class="ion ion-md-calendar" style="cursor: pointer;"></span>
+                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--To Date-->
+                <div class="form-group row">
+                    <label class="col-form-label col-sm-4 ">To Date</label>
+                    <div class="col-sm-8">
+                        <div class="input-group">
+                            <input (ngModelChange)="dateDiff()" formControlName="leDateNgb" (change)="dateDiff()" class="form-control" name="toDate" placeholder="dd-mm-yyyy" ngbDatepicker #d2="ngbDatepicker" readonly>
+                            <div class="input-group-append">
+                                <button class="input-group-text" (click)="d2.toggle()" type="button">
+                  <span class="ion ion-md-calendar" style="cursor: pointer;"></span>
+                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--Apply Date-->
+                <div class="form-group row">
+                    <label class="col-form-label col-sm-4">Apply Date</label>
+                    <div class="col-sm-8">
+                        <div class="input-group">
+                            <input formControlName="laDateNgb" class="form-control" name="applyDate" placeholder="dd-mm-yyyy" ngbDatepicker #d3="ngbDatepicker" readonly>
+                            <div class="input-group-append">
+                                <button class="input-group-text" (click)="d3.toggle()" type="button">
+                  <span class="ion ion-md-calendar" style="cursor: pointer;"></span>
+                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Duration -->
+                <div class="row">
+                    <label class="col-form-label col-sm-4 ">Duration</label>
+                    <div class="col-sm-8">
+                        <div class="row demo-inline-spacing">
+                            <div class="col-sm-5">
+                                <div class="form-group row">
+                                    <label class="form-label">Applied</label>
+                                    <input formControlName="unAccepteDuration" type="number" class="form-control" placeholder="Leave Duration" readonly>
+                                </div>
+                            </div>
+                            <div class="col-sm-5">
+                                <div class="form-group row">
+                                    <label class="form-label">Accept</label>
+                                    <input formControlName="accepteDuration" (click)="dateDiff()" type="number" class="form-control" placeholder="Leave Duration" readonly>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--Radios-->
+                <div class="form-group row ">
+                    <label class="col-form-label col-sm-4 "></label>
+                    <div class="col-sm-4">
+                        <label class="custom-control custom-radio">
+              <input formControlName="withpay" name="withpay" value="1" type="radio" class="custom-control-input"
+                checked>
+              <span class="custom-control-label"> With Pay</span>
+            </label>
+                    </div>
+                    <div class="col-sm-4">
+                        <label class="custom-control custom-radio">
+              <input formControlName="withpay" name="withpay" value="0" type="radio" class="custom-control-input">
+              <span class="custom-control-label"> Without Pay</span>
+            </label>
+                    </div>
+                </div>
+                <br>
+                <div class="form-group row">
+                    <label class="col-form-label col-sm-4 ">Forward to Id</label>
+                    <div class="col-sm-8">
+                        <input formControlName="forwardToEmpCode" (keyup)="getForwardEmpInEditModal($event.target.value)" type="text" class="form-control" placeholder="Forward to Id">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-form-label col-sm-4 ">Name</label>
+                    <div class="col-sm-8">
+                        <input formControlName="forwardToEmpName" type="text" class="form-control" placeholder="Name" readonly>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card-footer">
+            <div class="demo-inline-spacing pull-right">
+                <button (click)="cancel()" class="btn btn-danger">Cancel</button>
+                <button (click)="updateAndForward()" class="btn btn-success">Save</button>
+            </div>
+        </div>
+    </div>
+  </ng-template>
+  

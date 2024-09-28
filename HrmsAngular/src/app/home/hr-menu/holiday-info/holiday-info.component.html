@@ -1,0 +1,35 @@
+<div class="card">
+  <h4 class="card-header text-center bg-light">
+    Holiday Information
+  </h4>
+  <div class="card-body">
+    <div class="col-md-7 center">
+        <form [formGroup]="holidayReportForm">
+            <!--Start Date-->
+
+            <div  class="form-group row">
+              <label class="col-form-label col-sm-3 ">Start  Date</label>
+              <div class="col-sm-7">
+                <app-date-control (getYyyymmdd)="formControl['Startdate'].setValue($event)"></app-date-control>
+              </div>
+            </div>
+            <div  class="form-group row">
+              <label class="col-form-label col-sm-3 ">End  Date</label>
+              <div class="col-sm-7">
+                <app-date-control (getYyyymmdd)="formControl['Enddate'].setValue($event)"></app-date-control>
+              </div>
+            </div>
+
+             <!--Button-->
+            <div class="form-group row">
+              <div class="demo-inline-spacing mt-3 center">
+                <button [ladda]="exportingPdf" (click)="exportToPdf('pdf')" type="submit" class="btn btn-info">
+                  <span class="fas fa-file-download"></span> Generate Report </button>
+              </div>
+            </div>
+          </form>
+    </div>
+
+
+  </div>
+</div>

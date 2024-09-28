@@ -1,0 +1,145 @@
+<div class="card">
+    <h4 class="card-header text-center bg-light">
+        OT Requisition
+    </h4>
+    <div class="card-body">
+        <form [formGroup]="otRequisitionMasterForm">
+            <div class="row">
+                <div class="col-md-6">
+                    <br />
+                    <div class="form-group row">
+                        <label class="col-form-label col-sm-4  ">Department
+                        </label>
+                        <div class="col-sm-8">
+                            <app-department-select-list [disabled]="true" [setDeptId]="formVal.departmentID" [disabled]="false">
+                            </app-department-select-list>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-form-label col-sm-4 ">Location
+                        </label>
+                        <div class="col-sm-8">
+                            <app-location-select-list [setLocationId]="formVal.locationID" [disabled]="true">
+                            </app-location-select-list>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-form-label col-sm-4 ">Section <span class="text-danger">*</span>
+                        </label>
+                        <div class="col-sm-8">
+                            <ng-select formControlName="sectionID" [items]="businessNatures" bindLabel="description" bindValue="id" placeholder="Select Section" [ngClass]="{'is-invalid':(isSubmitted || formControl['sectionID'].touched || formControl['sectionID'].dirty) && formControl['sectionID'].invalid}">
+                            </ng-select>
+                            <div *ngIf="(isSubmitted || formControl['sectionID'].touched || formControl['sectionID'].dirty) && formControl['sectionID'].invalid" class="text-danger">
+                                <i *ngIf="formControl['sectionID'].errors.required">Section is required</i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-form-label col-sm-4 col-md-4 ">Employee ID <span class="text-danger">*</span>
+                        </label>
+                        <div class="col-sm-6 col-md-8 input-group">
+                            <ng-select formControlName="empCode" [items]="employeeList" bindLabel="empCode" bindValue="empCode" placeholder="Select Employee Code">
+                            </ng-select>
+                            <div class="input-group-append">
+                                <div class="btn btn-primary py-0 px-1">
+                                    <input formControlName="isSelectAll" type="checkbox" id="isSelectAll" class="">
+                                    <label for="isSelectAll" class="pl-1 m-0">All</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <br />
+                    <div class="form-group row">
+                        <label class="col-form-label col-sm-4   ">OT Requisition Date <span
+                                class="text-danger">*</span>
+                        </label>
+                        <div class="col-sm-8">
+                            <app-date-control [disabled]="true" [widthPercent]="100" [setDefault]="true" (getLocalDate)="formControl['otRequisitionDate'].patchValue($event)"></app-date-control>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-form-label col-sm-4 ">From Date <span class="text-danger">*</span>
+                        </label>
+                        <div class="col-sm-8">
+                            <app-date-control [widthPercent]="100" [setNgbDate]="defaultFromDate" (getYyyymmdd)="formControl['fromDate'].patchValue($event)"></app-date-control>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-form-label col-sm-4 ">To Date <span class="text-danger">*</span>
+                        </label>
+                        <div class="col-sm-8">
+                            <app-date-control [widthPercent]="100" [setNgbDate]="defaultToDate" (getYyyymmdd)="formControl['toDate'].patchValue($event)"></app-date-control>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-form-label col-sm-4 ">OT Hour
+                        </label>
+                        <div class="col-sm-8">
+                            <input formControlName="otHour" type="number" name="" id="otHour" class="form-control" placeholder="Hour">
+                        </div>
+                    </div>
+                </div>
+                <label class="col-sm-2">Reasone of OT <span class="text-danger">*</span>
+                </label>
+                <div class="col-sm-10">
+                    <textarea formControlName="reasonOfOt" rows="1" name="" id="reasonOfOt" class="form-control" placeholder="Reason" [ngClass]="{'is-invalid':(isSubmitted || formControl['reasonOfOt'].touched || formControl['reasonOfOt'].dirty) && formControl['reasonOfOt'].invalid}"></textarea>
+                    <div *ngIf="(isSubmitted || formControl['reasonOfOt'].touched || formControl['reasonOfOt'].dirty) && formControl['reasonOfOt'].invalid" class="text-danger">
+                        <i *ngIf="formControl['reasonOfOt'].errors.required">Reason is required</i>
+                    </div>
+                </div>
+                <div class="col">
+                    <button [ladda]="isLoadingData" (click)="onAdd()" class="btn btn-success pull-right mr-5 mt-2">Add</button>
+                </div>
+            </div>
+            <div *ngIf="otRequisitionDetailsForm.controls.length>0" class="data-table">
+                <table class="table table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <th>#SL</th>
+                            <th>Code</th>
+                            <th>Name</th>
+                            <th>Designation</th>
+                            <th *ngFor="let col of dateColumns">{{col}}</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let dr of otRequisitionDetailsForm.controls; let i =index" [formGroup]="dr">
+                            <td>{{i+1}}</td>
+                            <td class="p-0">
+                                <ng-select formControlName="empCode" (ngModelChange)="onSelectEmpInRow(i,$event)" [items]="employeeList" bindLabel="empCode" bindValue="empCode" placeholder="Select Employee Code">
+                                </ng-select>
+                            </td>
+                            <td>{{dr.value.empName}}</td>
+                            <td>{{dr.value.designation}}</td>
+                            <td *ngFor="let col of dateColumns; let j=index" class="p-0">
+                                <input [formControlName]="'h'+j" type="number" class="form-control">
+                                <div class="custom-control custom-checkbox py-1 m-0 badge">
+                                    <input [formControlName]="'r'+j" type="checkbox" [id]="'replace'+i+'_'+j" class="pull-left" />
+                                    <label [for]="'replace'+i+'_'+j" class="ml-1 text-muted font-weight-normal"><small>Replace</small></label>
+                                </div>
+                            </td>
+                            <td>
+                                <span *ngIf="i==otRequisitionDetailsForm.controls.length-1" (click)="onAdd()" class="fa fa-plus text-success"></span>
+                                <span (click)="removeRow(i)" class="fa fa-window-close text-danger"></span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </form>
+    </div>
+    <div class="card-footer">
+        <div *ngIf="otRequisitionDetailsForm.controls.length>0" class="row">
+            <div class="col">
+                <button (click)="onSubmit()" class="btn btn-success pull-right mr-2">Save</button>
+                <button type="clear" class="btn btn-facebook pull-right mr-2">
+                    <span class="fas fa-paper-plane"></span> Send Application
+                </button>
+                <button (click)="reset()" class="btn btn-info pull-right mr-2">Reset</button>
+            </div>
+        </div>
+    </div>
+</div>

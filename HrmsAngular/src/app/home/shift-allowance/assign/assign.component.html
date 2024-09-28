@@ -1,0 +1,109 @@
+<div class="card">
+    <h4 class="card-header text-center bg-light">
+        {{title}}
+    </h4>
+    <div class="card-body">
+        <form [formGroup]="shiftAllowanceAssingForm">
+            <div class="col-md-8 center">
+                <div class="form-group row">
+                    <label for="branch" class="col-md-3">Office Branch</label>
+                    <div class="col-md-6">
+                        <ng-select formControlName="branchID" [items]="branch" bindLabel="description" bindValue="id" placeholder="Select Office Branch" name="branch" id="branch" placeholder="Select Branch">
+                        </ng-select>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="location" class="col-md-3">Location</label>
+                    <div class="col-md-6">
+                        <ng-select formControlName="location" [items]="location" bindLabel="description" bindValue="id" placeholder="Select Location" name="location" id="location" placeholder="Select Location">
+
+                        </ng-select>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="unit" class="col-md-3">Unit</label>
+                    <div class="col-md-6">
+                        <ng-select formControlName="unite" (change)="getProductionLine(f.unite.value)" [items]="productionunit" bindLabel="description" bindValue="id" placeholder="Select Production Unit" name="unit" id="unit">
+                        </ng-select>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="line" class="col-md-3">Line</label>
+                    <div class="col-md-6">
+                        <ng-select formControlName="line" [items]="productionline" bindLabel="description" bindValue="id" name="line" id="line" placeholder="Select Line">
+
+                        </ng-select>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="department" class="col-md-3">Department</label>
+                    <div class="col-md-6">
+                        <ng-select formControlName="departmentID" [items]="department" bindLabel="description" bindValue="id" name="department" placeholder="Select Department" id="Department">
+
+                        </ng-select>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="designation" class="col-md-3">Designation</label>
+                    <div class="col-md-6">
+                        <ng-select formControlName="designationID" [items]="designation" bindLabel="description" bindValue="id" name="designation" id="designation" placeholder="Select Designation">
+
+                        </ng-select>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="empId" class="col-md-3">Employee Id<i class="text-danger">*</i></label>
+                    <div class="col-md-6">
+                        <!-- <input formControlName="empCode" (keyup)="getAll()"  type="text" name="employeeId" id="empId" class="form-control" placeholder="Employee Id"> -->
+                        <app-employee-select-list [isSearchBtnHide]=true [setEmpCode]="f['empCode'].value" (onChange)="getEmployeeIfoByEmpCode($event.empCode)"></app-employee-select-list>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <div class="demo-inline-spacing center">
+                        <button (click)="reset()" class="btn btn-info"><span class="ion ion-ios-refresh"></span> Refresh</button>
+                        <button (click)="getEmployeeIfoByEmpCode(f['empCode'].value)" class="btn btn-primary"><span class="fas fa-save"></span> Get Employee(s)</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+        <div style="border: 1px solid lightgray;">
+            <div class="card">
+
+                <!-- <p>{{selectedEmp | json}}</p> -->
+                <table class="table table-hover table-bordered table-striped mb-2">
+                    <thead>
+                        <tr>
+                            <th>Select</th>
+                            <th>Code</th>
+                            <th>Employee Name</th>
+                            <th>Department</th>
+                            <th>Designation</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let item of shiftAssignAllowanceModel; let i=index;">
+
+                            <td><input (change)="onSelect(item.empCode, $event.target.checked)" type="checkbox"></td>
+                            <td>{{item.empCode}}</td>
+                            <td>{{item.empName}}</td>
+                            <td>{{item.department}}</td>
+                            <td>{{item.designation}}</td>
+                            <td><button (click)="removableItem(item.empCode)" class="btn btn-danger btn-sm"><span class="fas fa-trash"></span></button></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <p>Total Employee (s) : {{totalEmp}}</p>
+            </div>
+            <div class="demo-inline-spacing col-md-6">
+                <button (click)="onSubmit()" type="submit" class="btn btn-primary">Save</button>
+
+            </div>
+        </div>
+    </div>
+</div>

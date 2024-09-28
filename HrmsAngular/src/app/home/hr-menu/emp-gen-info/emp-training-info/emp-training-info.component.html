@@ -1,0 +1,235 @@
+<div class="card-body">
+    <div class="card ">
+        <h4 class="card-header text-center bg-light">
+            Training Information
+        </h4>
+        <div class="card-body">
+            <form [formGroup]="empTrainingInfoform">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group row">
+                            <label class="col-form-label col-sm-3 ">Employee Id
+            </label>
+                            <div class="col-sm-9">
+                                <input formControlName="empCode" name="empCode" type="text" class="form-control" value="{{empCode}}" placeholder="ID" readonly>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-form-label col-sm-3 ">Training Type
+              <!-- <i class="text-danger">*</i> -->
+            </label>
+                            <div class="col-sm-9">
+                                <app-basic-entry-select-list [ngClass]="{'is-invalid': (isSubmitted || f.trainingType.touched || f.trainingType.dirty) && f.trainingType.invalid}" [itemId]="formVal.trainingType" (onChange)="f['trainingType'].patchValue($event.id)" [allItem]="allTrainingType"
+                                    [modalName]="TraingModel" [tableName]="'TrainingType'">
+                                </app-basic-entry-select-list>
+                                <ng-template #TraingModel>
+                                    <app-training-type (getItems)="allTrainingType = $event"></app-training-type>
+                                </ng-template>
+                                <div *ngIf="(isSubmitted || f.trainingType.touched || f.trainingType.dirty) && f.trainingType.invalid" class="text-danger">
+                                    <i *ngIf="f.trainingType.errors.required">Training Type is required</i>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-form-label col-sm-3 ">Nature Of Training
+              <!-- <i class="text-danger">*</i> -->
+            </label>
+                            <div class="col-sm-9">
+                                <app-basic-entry-select-list [ngClass]="{'is-invalid': (isSubmitted || f.trainingNature.touched || f.trainingNature.dirty) && f.trainingNature.invalid}" [itemId]="formVal.trainingNature" (onChange)="f['trainingNature'].patchValue($event.id)" [allItem]="allTrainingNature"
+                                    [modalName]="TraingNatureModel" [tableName]="'TrainingNature'">
+                                </app-basic-entry-select-list>
+                                <ng-template #TraingNatureModel>
+                                    <app-training-nature (getItems)="allTrainingNature = $event"></app-training-nature>
+                                </ng-template>
+                                <div *ngIf="(isSubmitted || f.trainingNature.touched || f.trainingNature.dirty) && f.trainingNature.invalid" class="text-danger">
+                                    <i *ngIf="f.trainingNature.errors.required">Nature Of Training is required</i>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-form-label col-sm-3 ">Training Name
+              <!-- <i class="text-danger">*</i> -->
+            </label>
+                            <div class="col-sm-9">
+                                <input formControlName="trainingName" [ngClass]="{'is-invalid': (isSubmitted || f.trainingName.touched || f.trainingName.dirty) && f.trainingName.invalid}" type="text" class="form-control" placeholder="Training Name">
+                                <div *ngIf="(isSubmitted || f.trainingName.touched || f.trainingName.dirty) && f.trainingName.invalid" class="text-danger">
+                                    <i *ngIf="f.trainingName.errors.required">Training Name is required</i>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-form-label col-sm-3 ">Training Description
+              <!-- <i class="text-danger">*</i> -->
+            </label>
+                            <div class="col-sm-9">
+                                <input formControlName="description" [ngClass]="{'is-invalid': (isSubmitted || f.description.touched || f.description.dirty) && f.description.invalid}" type="text" class="form-control" placeholder="Training Description">
+                                <div *ngIf="(isSubmitted || f.description.touched || f.description.dirty) && f.description.invalid" class="text-danger">
+                                    <i *ngIf="f.description.errors.required">Training Description is required</i>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-form-label col-sm-3 ">Institute
+              <!-- <i class="text-danger">*</i> -->
+            </label>
+                            <div class="col-sm-9">
+                                <app-basic-entry-select-list [ngClass]="{'is-invalid': (isSubmitted || f.institution.touched || f.institution.dirty) && f.institution.invalid}" [itemId]="formVal.institution" (onChange)="f['institution'].patchValue($event.id)" [allItem]="allTrainingInstitution"
+                                    [modalName]="TrainingInstitutionModel" [tableName]="'TrainingInstitution'">
+                                </app-basic-entry-select-list>
+                                <ng-template #TrainingInstitutionModel>
+                                    <app-training-institute (getItems)="allTrainingInstitution = $event"></app-training-institute>
+                                </ng-template>
+                                <div *ngIf="(isSubmitted || f.institution.touched || f.institution.dirty) && f.institution.invalid" class="text-danger">
+                                    <i *ngIf="f.institution.errors.required">Training Institute is required</i>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-form-label col-sm-3 ">Training place
+              <!-- <i class="text-danger">*</i> -->
+            </label>
+                            <div class="col-sm-9">
+                                <input type="text" [ngClass]="{'is-invalid': (isSubmitted || f.trainingPlace.touched || f.trainingPlace.dirty) && f.trainingPlace.invalid}" formControlName="trainingPlace" class="form-control" placeholder="Training place">
+                                <div *ngIf="(isSubmitted || f.trainingPlace.touched || f.trainingPlace.dirty) && f.trainingPlace.invalid" class="text-danger">
+                                    <i *ngIf="f.trainingPlace.errors.required">Training place is required</i>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-form-label col-sm-3 ">Country
+              <!-- <i class="text-danger">*</i> -->
+            </label>
+                            <div class="col-sm-9">
+                                <app-basic-entry-select-list [ngClass]="{'is-invalid': (isSubmitted || f.country.touched || f.country.dirty) && f.country.invalid}" [itemId]="formVal.country" (onChange)="f['country'].patchValue($event.id)" [allItem]="allTrainingCountry" [modalName]="trainingCountryModel"
+                                    [tableName]="'TrainingCountry'">
+                                </app-basic-entry-select-list>
+                                <ng-template #trainingCountryModel>
+                                    <app-training-country (getItems)="allTrainingCountry = $event"></app-training-country>
+                                </ng-template>
+                                <div *ngIf="(isSubmitted || f.country.touched || f.country.dirty) && f.country.invalid" class="text-danger">
+                                    <i *ngIf="f.country.errors.required">Training Country is required</i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group row">
+                            <label class="col-form-label col-sm-3 ">Achievement
+              <!-- <i class="text-danger">*</i> -->
+            </label>
+                            <div class="col-sm-9">
+                                <input type="text" [ngClass]="{'is-invalid': (isSubmitted || f.achievement.touched || f.achievement.dirty) && f.achievement.invalid}" formControlName="achievement" class="form-control" placeholder="Achievement">
+                                <div *ngIf="(isSubmitted || f.achievement.touched || f.achievement.dirty) && f.achievement.invalid" class="text-danger">
+                                    <i *ngIf="f.achievement.errors.required">Training Achievement is required</i>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-form-label col-sm-3 ">Sponsor Type
+              <!-- <i class="text-danger">*</i> -->
+            </label>
+                            <div class="col-sm-9">
+                                <app-basic-entry-select-list [ngClass]="{'is-invalid': (isSubmitted || f.sponsorType.touched || f.sponsorType.dirty) && f.sponsorType.invalid}" [itemId]="formVal.sponsorType" (onChange)="f['sponsorType'].patchValue($event.id)" [allItem]="allTrainingSponsorType"
+                                    [modalName]="trainingSponserModel" [tableName]="'TrainingSponsorType'">
+                                </app-basic-entry-select-list>
+                                <ng-template #trainingSponserModel>
+                                    <app-training-sponsor-by (getItems)="allTrainingSponsorType = $event"></app-training-sponsor-by>
+                                </ng-template>
+                                <div *ngIf="(isSubmitted || f.sponsorType.touched || f.sponsorType.dirty) && f.sponsorType.invalid" class="text-danger">
+                                    <i *ngIf="f.sponsorType.errors.required">Training Sponsor Type is required</i>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-form-label col-sm-3 ">Training Fees
+              <!-- <i class="text-danger">*</i> -->
+            </label>
+                            <div class="col-sm-9">
+                                <input type="number" step="500" [ngClass]="{'is-invalid': (isSubmitted || f.trainingFees.touched || f.trainingFees.dirty) && f.trainingFees.invalid}" formControlName="trainingFees" class="form-control" placeholder="Training Fees">
+                                <div *ngIf="(isSubmitted || f.trainingFees.touched || f.trainingFees.dirty) && f.trainingFees.invalid" class="text-danger">
+                                    <i *ngIf="f.trainingFees.errors.required">Training Fees is required</i>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-form-label col-sm-3 ">Other Cost </label>
+                            <div class="col-sm-9">
+                                <input type="number" step="100" formControlName="otherCost" class="form-control" placeholder="Other Cost">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-form-label col-sm-3 ">From Date
+              <!-- <i class="text-danger">*</i> -->
+            </label>
+                            <div class="input-group col-sm-9">
+                                <app-date-control [ngClass]="{'is-invalid': (isSubmitted || f.fromDateNgb.touched || f.fromDateNgb.dirty) && f.fromDateNgb.invalid}" [setNgbDate]="f['fromDateNgb'].value" (getNgbDate)="f['fromDateNgb'].setValue($event)" (getLocalDate)="f['fromDate'].setValue($event)"></app-date-control>
+                                <div *ngIf="(isSubmitted || f.fromDateNgb.touched || f.fromDateNgb.dirty) && f.fromDateNgb.invalid" class="text-danger">
+                                    <i *ngIf="f.fromDateNgb.errors.required">Training From Date is required</i>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-form-label col-sm-3 ">To Date
+              <!-- <i class="text-danger">*</i> -->
+            </label>
+                            <div class="input-group col-sm-9">
+                                <app-date-control [ngClass]="{'is-invalid': (isSubmitted || f.toDateNgb.touched || f.toDateNgb.dirty) && f.toDateNgb.invalid}" [setNgbDate]="f['toDateNgb'].value" (getNgbDate)="f['toDateNgb'].setValue($event)" (getLocalDate)="f['toDate'].setValue($event)"></app-date-control>
+                                <div *ngIf="(isSubmitted || f.toDateNgb.touched || f.toDateNgb.dirty) && f.toDateNgb.invalid" class="text-danger">
+                                    <i *ngIf="f.toDateNgb.errors.required">Training To Date is required</i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="demo-inline-spacing mt-3" style="margin:0 auto">
+                        <button (click)="reset()" type="clear" class="btn btn-info">
+            <span class="ion ion-ios-refresh"></span> Reset
+          </button>
+                        <button (click)="onSubmit()" class="btn btn-success">{{btnStatus}}
+          </button>
+                    </div>
+                    <table class="table table-hover table-bordered">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Training Type</th>
+                                <th>Training Name</th>
+                                <th>Description</th>
+                                <th>Institution</th>
+                                <th>From Date</th>
+                                <th>To Date</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let item of trainingInfoModel;let i=index">
+                                <th>{{i+1}}</th>
+                                <td>{{item.trainingTypeName}}</td>
+                                <td>{{item.trainingName}}</td>
+                                <td>{{item.trainingDescription}}</td>
+                                <td>{{item.trainingInstitutionName}}</td>
+                                <td>{{item.fromDate}}</td>
+                                <td>{{item.toDate}}</td>
+                                <td> <button (click)="getById(item.id)" class="btn btn-info btn-sm"><span
+                class="fas fa-edit"></span></button>
+                                    <button (click)="deletetraining(item.id,deleteModal)" class="btn btn-danger btn-sm"><span
+                  class="fas fa-trash"></span></button></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<ng-template #deleteModal>
+    <div class="modal-header bg-warning">
+        <h4>Confirmation</h4>
+    </div>
+    <div class="modal-body">
+        <p class="text-danger">Are you sure for remove this member?</p>
+    </div>
+    <div class="modal-footer">
+        <button (click)="cancel()" class="btn btn-secondary">Cancel</button>
+        <button (click)="confirmRemoveTraining()" class="btn btn-danger">Confirm</button>
+    </div>
+</ng-template>

@@ -1,0 +1,106 @@
+<div class="card section">
+  <h4 class="card-header text-center bg-light">
+    Subsistence Allowance Amount Setup
+  </h4>
+  <form [formGroup]="subsistanceAmountForm">
+  <div class="container">
+    <br/>
+   <div class="col-md-7 center">
+      <div class="form-group row">
+          <label class="col-form-label col-sm-4 ">Employee Type
+          </label>
+          <div class="col-sm-8">
+            <app-employee-type-list
+            [isRequired]="f['empGrade'].invalid && (isSubmitted || f['empGrade'].touched || f['empGrade'].dirty)"
+            [empTypeModel]="formVal.empGrade"
+             (onChange)="getAll($event.gradeValue);f['empGrade'].setValue($event.gradeValue)">
+            </app-employee-type-list>
+          </div>
+          <div *ngIf="f['empGrade'].invalid && (isSubmitted || f['empGrade'].touched || f['empGrade'].dirty)"
+                class="text-danger">
+                <i *ngIf="f['empGrade'].errors.required">empGrade is required</i>
+              </div>
+        </div>
+        <div class="form-group row">
+          <label class="col-form-label col-sm-4 ">Allowance
+          </label>
+          <div class="col-sm-8">
+            <ng-select
+            [items]="allBonusAllowance"
+            formControlName="salaryHead"
+            bindLabel="accountName"
+            bindValue="id"
+            placeholder="Bonus Head"
+            ></ng-select>
+          </div>
+        </div>
+        <div class="form-group row">
+          <label class="col-form-label col-sm-4 ">Number Of Time Guilty
+          </label>
+          <div class="col-sm-8">
+            <input formControlName="numberoftimesGuilty" type="text" class="form-control" placeholder="Number Of Time Guilty">
+          </div>
+        </div>
+        <div class="form-group row">
+          <label class="col-form-label col-sm-4 ">Number Of time Guiltless
+          </label>
+          <div class="col-sm-8">
+            <input formControlName="numberoftimesNonGuilty" type="text" class="form-control" placeholder="Number Of time Guiltless">
+          </div>
+        </div>
+        <div class="form-group row">
+          <label class="col-form-label col-sm-4 ">Date
+          </label>
+          <div class="input-group col-sm-8">
+            <input formControlName="eDateNgb" class="form-control" name="dp1" placeholder="dd-mm-yyyy" ngbDatepicker #d1="ngbDatepicker">
+            <div class="input-group-append">
+              <button class="input-group-text" (click)="d1.toggle()" type="button">
+                <span class="ion ion-md-calendar" style="cursor: pointer;"></span>
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="form-group row">
+          <label class="col-form-label col-sm-4 ">Note
+          </label>
+          <div class="col-sm-8">
+            <input formControlName="note" type="text" class="form-control" placeholder="Note">
+          </div>
+        </div>
+   </div>
+    <div class="row">
+      <div class="demo-inline-spacing mt-3"  style="margin:0 auto">
+        <button (click)="save()" type="" class="btn btn-success" >
+          <span class="fas fa-save"> {{btnStatus}}</span>
+        </button>
+        <button (click)="reset()" type="" class="btn btn-info ">
+          <span class="ion ion-ios-refresh"> Reset</span>
+        </button>
+      </div>
+      <table class="table">
+        <thead>
+          <tr>
+            <th>No</th>
+            <th>Employee Type</th>
+            <th>Salary Head</th>
+            <th>Number Guilty</th>
+            <th>Number Guiltyless</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of subsistanceAmount;let i=index">
+            <td>{{i+1}}</td>
+            <td>{{item.gradeName}}</td>
+            <td>{{item.accountName}}</td>
+            <td>{{item.numberoftimesGuilty}}</td>
+            <td>{{item.numberoftimesNonGuilty}}</td>
+            <td><button (click)="getById(item.id)" type="" class="btn btn-info">
+              <span class="fas fa-edit"></span></button>&nbsp;</td>
+          </tr>
+        </tbody>
+      </table>
+      </div>
+    </div>
+  </form>
+    </div>

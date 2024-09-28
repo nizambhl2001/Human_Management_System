@@ -1,0 +1,91 @@
+<div class="card">
+    <h4 class="card-header text-center bg-light">{{title}}</h4>
+    <div class="card-body">
+        <form [formGroup]="additionAllowanceForm">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group row">
+                        <label for="periodID" class="col-md-3">Period</label>
+                        <div class="col-md-8">
+                            <ng-select [ngClass]="{'is-invalid':(isGetAllBtnClick || f.periodID.touched || f.periodID.dirty)&& f.periodID.invalid}" formControlName="periodID" name="periodID" id="periodID" [items]="salaryPeriod" bindLabel="periodName" bindValue="id" placeholder="Select Period">
+                            </ng-select>
+                            <div *ngIf="f['periodID'].invalid && (isGetAllBtnClick || f['periodID'].touched || f['periodID'].dirty)" class="text-danger">
+                                <i *ngIf="f['periodID'].errors.required">Period is required</i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="salaryHead" class="col-md-3">Salary Head</label>
+                        <div class="col-md-8">
+                            <ng-select [ngClass]="{'is-invalid':(isGetAllBtnClick || f.salaryHeadID.touched || f.salaryHeadID.dirty)&& f.salaryHeadID.invalid}" formControlName="salaryHeadID" [items]="allSalaryHead" bindLabel="accountName" bindValue="id" name="salaryHeadID" id="salaryHeadID"
+                                placeholder="Select Salary Head">
+                            </ng-select>
+                            <div *ngIf="f['salaryHeadID'].invalid && (isGetAllBtnClick || f['salaryHeadID'].touched || f['salaryHeadID'].dirty)" class="text-danger">
+                                <i *ngIf="f['salaryHeadID'].errors.required">Salary Head is required</i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group row">
+                        <label for="department" class="col-md-3">Department</label>
+                        <div class="col-md-8">
+                            <ng-select formControlName="department" [items]="departments" bindLabel="description" bindValue="description" name="department" id="department" placeholder="Select Department">
+                            </ng-select>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="reference" class="col-md-3">Reference</label>
+                        <div class="col-md-8">
+                            <input type="text" name="reference" id="reference" class="form-control" placeholder="Reference">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row m-auto">
+                <div class="demo-inline-spacing mt-3 center">
+                    <button (click)="reset()" type="submit" class="btn btn-info center"><span class="ion ion-ios-refresh"></span>Reset</button>
+                    <button (click)="GetAll()" type="submit" class="btn btn-primary center">Show Data</button>
+                </div>
+
+            </div>
+        </form>
+        <br>
+        <div class="row">
+            <div class="col-md-4 ml-auto">
+                <input type="text" [(ngModel)]="filterVal" (input)="currentPage = 1; update()" class="form-control form-control-md d-inline-block w-auto float-sm-right" placeholder="Search...">
+            </div>
+        </div>
+        <div class="row">
+            <div class="data-table">
+                <table class="table table-hover table-bordered table-striped mb-0">
+                    <thead>
+                        <tr>
+                            <th>Code</th>
+                            <th>Employee Name</th>
+                            <th>Designation</th>
+                            <th>Department</th>
+                            <th>Amount</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let item of additionshowdata">
+                            <td>{{item.empCode}}</td>
+                            <td>{{item.empName}}</td>
+                            <td>{{item.designation}}</td>
+                            <td>{{item.department}}</td>
+                            <td>{{item.amount}}</td>
+                            <td><button (click)="removeDriver(item.empCode)" class="btn btn-danger btn-sm"><span class="fas fa-trash"></span></button></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="row">
+            <div class="demo-inline-spacing center">
+                <button (click)="SaveUpdate()" class="btn btn-success"><span class="fas fa-save"></span> Save</button>
+            </div>
+        </div>
+    </div>
+</div>

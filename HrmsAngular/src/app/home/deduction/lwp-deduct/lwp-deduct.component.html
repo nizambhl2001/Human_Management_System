@@ -1,0 +1,106 @@
+<div class="card">
+    <h4 class="card-header text-center bg-light">{{title}}</h4>
+    <div class="card-body">
+        <form [formGroup]="lwpDeductForm">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group row">
+                        <label for="period" class="col-md-3">Period
+              <i class="text-danger">*</i>
+            </label>
+                        <div class="col-md-7">
+                            <ng-select [ngClass]="{'is-invalid':(isSubmitted || f.periodID.touched || f.periodID.dirty)&& f.periodID.invalid}" formControlName="periodID" [items]="salaryPeriodModel" bindLabel="periodName" bindValue="id" name="periodID" id="periodID" placeholder="Select Period">
+                            </ng-select>
+                            <div *ngIf="f.periodID.invalid &&(isSubmitted || f.periodID.touched || f.periodID.dirty)" class="text-danger">
+                                <i *ngIf="f.periodID.errors.required">Salary period is required</i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group row">
+                        <label for="department" class="col-md-3">Department</label>
+                        <div class="col-md-7">
+                            <ng-select formControlName="department" [items]="departments" (change)="onDepartmentSelect(f.department.value)" bindLabel="description" bindValue="description" name="department" id="department" placeholder="Select Department"></ng-select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group row">
+                        <label class="form-label col-md-3" for="startDate">Start Date
+              <i class="text-danger">*</i>
+            </label>
+                        <div class="input-group col-md-7">
+                            <app-date-control [ngClass]="{'is-invalid':(isSubmitted || f.startDateNgb.touched || f.startDateNgb.dirty)&& f.startDateNgb.invalid}" (getLocalDate)="f['strDate'].setValue($event)" (getNgbDate)="f['startDateNgb'].setValue($event)" [setNgbDate]="f['startDateNgb'].value"></app-date-control>
+                            <div *ngIf="f.startDateNgb.invalid && (f.startDateNgb.touched || f.startDateNgb.dirty || isSubmitted)" class="text-danger">
+                                <i *ngIf="f.startDateNgb.errors.required">Loan date is required</i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group row">
+                        <label class="form-label col-md-3" for="endDate">End Date
+                <i class="text-danger">*</i>
+            </label>
+                        <div class="input-group col-md-7">
+                            <app-date-control [ngClass]="{'is-invalid':(isSubmitted || f.enddateNgb.touched || f.enddateNgb.dirty)&& f.enddateNgb.invalid}" (getLocalDate)="f['enddate'].setValue($event)" (getNgbDate)="f['enddateNgb'].setValue($event)" [setNgbDate]="f['enddateNgb'].value"></app-date-control>
+                            <div *ngIf="f.enddateNgb.invalid && (f.enddateNgb.touched || f.enddateNgb.dirty || isSubmitted)" class="text-danger">
+                                <i *ngIf="f.enddateNgb.errors.required">Loan date is required</i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row m-auto">
+                <div class="demo-inline-spacing mt-3 center">
+                    <button (click)="reset()" type="submit" class="btn btn-info center "><span class="ion ion-ios-refresh"></span> Refresh</button>
+                    <button (click)="GetAll()" type="submit" class="btn btn-primary center">Show Data</button>
+                </div>
+            </div>
+
+            <br>
+            <div class="row">
+                <div class="data-table">
+                    <table class="table table-hover table-bordered table-striped mb-0">
+                        <thead>
+                            <tr>
+                                <th>Code</th>
+                                <th>Employee Name</th>
+                                <th>Designation</th>
+                                <th>Department</th>
+                                <th>Amount</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngIf="lwpdeductshow.length==0 && !isLoading">
+                                <td colspan="6" class="font-italic text-center">No Item available</td>
+                            </tr>
+                            <tr *ngIf="isLoading">
+                                <td colspan="6" class="text-center">
+                                    <img src="../../../../assets/img/loading_icon.gif" width="50" height="50"> Please wait...
+                                </td>
+                            </tr>
+                            <tr *ngFor="let item of lwpdeductshow">
+                                <td class="pl-2">{{item.empCode}}</td>
+                                <td>{{item.empName}}</td>
+                                <td>{{item.designation}}</td>
+                                <td>{{item.department}}</td>
+                                <td>{{item.amount}}</td>
+                                <td><button (click)="removeDriver(item.empCode)" class="btn btn-sm btn-danger"><span class="fas fa-trash"></span></button></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </form>
+        <div class="row">
+            <div class="demo-inline-spacing center">
+                <button (click)="SaveUpdate()" class="btn btn-success"> Save</button>
+            </div>
+        </div>
+    </div>
+</div>

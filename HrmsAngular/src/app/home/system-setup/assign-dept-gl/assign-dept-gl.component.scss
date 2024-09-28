@@ -1,0 +1,26 @@
+tbody {
+    display: block;
+    max-height: 300px;
+    overflow: auto;
+}
+
+thead,
+tbody tr {
+    display: table;
+    width: 100%;
+    table-layout: fixed;
+    /* even columns width , fix width of table too*/
+}
+
+thead {
+    width: calc( 100%)/* scrollbar is average 1em/16px width, remove it from thead width */
+}
+
+table {
+    widows: 100%;
+}
+
+td {
+    padding: 1px;
+    padding-left: 10px;
+}

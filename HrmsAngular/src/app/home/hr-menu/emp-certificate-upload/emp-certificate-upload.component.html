@@ -1,0 +1,117 @@
+<div class="card  section">
+  <h4 class="card-header text-center bg-light">
+    Employee Certificate Upload
+  </h4>
+  <div class="container ">
+    <br />
+    <form [formGroup]="uploadCertificateForm">
+      <div class="row">
+        <div class="col-md-7 center">
+          <div class="form-group row">
+            <label class="col-form-label col-sm-4 "> Employee Id
+              <i class="text-danger">*</i>
+            </label>
+            <div class="input-group col-sm-8">
+              <app-employee-select-list
+                [isRequired]="f['empCode'].invalid && (isSubmitted || f['empCode'].touched || f['empCode'].dirty)"
+                (onChange)="f['empCode'].setValue($event.empCode);onSelectEmp($event);getByEmpCode()">
+              </app-employee-select-list>
+              <div *ngIf="f['empCode'].invalid && (isSubmitted || f['empCode'].touched || f['empCode'].dirty)"
+                class="text-danger">
+                <i *ngIf="f.empCode.errors['required']==true">Employee Code is required</i>
+              </div>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="col-form-label col-sm-4 ">Employee Name
+
+            </label>
+            <div class="col-sm-6">
+              <input readonly formControlName="empName" type="text" class="form-control" placeholder="Employee Name">
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="col-form-label col-sm-4 ">Department
+
+            </label>
+            <div class="col-sm-6">
+              <input readonly formControlName="department" type="text" class="form-control" placeholder="Department">
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="col-form-label col-sm-4 ">Designation
+            </label>
+            <div class="col-sm-6">
+              <input readonly formControlName="designation" type="text" class="form-control" placeholder="Designation">
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="col-form-label col-sm-4 ">Level Of Education
+            </label>
+            <div class="col-sm-6">
+              <app-basic-entry-select-list
+                [isRequired]="f['educationLevelID'].invalid && (isSubmitted || f['educationLevelID'].touched || f['educationLevelID'].dirty)"
+                [itemId]="formVal.educationLevelID" (onChange)="f['educationLevelID'].setValue($event.id)"
+                [allItem]="allEduLevel" [tableName]="'EducationLevel'" [modalName]="eduLevelModal">
+              </app-basic-entry-select-list>
+            </div>
+            <label class="col-form-label col-sm-4 "></label>
+            <div
+              *ngIf="f['educationLevelID'].invalid && (isSubmitted || f['educationLevelID'].touched || f['educationLevelID'].dirty)"
+              class="text-danger">
+              <i *ngIf="f['educationLevelID'].errors['required']">Education Level Required</i>
+            </div>
+            <ng-template #eduLevelModal>
+              <app-education-level (getItems)="allEduLevel=$event"></app-education-level>
+            </ng-template>
+          </div>
+          <div class="form-group row">
+            <label class="col-form-label col-sm-4 ">Picture
+            </label>
+            <div class="col-sm-6">
+              <app-image-control
+                [isRequired]="(isSubmitted || f['cImage'].touched || f['cImage'].dirty)&& f['cImage'].invalid"
+                [previewImg]="formVal.cImage" (selectedFile)="f['cImage'].setValue($event)">
+              </app-image-control>
+            </div>
+            <label class="col-form-label col-sm-4 "></label>
+            <div *ngIf="f['cImage'].invalid && (isSubmitted || f['cImage'].touched || f['cImage'].dirty)"
+              class="text-danger">
+              <i *ngIf="f['cImage'].errors['required']">Image Required</i>
+            </div>
+          </div>
+          <div class="row">
+            <div class="demo-inline-spacing mt-3" style="margin:0 auto">
+              <button (click)="save()" type="" class="btn btn-success">
+                {{btnStatus}
+              </button>
+              <button (click)="reset()" type="" class="btn btn-info ">
+                <span class="ion ion-ios-refresh"> Reset</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+    <div class="container ">
+      <table class="table table-bordered table-striped">
+        <thead>
+          <tr>
+            <th>EmpCode</th>
+            <th>Level Of Education</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of dataByEmpCode">
+            <td>{{item.empCode}}</td>
+            <td>{{item.description}}</td>
+            <td>
+              <button (click)="getById(item.id)" type="" class="btn btn-info">
+                <span class="fas fa-edit"></span></button></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,42 @@
+Previous
+---------------
+ALTER PROCEDURE [dbo].[spGetEmpAgreeStatus]
+@QuarterId as int,
+	@YearID as int,
+	
+	@ReportTo as nvarchar(15)
+AS
+BEGIN
+		SELECT        dbo.EmployeeWiseKpi.EmpCode, dbo.EmpGeneralInfo.EmpName + ' ' + dbo.EmpGeneralInfo.LastName AS EmpName
+		,case when dbo.EmployeeWiseKpi.IsAgree=1 then 'Agreed' else 'Pending' end as Employee, case when dbo.EmployeeWiseKpi.IsBossAgree =1 then 'Agreed' else 'Pending' end as Boss
+FROM            dbo.EmployeeWiseKpi INNER JOIN
+                         dbo.EmpGeneralInfo ON dbo.EmployeeWiseKpi.EmpCode = dbo.EmpGeneralInfo.EmpCode
+WHERE        (dbo.EmployeeWiseKpi.QuarterId = @QuarterId) AND (dbo.EmployeeWiseKpi.YearID = @YearID) and (dbo.EmployeeWiseKpi.ReportTo=@ReportTo)
+group by  dbo.EmployeeWiseKpi.EmpCode, dbo.EmpGeneralInfo.EmpName ,dbo.EmpGeneralInfo.LastName ,dbo.EmployeeWiseKpi.IsAgree,dbo.EmployeeWiseKpi.IsBossAgree
+end
+
+----------------------
+Now
+----------------------
+ALTER PROCEDURE [dbo].[spGetEmpAgreeStatus]
+@QuarterId as int,
+	@YearID as int,
+	
+	@ReportTo as nvarchar(15)
+AS
+BEGIN
+DECLARE @temp TABLE(
+	EmpCode VARCHAR(10),
+	EmpName VARCHAR(100)
+)
+INSERT INTO @temp EXEC GetBossWiseEmployeeApp @ReportTo
+SELECT t.EmpCode, t.EmpName, 
+(CASE WHEN ewk.IsAgree=1 THEN 'Agreed' WHEN ewk.IsAgree=0 THEN 'Pending' ELSE '---' END) AS Employee, 
+(CASE WHEN ewk.IsBossAgree=1 THEN 'Agreed' WHEN ewk.IsBossAgree=0 THEN 'Pending' ELSE '---' END) AS Boss FROM @temp t
+ LEFT JOIN (SELECT CONVERT(VARCHAR, e.EmpCode) EmpCode, e.IsAgree, e.IsBossAgree 
+ FROM dbo.EmployeeWiseKpi e 
+ WHERE e.QuarterID=@QuarterId AND e.YearID=@YearID
+ AND e.EmpCode IN(SELECT EmpCode FROM @temp) 
+ GROUP BY CONVERT(VARCHAR, e.EmpCode), e.IsAgree, e.IsBossAgree) ewk
+  ON ewk.EmpCode = t.EmpCode
+  end

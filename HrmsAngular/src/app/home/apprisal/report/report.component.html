@@ -1,0 +1,89 @@
+
+<div class="card">
+  <h4 class="card-header text-center bg-light">
+   Apprisal Report
+  </h4>
+  <div class="container row">
+    <div class="col-md-6 center">
+      <br>
+    <form [formGroup]="apprisalReportForm">
+      <!--Report Type-->
+      <div class="form-group row">
+        <label class="col-form-label col-sm-3">Report Type <span class="text-danger">*</span></label>
+        <div class="col-sm-9">
+          <ng-select  formControlName="ReportId"
+          [ngClass]="{'is-invalid':(apprisalReportForm.controls['ReportId'].invalid && (apprisalReportForm.controls['ReportId'].touched || apprisalReportForm.controls['ReportId'].dirty || _isSubmit))}"
+          [items]="_reportTypeList" bindLabel="TypeName" bindValue="ReportId"
+          placeholder="Select report Type">
+          </ng-select>
+          <div class="text-danger" *ngIf="(apprisalReportForm.controls['ReportId'].invalid && (apprisalReportForm.controls['ReportId'].touched || apprisalReportForm.controls['ReportId'].dirty || _isSubmit))">
+            <i *ngIf="apprisalReportForm.controls['ReportId'].errors.required">Report type is required</i>
+          </div>
+        </div>
+      </div>
+      <!-- EmpCode -->
+      <div *ngIf="([null,193,194,195,196,197,198,203].includes(formVal.ReportId))" class="form-group row">
+        <label class="col-form-label col-sm-3 ">Employee Code</label>
+        <div class="col-md-9">
+            <ng-select class="custom"  formControlName="empCode" [items]="empCodes" bindLabel="empCode"
+            bindValue="empCode"  name="empCode" id="employeeId" placeholder="Select EmpCode" >
+          </ng-select>
+        </div>
+      </div>
+
+    <!-- Year -->
+      <div *ngIf="([null,193,194,195,196,197,198,203].includes(formVal.ReportId))" class="form-group row">
+        <label for="year" class="col-form-label col-sm-3">Year</label>
+        <div class="col-md-9">
+            <ng-select required formControlName="YearId"  [items]="years"  bindLabel="yearName"
+            bindValue="id" name="year" id="year" placeholder="Select Year">
+          </ng-select>
+        </div>
+  </div>
+
+  <!-- Quarter -->
+  <div *ngIf="([null,193].includes(formVal.ReportId))" class="form-group row">
+          <label for="quarter" class="col-form-label col-sm-3">Quarter</label>
+          <div class="col-md-9">
+              <ng-select formControlName="QuarterId" [items]="quarters"  bindLabel="shortName"
+              bindValue="id" name="quarter" id="quarter" placeholder="Select Quarter">
+            </ng-select>
+          </div>
+  </div>
+      <!-- Department -->
+      <div *ngIf="([null,195,203].includes(formVal.ReportId))" class="form-group row">
+        <label for="department" class="col-form-label col-sm-3">Department</label>
+        <div class="col-sm-9">
+          <ng-select formControlName="department"  [items]="_departments" bindLabel="description" bindValue="id" placeholder="Select Department">
+          </ng-select>
+        </div>
+      </div>
+
+       <!-- Branch -->
+       <div *ngIf="([null,195].includes(formVal.ReportId))"  class="form-group row">
+        <label class="col-form-label col-sm-3">Branch</label>
+        <div class="col-sm-9">
+          <ng-select formControlName="BranchID"  [items]="_branches" bindLabel="description" bindValue="id" placeholder="Select Branch">
+          </ng-select>
+        </div>
+      </div>
+      <!--Button-->
+      <div class="form-group row mt-2">
+        <div class="col-12">
+          <ng-select class="pull-right mr-1" formControlName="ExportType"
+            [items]="[{typeName:'pdf'},{typeName:'xls'}, {typeName:'xlsx'}]" bindLabel="typeName"
+            bindValue="typeName"></ng-select>
+          <button [ladda]="exporting" (click)="export()" type="submit" class="btn btn-info pull-right m2-1">
+            <b>Generate Report</b></button>
+        </div>
+      </div>
+      <div *ngIf="exporting" class="row">
+        <div class="m-auto">
+          <img src="../../../../assets/img/loading_icon.gif" height="80" width="80">
+          Please wait...
+        </div>
+      </div>
+    </form>
+  </div>
+  </div>
+</div>

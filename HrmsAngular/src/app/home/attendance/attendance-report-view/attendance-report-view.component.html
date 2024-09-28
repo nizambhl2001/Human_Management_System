@@ -1,0 +1,351 @@
+<div class="card center">
+  <h4 class="card-header text-center bg-light">
+      Attendance Report View
+  </h4>
+  <div class="card-body">
+      <br />
+      <div class="col-md-7 center">
+          <form [formGroup]="attendanceReportViewForm">
+
+            <div class="form-group row">
+              <label class="col-form-label col-sm-3">Report Type <span class="text-danger">*</span></label>
+              <div class="col-sm-9">
+                  <ng-select [ngClass]="{'is-invalid':(f['ReportId'].invalid && (f['ReportId'].touched || f['ReportId'].dirty))}" [items]="attendanceReportViewList" bindLabel="TypeName" bindValue="ReportId" formControlName="ReportId" placeholder="--Select Report--">
+                      ></ng-select>
+              </div>
+              <div class="text-danger" *ngIf="(f['ReportId'].invalid && (f['ReportId'].touched || f['ReportId'].dirty))">
+                  <i *ngIf="f['ReportId'].errors.required">Report Type is required</i>
+              </div>
+          </div>
+
+          <div *ngIf="[44,46,47,48,49,50,51,52,53,54,55,56,57].includes(f['ReportId'].value)" class="form-group row">
+            <label class="col-form-label col-sm-3"> Employee Id
+                <span *ngIf="[49,54].includes(f['ReportId'].value)"  class="text-danger">*</span></label>
+            <div class="input-group col-sm-9" *ngIf="userId==9298 || userId==9297 || userTypeId==9 || userTypeId==4" >
+                <app-employee-select-list (onChange)="f['EmpCode'].setValue($event.empCode)" [pageId]="pageId"></app-employee-select-list>
+            </div>
+
+            <div class="input-group col-sm-9" *ngIf=" userId!=9298 && userTypeId!=9 && userTypeId!=4">
+              <input formControlName="EmpCode" class="form-control" placeholder="EmpCode" readonly>
+          </div>
+        </div>
+              <div *ngIf="[53].includes(f['ReportId'].value)" class="form-group row">
+                <label class="col-form-label col-sm-3">Select Month</label>
+                <div class="col-sm-8">
+                    <app-period-select-list (onChange)="f['PeriodID'].setValue($event.id)"></app-period-select-list>
+                </div>
+            </div>
+            <div *ngIf="[44,45,46,47,48,49,50,51,54,55,56,57].includes(f['ReportId'].value)" class="form-group row">
+                <label class="col-form-label col-sm-3">Start Date
+                    <span *ngIf="[49,54].includes(f['ReportId'].value)"  class="text-danger">*</span></label>
+
+                <div class="input-group col-sm-9">
+                    <app-date-control (getYyyymmdd)="f['StartDate'].setValue($event)"></app-date-control>
+                </div>
+            </div>
+            <div *ngIf="[44,45,46,47,48,49,50,51,54,55,56,57].includes(f['ReportId'].value)" class="form-group row">
+                <label class="col-form-label col-sm-3">End Date
+                    <span *ngIf="[49,54].includes(f['ReportId'].value)"  class="text-danger">*</span></label>
+                <div class="input-group col-sm-9">
+                    <app-date-control (getYyyymmdd)="f['EndDate'].setValue($event)"></app-date-control>
+                </div>
+            </div>
+            <div *ngIf="[44,45,46,47,48,49,50,51,52,55,57].includes(f['ReportId'].value)" class="form-group row">
+                <label for="branch" class="col-form-label col-md-3">Work Station</label>
+                <div class="col-md-9">
+                    <app-basic-entry-select-list [isRequired]="f['Location'].invalid && (isSubmitted || f['Location'].touched || f['Location'].dirty)" [itemId]="formVal.Location" (onChange)="f['Location'].setValue($event.id)" [tableName]="'Location'" [modalName]="Location">
+                    </app-basic-entry-select-list>
+                    <ng-template #Location>
+                        <app-location>
+                        </app-location>
+                    </ng-template>
+                </div>
+                <div class="text-danger" *ngIf="(f['BranchID'].invalid && (f['BranchID'].touched || f['BranchID'].dirty || isSubmitted))">
+                    <i *ngIf="f['BranchID'].errors.required">Work Station is required</i>
+                </div>
+            </div>
+            <div *ngIf="[44,45,46,47,48,49,50,51,52,53,55,57].includes(f['ReportId'].value)" class="form-group row">
+                <label for="branch" class="col-form-label col-md-3">Department</label>
+                <div class="col-md-9">
+                    <app-basic-entry-select-list [isRequired]="f['DepartmentID'].invalid && (isSubmitted || f['DepartmentID'].touched || f['DepartmentID'].dirty)" [itemId]="formVal.DepartmentID" (onChange)="f['DepartmentID'].setValue($event.id)" [tableName]="'Department'"
+                        [modalName]="DepartmentID">
+                    </app-basic-entry-select-list>
+                    <ng-template>
+                        <app-department #DepartmentID>
+                        </app-department>
+                    </ng-template>
+                </div>
+                <div class="text-danger" *ngIf="(f['DepartmentID'].invalid && (f['DepartmentID'].touched || f['DepartmentID'].dirty || isSubmitted))">
+                    <i *ngIf="f['DepartmentID'].errors.required">Department is required</i>
+                </div>
+            </div>
+            <div *ngIf="[44,45,46,47,48,49,50,51,52,53,55,57].includes(f['ReportId'].value)" class="form-group row">
+                <label for="branch" class="col-form-label col-md-3">Select Branch</label>
+                <div class="col-md-9">
+                    <app-basic-entry-select-list [isRequired]="f['BranchID'].invalid && (isSubmitted || f['BranchID'].touched || f['BranchID'].dirty)" [itemId]="formVal.BranchID" (onChange)="f['BranchID'].setValue($event.id)" [tableName]="'Branch'" [modalName]="BranchID">
+                    </app-basic-entry-select-list>
+                    <ng-template #BranchID>
+                        <app-branch>
+                        </app-branch>
+                    </ng-template>
+                </div>
+                <div class="text-danger" *ngIf="(f['BranchID'].invalid && (f['BranchID'].touched || f['BranchID'].dirty || isSubmitted))">
+                    <i *ngIf="f['BranchID'].errors.required">Branch is required</i>
+                </div>
+            </div>
+            <div *ngIf="[44,45,46,47,48,49,50,51,52,55,57].includes(f['ReportId'].value)" class="form-group row">
+                <label for="branch" class="col-form-label col-md-3">Select Project</label>
+                <div class="col-md-9">
+                    <app-basic-entry-select-list [isRequired]="f['ProjectID'].invalid && (isSubmitted || f['ProjectID'].touched || f['ProjectID'].dirty)" [tableName]="'Project'" (onChange)="f['ProjectID'].setValue($event.id)">
+                    </app-basic-entry-select-list>
+                </div>
+                <div class="text-danger" *ngIf="(f['ProjectID'].invalid && (f['ProjectID'].touched || f['ProjectID'].dirty || isSubmitted))">
+                    <i *ngIf="f['ProjectID'].errors.required">Branch is required</i>
+                </div>
+            </div>
+               <div class="row text-center mt-2" style="max-width: 520px;margin-left: 200px;"> 
+                  <!-- <div> -->
+                    <!-- [ladda]="isLoading" -->
+                    <div class="col-md-4">
+                      <button (click)="reset()"  class="btn btn-primary">Reset</button>
+                    </div>
+                    <div class="col-md-4">
+                      <button [ladda]="exporting" (click)="showAttendenceReport()"  class="btn btn-success">Show Data </button>
+                    </div>
+                      <!-- <div class="input-group col-md-4">
+                        <input (keyup)="onSearch($event.target.value)" type="text" class="form-control"
+                          placeholder="Search by EmpCode" />
+                        <div class="input-group-append">
+                          <button class="btn btn-sm btn-primary"><span class="fa fa-search"></span></button>
+                        </div>
+                      </div> -->
+                  <!-- </div> -->
+
+              </div>
+
+              <!-- <div class="form-group row">
+                  <label class="col-form-label col-sm-4 "> Select Shift</label>
+                  <div class="col-sm-8 input-group">
+
+                       <app-weekend-select-list [widthPercent]="100" (onChange)="f['shiftID'].setValue($event.id)">
+                      </app-weekend-select-list>
+
+                     <button (click)="onSetShift()" class="btn btn-primary input-group-append">Set</button>
+                  </div>
+              </div> -->
+          </form>
+      </div>
+      </div>
+      </div>
+
+      <!-- Single EmpReport -->
+
+      <div class="card" *ngIf="this.f.ReportId.value==54">
+        <div class="data-table">
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th class="text-center">SN</th>
+                        <th class="text-center">Date</th>
+                        <th class="text-center">Day</th>
+                        <th class="text-center">Login</th>
+                        <th class="text-center">Logout</th>
+                        <th class="text-center">Late</th>
+                        <th class="text-center">Earliar</th>
+                        <th class="text-center">Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngIf="items.length==0">
+                        <td colspan="13" class="font-italic text-center">No item available</td>
+                    </tr>
+                    <tr *ngFor="let attendance of items; let i=index">
+                        <td style="padding: 2px;font-size: 15px;text-align: center;">{{i+1}}</td>
+                        <td style="padding: 2px;font-size: 15px;text-align: center;">{{attendance.dd}}</td>
+                        <td style="padding: 2px;font-size: 15px">{{attendance.day}}</td>
+                        <td style="font-size: 15px;padding: 2px;text-align: center;">{{attendance.login}}</td>
+                        <td style="font-size: 15px;padding: 2px;text-align: center;">{{attendance.logOut}}</td>
+                        <td style="padding: 2px;text-align: center;" [ngClass]="{lateColor:attendance.lates=='Late In'}"><span style="color: white;">{{attendance.lates}}</span></td>
+                        <td style="padding: 2px;text-align: center;" [ngClass]="{earlyColor:attendance.lates1=='Early Out'}"><span style="color: white;">{{attendance.lates1}}</span></td>
+                        <td style="padding: 2px;text-align: center;" [ngClass]="{leaveColor:attendance.notes=='Weekend',empltyColor:attendance.notes=='',holidayColor:attendance.notes!='Weekend'}"><span style="color: white;">{{attendance.notes}}</span></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+
+    <!-- AttendanceSumaryReport -->
+
+    <div class="card" *ngIf="this.f.ReportId.value==53">
+      <div class="data-table">
+          <table class="table table-bordered">
+              <thead>
+                  <tr>
+                      <th style="width: 4%;">SN</th>
+                      <th style="width: 5%;">Code</th>
+                      <th style="width: 20%;">Employee Name</th>
+                      <th style="width: 15%;">Designation</th>
+                      <th style="width: 15%;">Department</th>
+                      <th style="width: 4%;">Month Day</th>
+                      <th style="width: 4%;">Holiday</th>
+                      <th style="width: 5%;">Working Day</th>
+                      <th style="width: 4%;">Leave</th>
+                      <th style="width: 4%;">LWTP</th>
+                      <th style="width: 4%;">Absent</th>
+                      <th style="width: 4%;">Weekend</th>
+                      <th style="width: 4%;">Present</th>
+                      <th style="width: 4%;">Ot</th>
+                     
+                  </tr>
+              </thead>
+              <tbody>
+                  <tr *ngIf="items.length==0">
+                      <td colspan="13" class="font-italic text-center">No item available</td>
+                  </tr>
+                  <tr *ngFor="let attendance of items; let i=index">
+                      <td style="padding: 2px;font-size: 15px;width: 4%;text-align: center;">{{i+1}}</td>
+                      <td style="padding: 2px;font-size: 15px;width: 5%;text-align: center;">{{attendance.empCode}}</td>
+                      <td style="padding: 2px;font-size: 15px;width: 20%;">{{attendance.empName}}</td>
+                      <td style="padding: 2px;font-size: 15px;width: 15%;">{{attendance.designation}}</td>
+                      <td style="padding: 2px;font-size: 15px;width: 15%;">{{attendance.department}}</td>
+                      <td style="padding: 2px;font-size: 15px;width: 4%;text-align: center;">{{attendance.totalMDay}}</td>
+                      <td style="padding: 2px;font-size: 15px;width: 4%;text-align: center;">{{attendance.holyd}}</td>
+                      <td style="padding: 2px;font-size: 15px;width: 5%;text-align: center;">{{attendance.workingDay}}</td>
+                      <td style="padding: 2px;font-size: 15px;width: 4%;text-align: center;">{{attendance.lwpQty}}</td>
+                      <td style="padding: 2px;font-size: 15px;width: 4%;text-align: center;">{{attendance.lWtPQty}}</td>
+                      <td style="padding: 2px;font-size: 15px;width: 4%;text-align: center;">{{attendance.absent}}</td>
+                      <td style="padding: 2px;font-size: 15px;width: 4%;text-align: center;"  >{{attendance.day}}</td>
+                      <td style="padding: 2px;font-size: 15px;width: 4%;text-align: center;">{{attendance.atten}}</td>
+                      <td style="padding: 2px;font-size: 15px;width: 4%;text-align: center;">{{attendance.lates}}</td>
+                    
+                  </tr>
+              </tbody>
+          </table>
+      </div>
+
+  </div>
+
+  <!-- LetComerReport -->
+
+  <div class="card" *ngIf="this.f.ReportId.value==45">
+    <div class="data-table">
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>SN</th>
+                    <th>Code</th>
+                    <th>Employee Name</th>
+                    <th>Department</th>
+                    <!-- <th>Designation</th>
+                    <th>Branch</th> -->
+                    <th>Date</th>
+                    <th>ShiftTime</th>
+                    <th>GraceTime</th>
+                    <th>InTime</th>
+                    <th>Status</th>
+                    <!-- <th>Action</th> -->
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngIf="items.length==0">
+                    <td colspan="13" class="font-italic text-center">No item available</td>
+                </tr>
+                <tr *ngFor="let attendance of items; let i=index">
+                    <td style="padding: 2px;font-size: 15px;text-align: center;">{{i+1}}</td>
+                     <td style="padding: 2px;font-size: 15px;text-align: center;">{{attendance.empCode}}</td>
+                    <td style="padding: 2px;font-size: 15px">{{attendance.empName}}</td>
+                    <!-- <td style="padding: 2px;font-size: 15px">{{attendance.designation}}</td> -->
+                    <td style="padding: 2px;font-size: 15px">{{attendance.department}}</td>
+                    <!-- <td style="font-size: 15px;padding: 2px">{{attendance.officeBranch}}</td>  -->
+                    <td style="font-size: 15px;padding: 2px;text-align: center;">{{attendance.dates}}</td>
+                    <td style="font-size: 15px;padding: 2px;text-align: center;">{{attendance.times}}</td>
+                    <!-- <td style="font-size: 15px;padding: 2px;text-align: center;">{{attendance.shiftStartMin}}</td> --> 
+                      <td style="font-size: 15px;padding: 2px;text-align: center;">00:15</td>
+                    <td style="font-size: 15px;padding: 2px;text-align: center;">{{attendance.atten}}</td>
+                    <td style="padding: 2px;text-align: center;">Late</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+</div>
+
+<!-- MissingPunchReport -->
+
+<div class="card" *ngIf="this.f.ReportId.value==49">
+  <div class="data-table">
+      <table class="table table-bordered">
+          <thead>
+              <tr>
+                  <th>SN</th>
+                  <th>Code</th>
+                  <th>Employee Name</th>
+                  <th>Designation</th>
+                  <th>Department</th>
+                  <th>Branch</th>
+                  <th>Missing Date</th>
+              </tr>
+          </thead>
+          <tbody>
+              <tr *ngIf="items.length==0">
+                  <td colspan="13" class="font-italic text-center">No item available</td>
+              </tr>
+              <tr *ngFor="let attendance of items; let i=index">
+                  <td style="padding: 2px;font-size: 15px">{{i+1}}</td>
+                   <td style="padding: 2px;font-size: 15px">{{attendance.empCode}}</td>
+                  <td style="padding: 2px;font-size: 15px">{{attendance.empName}}</td>
+                  <td style="padding: 2px;font-size: 15px">{{attendance.designation}}</td>
+                  <td style="padding: 2px;font-size: 15px">{{attendance.department}}</td>
+                  <td style="font-size: 15px;padding: 2px">{{attendance.branchName}}</td>
+                  <td style="font-size: 15px;padding: 2px">{{attendance.dates}}</td>
+              </tr>
+          </tbody>
+      </table>
+  </div>
+
+</div>
+
+<!-- DailayInOutReport -->
+
+<div class="card" *ngIf="this.f.ReportId.value==50">
+  <div class="data-table">
+      <table class="table table-bordered">
+          <thead>
+              <tr>
+                  <th>SN</th>
+                  <th>Code</th>
+                  <th>Employee Name</th>
+                  <th>Department</th>
+                  <!-- <th>Designation</th>
+                  <th>Branch</th> -->
+                  <th>Date</th>
+                  <th>Login</th>
+                  <th>Logout</th>
+                  <th>WorkingHour</th>
+                  <!-- <th>Status</th> -->
+                  <!-- <th>Action</th> -->
+              </tr>
+          </thead>
+          <tbody>
+              <tr *ngIf="items.length==0">
+                  <td colspan="13" class="font-italic text-center">No item available</td>
+              </tr>
+              <tr *ngFor="let attendance of items; let i=index">
+                  <td style="padding: 2px;font-size: 15px;text-align: center;">{{i+1}}</td>
+                   <td style="padding: 2px;font-size: 15px;text-align: center;">{{attendance.empCode}}</td>
+                  <td style="padding: 2px;font-size: 15px">{{attendance.empName}}</td>
+                  <!-- <td style="padding: 2px;font-size: 15px">{{attendance.designation}}</td> -->
+                  <td style="padding: 2px;font-size: 15px">{{attendance.department}}</td>
+                  <!-- <td style="font-size: 15px;padding: 2px">{{attendance.officeBranch}}</td>  -->
+                  <td style="font-size: 15px;padding: 2px;text-align: center;">{{attendance.attnDate}}</td>
+                  <td style="font-size: 15px;padding: 2px;text-align: center;">{{attendance.login}}</td>
+                  <td style="font-size: 15px;padding: 2px;text-align: center;">{{attendance.logOut}}</td>
+                  <td style="font-size: 15px;padding: 2px;text-align: center;">{{attendance.workingHour}}</td>
+                  <!-- <td style="padding: 2px;text-align: center;" >{{attendance.notes}}</td> -->
+              </tr>
+          </tbody>
+      </table>
+  </div>
+
+</div>

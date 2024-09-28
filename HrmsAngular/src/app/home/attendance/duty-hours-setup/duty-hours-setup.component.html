@@ -1,0 +1,108 @@
+<div class="card">
+  <h4 class="card-header text-center bg-light">
+    {{title}}
+  </h4>
+  <div class="card-body">
+    <div class="row col-md-6 center">
+      <form>
+        <div class="form-group row">
+          <label class="col-form-label col-md-3" for="empCategory">Employee Category</label>
+          <div class="col-md-9">
+            <select type="text" name="empCategory" id="empCategory" class="form-control">
+              <option value="">Select Category</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group row">
+          <label class="col-form-label col-md-3" for="hoursPerDay">Hours per Day</label>
+          <div class="col-md-5">
+            <input type="number" name="hoursPerDay" id="hoursPerDay" class="form-control" placeholder="Hours per day">
+          </div>
+        </div>
+        <div class="form-group row">
+          <label class="col-form-label col-md-3" for="hoursPerWeek">Hours per Week</label>
+          <div class="col-md-5">
+            <input type="number" name="hoursPerWeek" id="hoursPerWeek" class="form-control" placeholder="Hours per Week">
+          </div>
+        </div>
+        <div class="form-group row">
+          <label class="col-form-label col-md-3" for="empId">Employee Id</label>
+          <div class="col-md-5">
+            <input type="text" name="employeeId" id="empId" class="form-control" placeholder="Employee Id">
+          </div>
+          <button class="btn btn-primary col-md-4"> Get Employee(s)</button>
+        </div>
+      </form>
+    </div>
+  <div class="card">
+      <div class="card-header">
+        <div class="row">
+          <div class="col">
+            Per page: &nbsp;
+            <select [(ngModel)]="perPage" (change)="update()"
+              class="custom-select custom-select-md d-inline-block w-auto">
+              <option *ngFor="let limit of [5, 10, 20, 30, 40, 50]">{{limit}}</option>
+            </select>
+          </div>
+          <div class="col">
+            <input type="text" [(ngModel)]="filterVal" (input)="currentPage = 1; update()"
+              class="form-control form-control-md d-inline-block w-auto float-sm-right" placeholder="Search...">
+          </div>
+        </div>
+      </div>
+      <table class="table table-hover table-striped mb-2">
+        <thead>
+          <tr>
+            <th>
+              <input type="checkbox" value=""> Select
+            </th>
+            <th>Code</th>
+            <th>Employee Name</th>
+            <th>Department</th>
+            <th>Designation</th>
+            <th>Hours per Day</th>
+            <th>Hours per Week</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngIf="tempItems.length==0">
+            <td colspan="11" class="font-italic text-center">No Item available</td>
+          </tr>
+          <tr *ngFor="let item of tempItems">
+            <td>
+              <input type="checkbox" value="">
+            </td>
+            <td>{{item}}</td>
+            <td>{{item}}</td>
+            <td>{{item}}</td>
+            <td>{{item}}</td>
+            <td>{{item}}</td>
+            <td>{{item}}</td>
+          </tr>
+        </tbody>
+      </table>
+      <!-- Pagination -->
+      <div class="card-body py-0">
+        <div class="row">
+          <div class="col-sm text-sm-left text-center pt-3">
+            <span class="text-muted" *ngIf="totalItems">Page {{ currentPage }} of {{ totalPages }}</span>
+          </div>
+          <div class="col-sm pt-3">
+            <ngb-pagination [collectionSize]="totalItems" [pageSize]="perPage" [(page)]="currentPage"
+              (pageChange)="update()" size="sm" class="d-flex justify-content-center justify-content-sm-end m-0">
+            </ngb-pagination>
+          </div>
+        </div>
+      </div>
+      <!-- / Pagination -->
+    </div>
+    <div class="row">
+      <div class="col-md-6">
+        <p>Total Employee (s) : 0</p>
+      </div>
+      <div class="demo-inline-spacing col-md-6">
+        <button class="btn btn-primary">Save</button>
+        <button class="btn btn-secondary">Close</button>
+      </div>
+    </div>
+  </div>

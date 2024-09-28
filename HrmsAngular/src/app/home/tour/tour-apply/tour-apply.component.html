@@ -1,0 +1,225 @@
+<div class="card">
+  <h4 class="card-header text-center bg-light">{{title}}</h4>
+  <form [formGroup]="tourApplyForm">
+    <div class="card-body">
+      <div class="row">
+        <div class="col-md-6">
+          <div class="form-group row">
+            <label for="empId" class="form-label col-md-4">Employee Id</label>
+            <div class="input-group col-md-6">
+              <app-employee-select-list [fixedWidth]="'180px'"
+                [isRequired]="f['empCode'].invalid && (isSubmitted || f['empCode'].touched || f['empCode'].dirty)"
+                (onChange)="getEmpInfo($event.empCode)" [setEmpCode]="formVal.empCode">
+              </app-employee-select-list>
+              <div *ngIf="f['empCode'].invalid && (isSubmitted || f['empCode'].touched || f['empCode'].dirty)"
+                class="text-danger">
+                <i *ngIf="f['empCode'].errors['required']">Employee Code is required</i>
+              </div>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="empName" class="form-label col-md-4">Employee Name</label>
+            <div class="col-md-8">
+              <input formControlName="empName" type="text" name="employeeName" id="empName" class="form-control"
+                placeholder="Employee Name" disabled>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="designation" class="form-label col-md-4">Designation</label>
+            <div class="col-md-8">
+              <input formControlName="designation" type="text" name="designation" id="designation" class="form-control"
+                placeholder="Designation" disabled>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="department" class="form-label col-md-4">Department</label>
+            <div class="col-md-8">
+              <input formControlName="department" type="text" name="department" id="department" class="form-control"
+                placeholder="Department" disabled>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-group row">
+            <label for="purpose" class="form-label col-md-4">Tour Purpose</label>
+            <div class="col-md-8">
+              <input [ngClass]="{'is-invalid': (isSubmitted || f['reason'].touched ||f['reason'].dirty) && f['reason'].invalid}"
+               formControlName="reason" type="text" name="purpose" id="purpose" class="form-control"
+                placeholder="Tour Purpose">
+            </div>
+            <label class="col-form-label col-sm-4 "></label>
+            <div *ngIf="f['reason'].invalid && (isSubmitted || f['reason'].touched || f['reason'].dirty)"
+                class="text-danger">
+                <i *ngIf="f['reason'].errors['required']">Tour Purpose is required</i>
+              </div>
+          </div>
+          <div class="form-group row">
+            <label for="destination" class="form-label col-md-4">Destination</label>
+            <div class="col-md-8">
+              <input formControlName="emgAddress" type="text" name="destination" id="destination" class="form-control"
+                placeholder="Destination">
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="form-label col-md-4">From Date</label>
+            <div class="input-group col-md-8">
+              <input [ngClass]="{'is-invalid': (isSubmitted || f['lsDateNgb'].touched ||f['lsDateNgb'].dirty) && f['lsDateNgb'].invalid}"
+               readonly formControlName="lsDateNgb" class="form-control" placeholder="dd-mm-yyyy" name="from"
+                ngbDatepicker [displayMonths]="1" #d1="ngbDatepicker">
+              <div class="input-group-append">
+                <button class="input-group-text" (click)="d1.toggle()" type="button">
+                  <span class="ion ion-md-calendar" style="cursor: pointer;"></span>
+                </button>
+              </div>
+            </div>
+            <label class="col-form-label col-sm-4 "></label>
+            <div *ngIf="f['lsDateNgb'].invalid && (isSubmitted || f['lsDateNgb'].touched || f['lsDateNgb'].dirty)"
+                class="text-danger">
+                <i *ngIf="f['lsDateNgb'].errors['required']">From is required</i>
+              </div>
+          </div>
+          <div class="form-group row">
+            <label class="form-label col-md-4">To Date</label>
+            <div class="input-group col-md-8">
+              <input [ngClass]="{'is-invalid': (isSubmitted || f['leDateNgb'].touched ||f['leDateNgb'].dirty) && f['leDateNgb'].invalid}"
+               readonly (ngModelChange)="dateDiff()" formControlName="leDateNgb" class="form-control"
+                placeholder="dd-mm-yyyy" name="to" ngbDatepicker [displayMonths]="1" #d2="ngbDatepicker">
+              <div class="input-group-append">
+                <button class="input-group-text" (click)="d2.toggle()" type="button">
+                  <span class="ion ion-md-calendar" style="cursor: pointer;"></span>
+                </button>
+              </div>
+            </div>
+            <label class="col-form-label col-sm-4 "></label>
+            <div *ngIf="f['leDateNgb'].invalid && (isSubmitted || f['leDateNgb'].touched || f['leDateNgb'].dirty)"
+                class="text-danger">
+                <i *ngIf="f['leDateNgb'].errors['required']">To is required</i>
+              </div>
+          </div>
+          <div class="form-group row">
+            <label for="duration" class="form-label col-md-4">Tour Duration</label>
+            <div class="col-md-8">
+              <input readonly formControlName="accepteDuration" type="text" name="duration" id="duration"
+                class="form-control" placeholder="Duration time">
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="applyDate" class="form-label col-md-4">Apply Date</label>
+            <div class="input-group col-md-8">
+              <input readonly formControlName="laDateNgb" class="form-control" placeholder="dd-mm-yyyy" name="applyDate"
+                ngbDatepicker [displayMonths]="1" #d3="ngbDatepicker">
+              <div class="input-group-append">
+                <button class="input-group-text" (click)="d3.toggle()" type="button">
+                  <span class="ion ion-md-calendar" style="cursor: pointer;"></span>
+                </button>
+              </div>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="contactNo" class="form-label col-md-4">Contact No</label>
+            <div class="input-group col-md-8">
+              <input formControlName="emgContructNo" type="text" name="contactNo" id="contactNo" class="form-control"
+                placeholder="Contact Number">
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <table class="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th>Apply Date</th>
+                <th>Start Date</th>
+                <th>End Date</th>
+                <th>Duration</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of allTour;let i=index">
+                <td>{{item.laDate | date:'dd MMM, yyyy'}}</td>
+                <td>{{item.lsDate | date:'dd MMM, yyyy'}}</td>
+                <td>{{item.leDate | date:'dd MMM, yyyy'}}</td>
+                <td>{{item.accepteDuration}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="col-md-6">
+          <div class="card">
+            <h6 class="card-header">Apply to</h6>
+            <div class="card-body">
+              <div class="form-group row">
+                <label for="empId" class="form-label col-md-4">Employee Id</label>
+                <div class="input-group col-md-6">
+                  <app-employee-select-list [fixedWidth]="'150px'"
+                    [isRequired]="f['applyTo'].invalid && (isSubmitted || f['applyTo'].touched || f['applyTo'].dirty)"
+                    (onChange)="setEmpInfo($event.empCode,f['toEmpName'],f['toDesignation']);f['applyTo'].setValue($event.empCode)" [setEmpCode]="formVal.applyTo">
+                  </app-employee-select-list>
+                  <div *ngIf="f['applyTo'].invalid && (isSubmitted || f['applyTo'].touched || f['applyTo'].dirty)"
+                    class="text-danger">
+                    <i *ngIf="f['applyTo'].errors['required']">Apply To is required</i>
+                  </div>
+                </div>
+              </div>
+              <div class="form-group row">
+                <label for="empName" class="form-label col-md-4">Employee Name</label>
+                <div class="col-md-8">
+                  <input formControlName="toEmpName" type="text" name="employeeName" id="empName" class="form-control"
+                    placeholder="Employee Name" disabled>
+                </div>
+              </div>
+              <div class="form-group row">
+                <label for="designation" class="form-label col-md-4">Designation</label>
+                <div class="col-md-8">
+                  <input formControlName="toDesignation" type="text" name="designation" id="designation"
+                    class="form-control" placeholder="Designation" disabled>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="card">
+            <h6 class="card-header">Duties will be performed by</h6>
+            <div class="card-body">
+              <div class="form-group row">
+                <label for="empId" class="form-label col-md-4">Employee Id</label>
+                <div class="input-group col-md-6">
+                  <app-employee-select-list [fixedWidth]="'150px'"
+                    [isRequired]="f['referanceEmpcode'].invalid && (isSubmitted || f['referanceEmpcode'].touched || f['referanceEmpcode'].dirty)"
+                    (onChange)="getRefEmpInfo($event.empCode)" [setEmpCode]="formVal.referanceEmpcode">
+                  </app-employee-select-list>
+                  <div
+                    *ngIf="f['referanceEmpcode'].invalid && (isSubmitted || f['referanceEmpcode'].touched || f['referanceEmpcode'].dirty)"
+                    class="text-danger">
+                    <i *ngIf="f['referanceEmpcode'].errors['required']">Refarence Code is required</i>
+                  </div>
+                </div>
+              </div>
+              <div class="form-group row">
+                <label for="empName" class="form-label col-md-4">Employee Name</label>
+                <div class="col-md-8">
+                  <input formControlName="refEmpName" type="text" name="employeeName" id="empName" class="form-control"
+                    placeholder="Employee Name" disabled>
+                </div>
+              </div>
+              <div class="form-group row">
+                <label for="designation" class="form-label col-md-4">Designation</label>
+                <div class="col-md-8">
+                  <input formControlName="refDesignation" type="text" name="designation" id="designation"
+                    class="form-control" placeholder="Designation" disabled>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <br>
+      <div class="row">
+        <div class="col-md-6"></div>
+        <div class="col-md-6 demo-inline-spacing center">
+          <button (click)="saveUpdate()" class="btn btn-success">Apply</button>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>

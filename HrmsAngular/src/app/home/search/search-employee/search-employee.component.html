@@ -1,0 +1,86 @@
+<div class="modal-header bg-card-footer py-2">
+    <h4 class="mr-auto mb-0">Search Employee</h4>
+    <span (click)="cancel()" class="btn btn-sm btn-danger ml-auto">X</span>
+</div>
+<div class="modal-body">
+    <form action="">
+        <div class="Form-group row ">
+            <div class="form-check form-check-inline ">
+                <input [(ngModel)]="status" value="Active" name="status" (change)="searchEmployees()" class="form-check-input" type="radio" id="active">
+                <label class="form-check-label" for="active">Active</label>
+            </div>
+            <div class="form-check form-check-inline">
+                <input [(ngModel)]="status" value="Inactive" (change)="searchEmployees()" name="status" class="form-check-input" type="radio" id="inActive">
+                <label class="form-check-label" for="inActive">InActive</label>
+            </div>
+            <div class="form-check form-check-inline ">
+                <input [(ngModel)]="isBlock" name="isBlock" value="Yes" (change)="searchEmployees()" class="form-check-input" type="radio" id="block">
+                <label class="form-check-label" for="block">Block</label>
+            </div>
+            <div class="form-check form-check-inline">
+                <input [(ngModel)]="isBlock" value="No" (change)="searchEmployees()" name="isBlock" class="form-check-input" type="radio" id="unBlock">
+                <label class="form-check-label" for="unBlock">UnBlock</label>
+            </div>
+        </div>
+        <div class="row">
+          <div class="form-group col">
+            <label for="">EmpCode</label>
+            <input [(ngModel)]="empSearchKeys.empCode" (keyup)="searchEmployees()" name="empCode" type="number" class="form-control" placeholder="EmpCode">
+        </div>
+            <div class="form-group col">
+                <label for="">EmpName</label>
+                <input [(ngModel)]="empSearchKeys.empName" (keyup)="searchEmployees()" name="empName" type="text" class="form-control" placeholder="EmpName">
+            </div>
+            <div class="form-group col">
+                <label for="">Department</label>
+                <input [(ngModel)]="empSearchKeys.department" (keyup)="searchEmployees()" name="department" type="text" class="form-control" placeholder="Department">
+            </div>
+            <div class="form-group col">
+                <label for="">Designation</label>
+                <input [(ngModel)]="empSearchKeys.designation" (keyup)="searchEmployees()" name="designation" type="text" class="form-control" placeholder="Designation">
+            </div>
+        </div>
+    </form>
+    <div class="row">
+        Per page: &nbsp;
+        <select [(ngModel)]="perPage" (change)="update()" class="custom-select custom-select-md d-inline-block w-auto">
+      <option *ngFor="let limit of [5, 10, 20, 30, 40, 50]">{{limit}}</option>
+    </select>
+    </div>
+    <div class="row">
+        <div class="data-table m-0">
+            <table *ngIf="!isLoading" class="table table-bordered  table-hover table-striped">
+                <thead>
+                    <tr>
+                        <th>#S/N</th>
+                        <th>Code</th>
+                        <th>Name</th>
+                        <th>Department</th>
+                        <th>Designation</th>
+                        <th>Select</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngIf="tempItems.length==0">
+                        <td colspan="5" class="text-center"><i>No Data found</i></td>
+                    </tr>
+                    <tr *ngFor="let emp of tempItems;let i=index" (click)="onSelect(emp.empCode)">
+                        <td>{{i+1}}</td>
+                        <td>{{emp.empCode}}</td>
+                        <td>{{emp.empName}}</td>
+                        <td>{{emp.department}}</td>
+                        <td>{{emp.designation}}</td>
+                        <td><span (click)="onSelect(emp.empCode)" class=" btn btn-sm btn-info">Select</span></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <h4 *ngIf="isLoading" class="text-center mt-3">Loading... Please Wait!</h4>
+    </div>
+
+</div>
+<div *ngIf="totalPages>1" class="row bg-card-footer py-2 px-3 mx-0 mb-0" style="overflow-x:auto; overflow-y:hidden;">
+    <span class="text-muted mr-auto" *ngIf="totalItems">Page {{ currentPage }} of {{ totalPages }}</span>
+    <ngb-pagination [collectionSize]="totalItems"  [(page)]="currentPage"  size="sm" class="d-flex justify-content-center justify-content-sm-end m-0">
+    </ngb-pagination>
+</div>

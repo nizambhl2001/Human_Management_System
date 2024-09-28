@@ -1,0 +1,191 @@
+<div class="card">
+    <h4 class="card-header text-center bg-light">Employee Wise KPI Setup</h4>
+    <div class="card-body">
+        <form [formGroup]="employeeInfoform">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group row">
+                        <label for="employeeId" class="col-md-4">Employee Code <span class="text-danger">*</span></label>
+                        <div class="col-md-8">
+                            <ng-select class="custom" required (change)="getEmployeeInfo()" formControlName="empCode" [items]="empCodes" bindLabel="empCode" bindValue="empCode" name="empCode" id="employeeId" placeholder="Select EmpCode" [ngClass]="{'is-invalid':(isSubmitted || f.empCode.touched || f.empCode.dirty) && f.empCode.invalid}">
+                            </ng-select>
+                            <div *ngIf="(isSubmitted || f.empCode.touched || f.empCode.dirty) && f.empCode.invalid" class="text-danger">
+                                <i *ngIf="f.empCode.errors.required">Employee Code is required</i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="empName" class="col-md-4">Employee Name</label>
+                        <div class="col-md-8">
+                            <input type="text" readonly formControlName="empName" name="empName" id="empName" class="form-control">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="department" class="col-md-4">Department</label>
+                        <div class="col-md-8">
+                            <input type="text" readonly name="department" formControlName="department" id="department" class="form-control">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="designation" class="col-md-4">Designation</label>
+                        <div class="col-md-8">
+                            <input type="text" readonly name="designation" formControlName="designation" id="designation" class="form-control">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group row">
+                        <label for="reportName" class="col-md-3">Report To</label>
+                        <div class="col-md-8">
+                            <input type="text" readonly name="reportName" formControlName="reportName" id="reportName" class="form-control">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="year" class="col-md-3">Year <span class="text-danger">*</span></label>
+                        <div class="col-md-8">
+                            <ng-select required formControlName="year" [items]="years" bindLabel="yearName" bindValue="id" name="year" id="year" placeholder="Select Year" [ngClass]="{'is-invalid':(isSubmitted || f.year.touched || f.year.dirty) && f.year.invalid}">
+                            </ng-select>
+                            <div *ngIf="(isSubmitted || f.year.touched || f.year.dirty) && f.year.invalid" class="text-danger">
+                                <i *ngIf="f.year.errors.required">Year is required</i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="quarter" class="col-md-3">Period <span class="text-danger">*</span></label>
+                        <div class="col-md-8">
+                            <ng-select required formControlName="quarter" [items]="quarters" bindLabel="shortName" bindValue="id" name="quarter" id="quarter" placeholder="Select Quarter" [ngClass]="{'is-invalid':(isSubmitted || f.quarter.touched || f.quarter.dirty) && f.quarter.invalid}">
+                            </ng-select>
+                            <div *ngIf="(isSubmitted || f.quarter.touched || f.quarter.dirty) && f.quarter.invalid" class="text-danger">
+                                <i *ngIf="f.quarter.errors.required">Quarter is required</i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-md-11">
+                            <button (click)="show()" class="btn btn-info pull-right mt-3">Show</button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </form>
+
+
+
+        <div class="card mt-3">
+            <div class="card-header pt-2 pb-0 my-0 bg-lighter">
+                <b class="text-big mt-3">Business Result</b>
+                <button *ngIf="!isAgreebtn" (click)="addNewRow(1)" class="btn btn-primary pull-right py-1 my-1"><span class="fa fa-plus"></span></button>
+            </div>
+            <div class="card-body p-0">
+                <div class="data-table m-0">
+                    <table class="table table-bordered m-0">
+                        <thead>
+                            <tr>
+                                <th width="35%">KPI Name</th>
+                                <th width="35%">Target</th>
+                                <th width="20%">Weight</th>
+                                <th *ngIf="!isAgreebtn" width="10%">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let empWiseKpiBusinessForm of empWiseKpiBusinessFormList.controls; let i=index" [formGroup]="empWiseKpiBusinessForm">
+                                <td width="35%" class="p-0">
+                                    <app-kpi-select-list [disabled]="isAgreebtn" [selectedTag]="[empWiseKpiBusinessForm.value.kpiName]" [suggestedTags]="suggestedBusinessKpi" (onSelect)="onSelectKpiName(i, $event, 1)" [isRequired]="true">
+                                    </app-kpi-select-list>
+                                </td>
+                                <td width="35%" class="p-0">
+                                    <button *ngIf="getTargets(i,1).controls.length==0" (click)="addTarget(i,1)" class="btn text-success pull-right"><span class="fa fa-plus"></span></button>
+                                    <div *ngFor="let targetGroup of getTargets(i,1).controls; let j=index" [formGroup]="targetGroup" class="input-group">
+                                        <textarea [readOnly]="isAgreebtn" (keyup.enter)="addTarget(i,1)" (keydown.enter)="onKeyEnter($event)" rows="1" class="form-control p-1" formControlName="target"></textarea>
+                                        <button *ngIf="!isAgreebtn" (click)="removeTarget(i,j,1)"><span  class="fa fa-minus text-danger"></span></button>
+                                        <button *ngIf="!isAgreebtn" (click)="addTarget(i,1)"><span  class="fa fa-plus text-success"></span></button>
+                                    </div>
+                                </td>
+                                <td width="20%" width="10%" class="p-0">
+                                    <input [ngClass]="{'is-invalid':(sumWeight>80 || sumWeight<70 || (this.sumWeight+this.sumWeightPeople)!=100)}" formControlName="weight" type="number" (change)="onChangeBusinessWeight(i)" (keyup)="onChangeBusinessWeight(i)" class="form-control">
+                                </td>
+                                <td *ngIf="!isAgreebtn" width="10%" class="text-big text-center">
+                                    <span (click)="removeRow(i,1)" class="fa fa-window-close text-danger"></span>
+                                    <span *ngIf="empWiseKpiBusinessFormList.controls.length==(i+1)" (click)="addNewRow(1)" class="fa fa-plus text-success text-big"></span>
+                                </td>
+                            </tr>
+                        </tbody>
+                        <tfoot class="border-bottom-0">
+                            <tr>
+                                <td>
+                                    <b>Weight Range: 70-80</b>
+                                </td>
+                                <td colspan="2" class="text-right pr-5" [ngClass]="{'bg-danger text-white':sumWeight<70 || sumWeight>80}"><b>Total: {{sumWeight}}</b></td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+
+
+        <div class="card mt-3">
+            <div class="card-header pt-2 pb-0 my-0 bg-light">
+                <b class="text-big mt-3">People Result</b>
+                <button *ngIf="!isAgreebtn" (click)="addNewRow(2)" class="btn btn-primary pull-right py-1 my-1"><span class="fa fa-plus"></span></button>
+            </div>
+            <div class="card-body p-0">
+                <div class="data-table m-0">
+                    <table class="table table-bordered m-0">
+                        <thead>
+                            <tr>
+                                <th width="35%">KPI Name</th>
+                                <th width="35%">Target</th>
+                                <th width="20%">Weight</th>
+                                <th *ngIf="!isAgreebtn" width="10%">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let empWiseKpiPeopleForm of empWiseKpiPeopleFormList.controls; let i=index" [formGroup]="empWiseKpiPeopleForm">
+                                <td width="35%" class="p-0">
+                                    <app-kpi-select-list [disabled]="isAgreebtn" [selectedTag]="[empWiseKpiPeopleForm.value.kpiName]" [suggestedTags]="suggestedPeopleKpi" (onSelect)="onSelectKpiName(i, $event, 2)" [isRequired]="true">
+                                    </app-kpi-select-list>
+                                </td>
+                                <td width="35%" class="p-0">
+                                    <button *ngIf="getTargets(i,2).controls.length==0" (click)="addTarget(i,2)" class="btn text-success pull-right"><span class="fa fa-plus"></span></button>
+                                    <div *ngFor="let targetGroup of getTargets(i,2).controls; let j=index" [formGroup]="targetGroup" class="input-group">
+                                        <textarea [readOnly]="isAgreebtn" (keyup.enter)="addTarget(i,2)" (keydown.enter)="onKeyEnter($event)" rows="1" class="form-control p-1" formControlName="target"></textarea>
+                                        <button *ngIf="!isAgreebtn" class="text-danger" [disabled]="isAgreebtn" (click)="removeTarget(i,j,2)"><span  class="fa fa-minus"></span></button>
+                                        <button *ngIf="!isAgreebtn" class="text-success" (click)="addTarget(i,2)"><span  class="fa fa-plus"></span></button>
+                                    </div>
+                                </td>
+                                <td width="20%" class="p-0">
+                                    <input [ngClass]="{'is-invalid':(sumWeightPeople<20 || sumWeightPeople>30 || (this.sumWeight+this.sumWeightPeople)!=100)}" formControlName="weight" type="number" (change)="onChangePeopleWeight(i)" (keyup)="onChangePeopleWeight(i)" class="form-control">
+                                </td>
+                                <td *ngIf="!isAgreebtn" width="10%" class=" text-big">
+                                    <span (click)="removeRow(i,2)" class="fa fa-window-close text-danger mr-2"></span>
+                                    <span *ngIf="empWiseKpiPeopleFormList.controls.length==(i+1)" (click)="addNewRow(2)" class="fa fa-plus text-success text-big"></span>
+                                </td>
+                            </tr>
+                        </tbody>
+                        <tfoot class="border-bottom-0">
+                            <tr>
+                                <td>
+                                    <b style="color:#2980B9;">Weight Range: 20-30</b>
+                                </td>
+                                <td colspan="2" class="text-right pr-5" [ngClass]="{'bg-danger text-white':sumWeightPeople>30 || sumWeightPeople<20}"><b>Total: {{sumWeightPeople}}</b></td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="card-footer row">
+            <div class="mr-auto">
+                <span *ngIf="isAgreebtn" class="font-weight-bold text-big center">KPI agreed!</span>
+                <button *ngIf="!isAgreebtn" (click)="agree()" class="btn btn-success ml-5"> Agree</button>
+            </div>
+            <div class="ml-auto">
+                <button *ngIf="!isAgreebtn" (click)="resetKpi()" type="clear" class="btn btn-primary  mr-2"><span class="ion ion-ios-refresh"></span>Reset</button>
+                <button *ngIf="!isAgreebtn" (click)="saveUpdateKpi()" class="btn btn-success  ml-1">Save</button>
+            </div>
+        </div>
+    </div>
+</div>

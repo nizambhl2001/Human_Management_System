@@ -1,0 +1,31 @@
+export class KpiSetupModel {
+    id:number
+    departmentId:number
+    department:string
+    serialNo:number
+    kPIType:number
+    kpiName:string
+    companyId:number
+    userId:number
+    target:string
+    weight:number
+    empId:number
+    isAgree:number
+    isBossAgree:number
+    achieveID:number
+    achievement:string
+    score:number
+    comment:string
+    quarterId:number
+    manComment:string
+    empComment:string
+    isFinal:number
+    achievmentPercnt:number
+    achievementPerchent:number
+    isBossEdit:number
+    option:number
+    noOfIncrement:number
+    isPromotion:number
+    isApproved:number
+    tit:string
+}

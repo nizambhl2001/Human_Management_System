@@ -1,0 +1,30 @@
+<div class="card">
+    <h4 class="card-header text-center bg-light">
+      Employee Loan Report
+    </h4>
+    <div class="card-body">
+      <form [formGroup]="singleEmpLoanReportForm">
+        <!--Button-->
+        <div class="row">
+          <div class="col-md-6 center">
+            <div class="form-group row mt-2">
+              <div class="col-12">
+                <ng-select class="pull-right mr-1" formControlName="ExportType"
+                  [items]="[{typeName:'pdf'},{typeName:'xls'}, {typeName:'xlsx'}]" bindLabel="typeName"
+                  bindValue="typeName"></ng-select>
+                <button [ladda]="exporting" (click)="export()" type="submit" class="btn btn-info pull-right m2-1">
+                  <b>Generate Report</b></button>
+              </div>
+            </div>
+            <div *ngIf="exporting" class="row">
+              <div class="m-auto">
+                <img src="../../../../assets/img/loading_icon.gif" height="80" width="80">
+                Please wait...
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+
+
+    </div>

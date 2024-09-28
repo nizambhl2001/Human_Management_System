@@ -1,0 +1,33 @@
+<div class="card">
+    <h4 class="card-header text-center bg-light">{{title}}</h4>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-6 center">
+                <form [formGroup]="lockerForm">
+                    <div class="form-group row">
+                        <label for="empType" class="col-md-3">Employee Type</label>
+                        <div class="col-md-8">
+                            <app-employee-type-list [empTypeModel]="formVal.empType" (onChange)="formControl['empType'].setValue($event.gradeValue)">
+                            </app-employee-type-list>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="salaryMonth" class="col-md-3">Salary Month</label>
+                        <div class="col-md-8">
+                            <app-period-select-list [setPeriodId]="formVal.salaryPeriod" (onChange)="formControl['salaryPeriod'].setValue($event.id)">
+                            </app-period-select-list>
+                        </div>
+                    </div>
+                    <div class="form-group row mt-3">
+                        <label for="" class="col-md-3"></label>
+                        <div class="col-md-8 demo-inline-spacing">
+                            <button (click)="reset()" class="btn btn-info"><span class="ion ion-ios-refresh"></span> Refresh</button>
+                            <button (click)="lock(2)" class="btn btn-success"><span class="fas fa-key"></span> Unlock</button>
+                            <button (click)="lock(1)" class="btn btn-danger"><span class="fas fa-lock"></span> Lock</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

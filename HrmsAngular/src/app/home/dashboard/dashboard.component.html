@@ -1,0 +1,396 @@
+<div class="p-3"  *ngIf="userTypeId==9 ">
+  <h4 class="font-weight-bold font-size-30px py-3 mb-4  ml-3">
+    THE DAILY STAR  
+      <div><small style="font-size: small;">{{ddmmyy}}</small></div>
+    
+    </h4>
+  <form [formGroup]="dasboardform"> 
+  <div class="row">
+    <div class="col-md-8 row ">
+      <div class="col-sm-6">
+        <div class=" card-dashboard " id="openempList" (click)="openempList('1')">
+          <div class="card-body">
+            <div class="iconCard">
+              <i class="fas fa-users iconC I1"></i>
+            </div>
+           <div class="text justify-content-end align-items-end  d-flex flex-column">
+            <h6 class="text-center" style="font-weight: 600; font-size: 14px;color:black;">Total Employee</h6>
+            <h4 class="text-center" style="color:#1a73e8;font-weight:600">{{employeeCounts}}</h4>
+           </div>
+          </div>
+        </div>
+      </div> 
+      <div class="col-sm-6"  [ladda]="loading1">
+        <div class="card-dashboard"  id="openempList" (click)="openempList('2')">
+          <div class="card-body ">   
+            
+            <div class="iconCard">
+              <i class="fa-solid fa-right-from-bracket iconC I2"></i>               
+            </div>
+           <div class="text justify-content-end align-items-end  d-flex flex-column">
+            <h6 class="text-center" style="font-weight: 600; font-size: 14px;color:black;">Approve Leave</h6>
+            <h4 class="text-center" style="color:#5449f1;font-weight:600">{{leaveCounts}}</h4>
+           </div>  
+            
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-6">
+        <div class="card-dashboard"  id="openempList" (click)="openempList('3')">
+          <div class="card-body ">
+            
+            <div class="iconCard">
+              <i class="fas fa-user-minus iconC I4"></i>
+              
+            </div>
+           <div class="text justify-content-end align-items-end  d-flex flex-column">
+            <h6 class="text-right" style="font-weight: 600; font-size: 14px;color:black;">Attendance Registered</h6>
+            <h4 class="text-center" style="font-weight: 600; color:#f14949;">{{absentCounts}}</h4>
+           </div>
+            
+          </div>
+        </div>
+      </div>
+      <br>
+      <div class="col-sm-6">
+        <div class="card-dashboard" id="openempList" (click)="openempList('4')">
+          <div class="card-body ">
+            
+            <div class="iconCard">
+              <i class="fas fa-user-clock iconC I7"></i>             
+            </div> 
+           <div class="text justify-content-end align-items-end  d-flex flex-column">
+            <h6 class="text-center" style="font-weight: 600; font-size: 14px;color:black;">Late Today</h6>
+           <h4 class="text-center"style="font-weight: 600; color:#660000;" >{{getAllLateComer}}</h4>
+           </div>
+            
+          </div>
+        </div>
+      </div> 
+    </div>
+
+    <div class="col-md-4 row">
+      <div class="col-md-12">
+        <div class="row" >                 
+  
+            <div class="wrapper">         
+               <div id="chartContainer">
+                <canvas id="canvas"  width="76" height="65">{{chart}}</canvas>
+              </div>                 
+            </div>       
+        </div>
+    </div>
+    </div>
+    </div> 
+  </form>
+</div> 
+<form class="row ms-auto " [formGroup]="dasboardform" *ngIf="userTypeId==9 "> 
+  <input class="col-md-10 m-auto p-2 " formControlName="empCodeSeacrh"  placeholder="Select Employee"
+  (keyup)="getEmploymentSearch(f['empCodeSeacrh'].value)"> 
+ </form>
+
+<div class="card p-1" *ngIf="userTypeId==9 ">
+  <div class="data-table">
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th class="text-center">SN</th>
+          <th>EmpCode</th>
+          <th>Employee Name</th>
+          <th>Absent Today</th>
+          <th>On Leave</th>
+          <th>Late</th>
+         
+          <!-- <th>PunchTime</th> -->
+
+
+        </tr>
+      </thead>
+      <tbody>
+
+        <tr *ngIf="reporting.length==0">
+          <td colspan="13" class="font-italic text-center">No item available</td>
+      </tr>
+
+        <tr *ngFor="let attend of reporting;let i=index;">
+          <td>{{i+1}}</td>
+          <td>{{attend.empCode}}</td>
+          <td>{{attend.empName}}</td>
+          <!-- style="text-align: center;color: white;" [ngClass]="{absentColor:attend.status=='Absen'}" -->
+          <td *ngIf="attend.status =='Absen'">Yes</td>
+          <td *ngIf="attend.status ==''">No</td>
+          <!-- <td *ngIf="attend.status !='Absen'">{{leave.status}}</td> -->
+          <td *ngIf="attend.leave =='Leave'">Yes</td>
+          <td *ngIf="attend.leave !='Leave'">No</td>
+          <td *ngIf="attend.intime=='Late'">Yes</td>
+          <td *ngIf="attend.intime ==''">No</td>
+          <!-- <td>{{attend.punchTime}}</td> -->
+   
+         
+
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- <div class="card p-1">
+  <div class="data-table">
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th class="text-center">SN</th>
+          <th>Code</th>
+          <th>Employee Name</th>
+          <th>Department</th>
+          <th>Designation</th>
+          <th>Branch</th>
+          <th *ngIf="late">GraceTime</th>
+          <th *ngIf="late">AttenTime</th>
+          <th *ngIf="leave">LeaveStart</th>
+          <th *ngIf="leave">LeaveEnd</th>
+
+        </tr>
+      </thead>
+      <tbody>
+
+        <tr *ngIf="empDatailsToday.length==0">
+          <td colspan="13" class="font-italic text-center">No item available</td>
+      </tr>
+
+        <tr *ngFor="let leave of empDatailsToday;let i=index;">
+          <td>{{i+1}}</td>
+          <td>{{leave.empCode}}</td>
+          <td>{{leave.empName}}</td>
+          <td>{{leave.department}}</td>
+          <td>{{leave.designation}}</td>
+          <td>{{leave.branch}}</td>
+          <td *ngIf="late">{{leave.shiftStartMin}}</td>
+          <td *ngIf="late">{{leave.login}}</td>
+          <td *ngIf="leave">{{leave.lsDate }}</td>  
+          <td *ngIf="leave">{{leave.leDate }}</td>  
+
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div> -->
+
+ 
+ 
+
+
+<div class=" p-3"  *ngIf=" userTypeId!=9  && this.reportingSearchTotal.length>0" >
+  
+    <div class=" card-dashboard p-0">
+    <div class="card-body row">
+     
+        <div class="col-4"> 
+          <h4 class="font-weight-bold font-size-30px py-3 mb-4  ml-3">
+          THE DAILY STAR  
+            <div><small style="font-size: small;">{{ddmmyy}}</small></div>          
+          </h4>
+        </div>
+        <div class="col-4"><h4 class="text-center" style="color:#036ffc;font-weight:900;font-size: 50px;">{{EmpWisePresent}}</h4></div>
+     <div class="col-4">         
+        <div class="text justify-content-end align-items-end  d-flex flex-column">
+          <h6 style="font-weight: 600; font-size: 30px;color:#036ffc;"> Present</h6>          
+        </div>
+      </div>
+     </div>
+    </div>
+
+
+  <form [formGroup]="dasboardform"> 
+  <div class="row">
+    <div class="col-md-8 row ">
+      <div class="col-sm-6">
+        <div class=" card-dashboard" id="openempList" (click)="openempList('1')">
+          <div class="card-body">
+            <div class="iconCard">
+              <i class="fas fa-users iconC I1"></i>
+            </div>
+           <div class="text justify-content-end align-items-end  d-flex flex-column">
+            <h6 class="text-center" style="font-weight: 600; font-size: 14px;color:black;">Total Employee</h6>
+            <h4 class="text-center" style="color:#1a73e8;font-weight:600">{{EmpWiseTotal}}</h4>
+           </div>
+          </div>
+        </div>
+      </div> 
+      <div class="col-sm-6"  [ladda]="loading1">
+        <div class="card-dashboard"  id="openempList" (click)="openempList('2')">
+          <div class="card-body ">   
+            
+            <div class="iconCard">
+              <i class="fa-solid fa-right-from-bracket iconC I2"></i>               
+            </div>
+           <div class="text justify-content-end align-items-end  d-flex flex-column">
+            <h6 class="text-center" style="font-weight: 600; font-size: 14px;color:black;">Approve Leave</h6>
+            <h4 class="text-center" style="color:#5449f1;font-weight:600">{{EmpWiseAppprovedLeave}}</h4>
+           </div>  
+            
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-6">
+        <div class="card-dashboard" id="openempList" (click)="openempList('3')">
+          <div class="card-body ">
+            
+            <div class="iconCard">
+              <i class="fas fa-user-minus iconC I4"></i>
+              
+            </div>
+           <div class="text justify-content-end align-items-end  d-flex flex-column">
+            <h6 class="text-right" style="font-weight: 600; font-size: 14px;color:black;">Attendance Registered</h6>
+            <h4 class="text-center" style="font-weight: 600; color:#f14949;">{{EmpWiseAbsent}}</h4>
+           </div>
+            
+          </div>
+        </div>
+      </div>
+      <br>
+      <div class="col-sm-6">
+        <div class="card-dashboard" id="openempList" (click)="openempList('4')">
+          <div class="card-body ">
+            
+            <div class="iconCard">
+              <i class="fas fa-user-clock iconC I7"></i> 
+            </div> 
+           <div class="text justify-content-end align-items-end  d-flex flex-column">
+            <h6 class="text-center" style="font-weight: 600; font-size: 14px;color:black;">Late Today</h6>
+           <h4 class="text-center"style="font-weight: 600; color:#660000;" >{{EmpWiseLate}}</h4>
+           </div>
+            
+          </div>
+        </div>
+      </div> 
+    </div>
+
+    <div class="col-md-4 row">
+      <div class="col-md-12">
+        <div class="row" >  
+           <div class="wrapper"> 
+             <div id="chartContainer">
+                <canvas id="canvas"  width="76" height="65">{{EmpWiseChart}}</canvas>
+              </div> 
+             </div>       
+        </div>
+    </div>
+    </div>
+    </div> 
+  </form>
+</div>
+<form class="row ms-auto " [formGroup]="dasboardform"  *ngIf="userTypeId!=9 && this.reportingSearchTotal.length>0" > 
+  <input class="col-md-10 m-auto p-2 " formControlName="empCodeSeacrh"  placeholder="Select Employee"
+  (keyup)="getEmploymentSearch(f['empCodeSeacrh'].value)"> 
+ </form>
+
+<div class="card p-1" *ngIf="userTypeId!=9 && this.reportingSearchTotal.length>0">
+  <div class="data-table">
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th class="text-center">SN</th>
+          <th>EmpCode</th>
+          <th>Employee Name</th>
+          <th>Absent Today</th>
+          <th>On Leave</th>
+          <th>Late</th>
+         
+          <!-- <th>PunchTime</th> -->
+
+
+        </tr>
+      </thead>
+      <tbody>
+
+        <tr *ngIf="reporting.length==0">
+          <td colspan="13" class="font-italic text-center">No item available</td>
+      </tr>
+
+        <tr *ngFor="let attend of reporting;let i=index;">
+          <td>{{i+1}}</td>
+          <td>{{attend.empCode}}</td>
+          <td>{{attend.empName}}</td>
+          <!-- style="text-align: center;color: white;" [ngClass]="{absentColor:attend.status=='Absen'}" -->
+          <td *ngIf="attend.status =='Absen'">Yes</td>
+          <td *ngIf="attend.status ==''">No</td>
+          <!-- <td *ngIf="attend.status !='Absen'">{{leave.status}}</td> -->
+          <td *ngIf="attend.leave =='Leave'">Yes</td>
+          <td *ngIf="attend.leave !='Leave'">No</td>
+          <td *ngIf="attend.intime=='Late'">Yes</td>
+          <td *ngIf="attend.intime ==''">No</td>
+          <!-- <td>{{attend.punchTime}}</td> -->
+   
+         
+
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- <div class="row text-center bg-info " style="vertical-align: middle !important; color:red">
+  <div class="col-md-4">
+    <h3> 
+      <div class="row">
+        <div class="col-6">Total </div>
+        <div class="col-6">{{reporting.length}}</div>
+      </div>  
+    </h3> 
+  </div>
+
+  <div class="col-md-4">
+    <h3>
+      <div class="row">
+        <div class="col-6"> Present </div>
+          <div class="col-6">{{reporting.length - EmpWiseAbsent}}</div>
+      </div>
+    </h3>
+  </div>
+        
+  <div class="col-md-4">
+    <h3> 
+      <div class="row">
+        <div class="col-6">Absent</div>
+          <div class="col-6">{{EmpWiseAbsent}}</div>
+      </div>
+    </h3>
+  </div>
+</div> -->
+
+
+
+
+ 
+
+
+
+<!--
+<div class="" *ngIf="reporting.length==0">
+
+  <a routerLink="/hr-menu/emp-gen-info">Go to Emp Gen Info</a>
+  <h4>  
+    <div class="m-3" style="font-size: 40px; font-weight: bolder; text-align: right;">{{mMYY}}</div> 
+  </h4>
+
+  <div class="card">
+    <div class="row">
+      <div class="col-3"></div>
+      <div class="col-3"></div>
+      <div class="col-3"></div>
+      <div class="col-3">
+        <div class="text-center border m-4">
+          <h5 class="m-0">Report</h5><hr class="m-0">
+          <p class="m-0">Present:-</p>
+          <p class="m-0">Wickend:-</p>
+          <p class="m-0">Absent:-</p>
+          <p class="m-0">Late:-</p>
+          <p class="m-0">Punch Missing:-</p>
+        </div>
+      </div>
+    </div>
+  </div> 
+ 
+</div>
+ -->

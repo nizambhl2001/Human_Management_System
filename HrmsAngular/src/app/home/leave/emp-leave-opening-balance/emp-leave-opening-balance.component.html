@@ -1,0 +1,148 @@
+<div class="card">
+    <h4 class="card-header text-center bg-light">Employee Leave Opening Balance</h4>
+    <div class="card-body">
+        <form [formGroup]="_earnLeaveBalanceForm">
+            <div class="row pt-3">
+                <div class="col-6">
+                    <div class="form-group row">
+                        <label class="col-form-label col-sm-4 ">Department</label>
+                        <div class="col-sm-8">
+                            <ng-select formControlName="department" [items]="_departments" bindLabel="description" bindValue="description" placeholder="Select Department">
+                            </ng-select>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-form-label col-sm-4 ">Designation</label>
+                        <div class="col-sm-8">
+                            <ng-select formControlName="designation" [items]="_designations" bindLabel="description" bindValue="description" placeholder="Select Designation">
+                            </ng-select>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-form-label col-sm-4 ">Job Location</label>
+                        <div class="col-sm-8">
+                            <ng-select formControlName="jobLocation" [items]="_jobLocations" bindLabel="description" bindValue="description" placeholder="Select Job Location">
+                            </ng-select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="form-group row">
+                        <label class="col-form-label col-sm-4 ">Date</label>
+                        <div class="col-sm-8">
+                            <div class="input-group">
+                                <input formControlName="dateNgb" class="form-control" placeholder="dd-mm-yyyy" ngbDatepicker [ngClass]="{'is-invalid':(_earnLeaveBalanceForm.controls.dateNgb.touched || _earnLeaveBalanceForm.controls.dateNgb.dirty || _isSubmitted) &&  _earnLeaveBalanceForm.controls.dateNgb.invalid}"
+                                    #d1="ngbDatepicker">
+                                <div class="input-group-append">
+                                    <button class="input-group-text" (click)="d1.toggle()" type="button">
+                    <span class="ion ion-md-calendar" style="cursor: pointer;"></span>
+                  </button>
+                                </div>
+                            </div>
+                            <div *ngIf=" _earnLeaveBalanceForm.controls.dateNgb.invalid && (_earnLeaveBalanceForm.controls.dateNgb.touched || _earnLeaveBalanceForm.controls.dateNgb.dirty || _isSubmitted)" class="text-danger">
+                                <i *ngIf="_earnLeaveBalanceForm.controls.dateNgb.errors.required"> Date is
+                    required</i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-form-label col-sm-4 ">Year</label>
+                        <div class="col-sm-8">
+                            <ng-select formControlName="yearID" [items]="_salaryYears" bindLabel="yearName" bindValue="id" [ngClass]="{'is-invalid':(_earnLeaveBalanceForm.controls.yearID.touched || _earnLeaveBalanceForm.controls.yearID.dirty || _isSubmitted) &&  _earnLeaveBalanceForm.controls.yearID.invalid}"
+                                placeholder="Select Year">
+                            </ng-select>
+                            <div *ngIf=" _earnLeaveBalanceForm.controls.yearID.invalid && (_earnLeaveBalanceForm.controls.yearID.touched || _earnLeaveBalanceForm.controls.yearID.dirty || _isSubmitted)" class="text-danger">
+                                <i *ngIf="_earnLeaveBalanceForm.controls.yearID.errors.required"> Year is
+                    required</i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-form-label col-sm-4 ">Leave Type</label>
+                        <div class="col-sm-8">
+                            <ng-select formControlName="lType" [items]="_leaveTypes" bindLabel="typeName" bindValue="id" [ngClass]="{'is-invalid':(_earnLeaveBalanceForm.controls.lType.touched || _earnLeaveBalanceForm.controls.lType.dirty || _isSubmitted) &&  _earnLeaveBalanceForm.controls.lType.invalid}"
+                                placeholder="Select Leave Type">
+                            </ng-select>
+                            <div *ngIf=" _earnLeaveBalanceForm.controls.lType.invalid && (_earnLeaveBalanceForm.controls.lType.touched || _earnLeaveBalanceForm.controls.lType.dirty || _isSubmitted)" class="text-danger">
+                                <i *ngIf="_earnLeaveBalanceForm.controls.lType.errors.required"> Leave Type is
+                    required</i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+        <div class="form-group row m-auto mt-2">
+            <label class="col-form-label col-sm-5 "></label>
+            <div class="demo-inline-spacing mt-3">
+                <button (click)="getForEdit()" type="submit" class="btn btn-info">
+          <span class="fas fa-edit"></span> Get Edit</button>
+            </div>
+        </div>
+        <div class="row pt-3">
+            <div class="col-6">
+                <!--Employee Id-->
+                <div class="form-group row">
+
+                    <div class="col-sm-8">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <app-employee-select-list [isRequired]="true" (onChange)="addNewEmpRow($event.empCode)" [fixedWidth]="'200px'">
+                </app-employee-select-list>
+            </div>
+            <div class="col">
+                <input type="text" (input)="currentPage = 1; update()" class="form-control form-control-md d-inline-block w-auto float-sm-right" placeholder="Search...">
+            </div>
+        </div>
+        <div class="row">
+            <div class="data-table">
+                <table class="table table-hover table-bordered table-striped mb-0">
+                    <thead>
+                        <tr>
+                            <th>#SN</th>
+                            <th>ID</th>
+                            <th>Employee Name</th>
+                            <th>Department</th>
+                            <th>Designation</th>
+                            <th>Day(s)</th>
+                            <th>Note</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let detailsForm of _earnLeaveBalanceDetailsForm.controls; let i = index" [formGroup]="detailsForm">
+                            <td class="text-center">{{i+1}}</td>
+                            <td><input formControlName="empCode" type="text" (blur)="getEmpInfoInRow(i, $event.target.value)" [ngClass]="{'is-invalid':(_earnLeaveBalanceDetailsForm.controls[i].get('empCode').touched || _earnLeaveBalanceDetailsForm.controls[i].get('empCode').dirty || _isSubmitted) &&  _earnLeaveBalanceDetailsForm.controls[i].get('empCode').invalid}"
+                                    class="form-control"></td>
+                            <td><input formControlName="empName" type="text" class="form-control-plaintext" readonly></td>
+                            <td><input formControlName="department" type="text" class="form-control-plaintext" readonly></td>
+                            <td><input formControlName="designation" type="text" class="form-control-plaintext" readonly></td>
+                            <td><input formControlName="qty" type="number" class="form-control-plaintext"></td>
+                            <td><input formControlName="note" type="text" class="form-control-plaintext"></td>
+                            <td class="text-center demo-inline-spacing" colspan="2">
+                                <h4 *ngIf="_earnLeaveBalanceDetailsForm.length==(i+1)" class="d-inline"><span (click)="addRow()" class="fa fa-plus text-success"></span></h4>
+                                <h4 *ngIf="_earnLeaveBalanceDetailsForm.length!=1" class="d-inline"><span (click)="removeRow(i)" class="fa fa-window-close text-danger"></span></h4>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+    <div class="form-group center">
+        <div class="demo-inline-spacing mt-3">
+            <button (click)="onSubmit()" type="" class="btn btn-success">
+          {{_btnStatus}}</button>
+        </div>
+    </div>
+</div>
+
+<ng-template #searchModal>
+    <app-search-employee (selectEvent)="addNewEmpRow($event)"></app-search-employee>
+</ng-template>

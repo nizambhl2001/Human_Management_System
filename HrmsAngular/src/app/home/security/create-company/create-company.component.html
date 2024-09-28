@@ -1,0 +1,151 @@
+<div class="card">
+  <h4 class="card-body text-center bg-light">{{title}}</h4>
+  <div class="card-body">
+    <div class="row">
+      <div class="col-md-7 center">
+        <form [formGroup]="companyForm">
+          <div class="form-group row">
+            <label for="companyName" class="col-md-3">Company Name</label>
+            <div class="col-md-8">
+              <input formControlName="companyName"
+                [ngClass]="{'is-invalid':(isSubmitted || frmControl['companyName'].touched || frmControl['companyName'].dirty) && frmControl['companyName'].invalid}"
+                type="text" class="form-control" placeholder="Company Name">
+              <div
+                *ngIf="(isSubmitted || frmControl['companyName'].touched || frmControl['companyName'].dirty) && frmControl['companyName'].invalid"
+                class="text-danger">
+                <i *ngIf="frmControl['companyName'].errors.required">Company Name is required</i>
+              </div>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="companyAddress" class="col-md-3">Address</label>
+            <div class="col-md-8">
+              <textarea formControlName="companyAddress" rows="2" id="address" class="form-control"
+                placeholder="Company Address"></textarea>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="phone" class="col-md-3">ContactNo</label>
+            <div class="input-group col-md-8">
+              <div class="input-group-append">
+                <button class="input-group-text btn btn-info">
+                  <span class="ion ion-md-call"></span>
+                </button>
+              </div>
+              <input formControlName="phone"
+                [ngClass]="{'is-invalid':(isSubmitted || frmControl['phone'].touched || frmControl['phone'].dirty) && frmControl['phone'].invalid}"
+                type="text" id="phone" class="form-control" placeholder="Phone Number">
+              <div
+                *ngIf="(isSubmitted || frmControl['phone'].touched || frmControl['phone'].dirty) && frmControl['phone'].invalid"
+                class="text-danger col-12 p-0 ">
+                <i *ngIf="frmControl['phone'].errors.required">Contact No is required</i>
+                <i *ngIf="frmControl['phone'].errors.pattern">Invalid ContactNo</i>
+              </div>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="email" class="col-md-3">Email</label>
+            <div class="col-md-8">
+              <input formControlName="email"
+                [ngClass]="{'is-invalid':(isSubmitted || frmControl['email'].touched || frmControl['email'].dirty) && frmControl['email'].invalid}"
+                type="text" class="form-control" placeholder="Email Address">
+              <div
+                *ngIf="(isSubmitted || frmControl['email'].touched || frmControl['email'].dirty) && frmControl['email'].invalid"
+                class="text-danger">
+                <i *ngIf="frmControl['email'].errors.email">Invalid email address</i>
+              </div>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="webAddress" class="col-md-3">Web Address</label>
+            <div class="input-group col-md-8">
+              <div class="input-group-append">
+                <button class="input-group-text btn btn-info">
+                  https://
+                </button>
+              </div>
+              <input formControlName="webAddress"
+                [ngClass]="{'is-invalid':(isSubmitted || frmControl['webAddress'].touched || frmControl['webAddress'].dirty) && frmControl['webAddress'].invalid}"
+                type="text" id="web" class="form-control" placeholder="Web Address">
+              <div
+                *ngIf="(isSubmitted || frmControl['webAddress'].touched || frmControl['webAddress'].dirty) && frmControl['webAddress'].invalid"
+                class="text-danger col-12 p-0 ">
+                <i *ngIf="frmControl['webAddress'].errors.pattern">Invalid Web Address</i>
+              </div>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="code" class="col-md-3">Code</label>
+            <div class="col-md-5">
+              <input formControlName="code" type="text" id="code" class="form-control" placeholder="Code">
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="salaryType" class="col-md-3">Salary Type</label>
+            <div class="col-md-8">
+              <ng-select formControlName="salaryType"
+                [items]="[{id:1, type:'Pay scale'}, {id:2,type:'Basic'}, {id:3, type:'Gross'}]" bindLabel="type"
+                bindValue="id"
+                [ngClass]="{'is-invalid':(isSubmitted || frmControl['salaryType'].touched || frmControl['salaryType'].dirty) && frmControl['salaryType'].invalid}"
+                type="text" id="code" placeholder="Salary Type">
+              </ng-select>
+              <div
+                *ngIf="(isSubmitted || frmControl['salaryType'].touched || frmControl['salaryType'].dirty) && frmControl['salaryType'].invalid"
+                class="text-danger">
+                <i *ngIf="frmControl['salaryType'].errors.required">Salary Type is required</i>
+              </div>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="mainLogo" class="col-md-3">Main Logo</label>
+            <div class="col-md-8">
+              <app-image-control [previewImg]="frmVal.companyLogo"
+                (selectedFile)="frmControl['companyLogo'].setValue($event)"></app-image-control>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="reportLogo" class="col-md-3">Report Logo</label>
+            <div class="col-md-8">
+              <app-image-control [previewImg]="frmVal.reportLogo"
+                (selectedFile)="frmControl['reportLogo'].setValue($event)"></app-image-control>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="" class="col-md-3"></label>
+            <div class="col-md-8 demo-inline-spacing">
+              <button (click)="onSubmit()" class="btn btn-success pull-right">Save</button>
+              <button (click)="reset()" class="btn btn-info pull-right">Reset</button>
+            </div>
+          </div>
+        </form>
+        <div class="row">
+          <table class="table table-hover table-striped mb-2">
+            <thead>
+              <tr>
+                <th>S/N</th>
+                <th>Company Name</th>
+                <th>Logo</th>
+                <th>Address</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngIf="companies.length==0">
+                <td colspan="5" class="font-italic text-center">No Company found</td>
+              </tr>
+              <tr *ngFor="let company of companies; let i = index">
+                <td>{{i+1}}</td>
+                <td>{{company.companyName}}</td>
+                <td><img height="50px" width="50px" src="data:image/jpg;base64,{{company.companyLogo}}" alt=""></td>
+                <td>{{company.companyAddress}}</td>
+                <td class="demo-inline-spacing">
+                  <button (click)="edit(company.id)" class="btn btn-info"><span class="fa fa-edit"></span></button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

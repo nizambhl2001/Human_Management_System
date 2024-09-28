@@ -1,0 +1,206 @@
+<div class="card section">
+    <h4 class="card-header text-center bg-light">
+        Employee Block Information
+    </h4>
+    <form [formGroup]="formGroup">
+        <div class="row">
+            <div class="col-md-8 center">
+                <br />
+                <div class="form-group row">
+                    <label class="col-form-label col-sm-4 "> Employee Code
+            <i class="text-danger">*</i>
+          </label>
+
+                    <div class="input-group col-sm-8">
+                        <!-- <app-employee-select-list [isRequired]="f['empCode'].invalid && (isSubmitted || f['empCode'].touched || f['empCode'].dirty)" (onChange)="getEmpInfo($event.empCode)" [setEmpCode]="formVal.empCode">
+                        </app-employee-select-list> -->
+                        <ng-select formControlName="empCode" [ngClass]="{'is-invalid': (isSubmitted || f['empCode'].touched || f['empCode'].dirty) && f['empCode'].invalid}" [items]="empCode" bindLabel="empCode" bindValue="empCode" [ngStyle]="{'width':'200px'}" placeholder="Select Employee"
+                            (change)="getEmpInfo($event)">
+                        </ng-select>
+                    </div>
+                    <label class="col-form-label col-sm-4 "></label>
+                    <div *ngIf="f['empCode'].invalid && (isSubmitted || f['empCode'].touched || f['empCode'].dirty)" class="text-danger">
+                        <i *ngIf="f['empCode'].errors['required']">Employee Code is required</i>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-form-label col-sm-4 ">Employee Name
+          </label>
+                    <div class="col-sm-6">
+                        <input readonly formControlName="empName" type="text" class="form-control" placeholder="Employee Name">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-form-label col-sm-4 ">Designation
+          </label>
+                    <div class="col-sm-6">
+                        <input readonly formControlName="designation" type="text" class="form-control" placeholder="Designation">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-form-label col-sm-4 ">Department
+          </label>
+                    <div class="col-sm-6">
+                        <input readonly formControlName="department" type="text" class="form-control" placeholder="Department">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-form-label col-sm-4 ">Joining Date
+            <i class="text-danger">*</i>
+          </label>
+
+                    <div class="input-group col-sm-6">
+                        <input [ngClass]="{'is-invalid': (isSubmitted || f['joiningDateNgb'].touched || f['joiningDateNgb'].dirty) && f['joiningDateNgb'].invalid}" readonly formControlName="joiningDateNgb" class="form-control" name="dp1" placeholder="dd-mm-yyyy" ngbDatepicker
+                            #d1="ngbDatepicker">
+                        <div class="input-group-append">
+                            <button class="input-group-text" (click)="d1.toggle()" type="button">
+                <span class="ion ion-md-calendar" style="cursor: pointer;"></span>
+              </button>
+                        </div>
+                    </div>
+                    <label class="col-form-label col-sm-5 "></label>
+                    <div *ngIf="f['joiningDateNgb'].invalid && (isSubmitted || f['joiningDateNgb'].touched || f['joiningDateNgb'].dirty)" class="text-danger">
+                        <i *ngIf="f['joiningDateNgb'].errors['required']">Joining Date is required</i>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="" class="col-form-label col-sm-4 ">Do Block ?
+            <i class="text-danger">*</i>
+          </label>
+                    <div class="col-md-6">
+                        <select [ngClass]="{'is-invalid': (isSubmitted || f['isBlock'].touched || f['isBlock'].dirty) && f['isBlock'].invalid}" formControlName="isBlock" class="custom-select ">
+              <option>--select--</option>
+              <option value="Yes">Yes</option>
+              <option value="No">No</option>
+            </select>
+                        <div *ngIf="f['isBlock'].invalid && (isSubmitted || f['isBlock'].touched || f['isBlock'].dirty)" class="text-danger">
+                            <i *ngIf="f['isBlock'].errors['required']">Do Block is required</i>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-form-label col-sm-4 ">Block Date
+            <i class="text-danger">*</i>
+          </label>
+
+                    <div class="input-group col-sm-6">
+                        <input [ngClass]="{'is-invalid': (isSubmitted || f['blockDateNgb'].touched || f['blockDateNgb'].dirty) && f['blockDateNgb'].invalid}" readonly formControlName="blockDateNgb" class="form-control" name="dp1" placeholder="dd-mm-yyyy" ngbDatepicker #d1="ngbDatepicker">
+                        <div class="input-group-append">
+                            <button class="input-group-text" (click)="d1.toggle()" type="button">
+                <span class="ion ion-md-calendar" style="cursor: pointer;"></span>
+              </button>
+                        </div>
+                    </div>
+                    <label class="col-form-label col-sm-5 "></label>
+                    <div *ngIf="f['blockDateNgb'].invalid && (isSubmitted || f['blockDateNgb'].touched || f['blockDateNgb'].dirty)" class="text-danger">
+                        <i *ngIf="f['blockDateNgb'].errors['required']">Block Date is required</i>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-form-label col-sm-4 ">Remark
+            <i class="text-danger">*</i>
+          </label>
+                    <div class="col-sm-6">
+                        <textarea [ngClass]="{'is-invalid': (isSubmitted || f['remark'].touched || f['remark'].dirty) && f['remark'].invalid}" formControlName="remark" rows="5" class="form-control" placeholder="Remark"></textarea>
+                        <div *ngIf="f['remark'].invalid && (isSubmitted || f['remark'].touched || f['remark'].dirty)" class="text-danger">
+                            <i *ngIf="f['remark'].errors['required']">Remarks is required</i>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="form-group row">
+                    <label class="col-form-label col-sm-4 ">ESS Stop?</label>
+                    <div class="col-md-6">
+                        <label class="custom-control  custom-radio">
+              <input formControlName="status" value="1" type="radio" class="custom-control-input" checked>
+              <span class="custom-control-label">Yes</span>
+            </label>
+                        <label class="custom-control  custom-radio">
+              <input formControlName="status" value="2" type="radio" class="custom-control-input">
+              <span class="custom-control-label">No</span>
+            </label>
+                    </div>
+                </div>
+                <br />
+                <div class="row">
+                    <div class="demo-inline-spacing mt-3" style="margin:0 auto">
+                        <button (click)="reset()" type="clear" class="btn btn-info">
+                      <span class="ion ion-ios-refresh"></span> Reset</button>
+                        <button (click)="empBlockSave()" type="" class="btn btn-success"> {{btnStatus}}
+            </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<!-- Employee Search Modal -->
+<!-- <ng-template #searchModal> -->
+    <!-- <div class="modal-header">
+        <h4>Search Employee</h4>
+        <span (click)="cancel()" class="text-danger fas fa-window-close"></span>
+    </div> -->
+    <div class="modal-body">
+        <!-- <form action="" class="row">
+            <div class="form-group col">
+                <label for="">Name</label>
+                <input [(ngModel)]="empSearchKeys.empName" (keyup)="searchEmployees()" name="empName" type="text" class="form-control" placeholder="Employee Name">
+            </div>
+            <div class="form-group col">
+                <label for="">Department</label>
+                <input [(ngModel)]="empSearchKeys.department" (keyup)="searchEmployees()" name="department" type="text" class="form-control" placeholder="Department">
+            </div>
+            <div class="form-group col">
+                <label for="">Designation</label>
+                <input [(ngModel)]="empSearchKeys.designation" (keyup)="searchEmployees()" name="designation" type="text" class="form-control" placeholder="Designation">
+            </div>
+        </form> -->
+        <!-- <div class="row">
+            Per page: &nbsp;
+            <select [(ngModel)]="perPage" (change)="update()" class="custom-select custom-select-md d-inline-block w-auto">
+        <option *ngFor="let limit of [5, 10, 20, 30, 40, 50]">{{limit}}</option>
+      </select>
+        </div> -->
+        <div class="row">
+            <table class="table table-bordered" style="height:450px;overflow: scroll;">
+                <thead>
+                    <tr>
+                        <th>#S/N</th>
+                        <th>Code</th>
+                        <th>Name</th>
+                        <th>Department</th>
+                        <th>Department</th>
+                        <th>Select</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngIf="empCodes.length==0">
+                        <td colspan="5" class="text-center"><i>No Data found</i></td>
+                    </tr>
+                    <tr *ngFor="let emp of empCodes;let i=index">
+                        <td>{{i+1}}</td>
+                        <td>{{emp.empCode}}</td>
+                        <td>{{emp.empName}}</td>
+                        <td>{{emp.department}}</td>
+                        <td>{{emp.designation}}</td>
+                        <!-- <td><span (click)="getEmpBlockInfoById(emp.empCode)" class=" btn btn-info">Select</span></td> -->
+                        <td><span (click)="getEmpBlockById(emp.empCode)" class=" btn btn-info">Select</span></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <div class="card-body py-0">
+            <div class="row">
+                <div class="col-sm text-sm-left text-center pt-3">
+                    <span class="text-muted" *ngIf="totalItems">Page {{ currentPage }} of {{ totalPages }}</span>
+                </div>
+                <div class="col-sm pt-3">
+                    <ngb-pagination [collectionSize]="totalItems" [pageSize]="perPage" [(page)]="currentPage" (pageChange)="update()" size="sm" class="d-flex justify-content-center justify-content-sm-end m-0">
+                    </ngb-pagination>
+                </div>
+            </div>
+        </div>
+    </div>
+<!-- </ng-template> -->

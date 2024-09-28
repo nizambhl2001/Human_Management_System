@@ -1,0 +1,166 @@
+<div class="card-body">
+    <div class="card ">
+        <h4 class="card-header text-center bg-light">
+            References
+        </h4>
+        <div class="container">
+            <br />
+            <form [formGroup]="referenceForm" (ngSubmit)="onSubmit()">
+                <div class="form-group row">
+                    <label class="col-form-label col-sm-4 ">Employee Id
+          </label>
+                    <div class="col-sm-2">
+                        <input formControlName="empCode" type="text" [ngClass]="{'is-invalid': (f.empCode.touched || f.empCode.dirty || isSubmitted) && f.empCode.invalid}" class="form-control" placeholder="Employee Id" readonly>
+                        <div *ngIf="f.empCode.errors && (f.empCode.dirty || f.empCode.touched || isSubmitted)" class="text-danger">
+                            <i *ngIf="f.empCode.errors.required">Employee Code is required</i>
+                        </div>
+                    </div>
+                    <div class="col-sm-3">
+                        <input type="text" [value]="empName" class="form-control" placeholder="Employee Name" readonly>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-form-label col-sm-4 ">Referee Name
+            <!-- <i class="text-danger">*</i> -->
+          </label>
+                    <div class="col-sm-5">
+                        <input formControlName="name" type="text" [ngClass]="{'is-invalid': (f.name.dirty || f.name.touched || isSubmitted) && f.name.invalid}" class="form-control" placeholder="Referee Name">
+                        <div *ngIf="f.name.errors && (f.name.dirty || f.name.touched || isSubmitted)" class="text-danger">
+                            <i *ngIf="f.name.errors.required">Name is required</i>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-form-label col-sm-4 ">Organization
+            <!-- <i class="text-danger">*</i> -->
+          </label>
+                    <div class="col-sm-5">
+                        <!-- <ng-select [ngClass]="{'is-invalid': (f.organization.touched || f.organization.dirty || isSubmitted) && f.organization.invalid}" [items]="allOrganization" bindLabel="description" bindValue="description" formControlName="organization" placeholder="Select Organization">
+                        </ng-select> -->
+                        <input formControlName="organization" type="text" [ngClass]="{'is-invalid': (f.organization.dirty || f.organization.touched || isSubmitted) && f.organization.invalid}" class="form-control" placeholder="Organization">
+                        <div *ngIf="f.organization.errors && (f.organization.dirty || f.organization.touched || isSubmitted)" class="text-danger">
+                            <i *ngIf="f.organization.errors.required">Organization is required</i>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-form-label col-sm-4 ">Address
+            <!-- <i class="text-danger">*</i> -->
+          </label>
+                    <div class="col-sm-5">
+                        <textarea formControlName="address" rows="2" cols="30" [ngClass]="{'is-invalid': (f.address.dirty || f.address.touched || isSubmitted) && f.address.invalid}" class="form-control" placeholder="Address">
+          </textarea>
+                        <div *ngIf="f.address.errors && (f.address.dirty || f.address.touched || isSubmitted)" class="text-danger">
+                            <i *ngIf="f.address.errors.required">Address is required</i>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-form-label col-sm-4 ">Designation
+            <!-- <i class="text-danger">*</i> -->
+          </label>
+                    <div class="col-sm-5">
+                        <!-- <ng-select [ngClass]="{'is-invalid': (f.designation.touched || f.designation.dirty || isSubmitted) && f.designation.invalid}" [items]="allDesignation" bindLabel="description" bindValue="description" formControlName="designation" placeholder="Select Designation">
+                        </ng-select> -->
+                        <input formControlName="designation" type="text" [ngClass]="{'is-invalid': (f.designation.dirty || f.designation.touched || isSubmitted) && f.designation.invalid}" class="form-control" placeholder="Designation">
+                        <div *ngIf="f.designation.invalid && (f.designation.touched || f.designation.dirty || isSubmitted)" class="text-danger">
+                            <i *ngIf="f.designation.errors.required">Designation is required</i>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-form-label col-sm-4 ">Relationship
+            <!-- <i class="text-danger">*</i> -->
+          </label>
+                    <div class="col-sm-6 ml-2">
+                        <div class="row">
+                            <div>
+                                <ng-select [ngClass]="{'is-invalid': (f.relationship.touched || f.relationship.dirty || isSubmitted) && f.relationship.invalid}" [items]="allRelationship" bindLabel="description" bindValue="description" formControlName="relationship" placeholder="Select relationship">
+                                </ng-select>
+                            </div>
+                            <div class="input-group-append">
+                                <button (click)="createNewRelationShip(RealtionshipModel)" class="input-group-text btn btn-info" type="button">
+                                <span class="fa fa-plus" style="cursor: pointer;"></span>
+                                </button>
+                            </div>
+                            <div *ngIf="f.relationship.invalid && (f.relationship.touched || f.relationship.dirty || isSubmitted)" class="text-danger">
+                                <i *ngIf="f.relationship.errors.required">Relationship is required</i>
+                            </div>
+                        </div>
+                    </div>
+                    <ng-template #RealtionshipModel>
+                        <app-relationship (getItems)="allRelationship = $event"></app-relationship>
+                    </ng-template>
+                </div>
+                <div class="form-group row">
+                    <label class="col-form-label col-sm-4 ">Contact No
+            <!-- <i class="text-danger">*</i> -->
+          </label>
+                    <div class="col-sm-5">
+                        <input formControlName="mobile" type="text" [ngClass]="{'is-invalid': (f.mobile.touched || f.mobile.dirty || isSubmitted) && f.mobile.invalid}" class="form-control" placeholder="Contact No">
+                        <div *ngIf="f.mobile.invalid && (f.mobile.touched || f.mobile.dirty || isSubmitted)" class="text-danger">
+                            <i *ngIf="f.mobile.errors.required">Mobile is required</i>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-form-label col-sm-4 ">Email
+          </label>
+                    <div class="col-sm-5">
+                        <input formControlName="email" type="text" class="form-control" placeholder="Email">
+                    </div>
+                </div>
+                <div class=" row">
+                    <div class="demo-inline-spacing mt-3" style="margin:0 auto">
+                        <button (click)="reset()" type="reset" class="btn btn-info">
+              <span class="ion ion-ios-refresh"></span> Reset
+            </button>
+                        <button type="submit" class="btn btn-success">
+              {{btnStatus}}
+            </button>
+                    </div>
+                </div>
+            </form>
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>#SN</th>
+                        <th>Referee Name</th>
+                        <th>Organization</th>
+                        <th>Designation</th>
+                        <th>Relationship</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let r of allReference; let i = index">
+                        <td>{{i+1}}</td>
+                        <td>{{r.name}}</td>
+                        <td>{{r.organization}}</td>
+                        <td>{{r.designation}}</td>
+                        <td>{{r.relationship}}</td>
+                        <td class="demo-inline-spacing">
+                            <button (click)="getReference(r.id)" class="btn btn-info btn-sm"><span class="fas fa-edit"></span></button>
+                            <button (click)="delete(r.id, deleteModal)" class="btn btn-danger btn-sm"><span class="fas fa-trash"></span></button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+</div>
+
+<!-- Delete Confirmation Modal -->
+<ng-template #deleteModal>
+    <div class="modal-header bg-warning">
+        <h4>Confirmation</h4>
+    </div>
+    <div class="modal-body">
+        <p class="text-danger">Are you sure want to remove this member?</p>
+    </div>
+    <div class="modal-footer">
+        <button (click)="cancel()" class="btn btn-secondary">Cancel</button>
+        <button (click)="confirmDelete()" class="btn btn-danger">Confirm</button>
+    </div>
+</ng-template>

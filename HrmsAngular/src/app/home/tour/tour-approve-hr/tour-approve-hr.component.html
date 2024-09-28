@@ -1,0 +1,87 @@
+<div class="card">
+    <h4 class="card-header text-center bg-light">{{title}}</h4>
+    <div class="card-body">
+      <div class="row">
+          <div class="card center">
+            <div class="card-header">
+              <div class="row">
+                <div class="col">
+                  Per page: &nbsp;
+                  <select [(ngModel)]="perPage" (change)="update()"
+                    class="custom-select custom-select-md d-inline-block w-auto">
+                    <option *ngFor="let limit of [5, 10, 20, 30, 40, 50]">{{limit}}</option>
+                  </select>
+                </div>
+                <div class="col">
+                  <input type="text" [(ngModel)]="filterVal" (input)="currentPage = 1; update()"
+                    class="form-control form-control-md d-inline-block w-auto float-sm-right" placeholder="Search...">
+                </div>
+              </div>
+            </div>
+            <div class="card-body py-0">
+              <div class="row">
+                <table class="table table-hover table-bordered table-striped mb-2 table-responsive">
+                  <thead>
+                    <tr>
+                      <th>Id</th>
+                      <th>Employee Name</th>
+                      <th>Department</th>
+                      <th>Designation</th>
+                      <th>Start Date</th>
+                      <th>End Date</th>
+                      <th>Days</th>
+                      <th>Tour Purpose</th>
+                      <th>Approve</th>
+                      <th>Cancel</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngIf="tourList.length==0">
+                      <td colspan="12" class="font-italic text-center">No Item available</td>
+                    </tr>
+                    <tr *ngFor="let item of tourList; let i = index">
+                      <td>{{item.empCode}}</td>
+                      <td>{{item.empName}}</td>
+                      <td>{{item.department}}</td>
+                      <td>{{item.designation}}</td>
+                      <td>{{item.lsDate | date:'dd MMM, yyyy'}}</td>
+                      <td>{{item.leDate | date:'dd MMM, yyyy'}}</td>
+                      <td>{{item.accepteDuration}}</td>
+                      <td>{{item.reason}}</td>
+                      <td><button (click)="updateStatus(i,6)"  class="btn-action btn btn-success">Approve</button></td>
+                      <td><button (click)="cancel(i,7,cancelModal)" class="btn-action btn btn-danger">Cancel</button></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <!-- Pagination -->
+              <div class="row">
+                <div class="col-sm text-sm-left text-center pt-3">
+                  <span class="text-muted" *ngIf="totalItems">Page {{ currentPage }} of {{ totalPages }}</span>
+                </div>
+                <div class="col-sm pt-3">
+                  <ngb-pagination [collectionSize]="totalItems" [pageSize]="perPage" [(page)]="currentPage"
+                    (pageChange)="update()" size="sm" class="d-flex justify-content-center justify-content-sm-end m-0">
+                  </ngb-pagination>
+                </div>
+              </div>
+            </div>
+            <!-- / Pagination -->
+          </div>
+        </div>
+    </div>
+  </div>
+  <ng-template #cancelModal>
+    <div class="card">
+      <h3 class="card-header">Are you sure want to Cancel?
+        <span class="fa fa-window-close pull-right text-danger" (click)="close()"></span></h3>
+      <div class="card-body">
+      </div>
+      <div class="card-footer">
+        <div class="pull-right demo-inline-spacing">
+          <button (click)="close()" class="btn btn-danger">Not now</button>
+          <button (click)="confirm()" class="btn btn-success">Confirm</button>
+        </div>
+      </div>
+    </div>
+  </ng-template>

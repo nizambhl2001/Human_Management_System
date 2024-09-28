@@ -1,0 +1,130 @@
+<div class="card">
+    <h4 class="card-header text-center bg-light">Substitute Leave</h4>
+    <div class="card-body">
+        <form [formGroup]="_substituteLeaveForm">
+            <div class="row pt-3">
+                <div class="col-6">
+                    <div class="form-group row">
+                        <label class="col-form-label col-sm-4 ">Department</label>
+                        <div class="col-sm-8">
+                            <ng-select formControlName="department" [items]="_departments" bindLabel="description" bindValue="id" type="text" placeholder="Select Department"></ng-select>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-form-label col-sm-4 ">Job Location</label>
+                        <div class="col-sm-8">
+                            <ng-select formControlName="jobLocation" [items]="_jobLocations" bindLabel="description" bindValue="id" type="text" placeholder="Job Location"></ng-select>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-form-label col-sm-4 "> Date</label>
+                        <div class="col-sm-8">
+                            <div class="input-group">
+                                <input formControlName="dateNgb" class="form-control" placeholder="dd-mm-yyyy" ngbDatepicker #d1="ngbDatepicker" readonly>
+                                <div class="input-group-append">
+                                    <button class="input-group-text" (click)="d1.toggle()" type="button">
+                    <span class="ion ion-md-calendar" style="cursor: pointer;"></span>
+                  </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="form-group row">
+                        <label class="col-form-label col-sm-4 ">From Year</label>
+                        <div class="col-sm-8">
+                            <ng-select formControlName="fromYear" [items]="_salaryYears" bindLabel="yearName" bindValue="yearName" [ngClass]="{'is-invalid': _substituteLeaveForm.get('fromYear').invalid && (_substituteLeaveForm.get('fromYear').touched || _substituteLeaveForm.get('fromYear').dirty || isSearchBtnClick)}"
+                                type="text" placeholder="Carry From Year"></ng-select>
+                            <div *ngIf=" _substituteLeaveForm.get('fromYear').invalid && (_substituteLeaveForm.get('fromYear').touched || _substituteLeaveForm.get('fromYear').dirty || isSearchBtnClick)" class="text-danger">
+                                <i *ngIf="_substituteLeaveForm.get('fromYear').errors.required">Year is
+                    required</i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-form-label col-sm-4 ">Carry To Year</label>
+                        <div class="col-sm-8">
+                            <ng-select formControlName="toYear" [items]="_salaryYears" bindLabel="yearName" bindValue="id" [ngClass]="{'is-invalid': _substituteLeaveForm.get('toYear').invalid && (_substituteLeaveForm.get('toYear').touched || _substituteLeaveForm.get('toYear').dirty || isSaveBtnClick)}"
+                                type="text" placeholder="Carry To Year"></ng-select>
+                            <div *ngIf=" _substituteLeaveForm.get('toYear').invalid && (_substituteLeaveForm.get('toYear').touched || _substituteLeaveForm.get('toYear').dirty || isSaveBtnClick)" class="text-danger">
+                                <i *ngIf="_substituteLeaveForm.get('toYear').errors.required">To Year is
+                    required</i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row m-auto">
+                        <label class="col-form-label col-sm-5 "></label>
+                        <div class="demo-inline-spacing mt-3">
+                            <button [ladda]="isLoading" data-style="zoom-in" (click)="getSubstituteLeaveDetails()" type="submit" class="btn btn-primary">
+                  Search</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+        <div class="row">
+            <div class="col">
+                <label class="col-form-label col-sm-9">Total Employee: {{_substituteLeaveDetails.controls.length}}</label>
+            </div>
+            <div class="col">
+                <input type="text" (input)="currentPage = 1; update()" class="form-control form-control-md d-inline-block w-auto float-sm-right" placeholder="Search...">
+            </div>
+        </div>
+        <div class="row">
+            <div class="data-table">
+                <table class="table table-hover table-bordered table-striped mb-0">
+                    <thead>
+                        <tr>
+                            <th>#SN</th>
+                            <th class="custom-col-md">ID</th>
+                            <th class="custom-col-lg">Name</th>
+                            <th class="custom-col-lg">Department</th>
+                            <th class="custom-col-lg">Designation</th>
+                            <th class="custom-col-md">Days</th>
+                            <th class="custom-col-md">Note</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngIf="_substituteLeaveDetails.controls.length==0">
+                            <td colspan="11" class="font-italic text-center">No item available</td>
+                        </tr>
+                        <tr *ngFor="let detailsForm of _substituteLeaveDetails.controls; let i=index" [formGroup]="detailsForm">
+                            <td style="padding: 0.500rem;">{{i+1}}</td>
+                            <td class="custom-col-md">
+                                <input formControlName="empCode" type="text" [ngClass]="{'is-invalid': _substituteLeaveDetails.controls[i].get('empCode').invalid && (_substituteLeaveDetails.controls[i].get('empCode').touched || _substituteLeaveDetails.controls[i].get('empCode').dirty || isSaveBtnClick)}"
+                                    class="form-control" placeholder="Code">
+                            </td>
+                            <td class="custom-col-lg">
+                                <input formControlName="empName" type="text" class="form-control-plaintext">
+                            </td>
+                            <td class="custom-col-lg">
+                                <input formControlName="department" type="text" class="form-control-plaintext" readonly>
+                            </td>
+                            <td class="custom-col-lg">
+                                <input formControlName="designation" type="text" class="form-control-plaintext" readonly>
+                            </td>
+                            <td class="custom-col-md">
+                                <input formControlName="qty" type="number" [ngClass]="{'is-invalid': _substituteLeaveDetails.controls[i].get('qty').invalid && (_substituteLeaveDetails.controls[i].get('qty').touched || _substituteLeaveDetails.controls[i].get('qty').dirty || isSaveBtnClick)}"
+                                    class="form-control" placeholder="Days">
+                            </td>
+                            <td class="custom-col-md">
+                                <input formControlName="note" type="text" class="form-control" placeholder="note">
+                            </td>
+                            <td (click)="removeRow(i)" style="padding: 0.800rem;">
+                                <span class="fas fa-window-close text-danger"></span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <!--Button-->
+    <div class="form-group center">
+        <div class="demo-inline-spacing">
+            <button (click)="onSubmit()" type="" class="btn btn-success">Save</button>
+        </div>
+    </div>
+</div>

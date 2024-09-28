@@ -1,0 +1,70 @@
+<div class="card">
+  <h4 class="card-header text-center bg-light">
+    Salary View
+  </h4>
+  <div class="card-body">
+    <div class="col-md-7 center">
+      <form [formGroup]="salaryViewForm">
+        <!--Employee Id-->
+        <div class="form-group row">
+          <label class="col-form-label col-sm-3 ">Employee ID</label>
+          <div class="col-sm-7">
+            <div class="input-group">
+              <!-- <input formControlName="empCode" (keyup)="getSalaryView(f['empCode'].value)" class="form-control" type="text" placeholder="Employee ID">
+                  <div class="input-group-append">
+                    <button class="input-group-text btn btn-primary" type="button">
+                      <span class="fas fa-search" style="cursor: pointer;"></span>
+                    </button>
+                  </div> -->
+              <app-employee-select-list [isSearchBtnHide]="false" [fixedWidth]="'250px'" [setEmpCode]="f.empCode.value"
+                (onChange)="getEmployment($event.empCode);">
+              </app-employee-select-list>
+            </div>
+          </div>
+        </div>
+        <!--Name-->
+        <div class="form-group row">
+          <label class="col-form-label col-sm-3 ">Name</label>
+          <div class="col-sm-9">
+            <input formControlName="empName" type="text" class="form-control" placeholder="Name">
+          </div>
+        </div>
+        <!--Designation-->
+        <div class="form-group row">
+          <label class="col-form-label col-sm-3 ">Designation</label>
+          <div class="col-sm-9">
+            <input formControlName="designation" type="text" class="form-control" placeholder="Designation">
+          </div>
+        </div>
+      </form>
+    </div>
+</div>
+<!--Table-->
+<div class="data-table row col-md-7 m-auto p-0">
+  <table class="table table-hover table-bordered table-striped mb-0">
+    <thead>
+      <tr>
+        <th>Salary Head</th>
+        <th>Amount</th>
+        <th>Salary</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngIf="salaryView.length==0">
+          <td colspan="3" class="font-italic text-center">No item available</td>
+        </tr>
+      <tr *ngFor="let item of salaryView; let i=index">
+        <td>{{item.accountName}}</td>
+        <td  class="text-right">{{item.amount|number:'1.2-2'}}</td>
+        <td>{{item.salaryType}}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<!--Button-->
+<div class="form-group row mt-2">
+  <div class="m-auto">
+    <button (click)="Reset()" class="btn btn-info">
+       Reset</button>
+  </div>
+</div>

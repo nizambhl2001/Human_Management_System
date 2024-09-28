@@ -1,0 +1,117 @@
+<div class="card section">
+    <h4 class="card-header text-center bg-light">
+        Notice By Employee
+    </h4>
+    <form [formGroup]="noticeLettreForm">
+        <br />
+
+        <div class="row">
+            <div class="col-md-8 center">
+                <div class="form-group row">
+                    <label class="col-form-label col-sm-4 "> Employee Id
+            <i class="text-danger">*</i>
+        </label>
+
+                    <div class="input-group col-sm-6">
+                        <app-employee-select-list [isRequired]="f['empCode'].invalid && (isSubmitted || f['empCode'].touched || f['empCode'].dirty)" (onChange)="getEmpInfo($event.empCode)" [setEmpCode]="formVal.empCode">
+                        </app-employee-select-list>
+                    </div>
+                    <label class="col-form-label col-sm-4 "></label>
+                    <div *ngIf="f['empCode'].invalid && (isSubmitted || f['empCode'].touched || f['empCode'].dirty)" class="text-danger">
+                        <i *ngIf="f['empCode'].errors['required']">EmpCode  is required</i>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-form-label col-sm-4 ">Employee Name
+      </label>
+                    <div class="col-sm-6">
+                        <input readonly formControlName="empName" type="text" class="form-control" placeholder="Employee Name">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-form-label col-sm-4 ">Designation
+      </label>
+                    <div class="col-sm-6">
+                        <input readonly formControlName="empDesignation" type="text" class="form-control" placeholder="Designation">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-form-label col-sm-4 ">Effective Date
+        <i class="text-danger">*</i>
+      </label>
+                    <div class="input-group col-sm-6">
+                        <input [ngClass]="{'is-invalid': (isSubmitted || f['lDateNgb'].touched || f['lDateNgb'].dirty) && f['lDateNgb'].invalid}" readonly formControlName="lDateNgb" class="form-control" name="dp1" placeholder="dd-mm-yyyy" ngbDatepicker #d1="ngbDatepicker">
+                        <div class="input-group-append">
+                            <button class="input-group-text" (click)="d1.toggle()" type="button">
+            <span class="ion ion-md-calendar" style="cursor: pointer;"></span>
+          </button>
+                        </div>
+                    </div>
+                    <label class="col-form-label col-sm-5 "></label>
+                    <div *ngIf="f['lDateNgb'].invalid && (isSubmitted || f['lDateNgb'].touched || f['lDateNgb'].dirty)" class="text-danger">
+                        <i *ngIf="f['lDateNgb'].errors['required']">Effective Date is required</i>
+                    </div>
+                </div>
+
+
+                <div class="form-group">
+                    <div class="form-group row">
+                        <label class="col-form-label col-sm-4 ">Reason
+          <i class="text-danger">*</i>
+        </label>
+                        <div class="col-sm-6">
+                            <input [ngClass]="{'is-invalid': (isSubmitted || f['reason'].touched || f['reason'].dirty) && f['reason'].invalid}" formControlName="reason" type="text" class="form-control" placeholder="Reason">
+                        </div>
+                        <label class="col-form-label col-sm-5 "></label>
+                        <div *ngIf="f['reason'].invalid && (isSubmitted || f['reason'].touched || f['reason'].dirty)" class="text-danger">
+                            <i *ngIf="f['reason'].errors['required']">Reason is required</i>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-form-label col-sm-4 ">Letter
+          <i class="text-danger">*</i>
+        </label>
+                        <div class="col-sm-6">
+                            <textarea [ngClass]="{'is-invalid': (isSubmitted || f['lettre'].touched || f['lettre'].dirty) && f['lettre'].invalid}" formControlName="lettre" rows="5" class="form-control" placeholder="Letter"></textarea>
+                        </div>
+                        <label class="col-form-label col-sm-5 "></label>
+                        <div *ngIf="f['lettre'].invalid && (isSubmitted || f['lettre'].touched || f['lettre'].dirty)" class="text-danger">
+                            <i *ngIf="f['lettre'].errors['required']">Lettre is required</i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="demo-inline-spacing mt-3" style="margin:0 auto">
+                <button (click)="reset()" type="clear" class="btn btn-info">
+                        <span class="ion ion-ios-refresh"></span> Reset</button>
+                <button (click)="saveEmpNotice()" type="" class="btn btn-success"> {{btnStatus}}
+          </button>
+            </div>
+        </div>
+        <div class="">
+            <table class="table table-striped table-bordered">
+                <thead>
+                    <tr>
+                        <th style="width: 10%;">SN</th>
+                        <th style="width: 15%;">Employee Code</th>
+                        <th style="width: 60%;">Letter</th>
+                        <th style="width: 15%;">Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of allLettre;let i=index">
+                        <td style="width: 10%;">{{i+1}}</td>
+                        <td style="width: 15%;">{{item.empCode}}</td>
+                        <td style="width: 60%;">{{item.lettre}}</td>
+                        <td style="width: 15%;">
+                            <button (click)="getById(item.id)" type="" class="btn btn-info btn-sm">
+              <span  class="fas fa-edit"></span></button>&nbsp;
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </form>

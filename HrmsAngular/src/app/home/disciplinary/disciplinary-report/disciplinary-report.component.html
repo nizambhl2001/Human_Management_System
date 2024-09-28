@@ -1,0 +1,123 @@
+<div class="card">
+    <h4 class="card-header text-center bg-light">
+        {{title}}
+    </h4>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-6 center">
+                <form [formGroup]="disciplinaryReportForm">
+                    <!--Report Type-->
+                    <div class="form-group row">
+                        <label class="col-form-label col-sm-4">Report Type <span class="text-danger">*</span></label>
+                        <div class="col-sm-8">
+                            <ng-select formControlName="ReportId" [items]="reportTypeList" bindLabel="TypeName" bindValue="ReportId" [ngClass]="{'is-invalid':(disciplinaryReportForm.controls.ReportId.invalid && (disciplinaryReportForm.controls.ReportId.touched || disciplinaryReportForm.controls.ReportId.dirty || isSubmit))}"
+                                placeholder="Select Report Type">
+                            </ng-select>
+                            <div class="text-danger" *ngIf="(disciplinaryReportForm.controls['ReportId'].invalid && (disciplinaryReportForm.controls['ReportId'].touched || disciplinaryReportForm.controls['ReportId'].dirty || isSubmit))">
+                                <i *ngIf="disciplinaryReportForm.controls['ReportId'].errors.required">Report type is required</i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-4" for="DepartmentId">Employee Code</label>
+                        <div class="col-sm-8">
+                            <app-employee-select-list (onChange)="frmControl['EmpCode'].patchValue($event.empCode);">
+                            </app-employee-select-list>
+                        </div>
+                    </div>
+                    <!-- Show Cause Type -->
+                    <div *ngIf="[81,84].includes(frmControl['ReportId'].value)" class="form-group row">
+                        <label for="ActionID" class="col-sm-4">Show Cause Type</label>
+                        <div class="col-sm-8">
+                            <app-show-cause-details-select-list (onChange)="onSelectShowCauseType($event.id)">
+                            </app-show-cause-details-select-list>
+                        </div>
+                    </div>
+                    <!-- Show Cause Result Type -->
+                    <div *ngIf="[84].includes(frmControl['ReportId'].value)" class="form-group row">
+                        <label for="ActionID" class="col-sm-4">Show Cause Result Type</label>
+                        <div class="col-sm-8">
+                            <app-show-cause-result-type-select-list (onChange)="frmControl['ShowCauseResultID'].patchValue($event.id)">
+                            </app-show-cause-result-type-select-list>
+                        </div>
+                    </div>
+                    <!-- Show Cause Action -->
+                    <div *ngIf="[81].includes(frmControl['ReportId'].value)" class="form-group row">
+                        <label for="ActionID" class="col-sm-4">Show Cause Action</label>
+                        <div class="col-sm-8">
+                            <app-misconduct-select-list (onChange)="frmControl['Action'].patchValue($event.id)">
+                            </app-misconduct-select-list>
+                        </div>
+                    </div>
+                    <!-- Punishment Action -->
+                    <div *ngIf="[83].includes(frmControl['ReportId'].value)" class="form-group row">
+                        <label for="ActionID" class="col-sm-4">Punishment Action</label>
+                        <div class="col-sm-8">
+                            <app-punishment-select-list (onChange)="frmControl['ActionID'].patchValue($event.id)">
+                            </app-punishment-select-list>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-form-label col-sm-4">From Date</label>
+                        <div class="col-sm-8">
+                            <div class="input-group">
+                                <input formControlName="StartDate" class="form-control" placeholder="dd-mm-yyyy" ngbDatepicker #d1="ngbDatepicker" readonly>
+                                <div class="input-group-append">
+                                    <button class="input-group-text" (click)="d1.toggle();" type="button">
+                    <span class="ion ion-md-calendar" style="cursor: pointer;"></span>
+                  </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-form-label col-sm-4 ">To Date</label>
+                        <div class="col-sm-8">
+                            <div class="input-group">
+                                <input formControlName="EndDate" class="form-control" placeholder="dd-mm-yyyy" ngbDatepicker #d2="ngbDatepicker" readonly>
+                                <div class="input-group-append">
+                                    <button class="input-group-text" (click)="d2.toggle();" type="button">
+                    <span class="ion ion-md-calendar" style="cursor: pointer;"></span>
+                  </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-4" for="DepartmentId">Department</label>
+                        <div class="col-sm-8">
+                            <app-department-select-list (onChange)="frmControl['DepartmentID'].patchValue($event.id);">
+                            </app-department-select-list>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-4" for="DepartmentId">Branch</label>
+                        <div class="col-sm-8">
+                            <app-branch-select-list (onChange)="frmControl['BranchID'].patchValue($event.id);">
+                            </app-branch-select-list>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-4" for="DepartmentId">Project</label>
+                        <div class="col-sm-8">
+                            <app-project-select-list (onChange)="frmControl['ProjectID'].patchValue($event.id);">
+                            </app-project-select-list>
+                        </div>
+                    </div>
+                    <div class="form-group row mt-2">
+                        <div class="col-12">
+                            <ng-select class="pull-right mr-1" formControlName="ExportType" [items]="[{typeName:'pdf'},{typeName:'xls'}, {typeName:'xlsx'}]" bindLabel="typeName" bindValue="typeName"></ng-select>
+                            <button [ladda]="exporting" (click)="export()" type="submit" class="btn btn-info pull-right m2-1">
+                  <b>Generate Report</b></button>
+                        </div>
+                    </div>
+                    <div *ngIf="exporting" class="row">
+                        <div class="m-auto">
+                            <img src="../../../../assets/img/loading_icon.gif" height="80" width="80"> Please wait...
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

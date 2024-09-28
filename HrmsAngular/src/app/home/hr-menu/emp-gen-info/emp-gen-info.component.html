@@ -1,0 +1,417 @@
+<ngb-tabset class="nav-tab-center" [justify]="'center'" [type]="'pills'">
+    <ngb-tab title="General Information" class="background-color">
+        <ng-template ngbTabContent>
+            <div class="card">
+                <h4 class="card-header text-center bg-light">
+                    Employee General Information
+                </h4>
+                <div class="card-body">
+                    <form [formGroup]="empGenInfoForm">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group row">
+                                    <label class="col-form-label col-sm-4">Employee Id<i class="text-danger">*</i> </label>
+                                    <div class="input-group col-sm-6">
+                                        <!-- <input formControlName="empCode" (blur)="getEmpGenInfo(formVal.empCode)" class="form-control" placeholder="Employee-Id" required> -->
+                                        <!-- <app-kpi-select-list [selectedTag]="selectedEmp" [suggestedTags]="employees" (onSelect)="getEmpGenInfo($event)" [disabled]="false" [placeholder]="'Enter Employee ID'"></app-kpi-select-list> -->
+                                        <input formControlName="empCode"   class="form-control" placeholder="Enter Employee Code" type="text" >
+
+                                        <div class="input-group-append">
+                                            <button [ladda]="isLoading" (click)="onSearchClick(formVal.empCode, searchModal)" class="input-group-text btn btn-info" type="button"><span class="ion ion-md-search" style="cursor: pointer;"></span></button>
+                                        </div>
+                                        <div *ngIf="formControl['empCode'].invalid && (formControl['empCode'].dirty || formControl['empCode'].touched || isSubmitted)" class="row text-danger col-md-12">
+                                            <i *ngIf="formControl['empCode'].errors.required">Employee code is required</i>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-form-label col-sm-4 ">Title</label>
+                                    <div class="col-sm-8">
+                                        <app-basic-entry-select-list [itemId]="formVal.title" (onChange)="formControl['title'].setValue($event.id)" [modalName]="prefixModal" [tableName]="'Prefix'" [allItem]="allPrefix"></app-basic-entry-select-list>
+                                    </div>
+                                    <ng-template #prefixModal>
+                                        <app-prefix (getItems)="allPrefix = $event"></app-prefix>
+                                    </ng-template>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-form-label col-sm-4 ">First Name
+                    <i class="text-danger">*</i>
+                  </label>
+                                    <div class="col-sm-8">
+                                        <input formControlName="empName" type="text" class="form-control" placeholder="First Name" required>
+                                        <div *ngIf="formControl['empName'].invalid && (formControl['empName'].dirty || formControl['empName'].touched || isSubmitted)" class="row text-danger col-md-12">
+                                            <i *ngIf="formControl['empName'].errors.required">First Name is required</i>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-form-label col-sm-4 ">Last Name
+                  </label>
+                                    <div class="col-sm-8">
+                                        <input formControlName="lastName" type="text" class="form-control" placeholder="Last Name">
+                                    </div>
+
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-form-label col-sm-4 ">Surname
+                  </label>
+                                    <div class="col-sm-8">
+                                        <input formControlName="shortName" name="shortName" type="text" class="form-control" placeholder="Surname">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-form-label col-sm-4 ">Suffix
+                  </label>
+                                    <div class="col-sm-8">
+                                        <app-basic-entry-select-list [itemId]="formVal.suffix" (onChange)="formControl['suffix'].setValue($event.id)" [modalName]="suffixModal" [tableName]="'Suffix'" [allItem]="allSuffix"></app-basic-entry-select-list>
+                                    </div>
+                                    <ng-template #suffixModal>
+                                        <app-suffix (getItems)="allSuffix = $event"></app-suffix>
+                                    </ng-template>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-form-label col-sm-4 ">Gender
+                    <i class="text-danger">*</i>
+                  </label>
+                                    <div class="col-sm-8">
+                                        <app-basic-entry-select-list [itemId]="formVal.gender" (onChange)="formControl['gender'].setValue($event.id)" [modalName]="genderModal" [tableName]="'Gender'" [allItem]="allGender"></app-basic-entry-select-list>
+                                        <div *ngIf="formControl['gender'].dirty || formControl['gender'].touched || isSubmitted" class="text-danger">
+                                            <i *ngIf="(formControl['gender'].invalid && formControl['gender'].errors.required) || formControl['gender'].value==0">
+                        Gender is required</i>
+                                        </div>
+                                    </div>
+                                    <ng-template #genderModal>
+                                        <app-gender [showCloseBtn]="true" (getItems)="allGender = $event"></app-gender>
+                                    </ng-template>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-form-label col-sm-4 ">Birth Date
+                    <i class="text-danger">*</i>
+                  </label>
+                                    <div class="input-group col-sm-8">
+                                        <input (ngModelChange)="getAge()" formControlName="dob" class="form-control" placeholder="dd/mm/yyyy" ngbDatepicker [minDate]="minimumDate" [maxDate]="maximumDate" #d1="ngbDatepicker" readonly required>
+                                        <div class="input-group-append">
+                                            <button class="input-group-text" (click)="d1.toggle()" type="button">
+                        <span class="ion ion-md-calendar" style="cursor: pointer;"></span>
+                      </button>
+                                        </div>
+                                        <div *ngIf="formControl['dob'].invalid && (formControl['dob'].dirty || formControl['dob'].touched || isSubmitted)" class="row text-danger col-md-12">
+                                            <i *ngIf="formControl['dob'].errors.required">Birth Date is required</i>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-form-label col-sm-4 ">Blood Group
+                  </label>
+                                    <div class="col-sm-8">
+                                        <app-basic-entry-select-list [itemId]="formVal.bloodGroup" (onChange)="formControl['bloodGroup'].setValue($event.id)" [modalName]="bloodGroupModal" [tableName]="'BloodGroup'" [allItem]="allBloodGroup"></app-basic-entry-select-list>
+                                    </div>
+                                    <ng-template #bloodGroupModal>
+                                        <app-blood-group (getItems)="allBloodGroup = $event"></app-blood-group>
+                                    </ng-template>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-form-label col-sm-4 ">Hight In Inch
+                  </label>
+                                    <div class="col-sm-8">
+                                        <input formControlName="height" type="text" class="form-control" placeholder="Hight In Inch">
+                                    </div>
+
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-form-label col-sm-4 ">Weight In Kg
+                  </label>
+                                    <div class="col-sm-8">
+                                        <input formControlName="weight" type="text" class="form-control" placeholder="Weight In Kg">
+                                    </div>
+
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-form-label col-sm-4 ">Religion
+                    <i class="text-danger">*</i>
+                  </label>
+                                    <div class="col-sm-8">
+                                        <app-basic-entry-select-list [itemId]="formVal.religion" (onChange)="formControl['religion'].setValue($event.id)" [modalName]="religionModal" [tableName]="'Religion'" [allItem]="allReligion"></app-basic-entry-select-list>
+                                        <div *ngIf="formControl['religion'].dirty || formControl['religion'].touched || isSubmitted" class="text-danger">
+                                            <i *ngIf="(formControl['religion'].invalid && formControl['religion'].errors.required) || formControl['religion'].value==0">Religion
+                        is
+                        required</i>
+                                        </div>
+                                    </div>
+                                    <ng-template #religionModal>
+                                        <app-religion (getItems)="allReligion = $event"></app-religion>
+                                    </ng-template>
+
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-form-label col-sm-4 ">Nationality
+                    <i class="text-danger">*</i>
+                  </label>
+                                    <div class="col-sm-8">
+                                        <app-basic-entry-select-list [itemId]="formVal.nationality" (onChange)="formControl['nationality'].setValue($event.id)" [modalName]="nationalityModal" [tableName]="'Nationality'" [allItem]="allNationality"></app-basic-entry-select-list>
+                                        <div *ngIf="formControl['nationality'].dirty || formControl['nationality'].touched || isSubmitted" class="text-danger">
+                                            <i *ngIf="(formControl['nationality'].invalid && formControl['nationality'].errors.required) || formControl['nationality'].value==0">
+                        Nationality is required</i>
+                                        </div>
+                                    </div>
+                                    <ng-template #nationalityModal>
+                                        <app-nationality (getItems)="allNationality= $event"></app-nationality>
+                                    </ng-template>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-form-label col-sm-4 ">National Id
+                    <!-- <i class="text-danger">*</i> -->
+                  </label>
+                                    <div class="col-sm-8">
+                                        <input formControlName="nationalId" type="text" class="form-control"  placeholder="National Id">
+                                        <!-- <div *ngIf="formControl['nationalId'].invalid && (formControl['nationalId'].dirty || formControl['nationalId'].touched || isSubmitted)" class="row text-danger col-md-12">
+                                            <i *ngIf="formControl['nationalId'].errors.required">National Id is required</i>
+                                        </div> -->
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-form-label col-sm-4 ">Passport No
+                  </label>
+                                    <div class="col-sm-8">
+                                        <input formControlName="pasportNo" type="text" class="form-control" placeholder="Passport No">
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div *ngIf="formVal.pasportNo" class="form-group row">
+                                    <label class="col-form-label col-sm-4 ">Issue Date
+                  </label>
+                                    <div class="input-group col-sm-8">
+                                        <app-date-control [setNgbDate]="formVal.passportIssueDateNgb" (getLocalDate)="empGenInfoForm.patchValue({passportIssueDate:$event})"></app-date-control>
+                                    </div>
+                                </div>
+                                <div *ngIf="formVal.pasportNo" class="form-group row">
+                                    <label class="col-form-label col-sm-4 ">Expire Date
+                  </label>
+                                    <div class="input-group col-sm-8">
+                                        <app-date-control [setNgbDate]="formVal.passportExpairedDateNgb" (getLocalDate)="empGenInfoForm.patchValue({passportExpairedDate:$event})"></app-date-control>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-form-label col-sm-4 ">TIN
+                  </label>
+                                    <div class="col-sm-8">
+                                        <input formControlName="tinNo" type="text" class="form-control" placeholder="TIN">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-form-label col-sm-4 ">Picture
+                    <!-- <i class="text-danger">*</i> -->
+                  </label>
+                                    <div class="col-sm-8">
+                                        <app-image-control [fieldId]="'pictureFileName'" [previewImg]="formVal.picture" (selectedFile)="formControl['picture'].setValue($event)"></app-image-control>
+                                        <!-- <div *ngIf="formControl['picture'].invalid && (formControl['picture'].dirty || formControl['picture'].touched || isSubmitted)" class="text-danger"> -->
+                                            <!-- <i *ngIf="formControl['picture'].errors.required">Picture is
+                        required</i> -->
+                                        <!-- </div> -->
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-form-label col-sm-4 ">Signature
+                  </label>
+                                    <div class="col-sm-8">
+                                        <app-image-control [fieldId]="'signatureFileName'" [previewImg]="formVal.signature" (selectedFile)="formControl['signature'].setValue($event)"></app-image-control>
+                                        <!-- <div *ngIf="formControl['signature'].invalid && (formControl['signature'].dirty || formControl['signature'].touched || isSubmitted)" class="text-danger">
+                                            <i *ngIf="formControl['signature'].errors.required">Signature is
+                        required</i>
+                                        </div> -->
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-form-label col-sm-4 ">Age
+                  </label>
+                                    <div class="col-sm-8">
+                                        <input formControlName="age" type="text" class="form-control" placeholder="Age" readonly>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-form-label col-sm-4 ">Marital Status
+                    <i class="text-danger">*</i>
+                  </label>
+                                    <div class="col-sm-6">
+                                        <select formControlName="meritalStatus" class="custom-select">
+                      <option value="-1">---Select Marital Status---</option>
+                      <option value="1">Single</option>
+                      <option value="0">Married</option>
+                      <option value="3">Not Known</option>
+                    </select>
+                                        <div *ngIf="formControl['meritalStatus'].dirty || formControl['meritalStatus'].touched || isSubmitted" class="text-danger">
+                                            <i *ngIf="(formControl['meritalStatus'].invalid && formControl['meritalStatus'].errors.required) || formControl['meritalStatus'].value==-1">Marital
+                        status is required</i>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div *ngIf="formVal.meritalStatus==0" class="form-group row">
+                                    <label class="col-form-label col-sm-4 ">Spouse Name
+                    <!-- <i class="text-danger">*</i> -->
+                  </label>
+                                    <div class="col-sm-8">
+                                        <input formControlName="wifeName" type="text" class="form-control" placeholder="Wife Name">
+                                        <!-- <div *ngIf="formControl['wifeName'].invalid && (formControl['wifeName'].dirty || formControl['wifeName'].touched || isSubmitted)" class="row text-danger col-md-12">
+                                            <i *ngIf="formControl['wifeName'].errors.required">Spouse name is required</i>
+                                        </div> -->
+                                    </div>
+                                </div>
+                                <div *ngIf="formVal.meritalStatus==0" class=" form-group row">
+                                    <label for="child" class="col-form-label col-sm-4 ">Child</label>
+                                    <div class="col-sm-5">
+                                        <input type="number" formControlName="child" class="form-control" placeholder="Number of child">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-form-label col-sm-4 ">Father's Name
+                    <!-- <i class="text-danger">*</i> -->
+                  </label>
+                                    <div class="col-sm-8">
+                                        <input formControlName="fName" type="text" class="form-control" placeholder="Father's Name">
+                                        <!-- <div *ngIf="formControl['fName'].invalid && (formControl['fName'].dirty || formControl['fName'].touched || isSubmitted)" class="row text-danger col-md-12">
+                                            <i *ngIf="formControl['fName'].errors.required">Father's name is required</i>
+                                        </div> -->
+                                    </div>
+
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-form-label col-sm-4 ">Father's Occupation
+                    <!-- <i class="text-danger">*</i> -->
+                  </label>
+                                    <div class="col-sm-8">
+                                        <app-basic-entry-select-list [itemId]="formVal.fatherOccupation" (onChange)="formControl['fatherOccupation'].setValue($event.id)" [modalName]="occupationModal" [tableName]="'Occupation'" [allItem]="allOccupation"></app-basic-entry-select-list>
+                                        <!-- <div *ngIf="formControl['fatherOccupation'].dirty || formControl['fatherOccupation'].touched || isSubmitted" class="text-danger">
+                                            <i *ngIf="(formControl['fatherOccupation'].invalid && formControl['fatherOccupation'].errors.required) || formControl['fatherOccupation'].value==0">Father
+                        Occupation is required</i>
+                                        </div> -->
+                                    </div>
+                                    <ng-template #occupationModal>
+                                        <app-occupation (getItems)="allOccupation= $event"></app-occupation>
+                                    </ng-template>
+
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-form-label col-sm-4 ">Mother's Name
+                    <!-- <i class="text-danger">*</i> -->
+                  </label>
+                                    <div class="col-sm-8">
+                                        <input formControlName="mName" type="text" class="form-control" placeholder="Mother's Name">
+                                        <!-- <div *ngIf="formControl['mName'].invalid && (formControl['mName'].dirty || formControl['mName'].touched || isSubmitted)" class="row text-danger col-md-12">
+                                            <i *ngIf="formControl['mName'].errors.required">Mother's name is required</i>
+                                        </div> -->
+                                    </div>
+
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-form-label col-sm-4 ">Mother's Occupation
+                    <!-- <i class="text-danger">*</i> -->
+                  </label>
+                                    <div class="col-sm-8">
+                                        <app-basic-entry-select-list [itemId]="formVal.motherOccupation" (onChange)="formControl['motherOccupation'].setValue($event.id)" [modalName]="occupationModal" [tableName]="'Occupation'" [allItem]="allOccupation"></app-basic-entry-select-list>
+                                        <!-- <div *ngIf="formControl['motherOccupation'].dirty || formControl['motherOccupation'].touched || isSubmitted" class="text-danger">
+                                            <i *ngIf="(formControl['motherOccupation'].invalid && formControl['motherOccupation'].errors.required) || formControl['motherOccupation'].value<1">Mother
+                        Occupation is required</i>
+                                        </div> -->
+                                    </div>
+
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-form-label col-sm-4 ">Remarks
+                    <!-- <i class="text-danger">*</i> -->
+                  </label>
+                                    <div class="col-sm-8">
+                                        <input formControlName="remarks" type="text" class="form-control" placeholder="Remarks">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class=" row">
+                            <div class="demo-inline-spacing mt-3" style="margin:0 auto">
+                                <button (click)="reset()" type="clear" class="btn btn-info">
+                                <span class="ion ion-ios-refresh"></span> Reset
+                              </button>
+                                <button (click)="saveOrUpdateEmpGen()" type="" class="btn btn-success">
+                   {{empGenBtn}}
+                </button>
+                                <button (click)="getEmpCV()" class="btn btn-secondary">
+                  <span class="fas fa-eye"></span> View CV
+                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </ng-template>
+    </ngb-tab>
+    <ngb-tab [disabled]="!formVal.empCode" title="Family">
+        <ng-template ngbTabContent>
+            <app-emp-family-info [empCode]="empCode" [empName]="empName" [compId]="compId">
+            </app-emp-family-info>
+        </ng-template>
+    </ngb-tab>
+    <ngb-tab [disabled]="!formVal.empCode" title="Contact Information">
+        <ng-template ngbTabContent>
+            <app-emp-contact-info [compId]="compId" [empCode]="empCode" [empName]="empName">
+            </app-emp-contact-info>
+        </ng-template>
+    </ngb-tab>
+    <ngb-tab [disabled]="!formVal.empCode" title="Reference">
+        <ng-template ngbTabContent>
+            <app-emp-ref-info [compId]="compId" [empCode]="empCode" [empName]="empName">
+            </app-emp-ref-info>
+        </ng-template>
+    </ngb-tab>
+    <ngb-tab [disabled]="!formVal.empCode" title="Education">
+        <ng-template ngbTabContent>
+            <app-emp-education-info [empCode]="empCode" [empName]="empName" [compId]="compId">
+            </app-emp-education-info>
+        </ng-template>
+    </ngb-tab>
+    <ngb-tab [disabled]="!formVal.empCode" title="Experience">
+        <ng-template ngbTabContent>
+            <app-emp-experience-info [compId]="compId" [empCode]="empCode" [empName]="empName">
+            </app-emp-experience-info>
+        </ng-template>
+    </ngb-tab>
+    <ngb-tab [disabled]="!formVal.empCode" title="Professional Qualification">
+        <ng-template ngbTabContent>
+            <app-emp-qualification-info [compId]="compId" [empCode]="empCode" [empName]="empName">
+            </app-emp-qualification-info>
+        </ng-template>
+    </ngb-tab>
+    <ngb-tab [disabled]="!formVal.empCode" title="Award">
+        <ng-template ngbTabContent>
+            <app-emp-award-info [compId]="compId" [empCode]="empCode" [empName]="empName">
+
+            </app-emp-award-info>
+        </ng-template>
+    </ngb-tab>
+    <ngb-tab [disabled]="!formVal.empCode" title="Publication">
+        <ng-template ngbTabContent>
+            <app-emp-publication [compId]="compId" [empCode]="empCode" [empName]="empName">
+
+            </app-emp-publication>
+        </ng-template>
+    </ngb-tab>
+    <ngb-tab [disabled]="!formVal.empCode" title="Scholarship">
+        <ng-template ngbTabContent>
+            <app-emp-scholarship [compId]="compId" [empCode]="empCode" [empName]="empName">
+
+            </app-emp-scholarship>
+        </ng-template>
+    </ngb-tab>
+    <ngb-tab [disabled]="!formVal.empCode" title="Training">
+        <ng-template ngbTabContent>
+            <app-emp-training-info [compId]="compId" [empCode]="empCode" [empName]="empName">
+            </app-emp-training-info>
+        </ng-template>
+    </ngb-tab>
+</ngb-tabset>
+
+<!-- Employee Search Modal -->
+<ng-template #searchModal>
+    <app-search-employee (selectEvent)="getEmpGenInfo($event)"></app-search-employee>
+</ng-template>

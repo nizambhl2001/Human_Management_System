@@ -1,0 +1,157 @@
+<div class="card section">
+    <h4 class="card-header text-center bg-light">
+        Resignation Letter
+    </h4>
+    <form [formGroup]="resignationlettre">
+        <div class="row">
+            <div class="col-md-8 center">
+                <br />
+                <div class="form-group row">
+                    <label class="col-form-label col-sm-4 "> Employee Id
+            <i class="text-danger">*</i>
+          </label>
+                    <div class="input-group col-sm-6">
+                        <app-employee-select-list [isRequired]="f['empCode'].invalid && (isSubmitted || f['empCode'].touched || f['empCode'].dirty)" (onChange)="getEmpInfo($event.empCode)" [setEmpCode]="formVal.empCode">
+                        </app-employee-select-list>
+                    </div>
+                    <label class="col-form-label col-sm-4 "></label>
+                    <div *ngIf="f['empCode'].invalid && (isSubmitted || f['empCode'].touched || f['empCode'].dirty)" class="text-danger">
+                        <i *ngIf="f['empCode'].errors['required']">Employee Code is required</i>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-form-label col-sm-4 ">Employee Name
+          </label>
+                    <div class="col-sm-6">
+                        <input readonly formControlName="empName" type="text" class="form-control" placeholder="Employee Name">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-form-label col-sm-4 ">Designation
+          </label>
+                    <div class="col-sm-6">
+                        <input readonly formControlName="empDesignation" type="text" class="form-control" placeholder="Designation">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-form-label col-sm-4 ">Effective Date
+            <i class="text-danger">*</i>
+          </label>
+                    <div class="input-group col-sm-6">
+                        <input [ngClass]="{'is-invalid': (isSubmitted || f['lDateNgb'].touched || f['lDateNgb'].dirty) && f['lDateNgb'].invalid}" readonly formControlName="lDateNgb" class="form-control" name="dp1" placeholder="dd-mm-yyyy" ngbDatepicker #d1="ngbDatepicker">
+                        <div class="input-group-append">
+                            <button class="input-group-text" (click)="d1.toggle()" type="button">
+                <span class="ion ion-md-calendar" style="cursor: pointer;"></span>
+              </button>
+                        </div>
+                    </div>
+                    <label class="col-form-label col-sm-5 "></label>
+                    <div *ngIf="f['lDateNgb'].invalid && (isSubmitted || f['lDateNgb'].touched || f['lDateNgb'].dirty)" class="text-danger">
+                        <i *ngIf="f['lDateNgb'].errors['required']">Effective Date is required</i>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="form-group row">
+                        <label class="col-form-label col-sm-4 ">Reason
+              <i class="text-danger">*</i>
+            </label>
+                        <div class="col-sm-6">
+                            <input [ngClass]="{'is-invalid': (isSubmitted || f['reason'].touched || f['reason'].dirty) && f['reason'].invalid}" formControlName="reason" type="text" class="form-control" placeholder="Reason">
+                        </div>
+                        <label class="col-form-label col-sm-5 "></label>
+                        <div *ngIf="f['reason'].invalid && (isSubmitted || f['reason'].touched || f['reason'].dirty)" class="text-danger">
+                            <i *ngIf="f['reason'].errors['required']">Reason  is required</i>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label class="col-form-label col-sm-4 ">Letter
+              <i class="text-danger">*</i>
+            </label>
+                    <div class="col-sm-6">
+                        <textarea [ngClass]="{'is-invalid': (isSubmitted || f['lettre'].touched || f['lettre'].dirty) && f['lettre'].invalid}" formControlName="lettre" rows="5" class="form-control" placeholder="Letter"></textarea>
+                    </div>
+                    <label class="col-form-label col-sm-5 "></label>
+                    <div *ngIf="f['lettre'].invalid && (isSubmitted || f['lettre'].touched || f['lettre'].dirty)" class="text-danger">
+                        <i *ngIf="f['lettre'].errors['required']">Lettre Date is required</i>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-8 center">
+                <label class="col-form-label col-sm-5 ">Apply to
+    </label>
+                <div class="form-group row">
+                    <label class="col-form-label col-sm-4 "> Employee Id
+        <i class="text-danger">*</i>
+      </label>
+                    <div class="input-group col-sm-6">
+                        <app-employee-select-list [isRequired]="f['reqTo'].invalid && (isSubmitted || f['reqTo'].touched || f['reqTo'].dirty)" (onChange)="getFromEmpInfoById($event.empCode)" [setEmpCode]="formVal.reqTo">
+                        </app-employee-select-list>
+                        <label class="col-form-label col-sm-4 "></label>
+                        <div *ngIf="f['reqTo'].invalid && (isSubmitted || f['reqTo'].touched || f['reqTo'].dirty)" class="text-danger">
+                            <i *ngIf="f['reqTo'].errors['required']">Request From is required</i>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="form-group row">
+                    <label class="col-form-label col-md-4 ">Employee Name
+      </label>
+                    <div class="col-md-6">
+                        <input readonly formControlName="empNameFrom" type="text" class="form-control" placeholder="Employee Name">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-form-label col-md-4 ">Designation
+      </label>
+                    <div class="col-md-6">
+                        <input readonly formControlName="empDesignationFrom" type="text" class="form-control" placeholder="Designation">
+                    </div>
+                </div>
+
+
+                <div class="row">
+                    <div class="demo-inline-spacing mt-3" style="margin:0 auto">
+                        <button (click)="reset()" type="clear" class="btn btn-info">
+                  <span class="ion ion-ios-refresh"></span> Reset</button>
+                        <button (click)="saveResignation()" type="" class="btn btn-success"> {{btnStatus}}
+        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+    <div class="container">
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th>Serial</th>
+                    <th>Employee Code</th>
+                    <th>Letter</th>
+                    <th>Resignation Date</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let item of allResignation;let i=index">
+                    <td>{{i+1}}</td>
+                    <td>{{item.empCode}}</td>
+                    <td>{{item.lettre}}</td>
+                    <td>{{item.lDate | date:'dd MMM, yyyy'}}</td>
+                    <td>
+                        <button (click)="getById(item.id)" class="btn btn-info btn-sm">
+              <span class="fas fa-edit"></span></button>&nbsp;
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+</div>

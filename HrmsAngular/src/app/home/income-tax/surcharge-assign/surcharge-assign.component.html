@@ -1,0 +1,119 @@
+<div class="card section">
+    <h4 class="card-header text-center bg-light">
+        Search Charge Assain
+    </h4>
+    <div class="card-body">
+        <br/>
+        <div class="col-md-7 center ">
+            <form [formGroup]="searchChargeForm">
+                <div class="form-group row">
+                    <label class="col-form-label col-sm-3 "> Employee Id
+                <i class="text-danger">*</i>
+            </label>
+
+                    <div class="input-group col-sm-9">
+                        <app-employee-select-list [isSearchBtnHide]="false" [setEmpCode]="f['empCode'].value" (onChange)="getEmpInfoById($event);" [fixedWidth]="'357px'">
+                        </app-employee-select-list>
+                        <div *ngIf="f['empCode'].invalid && (isSubmitted || f['empCode'].touched || f['empCode'].dirty)" class="text-danger">
+                            <i *ngIf="f['empCode'].errors['required']">Please insert empCode</i>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-form-label col-sm-3 ">Employee Name
+          </label>
+                    <div class="col-sm-9">
+                        <input formControlName="empName" type="text" class="form-control" placeholder="Employee Name">
+                        <div *ngIf="f['empName'].invalid && (isSubmitted || f['empName'].touched || f['empName'].dirty)" class="text-danger">
+                            <i *ngIf="f['empName'].errors['required']">Please insert empName</i>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-form-label col-sm-3 ">Department
+          </label>
+                    <div class="col-sm-9">
+                        <input formControlName="department" type="text" class="form-control" placeholder="Department">
+                        <div *ngIf="f['department'].invalid && (isSubmitted || f['department'].touched || f['department'].dirty)" class="text-danger">
+                            <i *ngIf="f['department'].errors['required']">Please insert Department</i>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-form-label col-sm-3 ">Designation
+          </label>
+                    <div class="col-sm-9">
+                        <input formControlName="designation" type="text" class="form-control" placeholder="Designation">
+                        <div *ngIf="f['designation'].invalid && (isSubmitted || f['designation'].touched || f['designation'].dirty)" class="text-danger">
+                            <i *ngIf="f['designation'].errors['required']">Please insert Designation</i>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-form-label col-sm-3 ">Tax Year
+          </label>
+                    <div class="col-sm-9">
+                        <ng-select formControlName="taxYearID" placeholder="2015-2016" (change)="getPersentageListById(f['taxYearID'].value)" [items]="taxYear" bindLabel="taxYearName" bindValue="id">
+                        </ng-select>
+                        <div *ngIf="f['taxYearID'].invalid && (isSubmitted || f['taxYearID'].touched || f['taxYearID'].dirty)" class="text-danger">
+                            <i *ngIf="f['taxYearID'].errors['required']">Please select Tax Year</i>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-form-label col-sm-3 ">Percentage
+          </label>
+                    <div class="col-sm-9">
+                        <ng-select formControlName="persentID" placeholder="10.00" [items]="serChargeSetup" bindLabel="persentage" bindValue="id">
+
+                        </ng-select>
+                        <div *ngIf="f['persentID'].invalid && (isSubmitted || f['persentID'].touched || f['persentID'].dirty)" class="text-danger">
+                            <i *ngIf="f['persentID'].errors['required']">Percentage</i>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-form-label col-sm-3 "> From Date
+
+          </label>
+
+                    <div class="input-group col-sm-9">
+                        <app-date-control (getLocalDate)="f['sDate'].setValue($event)" (getNgbDate)="f['sDateNgb'].setValue($event)" [setNgbDate]="f['sDateNgb'].value"></app-date-control>
+
+                        <div *ngIf="f['sDateNgb'].invalid && (isSubmitted || f['sDateNgb'].touched || f['sDateNgb'].dirty)" class="text-danger">
+                            <i *ngIf="f['sDateNgb'].errors['required']">Insert Date</i>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="row">
+            <div class="demo-inline-spacing mt-3" style="margin:0 auto">
+                <button (click)="Reset()" class="btn btn-info ">
+          <span class="ion ion-ios-refresh"> </span>Reset
+        </button>
+                <button (click)="searchSaveUpdate()" type="" class="btn btn-success">Save
+          </button>
+            </div>
+        </div>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Slab Name</th>
+                    <th>Slab Amount</th>
+                    <th>Percentage</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr (click)="getByID(item.id)" *ngFor="let item of searchargeAssiain; let i=index">
+                    <th>{{i+1}}</th>
+                    <th>{{item.slabName}}</th>
+                    <td>{{item.slabAmount}}</td>
+                    <td>{{item.persentage|number:'.2'}}</td>
+                </tr>
+
+            </tbody>
+        </table>
+    </div>
+</div>

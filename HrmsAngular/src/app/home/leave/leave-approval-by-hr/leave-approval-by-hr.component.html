@@ -1,0 +1,220 @@
+<div class="card">
+  <h4 class="card-header text-center bg-light">
+      Leave Approve By HR
+  </h4>
+</div>
+<div class="row mt-3">
+  <div class="col-md-4 ml-auto">
+    <input (keyup)="onSearch($event.target.value)" type="text" class="form-control"
+    placeholder="Search by EmpCode" />
+</div>
+</div>
+<div class="row">
+  <div class="data-table m-0 col" style="overflow-x:scroll;">
+      <table class="table table-hover table-bordered table-striped mb-0">
+          <thead>
+              <tr>
+                  <th>#SN</th>
+                  <th>EmpCode</th>
+                  <th>Name</th>
+                  <th>Department</th>
+                  <th>Designation</th>
+                  <th>Apply_Date</th>
+                  <th>Start_Date</th>
+                  <th>End_Date</th>
+                  <th>LeaveType</th>
+                  <th>Day(s)</th>
+                  <th>PayType</th>
+                  <th>Approve</th>
+                  <th>Cancel</th>
+                  <th>Edit</th>
+                  <th>Print</th>
+              </tr>
+          </thead>
+          <tbody>
+              <tr *ngIf="_leaveApplications.length==0">
+                  <td colspan="13" class="font-italic text-center">No item available</td>
+              </tr>
+              <tr *ngFor="let la of _leaveApplications; let i=index">
+                  <td class="text-center">{{i+1}}</td>
+                  <td class="text-center">{{la.empCode}}</td>
+                  <td>{{la.empName}}</td>
+                  <td>{{la.department}}</td>
+                  <td>{{la.designation}}</td>
+                  <td>{{la.laDate | date: 'MM/dd/yyyy'}}</td>
+                  <td>{{la.lsDate | date: 'MM/dd/yyyy'}}</td>
+                  <td>{{la.leDate | date: 'MM/dd/yyyy'}}</td>
+                  <td>{{la.typeName}}</td>
+                  <td class="text-center">{{la.accepteDuration}}</td>
+                  <td>{{la.withpay}}</td>
+
+                  <!-- <td *ngIf="la.grandtype==0">
+                    <span (click)="getWaringForApprove(la.id, confirmApprove)" class="btn-action btn btn-warning btn-sm">Supervisor-Pending</span>
+                </td>
+
+                <td *ngIf="la.grandtype==2">
+                  <span (click)="getWaringForApprove(la.id, confirmApprove)"class="btn-action btn btn-info btn-sm">Approval-Pending</span>
+              </td> -->
+              <!-- *ngIf="la.grandtype==1" -->
+                  <td>
+                      <span (click)="getWaringForApprove(la.id, confirmApprove)" class="btn-action btn btn-success btn-sm">Approve</span>
+                  </td>
+                  <td>
+                      <span (click)="getWarningForCancel(la.id, confirmCancel)" class="btn-action btn btn-danger btn-sm">Cancel</span>
+                  </td>
+                  <td>
+                      <span (click)="edit(la.id, editModal)" class="btn-action btn btn-info btn-sm">Edit</span>
+                  </td>
+                  <td>
+                      <button  type="submit" class="btn-action btn-secondary btn-sm">
+                          <span (click)="export(la)" class="fas fa-print"></span>
+                        </button>
+                  </td>
+              </tr>
+          </tbody>
+      </table>
+  </div>
+</div>
+
+<ng-template #confirmApprove>
+  <div class="card">
+      <h4 class="card-header">Are you sure want to Approve?
+          <span class="fa fa-window-close pull-right text-danger" (click)="dismiss()"></span></h4>
+      <div class="card-body">
+      </div>
+      <div class="card-footer">
+          <div class="pull-right demo-inline-spacing">
+              <button (click)="dismiss()" class="btn btn-danger">Not now</button>
+              <button (click)="approve()" class="btn btn-success">Confirm</button>
+          </div>
+      </div>
+  </div>
+</ng-template>
+<ng-template #confirmCancel>
+  <div class="card">
+      <h4 class="card-header">Are you sure want to Cancel?
+          <span class="fa fa-window-close pull-right text-danger" (click)="dismiss()"></span></h4>
+      <div class="card-body">
+      </div>
+      <div class="card-footer">
+          <div class="pull-right demo-inline-spacing">
+              <button (click)="dismiss()" class="btn btn-danger">Not now</button>
+              <button (click)="cancel()" class="btn btn-success">Confirm</button>
+          </div>
+      </div>
+  </div>
+</ng-template>
+<ng-template #editModal>
+  <div class="card">
+      <h5 class="card-header bg-light">Edit Application By HR <span (click)="dismiss()" class="fa fa-window-close pull-right text-danger"></span></h5>
+      <div class="card-body">
+          <div [formGroup]="_leaveApplicationForm">
+              <div class="form-group row">
+                  <label class="col-form-label col-sm-4 ">Employee Id</label>
+                  <div class="col-sm-8">
+                      <input formControlName="empCode" type="text" class="form-control" placeholder="Employee Id">
+                  </div>
+              </div>
+              <div class="form-group row">
+                  <label class="col-form-label col-sm-4 ">Name</label>
+                  <div class="col-sm-8">
+                      <input formControlName="empName" type="text" class="form-control" placeholder="Employee Name" readonly>
+                  </div>
+              </div>
+              <div class="form-group row">
+                  <label class="col-form-label col-sm-4 ">Leave Type</label>
+                  <div class="col-sm-8">
+                      <select formControlName="lTypedID" class="form-control">
+            <option *ngFor="let t of leaveTypes" [value]="t.id">{{t.typeName}}</option>
+          </select>
+                  </div>
+              </div>
+              <!--From Date-->
+              <div class="form-group row">
+                  <label class="col-form-label col-sm-4 ">From Date</label>
+                  <div class="col-sm-8">
+                      <div class="input-group">
+                          <input (ngModelChange)="dateDiff()" formControlName="lsDateNgb" class="form-control" name="fromDate" placeholder="dd-mm-yyyy" ngbDatepicker #d1="ngbDatepicker" readonly>
+                          <div class="input-group-append">
+                              <button class="input-group-text" (click)="d1.toggle();" type="button">
+                <span class="ion ion-md-calendar" style="cursor: pointer;"></span>
+              </button>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+              <!--To Date-->
+              <div class="form-group row">
+                  <label class="col-form-label col-sm-4 ">To Date</label>
+                  <div class="col-sm-8">
+                      <div class="input-group">
+                          <input (ngModelChange)="dateDiff()" formControlName="leDateNgb" (change)="dateDiff()" class="form-control" name="toDate" placeholder="dd-mm-yyyy" ngbDatepicker #d2="ngbDatepicker" readonly>
+                          <div class="input-group-append">
+                              <button class="input-group-text" (click)="d2.toggle()" type="button">
+                <span class="ion ion-md-calendar" style="cursor: pointer;"></span>
+              </button>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+              <!--Apply Date-->
+              <div class="form-group row">
+                  <label class="col-form-label col-sm-4">Apply Date</label>
+                  <div class="col-sm-8">
+                      <div class="input-group">
+                          <input formControlName="laDateNgb" class="form-control" name="applyDate" placeholder="dd-mm-yyyy" ngbDatepicker #d3="ngbDatepicker" readonly>
+                          <div class="input-group-append">
+                              <button class="input-group-text" (click)="d3.toggle()" type="button">
+                <span class="ion ion-md-calendar" style="cursor: pointer;"></span>
+              </button>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+              <!-- Duration -->
+              <div class="row">
+                  <label class="col-form-label col-sm-4 ">Duration</label>
+                  <div class="col-sm-8">
+                      <div class="row demo-inline-spacing">
+                          <div class="col-sm-5">
+                              <div class="form-group row">
+                                  <label class="form-label">Applied</label>
+                                  <input formControlName="unAccepteDuration" type="number" class="form-control" placeholder="Leave Duration" readonly>
+                              </div>
+                          </div>
+                          <div class="col-sm-5">
+                              <div class="form-group row">
+                                  <label class="form-label">Accept</label>
+                                  <input formControlName="accepteDuration" (click)="dateDiff()" type="number" class="form-control" placeholder="Leave Duration" readonly>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+              <!--Radios-->
+              <div class="form-group row ">
+                  <label class="col-form-label col-sm-4 "></label>
+                  <div class="col-sm-4">
+                      <label class="custom-control custom-radio">
+            <input formControlName="withpay" name="withpay" value="1" type="radio" class="custom-control-input"
+              checked>
+            <span class="custom-control-label"> With Pay</span>
+          </label>
+                  </div>
+                  <div class="col-sm-4">
+                      <label class="custom-control custom-radio">
+            <input formControlName="withpay" name="withpay" value="0" type="radio" class="custom-control-input">
+            <span class="custom-control-label"> Without Pay</span>
+          </label>
+                  </div>
+              </div>
+          </div>
+      </div>
+      <div class="card-footer">
+          <div class="demo-inline-spacing pull-right">
+              <button (click)="dismiss()" class="btn btn-danger">Cancel</button>
+              <button (click)="updateAndApprove()" class="btn btn-success">Save</button>
+          </div>
+      </div>
+  </div>
+</ng-template>

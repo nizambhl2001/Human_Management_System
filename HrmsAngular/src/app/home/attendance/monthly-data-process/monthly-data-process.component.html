@@ -1,0 +1,72 @@
+<div class="card">
+    <h4 class="card-header text-center bg-light">
+        Check Shift
+    </h4>
+    <div class="card-body">
+        <form [formGroup]="shiftDayFilterForm">
+            <div class="col-md-7 center">
+                <div class="form-group row">
+                    <label for="employeeId" class="col-md-4">Employee Code</label>
+                    <div class="col-md-8">
+                        <ng-select class="custom" required (change)="getEmpInfo(f['empCode'].value)" formControlName="empCode" [items]="empCodes" bindLabel="empCode" bindValue="empCode" name="empCode" id="employeeId" placeholder="Select EmpCode">
+                        </ng-select>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="empName" class="col-md-4">Employee Name</label>
+                    <div class="col-md-8">
+                        <input type="text" readonly formControlName="empName" name="empName" id="empName" class="form-control">
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label class="col-form-label col-sm-4 ">Form Date</label>
+                    <div class="col-sm-8">
+                        <app-date-control [setDefault]="true" [widthPercent]="100" (getLocalDate)="f['fromDate'].setValue($event)">
+                        </app-date-control>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-form-label col-sm-4 ">To Date</label>
+                    <div class="col-sm-8">
+                        <app-date-control [setNgbDate]="dateOfNextWeek" [widthPercent]="100" (getLocalDate)="f['toDate'].setValue($event)">
+                        </app-date-control>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="demo-inline-spacing center">
+                        <button (click)="getAssignedShift()" [ladda]="isLoading" type="submit" class="btn btn-success">
+                <span class="fas fa-spinner"></span> Show Data </button>
+                    </div>
+                </div>
+            </div>
+            <div class="data-table">
+                <table class="table table-bordered table-striped">
+                    <thead>
+                        <tr *ngIf="columns.length==0">
+                            <th>EmpCode</th>
+                            <th>EmpName</th>
+                            <th>Designation</th>
+                            <th>Department</th>
+                        </tr>
+                        <tr>
+                            <th *ngFor="let col of columns">{{col}}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let frmGroup of assignedShiftForms.controls; let i=index" [formGroup]="frmGroup">
+                            <td *ngFor="let col of columns; let j=index" [ngClass]="{'shift-cell':j>3}">
+                                <app-shift-select-list *ngIf="j>3" [setShiftId]="frmGroup.value[j]">
+                                </app-shift-select-list>
+                                <span *ngIf="j<4">
+                                {{frmGroup.value[j]}}
+                              </span>
+                            </td>
+                        </tr>
+
+                    </tbody>
+                </table>
+            </div>
+        </form>
+    </div>
+</div>

@@ -1,0 +1,149 @@
+<div class="card">
+    <h4 class="card-header text-center bg-light">
+        GL Code
+    </h4>
+    <div class="card-body">
+        <div class="col-md-7 center">
+            <form [formGroup]="glCodeForm">
+                <!--Cost Head-->
+                <div class="form-group row">
+                    <label class="col-form-label col-sm-3 ">Cost Head<i class="text-danger">*</i></label>
+                    <div class="col-sm-9">
+                        <ng-select [ngClass]="{'is-invalid':( f.costID.touched || f.costID.dirty || isbtnSaveClick) && f.costID.invalid}" formControlName="costID" [items]="costHeadList" bindLabel="costHead" bindValue="id" placeholder="Select Cost of Head"></ng-select>
+                        <div *ngIf="(isbtnSaveClick || f['costID'].touched || f['costID'].dirty) && f['costID'].invalid" class="text-danger">
+                            <i *ngIf="f['costID'].errors.required">Cost Head is required</i>
+                        </div>
+                    </div>
+                </div>
+                <!--GL Department-->
+                <div class="form-group row">
+                    <label class="col-form-label col-sm-3 ">GL Department<i class="text-danger">*</i></label>
+                    <div class="col-sm-9">
+                        <ng-select [ngClass]="{'is-invalid':( f.depertmentID.touched || f.depertmentID.dirty || isbtnSaveClick) && f.depertmentID.invalid}" formControlName="depertmentID" (change)="getAlldeptGL()" [items]="allDeptGL" bindLabel="description" bindValue="id" placeholder="Select Location"></ng-select>
+
+                        <div *ngIf="(isbtnSaveClick || f['depertmentID'].touched || f['depertmentID'].dirty) && f['depertmentID'].invalid" class="text-danger">
+                            <i *ngIf="f['depertmentID'].errors.required">GL Department is required</i>
+                        </div>
+                    </div>
+                </div>
+                <!-- Location -->
+                <div class="form-group row">
+                    <label class="col-form-label col-sm-3 "> Location<i class="text-danger">*</i></label>
+                    <div class="col-sm-9">
+                        <ng-select [ngClass]="{'is-invalid':( f.branchID.touched || f.branchID.dirty || isbtnSaveClick) && f.branchID.invalid}" formControlName="branchID" (change)="getAllGLCode()" [items]="allLocation" bindLabel="description" bindValue="id" placeholder="Select Location"></ng-select>
+                        <div *ngIf="(isbtnSaveClick || f['branchID'].touched || f['branchID'].dirty) && f['branchID'].invalid" class="text-danger">
+                            <i *ngIf="f['branchID'].errors.required">Location is required</i>
+                        </div>
+                    </div>
+                </div>
+                <!--GL Code-->
+                <div class="form-group row">
+                    <label class="col-form-label col-sm-3 ">GL Code<i class="text-danger">*</i></label>
+                    <div class="col-sm-9">
+                        <input [ngClass]="{'is-invalid':( f.glCode.touched || f.glCode.dirty || isbtnSaveClick) && f.glCode.invalid}" formControlName="glCode" type="text" class="form-control" placeholder="GL Code">
+                        <div *ngIf="(isbtnSaveClick || f['glCode'].touched || f['glCode'].dirty) && f['glCode'].invalid" class="text-danger">
+                            <i *ngIf="f['glCode'].errors.required">GL Code  is required</i>
+                        </div>
+                    </div>
+                </div>
+                <!--GL Description-->
+                <div class="form-group row">
+                    <label class="col-form-label col-sm-3 ">GL Description<i class="text-danger">*</i></label>
+                    <div class="col-sm-9">
+                        <input [ngClass]="{'is-invalid':( f.glDescription.touched || f.glDescription.dirty || isbtnSaveClick) && f.glDescription.invalid}" formControlName="glDescription" type="text" class="form-control" placeholder="GL Description">
+                        <div *ngIf="(isbtnSaveClick || f['glDescription'].touched || f['glDescription'].dirty) && f['glDescription'].invalid" class="text-danger">
+                            <i *ngIf="f['glDescription'].errors.required">GL Description is required</i>
+                        </div>
+                    </div>
+                </div>
+
+                <!--Button-->
+                <div class="form-group row">
+                    <div class="demo-inline-spacing mt-3 center">
+                        <button (click)="reset()" type="clear" class="btn btn-info">
+                  <span class="ion ion-ios-refresh"></span> Reset</button>
+                        <button (click)="saveOrUpdateGLCode()" type="submit" class="btn btn-success">{{btnStatus}}</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <!--Table-->
+        <!-- <div class="card">
+        <div class="card-header">
+            <div class="row">
+                <div class="col">
+                    Per page: &nbsp;
+                    <select [(ngModel)]="perPage" (change)="update()" class="custom-select custom-select-md d-inline-block w-auto">
+            <option *ngFor="let limit of [5,10, 20, 30, 40, 50]">{{limit}}</option>
+          </select>
+                </div>
+                <div class="col">
+
+                </div>
+            </div>
+        </div>
+        <div class="card-body">
+            <form autocomplete="off">
+                <div class="form-group">
+                    <div class="table-responsive mb-4">
+                        <table class="table table-hover table-striped mb-0">
+
+                        </table>
+                    </div>
+                    <div class="card-body py-0">
+
+                        <div class="row">
+                            <div class="col-sm text-sm-left text-center pt-3">
+                                <span class="text-muted" *ngIf="totalItems">Page {{ currentPage }} of {{ totalPages }}</span>
+                            </div>
+                            <div class="col-sm pt-3">
+                                <ngb-pagination [collectionSize]="totalItems" [pageSize]="perPage" [(page)]="currentPage" (pageChange)="update()" size="sm" class="d-flex justify-content-center justify-content-sm-end m-0">
+                                </ngb-pagination>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div> -->
+        <div class="row">
+            <div class="col-md-4 ml-auto">
+                <input type="text" [(ngModel)]="filterVal" (input)="currentPage = 1; update()" class="form-control form-control-md d-inline-block w-auto float-sm-right" placeholder="Search...">
+            </div>
+        </div>
+        <div class="row">
+            <div class="data-table">
+                <table class="table table-hover table-bordered table-striped mb-0">
+                    <thead>
+                        <tr>
+                            <th>Cost Head</th>
+                            <th>GL Dep</th>
+                            <th>Location</th>
+                            <th>GL Code</th>
+                            <th>GL Description</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngIf="tempItems.length==0">
+                            <td colspan="13" class="font-italic text-center">No item available</td>
+                        </tr>
+                        <tr *ngFor="let item of tempItems; let i=index">
+                            <td>{{item.costHead}}</td>
+                            <td>{{item.departmentGL}}</td>
+                            <td>{{item.branch}}</td>
+                            <td>{{item.glCode}}</td>
+                            <td>{{item.glDescription}}</td>
+                            <td>
+                                <button (click)="getGLCodeByID(item.id)" class="btn btn-primary btn-sm">
+                  <span class="fas fa-edit"></span>
+                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>

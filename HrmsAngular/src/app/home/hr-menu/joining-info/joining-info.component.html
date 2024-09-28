@@ -1,0 +1,87 @@
+<div class="card">
+    <h4 class="card-header text-center bg-light">
+        Joining Information
+    </h4>
+    <form [formGroup]="JoiningFormGroup">
+        <div class="card-body">
+            <div class="col-md-7 center">
+                <!--Employee Id-->
+                <div class="form-group row">
+                    <label class="col-form-label col-sm-4 ">Employee ID</label>
+                    <div class="col-sm-8">
+                        <app-employee-select-list [ngClass]="{'is-invalid': (isSubmitted || f['empCode'].touched ||f['empCode'].dirty) && f['empCode'].invalid}" (onChange)="getEmpInfo($event.empCode);" [setEmpCode]="formVal.empCode">
+                        </app-employee-select-list>
+                    </div>
+                    <label class="col-form-label col-sm-4 ">
+                    </label>
+                    <div *ngIf="f['empCode'].invalid && (isSubmitted || f['empCode'].touched || f['empCode'].dirty)" class="text-danger">
+                        <i *ngIf="f['empCode'].errors['required']">EmpCode required</i>
+                    </div>
+                </div>
+                <!--Employee Name-->
+                <div class="form-group row">
+                    <label class="col-form-label col-sm-4 ">Employee Name</label>
+                    <div class="col-sm-6">
+                        <input readonly formControlName="empName" type="text" class="form-control" placeholder="Employee Name">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-form-label col-sm-4 ">Department</label>
+                    <div class="col-sm-6">
+                        <ng-select [items]="allDepartment" formControlName="department" bindLabel="description" bindValue="description" placeholder="Department"></ng-select>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-form-label col-sm-4 ">Designation</label>
+                    <div class="col-sm-6">
+                        <ng-select [items]="allDesignation" formControlName="designation" bindLabel="description" bindValue="description" placeholder="Designation"></ng-select>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-form-label col-sm-4 ">Grade</label>
+                    <div class="col-sm-6">
+                        <ng-select [ngClass]="{'is-invalid': (isSubmitted || f['grade'].touched ||f['grade'].dirty) && f['grade'].invalid}" [items]="allSalaryGrade" bindLabel="payScale" bindValue="payScale" formControlName="grade" placeholder="past Salary Grade">
+                        </ng-select>
+                    </div>
+                    <label class="col-form-label col-sm-4 ">
+                    </label>
+                    <div *ngIf="f['grade'].invalid && (isSubmitted || f['grade'].touched || f['grade'].dirty)" class="text-danger">
+                        <i *ngIf="f['grade'].errors['required']">grade required</i>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-form-label col-sm-4 ">Joining Date
+                  </label>
+                    <div class="input-group col-sm-6">
+                        <input readonly formControlName="joiningDateNgb" class="form-control" name="d" placeholder="dd-mm-yyyy" ngbDatepicker #d="ngbDatepicker">
+                        <div class="input-group-append">
+                            <button class="input-group-text" (click)="d.toggle()" type="button">
+                        <span class="ion ion-md-calendar" style="cursor: pointer;"></span>
+                      </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-form-label col-sm-4 ">Salary</label>
+                    <div class="col-sm-6">
+                        <input [ngClass]="{'is-invalid': (isSubmitted || f['salary'].touched ||f['salary'].dirty) && f['salary'].invalid}" formControlName="salary" type="number" class="form-control" placeholder="Salary">
+                    </div>
+                    <label class="col-form-label col-sm-4 ">
+                    </label>
+                    <div *ngIf="f['salary'].invalid && (isSubmitted || f['salary'].touched || f['salary'].dirty)" class="text-danger">
+                        <i *ngIf="f['salary'].errors['required']">salary required</i>
+                    </div>
+                </div>
+                <!--Button-->
+                <div class="form-group row">
+                    <div class="demo-inline-spacing mt-3 center">
+                        <button (click)="save()" type="submit" class="btn btn-success">
+            <span class="fas fa-save"></span> {{btnStatus}}</button>
+                        <button (click)="reset()" type="clear" class="btn btn-info">
+            <span class="ion ion-ios-refresh"></span> Reset</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

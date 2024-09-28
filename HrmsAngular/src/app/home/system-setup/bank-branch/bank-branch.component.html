@@ -1,0 +1,81 @@
+<div class="card">
+    <h4 class="card-header text-center bg-light">
+        {{title}}
+    </h4>
+    <div class="card-body col-md-9" style="margin: 0 auto">
+        <form [formGroup]="bankBranchForm">
+            <div class="form-group row">
+                <label class="col-form-label col-sm-3 " for="branchName">Branch Name</label>
+                <div class="col-sm-6">
+                    <input formControlName="description" type="text" name="branchName" id="branchName" class="form-control" placeholder="Branch Name">
+                    <div *ngIf="f['description'].invalid && (isSubmitted || f['description'].touched || f['description'].dirty)" class="text-danger">
+                        <i *ngIf="f['description'].errors.required">Branch Name  is required</i>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-form-label col-sm-3 " for="address">Address</label>
+                <div class="col-sm-6">
+                    <textarea formControlName="address" class="form-control" name="address" id="address" placeholder="Description"></textarea>
+                    <div *ngIf="f['address'].invalid && (isSubmitted || f['address'].touched || f['address'].dirty)" class="text-danger">
+                        <i *ngIf="f['address'].errors.required">Address  is required</i>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-form-label col-sm-3 " for="bank">Bank</label>
+                <div class="col-sm-6">
+                    <app-basic-entry-select-list (onChange)="f['bankID'].patchValue($event.id)" [isPlusIconHide]="false" [itemId]="f['bankID'].value" [tableName]="'Bank'" (onChange)="getAllBankBranchList(f.bankID.value)">
+                    </app-basic-entry-select-list>
+                    <div *ngIf="f['bankID'].invalid && (isSubmitted || f['bankID'].touched || f['bankID'].dirty)" class="text-danger">
+                        <i *ngIf="f['bankID'].errors.required">Bank is required</i>
+                    </div>
+                </div>
+            </div>
+        </form>
+        <div class="row">
+            <label for="" class="col-form-label col-sm-3 "></label>
+            <div class="demo-inline-spacing mt-3">
+                <button (click)="Reset()" class="btn btn-info"><span class="ion ion-ios-refresh"></span> Reset</button>
+                <button (click)="onSubmit()" class="btn btn-success">{{btnStatus}}</button>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4 ml-auto">
+                <input (keyup)="onFilter($event)" class="form-control" placeholder="Search by branch name">
+            </div>
+        </div>
+        <div class="row">
+            <div class="data-table">
+                <table class="table table-hover table-bordered table-striped mb-0">
+                    <thead>
+                        <tr>
+                            <th>Branch </th>
+                            <th>Description</th>
+                            <th>Action</th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngIf="filteredItem.length==0">
+                            <td colspan="3" class="font-italic text-center">No Item available</td>
+                        </tr>
+                        <tr *ngFor="let item of filteredItem">
+                            <td>{{item.description}}</td>
+                            <td>{{item.bankName}}</td>
+                            <td class="demo-inline-spacing center">
+                                <button (click)="getById(item.id)" class="btn btn-info py-1 px-2 rounded-0"><span
+                             class="fas fa-edit"></span></button>
+                                <button (click)="deleteBankBranch(item.id,deleteModal)" class="btn btn-danger py-1 px-2"><span class="fas fa-trash-alt"></span></button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<ng-template #deleteModal>
+    <app-delete-confirmation [rowId]="selectedItemId" (onConfirmedId)="confirmDelete($event)"></app-delete-confirmation>
+</ng-template>

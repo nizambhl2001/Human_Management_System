@@ -1,0 +1,70 @@
+#flipbook {
+    margin-left: 20px !important;
+    height: 700px;
+    
+}
+
+#flipbook .page {
+    background: #ffffff;
+}
+#page2 {
+    overflow-x: scroll;
+}
+#page10 {
+    overflow-x: scroll;
+}
+#page8 {
+    overflow-x: scroll;
+}
+#page9 {
+    overflow-x: scroll;
+}
+#page4 {
+    overflow-x: scroll;
+
+}
+.page {
+    padding: 0px;
+}
+
+.container {
+    padding: 30px !important;
+}
+
+td {
+    font-size: 11px !important;
+}
+
+th,
+td {
+    padding: 2px !important;
+    border: 0;
+    overflow-x: auto;
+}
+
+thead {
+    background: #616161;
+}
+
+.thead .tbody {
+    max-width: 450px;
+    overflow-x: scroll;
+}
+
+.promCell {
+    border: 1px solid #aaa;
+}
+
+.emp-info p {
+    line-height: .3rem;
+}
+
+#jobDescription {
+    max-height: 50px;
+    overflow-y: auto;
+    font-size: 11px;
+}
+
+.scroll-1::-webkit-scrollbar {
+    width:20px
+  }

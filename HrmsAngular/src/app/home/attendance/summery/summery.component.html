@@ -1,0 +1,38 @@
+<div class="card">
+    <h4 class="card-header text-center bg-light">
+        {{title}}
+    </h4>
+    <div class="card-body">
+        <form [formGroup]="attendanceSummery">
+            <div class="col-md-7 center">
+                <div class="form-group row">
+                    <label class="col-form-label col-sm-4">Period</label>
+                    <div class="col-sm-8">
+                        <app-period-select-list (onChange)="f['periodId'].setValue($event.id);getById($event.id)" [isRequired]="true"></app-period-select-list>
+                    </div>
+                </div>
+                <!--Start Date-->
+                <div class="form-group row">
+                    <label class="col-form-label col-sm-4 ">Start Date</label>
+                    <div class="col-sm-8">
+                        <app-date-control (getYyyymmdd)="f['strDate'].setValue($event)"></app-date-control>
+                    </div>
+                </div>
+                <!--End Date-->
+                <div class="form-group row">
+                    <label class="col-form-label col-sm-4 ">End Date</label>
+                    <div class="col-sm-8">
+                        <app-date-control (getYyyymmdd)="f['endDate'].setValue($event)"></app-date-control>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <div class="demo-inline-spacing center">
+                        <button (click)="processAttendanceSumery()" class="btn btn-success">Process</button>
+                        <button class="btn btn-secondary">Close</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

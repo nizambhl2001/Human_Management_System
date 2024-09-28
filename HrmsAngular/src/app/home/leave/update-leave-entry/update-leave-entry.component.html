@@ -1,0 +1,159 @@
+<div class="card">
+    <h4 class="card-header text-center bg-light">
+        Update Leave Apply
+    </h4>
+    <div class="card-body">
+        <form [formGroup]="_filterForm">
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group row ">
+                        <label class="col-form-label col-sm-12">Employee Id</label>
+                        <div class="input-group col-sm-12">
+                            <app-employee-select-list [isRequired]="true" (onChange)="getEmployee($event.empCode)" [fixedWidth]="'200px'">
+                            </app-employee-select-list>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group row">
+                        <label class="col-form-label col-sm-12">Name</label>
+                        <div class="col-sm-12">
+                            <input formControlName="empName" type="text" class="form-control" placeholder="Employee Name" readonly>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group row">
+                        <label class="col-form-label col-sm-12">Designation</label>
+                        <div class="col-sm-12">
+                            <input formControlName="designation" type="text" class="form-control" placeholder="Designation" readonly>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-8">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group row">
+                                <label class="col-sm-12">From Date</label>
+                                <div class="col-sm-12">
+                                    <div class="input-group">
+                                        <input formControlName="fromDateNgb" class="form-control" name="fromDate" placeholder="dd-mm-yyyy" ngbDatepicker #d1="ngbDatepicker" readonly>
+                                        <div class="input-group-append">
+                                            <button class="input-group-text" (click)="d1.toggle()" type="button">
+                        <span class="ion ion-md-calendar" style="cursor: pointer;"></span>
+                      </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group row">
+                                <label class="col-sm-12">To Date</label>
+                                <div class="col-sm-12">
+                                    <div class="input-group">
+                                        <input formControlName="toDateNgb" class="form-control" name="toDate" placeholder="dd-mm-yyyy" ngbDatepicker #d2="ngbDatepicker" readonly>
+                                        <div class="input-group-append">
+                                            <button class="input-group-text" (click)="d2.toggle()" type="button">
+                        <span class="ion ion-md-calendar" style="cursor: pointer;"></span>
+                      </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <label class="col-sm-12"></label>
+                    <button (click)="getApplication()" class="btn btn-info">
+            <span class="fas fa-eye"></span> Show</button>
+                </div>
+            </div>
+        </form>
+        <!-- Table-->
+        <hr class="border-light container-m--x mt-0 mb-4">
+        <form>
+            <div style="overflow-y: auto; overflow-x: scroll; min-height: 250px;">
+                <table class="table table-striped table-bordered">
+                    <thead>
+                        <tr>
+                            <th style="min-width: 100px;">ID</th>
+                            <th>Name</th>
+                            <th>Designation</th>
+                            <th>Department</th>
+                            <th>Leave Type</th>
+                            <th>Apply Date</th>
+                            <th>Start Date</th>
+                            <th>End Date</th>
+                            <th style="min-width: 100px;">With Pay</th>
+                            <th style="min-width: 100px;">Duration</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let frmGroup of _applicationFormList.controls; let i=index" [formGroup]="frmGroup">
+                            <td style="min-width: 120px;"><input formControlName="empCode" (blur)="onChangeEmpInRow(i, $event.target.value)" type="text" class="form-control" placeholder="Employee Id"></td>
+                            <td><input formControlName="empName" type="text" class="form-control-plaintext" placeholder="" readonly>
+                            </td>
+                            <td><input formControlName="designation" type="text" class="form-control-plaintext" placeholder="" readonly></td>
+                            <td><input formControlName="department" type="text" class="form-control-plaintext" placeholder="" readonly></td>
+                            <td>
+                                <ng-select formControlName="lTypedID" [items]="_leaveTypes" bindLabel="typeName" bindValue="id">
+                                </ng-select>
+                            </td>
+                            <!-- Apply Date -->
+                            <td style="min-width: 150px">
+                                <div class="input-group">
+                                    <input formControlName="laDateNgb" class="form-control" name="laDate" placeholder="dd-mm-yyyy" ngbDatepicker #d3="ngbDatepicker" [maxDate]="_applicationFormList.value[i].lsDateNgb" readonly>
+                                    <div class="input-group-append">
+                                        <button class="input-group-text" (click)="d3.toggle()" type="button">
+                      <span class="ion ion-md-calendar" style="cursor: pointer;"></span>
+                    </button>
+                                    </div>
+                                </div>
+                            </td>
+                            <!-- Start Date -->
+                            <td style="min-width: 150px">
+                                <div class="input-group">
+                                    <input formControlName="lsDateNgb" class="form-control" name="lsDate" placeholder="dd-mm-yyyy" ngbDatepicker #d4="ngbDatepicker" readonly>
+                                    <div class="input-group-append">
+                                        <button class="input-group-text" (click)="d4.toggle()" type="button">
+                      <span class="ion ion-md-calendar" style="cursor: pointer;"></span>
+                    </button>
+                                    </div>
+                                </div>
+                            </td>
+                            <!-- End Date -->
+                            <td style="min-width: 150px">
+                                <div class="input-group">
+                                    <input formControlName="leDateNgb" class="form-control" name="leDate" placeholder="dd-mm-yyyy" ngbDatepicker #d5="ngbDatepicker" [minDate]="_applicationFormList.value[i].lsDateNgb" readonly>
+                                    <div class="input-group-append">
+                                        <button class="input-group-text" (click)="d5.toggle()" type="button">
+                      <span class="ion ion-md-calendar" style="cursor: pointer;"></span>
+                    </button>
+                                    </div>
+                                </div>
+                            </td>
+                            <td style="min-width: 100px; padding: 1%"><input formControlName="withpay" type="checkbox" class="custom-checkbox"></td>
+                            <td style="min-width: 100px;"><input formControlName="accepteDuration" (click)="getDuration(i)" type="text" class="form-control-plaintext"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </form>
+        <!--Button-->
+        <div class="form-group row text-right">
+            <label class="col-form-label col-sm-5 "></label>
+            <div class="demo-inline-spacing mt-3">
+                <button (click)="onUpdateBtnClick()" type="submit" class="btn btn-success">
+          <span class="fas fa-save"></span> Update</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<ng-template #searchModal>
+    <app-search-employee (selectEvent)="getEmployee($event)"></app-search-employee>
+</ng-template>

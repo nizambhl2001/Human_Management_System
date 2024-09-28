@@ -1,0 +1,386 @@
+@import './demo';
+@mixin keyframes($name) {
+    @-webkit-keyframes #{$name} {
+        @content;
+    }
+    @-moz-keyframes #{$name} {
+        @content;
+    }
+    @keyframes #{$name} {
+        @content;
+    }
+}
+
+// Remove outline on desktops
+@media(min-width: 720px) {
+    ngb-carousel,
+    .dropdown-item,
+    ngb-datepicker,
+    ngb-rating {
+        outline: 0 !important;
+    }
+}
+
+.dropdown-menu-right {
+    right: auto !important;
+}
+
+// *******************************************************************************
+// * Page transition
+.router-transitions {
+    opacity: 1;
+    transition: opacity .2s;
+    body.app-loading & {
+        opacity: .75;
+    }
+}
+
+// *******************************************************************************
+// * Tooltip and popover animations
+@include keyframes(ngTooltipAnimation) {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+ngb-tooltip-window {
+    animation: ngTooltipAnimation .25s;
+}
+
+// *******************************************************************************
+// * Modal animations
+@include keyframes(ngModalBackdropAnimation) {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: .5;
+    }
+}
+
+@include keyframes(ngMaterialModalBackdropAnimation) {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: .2;
+    }
+}
+
+@include keyframes(ngDefaultModalAnimation) {
+    0% {
+        opacity: 0;
+        transform: translateY(150px) scale(.8);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+@include keyframes(ngTopModalAnimation) {
+    0% {
+        opacity: 0;
+        transform: translateY(-100%);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@include keyframes(ngSlideModalAnimation) {
+    0% {
+        opacity: 0;
+        transform: translateX(100%);
+    }
+    100% {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@include keyframes(ngRtlSlideModalAnimation) {
+    0% {
+        opacity: 0;
+        transform: translateX(-100%);
+    }
+    100% {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@include keyframes(ngFillInModalAnimation) {
+    0% {
+        opacity: 0;
+        transform: scale(.5, .5);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1, 1);
+    }
+}
+
+ngb-modal-backdrop.modal-backdrop {
+    opacity: .5;
+    animation: ngModalBackdropAnimation .15s ease-out;
+}
+
+ngb-modal-window {
+    &.modal .modal-dialog {
+        animation: ngDefaultModalAnimation .15s ease-out;
+    }
+    &.modal-top .modal-dialog {
+        animation: ngTopModalAnimation .15s ease-out;
+    }
+    &.modal-slide .modal-dialog {
+        animation: ngSlideModalAnimation .15s ease-out;
+    }
+    &.modal-fill-in .modal-dialog {
+        animation: ngFillInModalAnimation .15s ease-out;
+    }
+    [dir=rtl] &.modal-slide .modal-dialog {
+        animation: ngRtlSlideModalAnimation .15s ease-out;
+    }
+}
+
+.material-style ngb-modal-backdrop.modal-backdrop {
+    opacity: .2;
+    animation: ngMaterialModalBackdropAnimation .15s ease-out;
+}
+
+// Prevent horizontal scrollbar
+[dir=rtl] .dz-hidden-input {
+    right: 0 !important;
+    left: auto !important;
+}
+
+// *******************************************************************************
+// * Accordion
+ngb-accordion .card-header>*>.btn.btn-link {
+    width: 100%;
+    padding: 0;
+    text-align: inherit;
+    white-space: normal;
+    vertical-align: inherit;
+    border: 0;
+    font-size: .894rem;
+}
+
+.ngb-accordion-with-icon .card-header>*>.btn.btn-link {
+    display: flex;
+    justify-content: space-between;
+}
+
+// *******************************************************************************
+// * Typeahead
+ngb-typeahead-window .dropdown-item {
+    cursor: pointer;
+}
+
+.hide-theme-settings #theme-settings {
+    display: none;
+}
+
+.swal2-container {
+    z-index: 9999 !important;
+}
+
+.center {
+    margin: 0 auto;
+}
+
+.section {
+    // box-shadow: 1px 1px 2px 0px;
+}
+
+thead {
+    background: #007b84;
+    color: #fff;
+}
+
+.padding-top {
+    padding: 10px;
+}
+
+.margin {
+    padding: 1%;
+    height: 90%;
+    width: 90%;
+    border-radius: 50%;
+}
+
+.shadow-sm:hover {
+    box-shadow: 1px 1px 1px 0px #000;
+}
+
+.row {
+    margin-bottom: 10px;
+}
+
+label {
+    font-weight: 450 !important;
+    font-size: 1rem !important;
+}
+
+.card {
+    //min-height: 500px !important;
+}
+
+.form-group {
+    margin-bottom: 0.2rem !important;
+}
+
+.form-control,
+.ng-select,
+.ng-select-container {
+    min-height: 35px;
+    height: 35px;
+}
+
+table {
+    max-height: 300px;
+}
+
+thead {
+    background-color: rgb(7, 125, 204) !important;
+    color: #fff !important;
+}
+
+// table th,
+// table td {
+//     padding: 4px !important;
+// }
+.data-table {
+    max-height: 500px;
+    width: 100%;
+    overflow-y: auto;
+    box-shadow: 0 0 2px 0px;
+    margin: 5px;
+}
+
+.data-table thead th {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+
+/* Just common table stuff. Really. */
+
+table {
+    border-collapse: collapse;
+    width: 100%;
+    background: #fff !important;
+}
+
+th,
+td {
+    padding: 8px 16px;
+}
+
+th {
+    background: rgb(7, 125, 204);
+}
+
+.btn:disabled {
+    cursor: not-allowed;
+}
+
+::-webkit-scrollbar {
+    width: 8px;
+    height: 5px;
+}
+
+::-webkit-scrollbar:hover {
+    width: 15px;
+}
+
+
+/* Track */
+
+::-webkit-scrollbar-track {
+    background: #eee;
+}
+
+
+/* Handle */
+
+::-webkit-scrollbar-thumb {
+    background: #bbb;
+}
+//hide arrow sign in number field
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+input[type=number] {
+    -moz-appearance: textfield;
+}
+
+/* Handle on hover */
+
+::-webkit-scrollbar-thumb:hover {
+    background: #666;
+}
+
+.ng2-tag-input {
+    padding: 0 !important;
+    border-bottom: 0 !important;
+}
+
+.layout-content {
+    background: rgb(219, 245, 253);
+}
+
+.card {
+    background: rgb(219, 245, 253);
+    border-bottom: 0;
+}
+
+.card-body {
+    border-bottom: 0;
+}
+
+.card-header {
+    background: rgb(176, 229, 245) !important;
+    padding-bottom: 2px;
+    padding-top: 2px;
+    box-shadow: 0px 1px 3px 0px #303030;
+}
+
+.card .card .card-header {
+    box-shadow: 0px 0px 0px 0px !important;
+}
+
+.card .card {
+    background: rgb(237, 248, 252);
+    border-bottom: 1px;
+    margin-bottom: 2px;
+}
+.card .card .card-body {
+  padding: 10px !important;
+}
+.bg-sidenav-theme{
+  background: rgba(13, 100, 170, 0.809) !important;
+}
+.bg-card-header{
+  background: rgb(176, 229, 245) !important;
+}
+.bg-card-footer{
+  background: rgb(176, 229, 245) !important;
+}
+
+
+
+.datepicker
+{
+  color:black!important;
+  border:1px solid silver
+}

@@ -1,0 +1,19 @@
+export class SutitutionLeaveAmountmodel{
+  branchID:number
+		 departmentID:number
+		 yearID:number
+     salaryPeriodID:number
+     paymentPeriodID:number
+		 gradeValue:number
+		 empName:string
+		 empCode:string
+		 designation:string
+		 department:string
+		 amount:number
+     salaryHeadID:number
+     oTPP:number
+     bonusType:number
+     date:string
+     companyID:number
+     depertmentID:number
+}

@@ -1,0 +1,95 @@
+<div class="card section">
+    <h4 class="card-header text-center bg-light">Manual OT Entry</h4>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-6 center">
+                <form [formGroup]="manualEntryForm">
+                    <div class="form-group row">
+                        <label for="" class="col-md-4">Employee Code</label>
+                        <div class="col-md-8">
+                            <app-employee-select-list [isRequired]="true" (onChange)="onSelectEmp($event)" [fixedWidth]="'200px'">
+                            </app-employee-select-list>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="" class="col-md-4 ">Employee Name</label>
+                        <div class="col-md-8">
+                            <input formControlName="empName" type="text" class="form-control" readonly placeholder="Employee Name">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="" class="col-md-4 ">Department</label>
+                        <div class="col-md-8">
+                            <input formControlName="department" type="text" class="form-control" readonly placeholder="Department">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="" class="col-md-4">Month</label>
+                        <div class="col-md-8 pr-0 input-group">
+                            <ng-select formControlName="month" [items]="monthList" bindLabel="display" bindValue="value" (ngModelChange)="getManualOt()" [ngClass]="{'is-invalid':(formControl['month'].touched || formControl['month'].dirty || isSubmitted) && formControl['month'].invalid}"
+                                placeholder="Select Month"></ng-select>
+                            <div class="input-group-append">
+                                <ng-select formControlName="year" [items]="yearList" bindLabel="display" bindValue="value" (ngModelChange)="getManualOt()" [ngClass]="{'is-invalid':(formControl['year'].touched || formControl['year'].dirty || isSubmitted) && formControl['year'].invalid}"
+                                    placeholder="Select Year"></ng-select>
+                            </div>
+                            <div class="text-danger mt-2" *ngIf="((formControl['month'].touched || formControl['month'].dirty || isSubmitted) && formControl['month'].invalid)">
+                                <i *ngIf="formControl['month'].errors.required">Month is required</i>
+                            </div> <br>
+                            <div class="text-danger mt-2 ml-2" *ngIf="(formControl['year'].touched || formControl['year'].dirty || isSubmitted) && formControl['year'].invalid">
+                                <i *ngIf="formControl['year'].errors.required">Year is required</i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="" class="col-md-4">OT Hour</label>
+                        <div class="col-md-5">
+                            <input formControlName="otHours" type="number" class="form-control" placeholder="Total OT Hour">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <button (click)="onSubmit()" class="btn btn-success pull-right mr-2">Save</button>
+                            <button (click)="createForm()" class="btn btn-secondary pull-right mr-2">Reset</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div *ngIf="allManualOt.length>0" class="row">
+            <div class="col">
+                <div class="data-table">
+                    <table class="table table-bordered table-striped">
+                        <thead>
+                            <tr>
+                                <th>#SN</th>
+                                <th>EmpCode</th>
+                                <th>Name</th>
+                                <th>Department</th>
+                                <th>Designation</th>
+                                <th>Month</th>
+                                <th>OT_Hours</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let manualOt of allManualOt;let i=index">
+                                <td>{{i+1}}</td>
+                                <td>{{manualOt.empCode}}</td>
+                                <td>{{manualOt.empName}}</td>
+                                <td>{{manualOt.department}}</td>
+                                <td>{{manualOt.designation}}</td>
+                                <td>{{manualOt.otDate | date:'MMM-yyyy'}}</td>
+                                <td>{{manualOt.otHours}}</td>
+                            </tr>
+                        </tbody>
+                        <tfoot>
+                            <tr class="font-weight-bold bg-secondary text-white">
+                                <td colspan="6" class="text-right pr-3">Total Hour</td>
+                                <td>{{totalHour}}</td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,218 @@
+<div class="card-body">
+    <div class="card ">
+        <h4 class="card-header text-center bg-light">
+            Experience Information
+        </h4>
+        <div class="card-body">
+            <form [formGroup]="experienceForm">
+                <div class="form-group row">
+                    <label class="col-form-label col-sm-4 ">Employee Id
+          </label>
+                    <div class="col-sm-3">
+                        <input formControlName="empCode" name="empCode" type="text" class="form-control" value="{{empCode}}" placeholder="ID" readonly>
+                    </div>
+                    <div class="col-sm-5">
+                        <input [value]="empName" name="empName" type="text" class="form-control" value="{{empName}}" placeholder="Employee" readonly>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-form-label col-sm-4 ">Organization
+            <!-- <i class="text-danger">*</i> -->
+          </label>
+                    <div class="col-sm-6">
+                        <input formControlName="organization" type="text" [ngClass]="{'is-invalid': (isSubmitted || f['organization'].touched || f['organization'].dirty) && f['organization'].invalid}" class="form-control" placeholder="Organization">
+                        <div *ngIf="(isSubmitted || f['organization'].touched || f['organization'].dirty) && f['organization'].invalid" class="text-danger">
+                            <i *ngIf="f['organization'].errors.required">Organization is required</i>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-form-label col-sm-4 ">Country
+            <!-- <i class="text-danger">*</i> -->
+          </label>
+                    <div class="col-sm-6">
+                        <app-basic-entry-select-list [itemId]="formVal.countryID" (onChange)="f['countryID'].setValue($event.id)" [modalName]="countryModal" [tableName]="'Country'" [allItem]="allCountry"></app-basic-entry-select-list>
+                        <ng-template #countryModal>
+                            <app-country (getItems)="allCountry= $event"></app-country>
+                        </ng-template>
+                        <div *ngIf="(isSubmitted || f['countryID'].touched || f['countryID'].dirty) && f['countryID'].invalid" class="text-danger">
+                            <i *ngIf="f['countryID'].errors.required">Country is required</i>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-form-label col-sm-4 ">Contact Person
+          </label>
+                    <div class="col-sm-6">
+                        <input formControlName="supervisorName" type="text" class="form-control" placeholder="Supervisor name">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-form-label col-sm-4 ">Address
+            <!-- <i class="text-danger">*</i> -->
+          </label>
+                    <div class="col-sm-6">
+                        <textarea formControlName="address" [ngClass]="{'is-invalid': (isSubmitted || f['address'].touched || f['address'].dirty) && f['address'].invalid}" type="text" class="form-control" placeholder="Address">
+          </textarea>
+                        <div *ngIf="(isSubmitted || f['address'].touched || f['address'].dirty) && f['address'].invalid" class="text-danger">
+                            <i *ngIf="f['address'].errors.required">Address is required</i>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-form-label col-sm-4 ">Contact No
+          </label>
+                    <div class="col-sm-6">
+                        <input formControlName="supervisorMobileNo" type="text" class="form-control" placeholder="Supervisor Mobile No">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-form-label col-sm-4 ">Phone No
+          </label>
+                    <div class="col-sm-6">
+                        <input formControlName="phoneNo" type="text" class="form-control" placeholder="Phone No">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-form-label col-sm-4 ">Experience Type
+            <!-- <i class="text-danger">*</i> -->
+          </label>
+                    <div class="col-sm-6">
+                        <app-basic-entry-select-list [itemId]="formVal.exprienceType" [isRequired]="(isSubmitted || f['exprienceType'].touched || f['exprienceType'].dirty) && f['exprienceType'].invalid" (onChange)="f['exprienceType'].setValue($event.id)" [modalName]="expTypeModal"
+                            [tableName]="'ExperienceType'" [allItem]="allExperienceType"></app-basic-entry-select-list>
+                        <ng-template #expTypeModal>
+                            <app-experience-type (getItems)="allExperienceType= $event"></app-experience-type>
+                        </ng-template>
+                        <div *ngIf="(isSubmitted || f['exprienceType'].touched || f['exprienceType'].dirty) && f['exprienceType'].invalid" class="text-danger">
+                            <i *ngIf="f['exprienceType'].errors.required">Experience Type is required</i>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-form-label col-sm-4 ">Role Definition/Designation
+            <!-- <i class="text-danger">*</i> -->
+          </label>
+                    <div class="col-sm-6">
+                        <input formControlName="position" type="text" [ngClass]="{'is-invalid': (isSubmitted || f['position'].touched || f['position'].dirty) && f['position'].invalid}" class="form-control" placeholder="position">
+                        <div *ngIf="(isSubmitted || f['position'].touched || f['position'].dirty) && f['position'].invalid" class="text-danger">
+                            <i *ngIf="f['position'].errors.required">Designation is required</i>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-form-label col-sm-4 ">From Date
+            <!-- <i class="text-dan
+            ger">*</i> -->
+          </label>
+                    <!-- <div class=" input-group col-sm-6">
+            <input formControlName="joinDateNgb"
+              [ngClass]="{'is-invalid': (isSubmitted || f['joinDateNgb'].touched || f['joinDateNgb'].dirty) && f['joinDateNgb'].invalid}"
+              class="form-control" name="dp1" placeholder="dd-mm-yyyy" ngbDatepicker #d1="ngbDatepicker">
+            <div class="input-group-append">
+              <button class="input-group-text" (click)="d1.toggle()" type="button">
+                <span class="ion ion-md-calendar" style="cursor: pointer;"></span>
+              </button>
+            </div>
+          </div> -->
+                    <div class="col-md-6">
+                        <input formControlName="joinDate" type="text" [ngClass]="{'is-invalid': (isSubmitted || f['joinDate'].touched || f['joinDate'].dirty) && f['joinDate'].invalid}" class="form-control" placeholder="From Date">
+                        <div *ngIf="(isSubmitted || f['joinDate'].touched || f['joinDate'].dirty) && f['joinDate'].invalid" class="text-danger">
+                            <i *ngIf="f['joinDate'].errors.required">From date is required</i>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-form-label col-sm-4 ">To Date
+            <!-- <i class="text-danger">*</i> -->
+          </label>
+                    <!-- <div class="col-sm-6">
+            <input
+            formControlName="endDateNgb"
+            [ngClass]="{'is-invalid': (isSubmitted || f['endDateNgb'].touched || f['endDateNgb'].dirty) && f['endDateNgb'].invalid}"
+            class="form-control" placeholder="dd-mm-yyyy" ngbDatepicker #d2="ngbDatepicker">
+            <div class="input-group-append">
+              <button class="input-group-text" (click)="d2.toggle()" type="button">
+                <span class="ion ion-md-calendar" style="cursor: pointer;"></span>
+              </button>
+            </div>
+          </div> -->
+                    <div class="col-md-6">
+                        <input formControlName="endDate" type="text" [ngClass]="{'is-invalid': (isSubmitted || f['endDate'].touched || f['endDate'].dirty) && f['endDate'].invalid}" class="form-control" placeholder="To Date">
+                        <div *ngIf="(isSubmitted || f['endDate'].touched || f['endDate'].dirty) && f['endDate'].invalid" class="text-danger">
+                            <i *ngIf="f['endDate'].errors.required">End date is required</i>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-form-label col-sm-4 ">Service Duration
+            <!-- <i class="text-danger">*</i> -->
+          </label>
+                    <div class="col-sm-6">
+                        <input formControlName="yearOfExperience" type="text" [ngClass]="{'is-invalid': (isSubmitted || f['yearOfExperience'].touched || f['yearOfExperience'].dirty) && f['yearOfExperience'].invalid}" class="form-control" placeholder="Service duration">
+                        <div *ngIf="(isSubmitted || f['yearOfExperience'].touched || f['yearOfExperience'].dirty) && f['yearOfExperience'].invalid" class="text-danger">
+                            <i *ngIf="f['yearOfExperience'].errors.required">Duration is required</i>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-form-label col-sm-4 ">Job Discription
+          </label>
+                    <div class="col-sm-6">
+                        <textarea formControlName="jobDescription" type="text" class="form-control" placeholder="Job description"></textarea>
+                    </div>
+                </div>
+                <div class=" row">
+                    <div class="demo-inline-spacing mt-3" style="margin:0 auto">
+                        <button (click)="reset()" class="btn btn-info">
+                        <span class="ion ion-ios-refresh"></span> Reset
+                      </button>
+                        <button (click)="onSubmit()" class="btn btn-success">
+              {{btnStatus}}
+            </button>
+                    </div>
+                </div>
+            </form>
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>#S/N</th>
+                        <th>Role Defination</th>
+                        <th>From Date</th>
+                        <th>To Date</th>
+                        <th>Service Duration</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let exp of allExperience; let i=index;">
+                        <td>{{i+1}}</td>
+                        <td>{{exp.position}}</td>
+                        <td>{{exp.joinDate}}</td>
+                        <td>{{exp.endDate}}</td>
+                        <td>{{exp.yearOfExperience}}</td>
+                        <td class="demo-inline-spacing">
+                            <button (click)="getExperienceInfo(exp.id)" class="btn btn-info btn-sm"><span
+                  class="fas fa-edit"></span></button>
+                            <button (click)="delete(exp.id, deleteModal)" class="btn btn-danger btn-sm"><span
+                  class="fas fa-trash"></span></button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- Delete Confirmation Modal -->
+<ng-template #deleteModal>
+    <div class="modal-header bg-warning">
+        <h4>Confirmation</h4>
+    </div>
+    <div class="modal-body">
+        <p class="text-danger">Are you sure want to remove this?</p>
+    </div>
+    <div class="modal-footer">
+        <button (click)="cancel()" class="btn btn-secondary">Cancel</button>
+        <button (click)="confirmDelete()" class="btn btn-danger">Confirm</button>
+    </div>
+</ng-template>

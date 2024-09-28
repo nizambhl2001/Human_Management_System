@@ -1,0 +1,43 @@
+<div class="card">
+  <h4 class="card-header text-center bg-light">
+    In Out Single Employee Report
+  </h4>
+  <div class="card-body">
+    <div class="col-md-7 center">
+        <form [formGroup]="inOutReportForm">
+            <!--Start Date-->
+
+            <div  class="form-group row">
+              <label class="col-form-label col-sm-3 ">Start  Date</label>
+              <div class="col-sm-7">
+                <app-date-control (getLocalDate)="formControl['StartDate'].setValue($event)"></app-date-control>
+              </div>
+            </div>
+            <div  class="form-group row">
+              <label class="col-form-label col-sm-3 ">End  Date</label>
+              <div class="col-sm-7">
+                <app-date-control (getLocalDate)="formControl['EndDate'].setValue($event)"></app-date-control>
+              </div>
+            </div>
+
+             <!--Button-->
+             <div class="form-group row mt-2">
+              <div class="col-12">
+                <ng-select class="pull-right mr-1" formControlName="ExportType"
+                  [items]="[{typeName:'pdf'},{typeName:'xls'}, {typeName:'xlsx'}]" bindLabel="typeName"
+                  bindValue="typeName"></ng-select>
+                <button [ladda]="exporting" (click)="export()" type="submit" class="btn btn-info pull-right m2-1">
+                  <b>Generate Report</b></button>
+              </div>
+            </div>
+            <div *ngIf="exporting" class="row">
+              <div class="m-auto">
+                <img src="../../../../assets/img/loading_icon.gif" height="80" width="80">
+                Please wait...
+              </div>
+            </div>
+          </form>
+    </div>
+
+
+  </div>

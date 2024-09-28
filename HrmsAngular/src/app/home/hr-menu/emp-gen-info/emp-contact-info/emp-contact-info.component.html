@@ -1,0 +1,414 @@
+<div class="card">
+    <h4 class="card-header text-center bg-light">
+        Contact Information
+    </h4>
+    <div class="container">
+        <form [formGroup]="contactForm" (ngSubmit)="saveEmpContactInfo()">
+            <br>
+            <div class="row">
+                <div class="form-group col-3">
+                    <label class="col-form-label "> Employee Id
+            <!-- <i class="text-danger">*</i> -->
+          </label>
+                    <input formControlName="empCode" type="text" class="form-control" placeholder="Employee Id" readonly>
+                </div>
+                <div class="form-group col-5">
+                    <label class="col-form-label "> Name
+          </label>
+                    <input type="text" [value]="empName" class="form-control" placeholder="Name" readonly>
+                </div>
+            </div>
+            <ngb-tabset #t="ngbTabset" [justify]="'justified'" class="nav-tab-center">
+                <ngb-tab id="tab1" title="Personal">
+                    <ng-template ngbTabContent>
+                        <br>
+                        <div class="form-group row">
+                            <label class="col-form-label col-sm-2"> Mobile No
+                <!-- <i class="text-danger">*</i> -->
+              </label>
+                            <div class="col-sm-4">
+                                <input formControlName="mobileNo" type="text" class="form-control" [ngClass]="{'is-invalid': isSubmitted && f['mobileNo'].invalid}" placeholder="Mobile No">
+                                <div *ngIf="f['mobileNo'].errors && (f['mobileNo'].touched || f['mobileNo'].dirty || isSubmitted)" class="text-danger">
+                                    <i *ngIf="f['mobileNo'].errors.required">Mobile No is required</i>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-form-label col-sm-2"> Secondary Mobile
+              </label>
+                            <div class="col-sm-4">
+                                <input formControlName="secondaryMobile" type="text" class="form-control" placeholder="Secondary Mobile">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-form-label col-sm-2"> Phone/PABX No
+              </label>
+                            <div class="col-sm-4">
+                                <input formControlName="phoneNo" type="text" class="form-control" placeholder="Phone/PABX No">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-form-label col-sm-2"> Email Address
+                <!-- <i class="text-danger">*</i> -->
+              </label>
+                            <div class="col-sm-4">
+                                <input formControlName="email" type="text" class="form-control" [ngClass]="{'is-invalid': isSubmitted && f['email'].invalid}" placeholder="name@mail.com">
+                                <div *ngIf="f['email'].errors && (f['email'].touched || f['email'].dirty || isSubmitted)" class="text-danger">
+                                    <i *ngIf="f['email'].errors.required">Email is required</i>
+                                    <i *ngIf="f['email'].errors.email">Email is not valid</i>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-form-label col-sm-2">Secondary Email
+              </label>
+                            <div class="col-sm-4">
+                                <input formControlName="secandaryMail" type="text" class="form-control" placeholder="Secondary Email">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-form-label col-sm-2">Mailing Address
+              </label>
+                            <div class="col-sm-4">
+                                <select formControlName="mailingAddress" class="custom-select ">
+                  <option value="Present Address">Present Address</option>
+                  <option value="Permanent Address">Permanent Address</option>
+                </select>
+                            </div>
+                        </div>
+                    </ng-template>
+                </ngb-tab>
+                <ngb-tab id="tab2" title="Emergency">
+                    <ng-template ngbTabContent>
+                        <br>
+                        <div class="form-group row">
+                            <label class="col-form-label col-sm-2"> Person Name
+                <!-- <i class="text-danger">*</i> -->
+              </label>
+                            <div class="col-sm-4">
+                                <input formControlName="personName" type="text" class="form-control" [ngClass]="{'is-invalid': isSubmitted && f['personName'].invalid}" placeholder="Person Name">
+                                <div *ngIf="f['personName'].errors && (f['personName'].touched || f['personName'].dirty || isSubmitted)" class="text-danger">
+                                    <i *ngIf="f['personName'].errors.required">Person name is required</i>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-form-label col-sm-2"> Relationship
+              </label>
+                            <div class="col-sm-4">
+                                <input formControlName="relationship" type="text" class="form-control" placeholder="Relationship">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-form-label col-sm-2"> Contact No
+                <!-- <i class="text-danger">*</i> -->
+              </label>
+                            <div class="col-sm-4">
+                                <input formControlName="personContact" type="text" class="form-control" [ngClass]="{'is-invalid': isSubmitted && f['personContact'].invalid}" placeholder="Contact No">
+                                <div *ngIf="f['personContact'].invalid && (f['personContact'].touched || f['personContact'].dirty || isSubmitted)" class="text-danger">
+                                    <i *ngIf="f['personContact'].errors.required">Person contact number is required</i>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-form-label col-sm-2">Country
+                <!-- <i class="text-danger">*</i> -->
+              </label>
+                            <div class="col-sm-4">
+                                <app-basic-entry-select-list [ngClass]="{'is-invalid': (isSubmitted || f['emergrncyPostCountry'].touched || f['emergrncyPostCountry'].dirty) && f['emergrncyPostCountry'].invalid}" [itemId]="formVal.emergrncyPostCountry" (onChange)="f['emergrncyPostCountry'].setValue($event.id)"
+                                    [modalName]="countryModal" [tableName]="'Country'" [allItem]="allCountry">
+                                </app-basic-entry-select-list>
+                                <div *ngIf="f['emergrncyPostCountry'].invalid && (f['emergrncyPostCountry'].touched || f['emergrncyPostCountry'].dirty || isSubmitted)" class="text-danger">
+                                    <i *ngIf="f['emergrncyPostCountry'].errors.required">Country is required</i>
+                                    <i *ngIf="f['emergrncyPostCountry'].errors.min">Select a country</i>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-form-label col-sm-2"> Address
+                <!-- <i class="text-danger">*</i> -->
+              </label>
+                            <div class="col-sm-4">
+                                <textarea formControlName="personAddress" row="2" type="text" class="form-control" placeholder="Address" [ngClass]="{'is-invalid': isSubmitted && f['personAddress'].invalid}"></textarea>
+                                <div *ngIf="f['personAddress'].invalid && (f['personAddress'].touched || f['personAddress'].dirty || isSubmitted)" class="text-danger">
+                                    <i *ngIf="f['personAddress'].errors.required">Person address is required</i>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-form-label col-sm-2">Post Code
+              </label>
+                            <div class="col-sm-4">
+                                <input formControlName="emergrncyPostCode" type="text" class="form-control" placeholder="Post Code">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-form-label col-sm-2"> Social URL 1
+              </label>
+                            <div class="col-sm-4">
+                                <input formControlName="socialURL1" type="text" class="form-control" placeholder="Social URL 1">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-form-label col-sm-2"> Social URL 2
+              </label>
+                            <div class="col-sm-4">
+                                <input formControlName="socialURL2" type="text" class="form-control" placeholder="Social URL 2">
+                            </div>
+                        </div>
+                    </ng-template>
+                </ngb-tab>
+                <ngb-tab id="tab3" title="Present Address">
+                    <ng-template ngbTabContent>
+                        <br>
+                        <div class="form-group row">
+                            <label class="col-form-label col-sm-2">Country
+                <!-- <i class="text-danger">*</i> -->
+              </label>
+                            <div class="col-sm-4">
+                                <app-basic-entry-select-list [ngClass]="{'is-invalid': (isSubmitted || f['preCountry'].touched || f['preCountry'].dirty) && f['preCountry'].invalid}" [itemId]="formVal.preCountry" (onChange)="f['preCountry'].setValue($event.id)" [modalName]="countryModal"
+                                    [tableName]="'Country'" [allItem]="allCountry">
+                                </app-basic-entry-select-list>
+                                <div *ngIf="f['preCountry'].touched || f['preCountry'].dirty" class="text-danger">
+                                    <i *ngIf="(f['preCountry'].invalid && f['preCountry'].errors.required) || f['preCountry'].value==0">Country is
+                    required</i>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-form-label col-sm-2">Division
+                <!-- <i class="text-danger">*</i> -->
+              </label>
+                            <div class="col-sm-4">
+                                <ng-select [ngClass]="{'is-invalid': (f['preDivisionID'].touched || f['preDivisionID'].dirty || isSubmitted) && f['preDivisionID'].invalid}" [items]="allDivision" bindLabel="divisionName" bindValue="divisionID" formControlName="preDivisionID" placeholder="Select division"
+                                    (change)="getPreDistrict(f['preDivisionID'].value)" [disabled]="false">
+                                </ng-select>
+                                <div *ngIf="f['preDivisionID'].invalid && (f['preDivisionID'].touched || f['preDivisionID'].dirty || isSubmitted)" class="text-danger">
+                                    <i *ngIf="f['preDivisionID'].errors.required">Division is required</i>
+                                    <i *ngIf="f['preDivisionID'].errors.min">Select a division</i>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-form-label col-sm-2">District
+                <!-- <i class="text-danger">*</i> -->
+              </label>
+                            <div class="col-sm-4">
+                                <ng-select [ngClass]="{'is-invalid': (f['preDistrictID'].touched || f['preDistrictID'].dirty || isSubmitted) && f['preDistrictID'].invalid}" [items]="allPreDistrict" bindLabel="districtName" bindValue="districtID" formControlName="preDistrictID" (change)="getPreUpazila(f['preDistrictID'].value)"
+                                    placeholder="Select District" [disabled]="false">
+                                </ng-select>
+                                <div *ngIf="f['preDistrictID'].invalid && (f['preDistrictID'].touched || f['preDistrictID'].dirty || isSubmitted)" class="text-danger">
+                                    <i *ngIf="f['preDistrictID'].errors.required">District is required</i>
+                                    <i *ngIf="f['preDistrictID'].errors.min">Select a district</i>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-form-label col-sm-2">Upozila
+                <!-- <i class="text-danger">*</i> -->
+              </label>
+                            <div class="col-sm-4">
+                                <ng-select [ngClass]="{'is-invalid': (f['preUpazilaID'].touched || f['preUpazilaID'].dirty || isSubmitted) && f['preUpazilaID'].invalid}" [items]="allPreUpazila" bindLabel="upazilaName" bindValue="upazilaID" formControlName="preUpazilaID" (change)="getPreThana(f['preUpazilaID'].value)"
+                                    placeholder="Select Upazila" [disabled]="false">
+                                </ng-select>
+                                <div *ngIf="f['preUpazilaID'].invalid && (f['preUpazilaID'].touched || f['preUpazilaID'].dirty || isSubmitted)" class="text-danger">
+                                    <i *ngIf="f['preUpazilaID'].errors.required">Upazila
+                    is required</i>
+                                    <i *ngIf="f['preUpazilaID'].errors.min">Select a upazila</i>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-form-label col-sm-2">Thana<i class="text-danger">*</i></label>
+                            <div class="col-sm-4">
+                                <app-thana-select-list [setThanaId]="formVal.preThanaID" (onChange)="contactForm.patchValue({preThanaID:$event.thanaID})" [thanaModal]="thanaModal" [upazilaId]="formVal.preUpazilaID"></app-thana-select-list>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-form-label col-sm-2">Post Office
+                <!-- <i class="text-danger">*</i> -->
+              </label>
+                            <div class="col-sm-4">
+                                <input formControlName="prePostOffice" type="text" class="form-control" [ngClass]="{'is-invalid': (f['prePostOffice'].touched || f['prePostOffice'].dirty || isSubmitted) && f['prePostOffice'].invalid}" placeholder="Post Office">
+                                <div *ngIf="f['prePostOffice'].invalid && (f['prePostOffice'].touched )" class="text-danger">
+                                    <i *ngIf="f['prePostOffice'].errors.required">Post Office is required</i>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-form-label col-sm-2">Village/Location
+                <!-- <i class="text-danger">*</i> -->
+              </label>
+                            <div class="col-sm-4">
+                                <input formControlName="preVillage" type="text" class="form-control" [ngClass]="{'is-invalid': (f['preVillage'].touched || f['preVillage'].dirty || isSubmitted) && f['preVillage'].invalid}" placeholder="Village/Location">
+                                <div *ngIf="f['preVillage'].invalid && (f['preVillage'].touched )" class="text-danger">
+                                    <i *ngIf="f['preVillage'].errors.required">Village/Location is required</i>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-form-label col-sm-2">Post Code
+              </label>
+                            <div class="col-sm-4">
+                                <input formControlName="prePostCode" type="text" class="form-control" placeholder="Post Code">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-form-label col-sm-2">
+              </label>
+                            <div class="col-sm-4">
+                                <input formControlName="isPresentAddrAsPermanent" (change)="setPresentAddressAssPermanent(f['isPresentAddrAsPermanent'].value)" type="checkbox" id="copyAddrs">
+                                <label for="copyAddrs">&nbsp; Permanent Address Same</label>
+                                <br>
+                            </div>
+                        </div>
+                    </ng-template>
+                </ngb-tab>
+                <ngb-tab id="tab4" title="Permanent Address">
+                    <ng-template ngbTabContent>
+                        <br>
+                        <div class="form-group row">
+                            <label class="col-form-label col-sm-2">Country
+                <!-- <i class="text-danger">*</i> -->
+              </label>
+                            <div class="col-sm-4">
+                                <app-basic-entry-select-list [ngClass]="{'is-invalid': (isSubmitted || f['perCountry'].touched || f['perCountry'].dirty) && f['perCountry'].invalid}" [itemId]="formVal.perCountry" (onChange)="f['perCountry'].setValue($event.id)" [modalName]="countryModal"
+                                    [tableName]="'Country'" [allItem]="allCountry">
+                                </app-basic-entry-select-list>
+                                <div *ngIf="f['perCountry'].touched || f['perCountry'].dirty" class="text-danger">
+                                    <i *ngIf="(f['perCountry'].invalid && f['perCountry'].errors.required) || f['perCountry'].value==0">Country is
+                    required</i>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-form-label col-sm-2">Division
+                <!-- <i class="text-danger">*</i> -->
+              </label>
+                            <div class="col-sm-4">
+                                <ng-select [ngClass]="{'is-invalid': (f['perDivisionID'].touched || f['perDivisionID'].dirty || isSubmitted) && f['perDivisionID'].invalid}" [items]="allDivision" bindLabel="divisionName" bindValue="divisionID" formControlName="perDivisionID" placeholder="Select Division"
+                                    (change)="getPerDistrict(f['perDivisionID'].value)"   [disabled]="false">
+                                </ng-select>
+                                <div *ngIf="f['perDivisionID'].invalid && (f['perDivisionID'].touched || f['perDivisionID'].dirty || isSubmitted)" class="text-danger">
+                                    <i *ngIf="f['perDivisionID'].errors.required">Division is required</i>
+                                    <i *ngIf="f['perDivisionID'].errors.min">Select a division</i>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-form-label col-sm-2">District
+                <!-- <i class="text-danger">*</i> -->
+              </label>
+                            <div class="col-sm-4">
+                                <ng-select [ngClass]="{'is-invalid': (f['perDistrictID'].touched || f['perDistrictID'].dirty || isSubmitted) && f['perDistrictID'].invalid}" [items]="allPerDistrict" bindLabel="districtName" bindValue="districtID" formControlName="perDistrictID" placeholder="Select District"
+                                    (change)="getPerUpazila(f['perDistrictID'].value)" [disabled]="false">
+                                </ng-select>
+                                <div *ngIf="f['perDistrictID'].invalid && (f['perDistrictID'].touched || f['perDistrictID'].dirty || isSubmitted)" class="text-danger">
+                                    <i *ngIf="f['perDistrictID'].errors.required">District is required</i>
+                                    <i *ngIf="f['perDistrictID'].errors.min">Select a district</i>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-form-label col-sm-2">Upozila
+                <!-- <i class="text-danger">*</i> -->
+              </label>
+                            <div class="col-sm-4">
+                                <ng-select [ngClass]="{'is-invalid': (f['perUpazilaID'].touched || f['perUpazilaID'].dirty || isSubmitted) && f['perUpazilaID'].invalid}" [items]="allPerUpazila" bindLabel="upazilaName" bindValue="upazilaID" formControlName="perUpazilaID" placeholder="Select Upazila"
+                                    (change)="getPerThana(f['perUpazilaID'].value)" [disabled]="false">
+                                </ng-select>
+                                <div *ngIf="f['perUpazilaID'].invalid && (f['perUpazilaID'].touched || f['perUpazilaID'].dirty || isSubmitted)" class="text-danger">
+                                    <i *ngIf="f['perUpazilaID'].errors.required">Upazila is required</i>
+                                    <i *ngIf="f['perUpazilaID'].errors.min">Select a upazila</i>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-form-label col-sm-2">Thana<i class="text-danger">*</i></label>
+                            <div class="col-sm-4">
+                                <app-thana-select-list [setThanaId]="formVal.perThanaID" (onChange)="contactForm.patchValue({perThanaID:$event.thanaID})" [thanaModal]="thanaModal" [upazilaId]="formVal.perUpazilaID"></app-thana-select-list>
+                            </div>
+
+                        </div>
+
+                        <div class="form-group row">
+                            <label class="col-form-label col-sm-2">Post Office
+                <!-- <i class="text-danger">*</i> -->
+              </label>
+                            <div class="col-sm-4">
+                                <input formControlName='perPostOffice' type="text" class="form-control" [ngClass]="{'is-invalid': (f['perPostOffice'].touched || f['perPostOffice'].dirty || isSubmitted) && f['perPostOffice'].invalid}" placeholder="Post Office">
+                                <div *ngIf="f['perPostOffice'].invalid && (f['perPostOffice'].touched || f['perPostOffice'].dirty || isSubmitted)" class="text-danger">
+                                    <i *ngIf="f['perPostOffice'].errors.required">Post Office is required</i>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-form-label col-sm-2">Village/Location
+                <!-- <i class="text-danger">*</i> -->
+              </label>
+                            <div class="col-sm-4">
+                                <input formControlName='perVillage' type="text" class="form-control" [ngClass]="{'is-invalid': (f['perVillage'].touched || f['perVillage'].dirty || isSubmitted) && f['perVillage'].invalid}" placeholder="Village/Location">
+                                <div *ngIf="f['perVillage'].invalid && (f['perVillage'].touched || f['perVillage'].dirty || isSubmitted)" class="text-danger">
+                                    <i *ngIf="f['perVillage'].errors.required">Village/Location is required</i>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-form-label col-sm-2">Post Code
+              </label>
+                            <div class="col-sm-4">
+                                <input formControlName="perPostCode" type="text" class="form-control" placeholder="Post Code">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="" class="col-md-2"></label>
+                            <div class="demo-inline-spacing">
+                                <button (click)="reset()" type="reset" class="btn btn-info ">
+                                <span class="fas fa-refresh"></span> Reset
+                              </button>
+                                <button type="submit" class="btn btn-success"> {{btnStatus}}
+                </button>
+                            </div>
+                        </div>
+                    </ng-template>
+                </ngb-tab>
+            </ngb-tabset>
+            <div class=" form-group row">
+                <div class="demo-inline-spacing mt-3 col-md-6" style="margin:0 auto">
+                    <button *ngIf="tabIdNo!=1" type="button" (click)="tabToggle(t, 0)" class="btn btn-primary "> <--Back </button>
+                    <button *ngIf="tabIdNo!=4" type="button" (click)="tabToggle(t, 1)" class="btn btn-primary "> Next--> </button>
+                </div>
+            </div>
+        </form>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Present District</th>
+                    <th>Present Thana</th>
+                    <th>Permanent District </th>
+                    <th>Permanent thana</th>
+                    <th>Mobile</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td></td>
+                    <td>{{empContactInfo.preDistrictName}}</td>
+                    <td>{{empContactInfo.preThanaName}}</td>
+                    <td>{{empContactInfo.perDistrictName}}</td>
+                    <td>{{empContactInfo.perThanaName}}</td>
+                    <td>{{empContactInfo.mobileNo}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+<ng-template #countryModal>
+    <app-country (getItems)="allCountry = $event"></app-country>
+</ng-template>
+<ng-template #thanaModal>
+    <app-thana></app-thana>
+</ng-template>

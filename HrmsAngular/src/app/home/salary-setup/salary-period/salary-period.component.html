@@ -1,0 +1,164 @@
+<div class="card">
+    <h4 class="card-header text-center bg-light">
+        Create New Salary Period
+    </h4>
+    <div class="card-bod row pt-3 px-5">
+        <div class="col-md-6">
+            <form [formGroup]="salaryPeriodForm">
+                <!--Year-->
+                <div class="form-group row">
+                    <label for="yearName" class="col-form-label col-sm-3 ">Year<i class="text-danger">*</i></label>
+                    <div class="col-sm-7">
+                        <ng-select [ngClass]="{'is-invalid':(f['yearID'].touched || f['yearID'].dirty || isSaveBtnClick) && f['yearID'].invalid}" formControlName="yearID" [items]="salaryYear" bindValue="id" bindLabel="yearName" placeholder="Year">
+                        </ng-select>
+                        <div *ngIf="f.yearID.errors && (f.yearID.dirty || f.yearID.touched || isSaveBtnClick)" class="text-danger">
+                            <i *ngIf="f.yearID.errors.required">Year is required</i>
+                        </div>
+
+                    </div>
+                </div>
+                <!--Month-->
+                <div class="form-group row">
+                    <label for="monthName" class="col-form-label col-sm-3 ">Month<i class="text-danger">*</i></label>
+                    <div class="col-sm-7">
+                        <ng-select [ngClass]="{'is-invalid':(f['monthName'].touched || f['monthName'].dirty || isSaveBtnClick) && f['monthName'].invalid}" formControlName="monthName" [items]="month" bindLabel="monthName" bindValue="monthName" name="monthName" id="monthName"
+                            placeholder="Select Month Name">
+
+                        </ng-select>
+                        <div *ngIf="f['monthName'].errors && (f['monthName'].dirty || f['monthName'].touched || isSaveBtnClick)" class="text-danger">
+                            <i *ngIf="f['monthName'].errors.required">Month Name is required</i>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label class="col-form-label col-sm-3 ">Period Name<i class="text-danger">*</i></label>
+                    <div class="col-sm-7">
+                        <input [ngClass]="{'is-invalid':(f['periodName'].touched || f['periodName'].dirty || isSaveBtnClick) && f['periodName'].invalid}" formControlName="periodName" type="text" class="form-control" placeholder="Period Name">
+                        <div *ngIf="f['periodName'].errors && (f['periodName'].dirty || f['periodName'].touched || isSaveBtnClick)" class="text-danger">
+                            <i *ngIf="f['periodName'].errors.required">Period Name is required</i>
+                        </div>
+
+                    </div>
+                </div>
+                <!--Tex Year-->
+                <div class="form-group row">
+                    <label class="col-form-label col-sm-3 "> Tax Year<i class="text-danger">*</i></label>
+                    <div class="col-sm-7">
+                        <ng-select [ngClass]="{'is-invalid':(f['taxYearID'].touched || f['taxYearID'].dirty || isSaveBtnClick) && f['taxYearID'].invalid}" formControlName="taxYearID" [items]="taxYeardata" bindLabel="taxYearName" bindValue="id" placeholder="Tax year">
+                        </ng-select>
+                        <div *ngIf="f['taxYearID'].errors && (f['taxYearID'].dirty || f['taxYearID'].touched || isSaveBtnClick)" class="text-danger">
+                            <i *ngIf="f['taxYearID'].errors.required">Tax Year is required</i>
+                        </div>
+
+                    </div>
+                </div>
+                <!--Start Date-->
+                <div class="form-group row">
+                    <label class="col-form-label col-sm-3 ">Star Date<i class="text-danger">*</i></label>
+                    <div class="col-sm-7">
+                        <div class="input-group">
+                            <app-date-control [ngClass]="{'is-invalid': (f['startDateNgb'].touched || f['startDateNgb'].dirty || isSaveBtnClick) && f['startDateNgb'].invalid}" (getLocalDate)="f['sDate'].setValue($event)" (getNgbDate)="f['startDateNgb'].setValue($event)" [setNgbDate]="f['startDateNgb'].value"></app-date-control>
+                            <div *ngIf="f.startDateNgb.invalid && (f.startDateNgb.touched || f.startDateNgb.dirty || isSaveBtnClick)" class="text-danger">
+                                <i *ngIf="f.startDateNgb.errors.required">Loan date is required</i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!--End Date-->
+                <div class="form-group row">
+                    <label class="col-form-label col-sm-3 ">End Date<i class="text-danger">*</i></label>
+                    <div class="col-sm-7">
+                        <div class="input-group">
+                            <!-- <input [ngClass]="{'is-invalid':(f['endDateNgb'].touched || f['endDateNgb'].dirty || isSaveBtnClick) && f['endDateNgb'].invalid}"  formControlName="endDateNgb" [displayMonths]="1" class="form-control" id="eDate" name="eDate" placeholder="dd-mm-yyyy" ngbDatepicker
+                    #d2="ngbDatepicker">
+                  <div class="input-group-append">
+                    <button class="input-group-text" (click)="d2.toggle()" type="button">
+                      <span class="ion ion-md-calendar" style="cursor: pointer;"></span>
+                    </button>
+                  </div>
+                  <div *ngIf="f['endDateNgb'].errors && (f['endDateNgb'].dirty || f['endDateNgb'].touched || isSaveBtnClick)" class="text-danger">
+                    <i *ngIf="f['endDateNgb'].errors.required">End Date is required</i>
+                  </div> -->
+                            <app-date-control [ngClass]="{'is-invalid': (f['endDateNgb'].touched || f['endDateNgb'].dirty || isSaveBtnClick) && f['endDateNgb'].invalid}" (getLocalDate)="f['eDate'].setValue($event)" (getNgbDate)="f['endDateNgb'].setValue($event)" [setNgbDate]="f['endDateNgb'].value"></app-date-control>
+                            <div *ngIf="f.endDateNgb.invalid && (f.endDateNgb.touched || f.endDateNgb.dirty || isSaveBtnClick)" class="text-danger">
+                                <i *ngIf="f.endDateNgb.errors.required">Loan date is required</i>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <!--Button-->
+                <div class="form-group row text-right">
+                    <div class="demo-inline-spacing mt-3 center">
+                        <button (click)="Reset()" type="clear" class="btn btn-info">
+              <span class="fas fa-refresh"></span> Refresh</button>
+                        <button (click)="saveOrUpdate()" type="submit" class="btn btn-success"> {{btnStatus}}</button>
+
+                    </div>
+                </div>
+            </form>
+
+        </div>
+        <div class="card col-md-6 p-0 ">
+            <div class="card-header">
+                <div class="row">
+                    <div class="col">
+                        Per page: &nbsp;
+                        <select [(ngModel)]="perPage" (change)="update()" class="custom-select custom-select-md d-inline-block w-auto">
+              <option *ngFor="let limit of [5,10, 20, 30, 40, 50]">{{limit}}</option>
+            </select>
+                    </div>
+                    <div class="col">
+                        <input type="text" [(ngModel)]="filterVal" (input)="currentPage = 1; update()" class="form-control form-control-md d-inline-block w-auto float-sm-right" placeholder="Search...">
+                    </div>
+                </div>
+            </div>
+            <div class="card-body p-0">
+                <div class="data-table m-0">
+                    <table class="table table-hover table-bordered table-striped mb-0">
+                        <thead>
+                            <tr>
+                                <th>#SN</th>
+                                <th>Period</th>
+                                <th>Month</th>
+                                <th> Year </th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngIf="tempItems.length==0">
+                                <td colspan="13" class="font-italic text-center">No item available</td>
+                            </tr>
+                            <tr *ngFor="let item of tempItems; let i=index">
+                                <td>{{i+1}}</td>
+                                <td>{{item.periodName}}</td>
+                                <td>{{item.monthName}}</td>
+                                <td>{{item.yearName}}</td>
+                                <td>
+                                    <button (click)="getById(item.id)" class="btn btn-sm btn-primary">
+                    <span class="fas fa-edit"></span>
+                  </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="card-footer py-0">
+                    <div class="row">
+                        <div class="col-sm text-sm-left text-center pt-3">
+                            <span class="text-muted" *ngIf="totalItems">Page {{ currentPage }} of {{ totalPages }}</span>
+                        </div>
+                        <div class="col-sm pt-3">
+                            <ngb-pagination [collectionSize]="totalItems" [pageSize]="perPage" [(page)]="currentPage" (pageChange)="update()" size="sm" class="d-flex justify-content-center justify-content-sm-end m-0">
+                            </ngb-pagination>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

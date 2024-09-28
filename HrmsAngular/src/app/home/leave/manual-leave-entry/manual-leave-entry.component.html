@@ -1,0 +1,210 @@
+<div class="card">
+    <h4 class="card-header text-center bg-light">
+        Manual Leave Apply
+    </h4>
+    <div class="card-body">
+        <form [formGroup]="_leaveApplicationForm">
+            <div class="row">
+                <div class="col-md-6">
+                    <!--Employee Id-->
+                    <div class="form-group row ">
+                        <label class="col-form-label col-sm-5 ">Employee Id <span class="text-danger">
+                                *</span></label>
+                        <div class="input-group col-sm-7">
+                            <app-employee-select-list [isRequired]="true" (onChange)="getEmployee($event.empCode);getAllLeaveStatus($event.empCode)" [fixedWidth]="'200px'">
+                            </app-employee-select-list>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-form-label col-sm-5 ">Employee Name</label>
+                        <div class="col-sm-7">
+                            <input formControlName="empName" type="text" class="form-control" placeholder="Employee Name" readonly>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-form-label col-sm-5 ">Department</label>
+                        <div class="col-sm-7">
+                            <input formControlName="department" type="text" class="form-control" placeholder="Department Name" readonly>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-form-label col-sm-5 ">Designation</label>
+                        <div class="col-sm-7">
+                            <input formControlName="designation" type="text" class="form-control" placeholder="Designation Name" readonly>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-form-label col-sm-5 "> Emergency Contact No</label>
+                        <div class="col-sm-7">
+                            <input formControlName="emgContructNo" type="text" class="form-control" placeholder="Emergency Contact No.">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-form-label col-sm-5 ">Emergency Address</label>
+                        <div class="col-sm-7">
+                            <input formControlName="emgAddress" type="text" class="form-control" placeholder="Emergency Address">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-form-label col-sm-5 ">Apply Date</label>
+                        <div class="col-sm-7">
+                            <!-- <div class="input-group">
+                                <input class="form-control" name="applyDate" placeholder="dd-mm-yyyy" ngbDatepicker formControlName="laDateNgb" #d1="ngbDatepicker" [maxDate]="f.lsDateNgb" readonly>
+                                <div class="input-group-append">
+                                    <button class="input-group-text" (click)="d1.toggle()" type="button">
+                                        <span class="ion ion-md-calendar" style="cursor: pointer;"></span>
+                                    </button>
+                                </div>
+                            </div> -->
+                            <app-date-control [setNgbDate]="f['laDateNgb'].value"></app-date-control>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group row">
+                        <label class="col-form-label col-sm-5 ">Leave Type <span class="text-danger">
+                                *</span></label>
+                        <div class="col-sm-7">
+                            <ng-select formControlName="lTypedID" (ngModelChange)="checkPendingApplication()" [items]="_leaveTypes" bindLabel="typeName" bindValue="id" [ngClass]="{'is-invalid': (isAddBtnClick || formControl.lTypedID.touched || formControl.lTypedID.dirty) && formControl.lTypedID.invalid}"
+                                placeholder="Select Leave Type">
+                            </ng-select>
+                            <div *ngIf="hasPendingApplication" class="text-danger">
+                                <i>You already have pending application!</i>
+                            </div>
+                            <div *ngIf="(isAddBtnClick || formControl.lTypedID.touched || formControl.lTypedID.dirty) && formControl.lTypedID.invalid" class="text-danger input-group-prepend">
+                                <i *ngIf="formControl.lTypedID.errors.required">Leave type is required</i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-form-label col-sm-5 ">Start Date <span class="text-danger">
+                                *</span></label>
+                        <div class="col-sm-7">
+                            <div class="input-group">
+                                <input class="form-control" name="fromDate" placeholder="dd-mm-yyyy" ngbDatepicker [ngClass]="{'is-invalid': (isAddBtnClick || formControl.lsDateNgb.touched || formControl.lsDateNgb.dirty) && formControl.lsDateNgb.invalid}" formControlName="lsDateNgb"
+                                    #d2="ngbDatepicker" readonly>
+                                <div class="input-group-append">
+                                    <button class="input-group-text" (click)="d2.toggle()" type="button">
+                                        <span class="ion ion-md-calendar" style="cursor: pointer;"></span>
+                                    </button>
+                                </div>
+                            </div>
+                            <div *ngIf="(isAddBtnClick || formControl.lsDateNgb.touched || formControl.lsDateNgb.dirty) && formControl.lsDateNgb.invalid" class="text-danger input-group-prepend">
+                                <i *ngIf="formControl.lsDateNgb.errors.required">Start date is required</i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-form-label col-sm-5 ">End Date <span class="text-danger">
+                                *</span></label>
+                        <div class="col-sm-7">
+                            <div class="input-group">
+                                <input class="form-control" name="toDate" placeholder="dd-mm-yyyy" ngbDatepicker [ngClass]="{'is-invalid': (isAddBtnClick || formControl.leDateNgb.touched || formControl.leDateNgb.dirty) && formControl.leDateNgb.invalid}" formControlName="leDateNgb" #d3="ngbDatepicker"
+                                    readonly>
+                                <div class="input-group-append">
+                                    <button class="input-group-text" (click)="d3.toggle()" type="button">
+                                        <span class="ion ion-md-calendar" style="cursor: pointer;"></span>
+                                    </button>
+                                </div>
+                            </div>
+                            <div *ngIf="(isAddBtnClick || formControl.leDateNgb.touched || formControl.leDateNgb.dirty) && formControl.leDateNgb.invalid" class="text-danger input-group-prepend">
+                                <i *ngIf="formControl.leDateNgb.errors.required">End date is required</i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-form-label col-sm-5 ">Duration</label>
+                        <div class="col-sm-7">
+                            <input formControlName="accepteDuration" (click)="getDuration()" type="text" class="form-control" placeholder="Duration">
+                            <div *ngIf="!isExistBalance" class="text-danger">
+                                <i>Leave balance not available</i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-form-label col-sm-5 ">Reason</label>
+                        <div class="col-sm-7">
+                            <input formControlName="reason" type="text" class="form-control" placeholder="Reason">
+                        </div>
+                    </div>
+                    <div class="form-group row ">
+                        <label class="col-form-label col-sm-5 ">Payment Status</label>
+                        <div class="col-sm-7">
+                            <div class="col-sm-6">
+                                <label class="custom-control custom-radio">
+                                    <input formControlName="withpay" name="withpay" value="1" type="radio"
+                                        class="custom-control-input" checked>
+                                    <span class="custom-control-label"> With Pay</span>
+                                </label>
+                            </div>
+                            <div class="col-sm-6">
+                                <label class="custom-control custom-radio">
+                                    <input formControlName="withpay" name="withpay" value="0" type="radio"
+                                        class="custom-control-input">
+                                    <span class="custom-control-label"> Without Pay</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+        <!--Button-->
+        <div class="row">
+            <button *ngIf="_btnStatus=='Add'" (click)="addApplication()" type="submit" class="btn btn-success" style="margin:0 auto">
+                {{_btnStatus}}
+            </button>
+            <button *ngIf="_btnStatus=='Modify'" (click)="modifyApplication()" class="btn btn-info" style="margin:0 auto">{{_btnStatus}}</button>
+        </div>
+        <!-- Table-->
+        <div class="row">
+            <table class="table table-bordered table-striped">
+                <thead>
+                    <tr>
+                        <th>#SN</th>
+                        <th>Employee Name</th>
+                        <th>Designation</th>
+                        <th>Leave Type</th>
+                        <th>Start Date</th>
+                        <th>End Date</th>
+                        <th>With Pay</th>
+                        <th>Duration</th>
+                        <th>Reason</th>
+                        <th>Contact No</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let application of _leaveApplicationList; let i =index">
+                        <td>{{i+1}}</td>
+                        <td>{{application.empName}}</td>
+                        <td>{{application.designation}}</td>
+                        <td>{{application.leaveTypeName}}</td>
+                        <td>{{application.lsDate | date: 'dd MMM, yyyy'}}</td>
+                        <td>{{application.leDate | date: 'dd MMM, yyyy'}}</td>
+                        <td>
+                            <span *ngIf="application.withpay==1" class="text-success fa fa-check"></span>
+                            <span *ngIf="application.withpay==0" class="text-danger fa fa-times"></span>
+                        </td>
+                        <td>{{application.accepteDuration}}</td>
+                        <td>{{application.reason}}</td>
+                        <td>{{application.emgContructNo}}</td>
+                        <td class="demo-inline-spacing">
+                            <button class="btn btn-sm btn-info" (click)="editApplication(i)"><span class="fa fa-edit"></span></button>
+                            <button class="btn btn-sm btn-danger" (click)="removeApplication(i)">X</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="row">
+            <button (click)="apply()" class="btn btn-primary" style="margin: 0 auto;">
+                Apply
+            </button>
+        </div>
+    </div>
+</div>
+
+<ng-template #searchModal>
+    <app-search-employee (selectEvent)="getEmployee($event)"></app-search-employee>
+</ng-template>

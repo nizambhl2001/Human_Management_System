@@ -1,0 +1,9 @@
+<div class="custom-file">
+    <input (change)="onFileChange($event.target.files)" [ngClass]="{'is-invalid':isRequired}" type="file" class="custom-file-input" accept=".jpg, .jpeg, .png, .xlsx, .txt ,.docx,.pdf">
+    <label class="custom-file-label" [id]="fieldId" for="file">Choose file...</label>
+</div>
+
+<!-- <div class="" style="max-height: 120px; max-width: 150px;">
+  <span *ngIf="previewFile" (click)="clearFile()" class="fa fa-window-close text-danger"></span>
+  <input *ngIf="previewFile" src="data:image/jpg/txt/docx;base64,{{previewFile}}" accept="image/jpg/jpeg/txt/docx" class="form-control" alt="file preview place" name="file" style="height: 120px; width:120px;">
+</div> -->

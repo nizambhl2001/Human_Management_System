@@ -1,0 +1,60 @@
+<div class="card">
+    <h4 class="card-header text-center bg-light">
+        Other Allowance
+    </h4>
+    <div class="card-body row">
+        <div class="col-md-6">
+            <form [formGroup]="OtherAllowanceForm">
+                <div class="form-group row">
+                    <label class="col-form-label col-sm-3 ">Payscale Grade<i class="text-danger">*</i></label>
+                    <div class="col-sm-7">
+                        <ng-select [ngClass]="{'is-invalid':(f['payscaleID'].touched || f['payscaleID'].dirty || isSaveBtnClick) && f['payscaleID'].invalid}" formControlName="payscaleID" (change)="selectedPayScale(f.payscaleID.value)" [items]="allSalaryGrade" bindLabel="payScale"
+                            bindValue="payScale" placeholder="Select Pay Scale Grade"></ng-select>
+                        <div *ngIf="f['payscaleID'].invalid && (f['payscaleID'].touched || f['payscaleID'].dirty || isSaveBtnClick)" class="text-danger">
+                            <i *ngIf="f['payscaleID'].errors.required" class="text-danger">Payscale Grade is required</i>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-form-label col-sm-3 ">Salary Head<i class="text-danger">*</i></label>
+                    <div class="col-sm-7">
+                        <ng-select [ngClass]="{'is-invalid':(f['salaryHeadID'].touched || f['salaryHeadID'].dirty || isSaveBtnClick) && f['salaryHeadID'].invalid}" formControlName="salaryHeadID" [items]="allsalaryHeadModel" bindLabel="accountName" bindValue="id" placeholder="Select Salary Head"></ng-select>
+                        <div *ngIf="f['salaryHeadID'].invalid && (f['salaryHeadID'].touched || f['salaryHeadID'].dirty || isSaveBtnClick)" class="text-danger">
+                            <i *ngIf="f['salaryHeadID'].errors.required" class="text-danger">Payscale Grade is required</i>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="card row col-md-6 p-0 m-0">
+            <div class="card-body p-0">
+                <div class="form-group">
+                    <table class="table table-hover table-bordered table-striped mb-0">
+                        <thead>
+                            <tr>
+                                <th>Payscale</th>
+                                <th>Amount</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngIf="_otherAllowanceDetailsForm.controls.length==0">
+                                <td colspan="13" class="font-italic text-center">No item available</td>
+                            </tr>
+                            <tr *ngFor="let detailsForm of _otherAllowanceDetailsForm.controls; let i=index" [formGroup]="detailsForm">
+
+                                <td class="pl-3 p-0">{{detailsForm.value.gradeValue}}</td>
+                                <td><input formControlName="amount" [ngClass]="{'is-invalid':(_otherAllowanceDetailsForm.controls[i].get('amount').touched || _otherAllowanceDetailsForm.controls[i].get('amount').dirty || isSaveBtnClick) &&  _otherAllowanceDetailsForm.controls[i].get('amount').invalid}"
+                                        type="number" class="form-control" /></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="ml-auto">
+                    <button (click)="save()" type="submit" class="btn btn-success mr-5">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

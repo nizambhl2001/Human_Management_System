@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.852
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebApiCore", "WebApiCore\WebApiCore.csproj", "{B13B2802-912D-43BE-B4B9-2FD68EA56248}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dapper.Framework", "Dapper.Framework\Dapper.Framework.csproj", "{9DDC5C35-C34E-4B03-B0DA-522082611DF3}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B13B2802-912D-43BE-B4B9-2FD68EA56248}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B13B2802-912D-43BE-B4B9-2FD68EA56248}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B13B2802-912D-43BE-B4B9-2FD68EA56248}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B13B2802-912D-43BE-B4B9-2FD68EA56248}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9DDC5C35-C34E-4B03-B0DA-522082611DF3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9DDC5C35-C34E-4B03-B0DA-522082611DF3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9DDC5C35-C34E-4B03-B0DA-522082611DF3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9DDC5C35-C34E-4B03-B0DA-522082611DF3}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {FDBFF2DC-65CB-4863-A0E9-28A5B9FB98FB}
+	EndGlobalSection
+EndGlobal

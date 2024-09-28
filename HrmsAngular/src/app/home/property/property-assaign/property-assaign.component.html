@@ -1,0 +1,224 @@
+<div class="card">
+    <h4 class="card-header text-center bg-light">Property Assaign</h4>
+    <div class="card-body">
+        <form [formGroup]="propertyAssainForm" class="row">
+            <!--Left column-->
+            <div class="col-6">
+                <!--Left column up row-->
+                <div class="p-3 text-center" style="border: 1px solid lightgray;height: 500px;">
+                    <h5>Employee Information:</h5>
+                    <!--Employee Id-->
+                    <div class="form-group row">
+                        <label class="col-form-label col-sm-4 ">Employee ID</label>
+                        <div class="col-sm-8">
+                            <app-employee-select-list [fixedWidth]="'150px'" [isRequired]="f['empCode'].invalid && (isSubmitted || f['empCode'].touched || f['empCode'].dirty)" (onChange)="getEmpInfo($event.empCode);f['empCode'].setValue($event.empCode);getAssignedAsset();" [setEmpCode]="formVal.empCode">
+                            </app-employee-select-list>
+                            <div *ngIf="f['empCode'].invalid && (isSubmitted || f['empCode'].touched || f['empCode'].dirty)" class="text-danger">
+                                <i *ngIf="f['empCode'].errors['required']">Employee Code is required</i>
+                            </div>
+                        </div>
+                    </div>
+                    <!--Employee Name-->
+                    <div class="form-group row">
+                        <label class="col-form-label col-sm-4 ">Employee Name</label>
+                        <div class="col-sm-6">
+                            <input readonly formControlName="empName" type="text" class="form-control" placeholder="Employee Name">
+                        </div>
+                    </div>
+                    <!--Designation Name-->
+                    <div class="form-group row">
+                        <label class="col-form-label col-sm-4 ">Designation</label>
+                        <div class="col-sm-6">
+                            <input readonly formControlName="designation" type="text" class="form-control" placeholder="Designation">
+                        </div>
+                    </div>
+                    <!--Department Name-->
+                    <div class="form-group row">
+                        <label class="col-form-label col-sm-4 ">Department</label>
+                        <div class="col-sm-6">
+                            <input readonly formControlName="department" type="text" class="form-control" placeholder="Department">
+                        </div>
+                    </div>
+                    <!--Left column Down row-->
+                    <h5 style="border-top:1px solid lightgray;padding-top: 15px">Receive From</h5>
+                    <!--Employee Id-->
+                    <div class="form-group row">
+                        <label class="col-form-label col-sm-4 ">Employee ID</label>
+                        <div class="col-sm-6">
+                            <app-employee-select-list [fixedWidth]="'150px'" [isRequired]="f['reciveFrom'].invalid && (isSubmitted || f['reciveFrom'].touched || f['reciveFrom'].dirty)" (onChange)="f['reciveFrom'].setValue($event.empCode);getFromEmpInfo($event.empCode)" [setEmpCode]="formVal.reciveFrom">
+                            </app-employee-select-list>
+                            <div *ngIf="f['reciveFrom'].invalid && (isSubmitted || f['reciveFrom'].touched || f['reciveFrom'].dirty)" class="text-danger">
+                                <i *ngIf="f['reciveFrom'].errors['required']">reciveFrom is required</i>
+                            </div>
+                        </div>
+                    </div>
+                    <!--Employee Name-->
+                    <div class="form-group row">
+                        <label class="col-form-label col-sm-4 ">Employee Name</label>
+                        <div class="col-sm-6">
+                            <input readonly formControlName="fromEmpName" type="text" class="form-control" placeholder="Employee Name">
+                        </div>
+                    </div>
+                    <!--Designation Name-->
+                    <div class="form-group row">
+                        <label class="col-form-label col-sm-4 ">Designation</label>
+                        <div class="col-sm-6">
+                            <input readonly formControlName="fromDesignation" type="text" class="form-control" placeholder="Designation">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--Left column-->
+            <!--Right column-->
+            <div class="col-6" style="border: 1px solid lightgray">
+                <h5 class="p-3 text-center">Property Information</h5>
+                <!--Assain Type-->
+                <div class="form-group row">
+                    <label class="col-form-label col-sm-4 ">Assign Type</label>
+                    <div class="col-sm-6">
+                        <select [ngClass]="{'is-invalid': (isSubmitted || f['assaintype'].touched || f['assaintype'].dirty) && f['assaintype'].invalid}" formControlName="assaintype" class="form-control">
+              <option value="0">--- Select Assign Type ---</option>
+              <option value="1">Assign</option>
+              <option value="2">Transfer</option>
+              <option value="3">Withdraw</option>
+            </select>
+                    </div>
+                    <label class="col-form-label col-sm-4 "></label>
+                    <div *ngIf="f['assaintype'].invalid && (isSubmitted || f['assaintype'].touched || f['assaintype'].dirty)" class="text-danger">
+                        <i *ngIf="f['assaintype'].errors['required']">Assain Type required</i>
+                    </div>
+                </div>
+                <!--Category Name-->
+                <div class="form-group row">
+                    <label class="col-form-label col-sm-4 ">Category Name</label>
+                    <div class="col-md-6">
+                        <ng-select [ngClass]="{'is-invalid': (isSubmitted || f['categoryID'].touched || f['categoryID'].dirty) && f['categoryID'].invalid}" formControlName="categoryID" name="categoryID" (change)="GetAssetByCategory(f['categoryID'].value)" [items]="categories"
+                            bindLabel="categoryName" bindValue="id" placeholder="Category Name">
+                        </ng-select>
+                    </div>
+                    <label class="col-form-label col-sm-4 "></label>
+                    <div *ngIf="f['categoryID'].invalid && (isSubmitted || f['categoryID'].touched || f['categoryID'].dirty)" class="text-danger">
+                        <i *ngIf="f['categoryID'].errors['required']">Category required</i>
+                    </div>
+                </div>
+                <!--Property Name-->
+                <div class="form-group row">
+                    <label class="col-form-label col-sm-4 ">Property Name</label>
+                    <div class="col-sm-6">
+                        <ng-select [ngClass]="{'is-invalid': (isSubmitted || f['propertyID'].touched || f['propertyID'].dirty) && f['propertyID'].invalid}" formControlName="propertyID" (change)="getAssetModel(f['propertyID'].value)" name="propertyID" [items]="assetname" bindLabel="assetName"
+                            bindValue="id" placeholder="Property Name">
+                        </ng-select>
+                    </div>
+                    <label class="col-form-label col-sm-4 "></label>
+                    <div *ngIf="f['propertyID'].invalid && (isSubmitted || f['propertyID'].touched || f['propertyID'].dirty)" class="text-danger">
+                        <i *ngIf="f['propertyID'].errors['required']">Property Name required</i>
+                    </div>
+                </div>
+                <!--Model-->
+                <div class="form-group row">
+                    <label class="col-form-label col-sm-4 ">Model</label>
+                    <div class="col-sm-6">
+                        <ng-select [ngClass]="{'is-invalid': (isSubmitted || f['modelID'].touched || f['modelID'].dirty) && f['modelID'].invalid}" formControlName="modelID" (change)="onAssetModelChange(f['modelID'].value)" [items]="assetModels" bindLabel="model" bindValue="id"
+                            placeholder="Select Asset Model">
+                        </ng-select>
+                    </div>
+                    <label class="col-form-label col-sm-4 "></label>
+                    <div *ngIf="f['modelID'].invalid && (isSubmitted || f['modelID'].touched || f['modelID'].dirty)" class="text-danger">
+                        <i *ngIf="f['modelID'].errors['required']">Model Name required</i>
+                    </div>
+                </div>
+                <!--Serial-->
+                <div class="form-group row">
+                    <label class="col-form-label col-sm-4 ">Serial</label>
+                    <div class="col-sm-6">
+                        <input formControlName="serial" type="text" class="form-control" placeholder="Serial" readonly>
+                    </div>
+                </div>
+                <!--Configuration-->
+                <div class="form-group row">
+                    <label class="col-form-label col-sm-4 ">Configuration</label>
+                    <div class="col-sm-6">
+                        <textarea formControlName="confiruration" class="form-control" placeholder="Configuration" readonly></textarea>
+                    </div>
+                </div>
+
+                <!--Assign Date-->
+                <div class="form-group row">
+                    <label class="col-form-label col-sm-4 ">Assign Date</label>
+                    <div class="col-sm-6">
+                        <div class="input-group">
+                            <input class="form-control" name="assainDateNgb" ngbDatepicker formControlName="assainDateNgb" #d1="ngbDatepicker" readonly>
+                            <div class="input-group-append">
+                                <button class="input-group-text" (click)="d1.toggle()" type="button">
+                  <span class="ion ion-md-calendar" style="cursor: pointer;"></span>
+                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--Warranty Expire Date-->
+                <div class="form-group row">
+                    <label class="col-form-label col-sm-4 ">Warranty Expire Date</label>
+                    <div class="col-sm-6">
+                        <div class="input-group">
+                            <input [ngClass]="{'is-invalid': (isSubmitted || f['ownershipDateNgb'].touched || f['ownershipDateNgb'].dirty) && f['ownershipDateNgb'].invalid}" class="form-control" name="ownershipDateNgb" placeholder="dd-mm-yyyy" ngbDatepicker formControlName="ownershipDateNgb"
+                                #d2="ngbDatepicker" readonly>
+                            <div class="input-group-append">
+                                <button class="input-group-text" (click)="d2.toggle()" type="button">
+                  <span class="ion ion-md-calendar" style="cursor: pointer;"></span>
+                </button>
+                            </div>
+                        </div>
+                        <div *ngIf="f['ownershipDateNgb'].invalid && (isSubmitted || f['ownershipDateNgb'].touched || f['ownershipDateNgb'].dirty)" class="text-danger">
+                            <i *ngIf="f['ownershipDateNgb'].errors['required']">OwnershipDate required</i>
+                        </div>
+                    </div>
+                </div>
+                <!--Button-->
+            </div>
+        </form>
+        <div class="form-group row">
+            <div class="demo-inline-spacing mt-3  center">
+                <button (click)="reset()" type="clear" class="btn btn-info">
+              <span class="ion ion-ios-refresh"></span> Reset</button>
+                <button (click)="saveUpdate()" type="clear" class="btn btn-success"> {{btnStatus}}</button>
+
+            </div>
+        </div>
+        <!-- Table-->
+        <div class="row">
+            <div class="data-table">
+                <table class="table table-hover table-bordered table-striped mb-0">
+                    <thead>
+                        <tr>
+                            <th>SN</th>
+                            <th>Model</th>
+                            <th>Serial</th>
+                            <th>Configuration</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let asset of assignedAssets; let i=index;">
+                            <td>{{i+1}}</td>
+                            <td>{{asset.model}}</td>
+                            <td>{{asset.serial}}</td>
+                            <td>{{asset.confiruration}}</td>
+                            <td><button (click)="getAssainById(asset.id)" type="" class="btn btn-info btn-sm">
+          <span class="fas fa-edit"></span></button>&nbsp;
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Employee Search Modal -->
+<ng-template #PropAssignSearchModal>
+    <app-search-employee (selectEvent)="onSelectEmp($event)"></app-search-employee>
+</ng-template>
+<!-- Recieve from Employee Search Modal -->
+<ng-template #RcvFrmSearchModal>
+    <app-search-employee (selectEvent)="getFromEmpInfo($event)"></app-search-employee>
+</ng-template>

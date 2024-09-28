@@ -1,0 +1,95 @@
+<div class="card">
+  <h4 class="card-header text-center bg-light">
+    Salary Publish
+  </h4>
+  <div class="card-body">
+    <div class="row">
+      <div class="col-md-6">
+        <form [formGroup]="salaryPublishForm">
+          <div class="form-group row">
+            <label class="col-form-label col-sm-3 ">Salary Period</label>
+            <div class="col-sm-7">
+              <app-period-select-list [setPeriodId]="fCon['periodID'].value" (onChange)="onSelectPeriod($event)">
+              </app-period-select-list>
+              <div
+                *ngIf="fCon['periodID'].invalid && (isSubmitted || fCon['periodID'].touched || fCon['periodID'].dirty)"
+                class="text-danger">
+                <i *ngIf="fCon['periodID'].errors.required">Please Select Period</i>
+              </div>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="col-form-label col-sm-3 ">Publish Status</label>
+            <div class="col-sm-7">
+              <ng-select formControlName="publish" [items]="[{type:'Publish', value:1},{type:'Not Publish', value:2}]" bindLabel="type" bindValue="value" placeholder="Select a Status">
+
+              </ng-select>
+              <div *ngIf="fCon['publish'].invalid && (isSubmitted || fCon['publish'].touched || fCon['publish'].dirty)"
+                class="text-danger">
+                <i *ngIf="fCon['publish'].errors.required">Please Select Publish Status </i>
+              </div>
+            </div>
+          </div>
+        </form>
+        <div class="row col-sm-10">
+          <div class="ml-auto">
+            <button (click)="Reset()" class="btn btn-info">
+              <span class="far fa-reset"></span> Reset</button>
+            <button (click)="onSubmit()" class="btn btn-success">{{btnStatus}}</button>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="card">
+          <div class="card-header">
+            <div class="row">
+              <div class="col">
+                Per page: &nbsp;
+                <select [(ngModel)]="perPage" (change)="update()" class="custom-select custom-select-md d-inline-block w-auto">
+                  <option *ngFor="let limit of [5,10, 20, 30, 40, 50]">{{limit}}</option>
+                </select>
+              </div>
+              <div class="col">
+                <input type="text" [(ngModel)]="filterVal" (input)="currentPage = 1; update()"
+                  class="form-control form-control-md d-inline-block w-auto float-sm-right" placeholder="Search...">
+              </div>
+            </div>
+          </div>
+          <div class="card-body p-0">
+            <div class="data-table m-0">
+              <table class="table table-hover table-striped mb-0">
+                <thead>
+                  <tr>
+                    <th>Period Name</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngIf="tempItems.length==0">
+                    <td colspan="4" class="font-italic text-center">No item available</td>
+                  </tr>
+                  <tr (click)="getById(item.id)" *ngFor="let item of tempItems; let i=index">
+                    <td>{{item.periodName}}</td>
+                    <td>{{item.statusName}}</td>
+                    <td class="btn btn-sm btn-primary" (click)=" getById(item.id)"><span class="fa fa-edit"></span></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="row">
+              <div class="col-sm text-sm-left text-center pt-3">
+                <span class="text-muted" *ngIf="totalItems">Page {{ currentPage }} of {{ totalPages }}</span>
+              </div>
+              <div class="col-sm pt-3">
+                <ngb-pagination [collectionSize]="totalItems" [pageSize]="perPage" [(page)]="currentPage"
+                  (pageChange)="update()" size="sm" class="d-flex justify-content-center justify-content-sm-end m-0">
+                </ngb-pagination>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

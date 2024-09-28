@@ -1,0 +1,68 @@
+<div class="card">
+    <h4 class="card-header text-center bg-light">
+        {{title}}
+    </h4>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-7 center">
+                <form [formGroup]="departmentGLForm">
+                    <div class="form-group row">
+                        <label class="col-form-label col-sm-3 " for="department">Department</label>
+                        <div class="col-sm-6">
+                            <app-basic-entry-select-list [itemId]="f['id'].value" [isPlusIconHide]="true" [tableName]="'Department'" (onChange)="f['id'].patchValue($event.id)"></app-basic-entry-select-list>
+                            <div *ngIf="f['id'].invalid && (f['id'].dirty || f['id'].touched || isSubmitted)" class="row text-danger col-md-12">
+                                <i *ngIf="f['id'].errors.required">Select Department</i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-form-label col-sm-3 " for="glDepartment">GL Department</label>
+                        <div class="col-sm-6">
+                            <app-basic-entry-select-list [itemId]="f['gLID'].value" [isPlusIconHide]="true" [tableName]="'DepartmentGL'" (onChange)="f['gLID'].patchValue($event.id)"></app-basic-entry-select-list>
+                            <div *ngIf="f['gLID'].invalid && (f['gLID'].dirty || f['gLID'].touched || isSubmitted)" class="row text-danger col-md-12">
+                                <i *ngIf="f['gLID'].errors.required">Select GL </i>
+                            </div>
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+        <div class="row">
+            <label for="" class="col-form-label col-sm-2 "></label>
+            <div class="demo-inline-spacing mt-3 center">
+                <button (click)="Reset()" class="btn btn-info"><span class="ion ion-ios-refresh"></span> Reset</button>
+                <button (click)="assignDepartmentGL()" type="submit" class="btn btn-success">Assign</button>
+
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4 ml-auto">
+                <input (keyup)="onFilter($event)" class="form-control" placeholder="Search by branch name">
+            </div>
+        </div>
+        <div class="row">
+            <div class="data-table">
+                <table class="table table-hover table-bordered table-striped mb-0">
+                    <thead>
+                        <tr>
+                            <th>Department</th>
+                            <th>Department ID</th>
+                            <th>GL Code</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngIf="filteredItem.length==0">
+                            <td colspan="3" class="font-italic text-center">No Item available</td>
+                        </tr>
+                        <tr *ngFor="let item of filteredItem">
+                            <td>{{item.depertment}}</td>
+                            <td>{{item.depertmentGL}}</td>
+                            <td>{{item.gLCode}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

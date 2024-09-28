@@ -1,0 +1,191 @@
+<div class="card-body">
+    <div class="card ">
+        <h4 class="card-header text-center bg-light">
+            Education
+        </h4>
+        <div class="card-body">
+            <form [formGroup]="educationForm">
+                <div class="form-group row">
+                    <label class="col-form-label col-sm-4 ">Employee Id
+          </label>
+                    <div class="col-sm-2">
+                        <input formControlName="empCode" type="text" [ngClass]="{'is-invalid': (f['empCode'].touched || f['empCode'].dirty || isSubmitted) && f.empCode.invalid}" class="form-control" placeholder="Employee Id" readonly>
+                        <div *ngIf="f['empCode'].invalid && (f['empCode'].touched || f['empCode'].dirty || isSubmitted)" class="text-danger">
+                            <i *ngIf="f['empCode'].errors.required"> Employee Code is required</i>
+                        </div>
+                    </div>
+                    <div class="col-sm-3">
+                        <input [value]="empName" type="text" class="form-control" placeholder="Employee Id" readonly>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-form-label col-sm-4 ">Level of Education
+            <!-- <i class="text-danger">*</i> -->
+          </label>
+                    <div class="col-sm-5">
+                        <app-basic-entry-select-list [itemId]="formVal.levelof" (onChange)="f['levelof'].setValue($event.id)" [modalName]="eduLevelModal" [tableName]="'EducationLevel'" [allItem]="allEduLevel"></app-basic-entry-select-list>
+                        <ng-template #eduLevelModal>
+                            <app-education-level (getItems)="allEduLevel= $event"></app-education-level>
+                        </ng-template>
+                        <div *ngIf="f['levelof'].invalid && (f['levelof'].touched || f['levelof'].dirty || isSubmitted)" class="text-danger">
+                            <i *ngIf="f['levelof'].errors.required"> Education level is required</i>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-form-label col-sm-4 ">Academic Discipline
+            <!-- <i class="text-danger">*</i> -->
+          </label>
+                    <div class="col-sm-5">
+                        <ng-select formControlName="subject" [items]="allEduGroup" bindLabel="description" bindValue="id" [ngClass]="{'is-invalid': (f['subject'].touched || f['subject'].dirty || isSubmitted) && f.subject.invalid}" placeholder="Select Group/Subject"></ng-select>
+                        <div *ngIf="f['subject'].invalid && (f['subject'].touched || f['subject'].dirty || isSubmitted)" class="text-danger">
+                            <i *ngIf="f['subject'].errors.required">Academic Discipline is required</i>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-form-label col-sm-4 "> Institute name
+            <i class="text-danger">*</i>
+          </label>
+                    <div class="col-sm-5">
+                        <app-basic-entry-select-list [itemId]="formVal.institute" (onChange)="f['institute'].setValue($event.id)" [modalName]="instituteModal" [tableName]="'Institute'" [allItem]="allInstitute"></app-basic-entry-select-list>
+                        <ng-template #instituteModal>
+                            <app-institute (getItems)="allInstitute= $event"></app-institute>
+                        </ng-template>
+                        <div *ngIf="f['institute'].invalid && (f['institute'].touched || f['institute'].dirty || isSubmitted)" class="text-danger">
+                            <i *ngIf="f['institute'].errors.required">Institute is required</i>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-form-label col-sm-4 ">Education Board/University
+            <!-- <i class="text-danger">*</i> -->
+          </label>
+                    <div class="col-sm-5">
+                        <app-basic-entry-select-list [itemId]="formVal.educationBoard" (onChange)="f['educationBoard'].setValue($event.id)" [modalName]="boardModal" [tableName]="'EducationBoard'" [allItem]="allEduBoard"></app-basic-entry-select-list>
+                        <ng-template #boardModal>
+                            <app-education-board (getItems)="allEduBoard= $event"></app-education-board>
+                        </ng-template>
+                        <div *ngIf="f['educationBoard'].invalid && (f['educationBoard'].touched || f['educationBoard'].dirty || isSubmitted)" class="text-danger">
+                            <i *ngIf="f['educationBoard'].errors.required">Board/University is required</i>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-form-label col-sm-4 ">Country
+            <!-- <i class="text-danger">*</i> -->
+          </label>
+                    <div class="col-sm-5">
+                        <app-basic-entry-select-list [itemId]="formVal.country" (onChange)="f['country'].setValue($event.id)" [modalName]="countryModal" [tableName]="'Country'" [allItem]="allCountry"></app-basic-entry-select-list>
+                        <ng-template #countryModal>
+                            <app-country (getItems)="allCountry= $event"></app-country>
+                        </ng-template>
+                        <div *ngIf="f['country'].invalid && (f['country'].touched || f['country'].dirty || isSubmitted)" class="text-danger">
+                            <i *ngIf="f['country'].errors.required">Country is required</i>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-form-label col-sm-4 ">Year Of Passing
+            <!-- <i class="text-danger">*</i> -->
+          </label>
+                    <div class="col-sm-5">
+                        <app-basic-entry-select-list [itemId]="formVal.pasyear" (onChange)="f['pasyear'].setValue($event.id)" [modalName]="yearModal" [tableName]="'PassingYear'" [allItem]="allYear"></app-basic-entry-select-list>
+                        <ng-template #yearModal>
+                            <app-passing-year (getItems)="allYear= $event"></app-passing-year>
+                        </ng-template>
+                        <div *ngIf="f['pasyear'].invalid && (f['pasyear'].touched || f['pasyear'].dirty || isSubmitted)" class="text-danger">
+                            <i *ngIf="f['pasyear'].errors.required">Passing Year is required</i>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-form-label col-sm-4 ">Duration
+            <!-- <i class="text-danger">*</i> -->
+          </label>
+                    <div class="col-sm-5">
+                        <input formControlName="duration" type="text" [ngClass]="{'is-invalid': (f['duration'].touched || f['duration'].dirty || isSubmitted) && f.duration.invalid}" class="form-control" placeholder="Duration">
+                        <div *ngIf="f['duration'].invalid && (f['duration'].touched || f['duration'].dirty || isSubmitted)" class="text-danger">
+                            <i *ngIf="f['duration'].errors.required">Duration is required</i>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-form-label col-sm-4 ">Result
+            <!-- <i class="text-danger">*</i> -->
+          </label>
+                    <div class="col-sm-5">
+                        <app-basic-entry-select-list [itemId]="formVal.result" (onChange)="f['result'].setValue($event.id)" [modalName]="resultModal" [tableName]="'Result'" [allItem]="allResultType"></app-basic-entry-select-list>
+                        <ng-template #resultModal>
+                            <app-result (getItems)="allResultType= $event"></app-result>
+                        </ng-template>
+                        <div *ngIf="f['result'].invalid && (f['result'].touched || f['result'].dirty || isSubmitted)" class="text-danger">
+                            <i *ngIf="f['result'].errors.required">Result is required</i>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-form-label col-sm-4 ">CGPA/Marks(%)
+          </label>
+                    <div class="col-sm-5">
+                        <input formControlName="marks" type="number" class="form-control" placeholder="Marks">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-form-label col-sm-4 ">Achievement
+          </label>
+                    <div class="col-sm-5">
+                        <textarea formControlName="achivement" rows="3" type="text" class="form-control" placeholder="Achievement"></textarea>
+                    </div>
+                </div>
+                <div class=" row">
+                    <div class="demo-inline-spacing mt-3" style="margin:0 auto">
+                        <button (click)="reset()" class="btn btn-info">
+                        <span class="ion ion-ios-refresh"></span> Reset
+                      </button>
+                        <button (click)="onSubmit()" type="submit" class="btn btn-success">
+              {{btnStatus}}
+            </button>
+                    </div>
+                </div>
+            </form>
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Level Of Education</th>
+                        <th>Institute name</th>
+                        <th>Passing Year</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let e of empAllEduInfo; let i = index">
+                        <td>{{i+1}}</td>
+                        <td>{{e.educationLevel}}</td>
+                        <td>{{e.instituteName}}</td>
+                        <td>{{e.yearName}}</td>
+                        <td class="demo-inline-spacing">
+                            <button (click)="getEmpEdu(e.id)" class="btn btn-info btn-sm"><span class="fas fa-edit"></span></button>
+                            <button (click)="deleteEdu(e.id, deleteModal)" class="btn btn-danger btn-sm"><span class="fas fa-trash"></span></button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- Delete Confirmation Modal -->
+<ng-template #deleteModal>
+    <div class="modal-header bg-warning">
+        <h4>Confirmation</h4>
+    </div>
+    <div class="modal-body">
+        <p class="text-danger">Are you sure want to remove this?</p>
+    </div>
+    <div class="modal-footer">
+        <button (click)="cancel()" class="btn btn-secondary">Cancel</button>
+        <button (click)="confirmDelete()" class="btn btn-danger">Confirm</button>
+    </div>
+</ng-template>

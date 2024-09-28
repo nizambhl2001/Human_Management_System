@@ -1,0 +1,120 @@
+<div class="card">
+    <h4 class="card-header text-center bg-light">
+        <h3>Report</h3>
+    </h4>
+    <div class="card-body">
+        <form [formGroup]="attendanceReportForm">
+            <div class="col-md-7 center">
+                <div class="form-group row">
+                    <label class="col-form-label col-sm-4">Report Type <span class="text-danger">*</span></label>
+                    <div class="col-sm-8">
+                        <ng-select [ngClass]="{'is-invalid':(f['ReportId'].invalid && (f['ReportId'].touched || f['ReportId'].dirty || isSubmitted))}" [items]="shiftReportList" bindLabel="TypeName" bindValue="ReportId" formControlName="ReportId" placeholder="--Select Report--">
+                            ></ng-select>
+                    </div>
+                    <div class="text-danger" *ngIf="(f['ReportId'].invalid && (f['ReportId'].touched || f['ReportId'].dirty || isSubmitted))">
+                        <i *ngIf="f['ReportId'].errors.required">Report Type is required</i>
+                    </div>
+                </div>
+                <div *ngIf="[44,45,46,47,48,49,50,51,52,53,54,55,56,57].includes(f['ReportId'].value)" class="form-group row">
+                    <label class="col-form-label col-sm-4"> Employee Id
+          </label>
+                    <div class="input-group col-sm-8" *ngIf="userId==9298 || userId==9297 || userTypeId==9 || userTypeId==4" >
+                        <app-employee-select-list (onChange)="f['EmpCode'].setValue($event.empCode)"></app-employee-select-list>
+                    </div>
+
+                    <div class="input-group col-sm-8" *ngIf=" userId!=9298 && userTypeId!=9 && userTypeId!=4">
+                      <input formControlName="EmpCode" class="form-control" placeholder="EmpCode" readonly>
+                  </div>
+                </div>
+
+                <div *ngIf="[53].includes(f['ReportId'].value)" class="form-group row">
+                    <label class="col-form-label col-sm-4">Select Month</label>
+                    <div class="col-sm-8">
+                        <app-period-select-list (onChange)="f['PeriodID'].setValue($event.id)"></app-period-select-list>
+                    </div>
+                </div>
+                <div *ngIf="[44,45,46,47,48,49,50,51,54,55,56,57].includes(f['ReportId'].value)" class="form-group row">
+                    <label class="col-form-label col-sm-4">Start Date
+            </label>
+
+                    <div class="input-group col-sm-8">
+                        <app-date-control (getYyyymmdd)="f['StartDate'].setValue($event)"></app-date-control>
+                    </div>
+                </div>
+                <div *ngIf="[44,45,46,47,48,49,50,51,54,55,56,57].includes(f['ReportId'].value)" class="form-group row">
+                    <label class="col-form-label col-sm-4 ">End Date
+          </label>
+                    <div class="input-group col-sm-8">
+                        <app-date-control (getYyyymmdd)="f['EndDate'].setValue($event)"></app-date-control>
+                    </div>
+                </div>
+                <div *ngIf="[44,45,46,47,48,49,50,51,52,53,55,57].includes(f['ReportId'].value)" class="form-group row">
+                    <label for="branch" class="col-form-label col-md-4">Work Station</label>
+                    <div class="col-md-8">
+                        <app-basic-entry-select-list [isRequired]="f['Location'].invalid && (isSubmitted || f['Location'].touched || f['Location'].dirty)" [itemId]="formVal.Location" (onChange)="f['Location'].setValue($event.id)" [tableName]="'Location'" [modalName]="Location">
+                        </app-basic-entry-select-list>
+                        <ng-template #Location>
+                            <app-location>
+                            </app-location>
+                        </ng-template>
+                    </div>
+                    <div class="text-danger" *ngIf="(f['BranchID'].invalid && (f['BranchID'].touched || f['BranchID'].dirty || isSubmitted))">
+                        <i *ngIf="f['BranchID'].errors.required">Work Station is required</i>
+                    </div>
+                </div>
+                <div *ngIf="[44,45,46,47,48,49,50,51,52,53,55,57].includes(f['ReportId'].value)" class="form-group row">
+                    <label for="branch" class="col-form-label col-md-4">Office Department</label>
+                    <div class="col-md-8">
+                        <app-basic-entry-select-list [isRequired]="f['DepartmentID'].invalid && (isSubmitted || f['DepartmentID'].touched || f['DepartmentID'].dirty)" [itemId]="formVal.DepartmentID" (onChange)="f['DepartmentID'].setValue($event.id)" [tableName]="'Department'"
+                            [modalName]="DepartmentID">
+                        </app-basic-entry-select-list>
+                        <ng-template>
+                            <app-department #DepartmentID>
+                            </app-department>
+                        </ng-template>
+                    </div>
+                    <div class="text-danger" *ngIf="(f['DepartmentID'].invalid && (f['DepartmentID'].touched || f['DepartmentID'].dirty || isSubmitted))">
+                        <i *ngIf="f['DepartmentID'].errors.required">Department is required</i>
+                    </div>
+                </div>
+                <div *ngIf="[44,45,46,47,48,49,50,51,52,53,55,57].includes(f['ReportId'].value)" class="form-group row">
+                    <label for="branch" class="col-form-label col-md-4">Select Branch</label>
+                    <div class="col-md-8">
+                        <app-basic-entry-select-list [isRequired]="f['BranchID'].invalid && (isSubmitted || f['BranchID'].touched || f['BranchID'].dirty)" [itemId]="formVal.BranchID" (onChange)="f['BranchID'].setValue($event.id)" [tableName]="'Branch'" [modalName]="BranchID">
+                        </app-basic-entry-select-list>
+                        <ng-template #BranchID>
+                            <app-branch>
+                            </app-branch>
+                        </ng-template>
+                    </div>
+                    <div class="text-danger" *ngIf="(f['BranchID'].invalid && (f['BranchID'].touched || f['BranchID'].dirty || isSubmitted))">
+                        <i *ngIf="f['BranchID'].errors.required">Branch is required</i>
+                    </div>
+                </div>
+                <div *ngIf="[44,45,46,47,48,49,50,51,52,53,55,57].includes(f['ReportId'].value)" class="form-group row">
+                    <label for="branch" class="col-form-label col-md-4">Select Project</label>
+                    <div class="col-md-8">
+                        <app-basic-entry-select-list [isRequired]="f['ProjectID'].invalid && (isSubmitted || f['ProjectID'].touched || f['ProjectID'].dirty)" [tableName]="'Project'" (onChange)="f['ProjectID'].setValue($event.id)">
+                        </app-basic-entry-select-list>
+                    </div>
+                    <div class="text-danger" *ngIf="(f['ProjectID'].invalid && (f['ProjectID'].touched || f['ProjectID'].dirty || isSubmitted))">
+                        <i *ngIf="f['ProjectID'].errors.required">Branch is required</i>
+                    </div>
+                </div>
+
+                <div class="form-group row mt-2">
+                    <div class="col-12">
+                        <ng-select class="pull-right mr-1" formControlName="ExportType" [items]="[{typeName:'pdf'},{typeName:'xls'}, {typeName:'xlsx'}]" bindLabel="typeName" bindValue="typeName"></ng-select>
+                        <button [ladda]="exporting" (click)="export()" type="submit" class="btn btn-info pull-right m2-1">
+              <b>Generate Report</b></button>
+                    </div>
+                </div>
+                <div *ngIf="exporting" class="row">
+                    <div class="m-auto">
+                        <img src="../../../../assets/img/loading_icon.gif" height="80" width="80"> Please wait...
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

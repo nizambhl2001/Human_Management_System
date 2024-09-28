@@ -1,0 +1,118 @@
+<div class="card">
+  <h4 class="card-header text-center bg-light">
+    <h3>Leave Apply By User</h3>
+  </h4>
+  <div class="card-body">
+    <form [formGroup]="leaveForm">
+    <div class="form-group row">
+      <label class="col-form-label col-sm-4 text-right">Leave Apply Date
+      </label>
+      <div class="input-group col-sm-8">
+        <app-date-control [setDefault]="true" (getYyyymmdd)="f['Date'].setValue($event)" ></app-date-control>
+      </div>
+    </div>
+
+
+
+    <div class="row text-center mt-2" style="max-width: 450px;margin-left: 250px;">
+        <div class="col-md-6">
+          <button [ladda]="exporting" (click)="showLeaveApplyUser()"  class="btn btn-success">Show Data </button>
+        </div>
+          <div class="input-group col-md-6">
+            <input (keyup)="onSearch($event.target.value)"  type="text" class="form-control"
+              placeholder="Search by EmpCode" />
+            <div class="input-group-append">
+              <button class="btn btn-sm btn-primary"><span class="fa fa-search"></span></button>
+            </div>
+          </div>
+
+  </div>
+
+   </form>
+  </div>
+</div>
+
+
+<div class="card">
+  <div class="data-table">
+      <table class="table table-bordered">
+          <thead>
+              <tr>
+                  <th>SN</th>
+                  <th>Code</th>
+                  <th>Employee Name</th>
+                  <th>Apply Date</th>
+                  <th>StartDate</th>
+                  <th>EndDate</th>
+                  <th>Leave Duration</th>
+                  <th>Status</th>
+                  <th>Action</th>
+
+              </tr>
+          </thead>
+          <tbody>
+              <tr *ngIf="items.length==0">
+                  <td colspan="13" class="font-italic text-center">No item available</td>
+              </tr>
+              <tr *ngFor="let leave of items; let i=index">
+                  <td>{{i+1}}</td>
+                  <td style="font-size: 12px;">{{leave.empCode}}</td>
+                  <td style="font-size: 12px;">{{leave.empName}}</td>
+                  <td style="font-size: 12px;">{{leave.laDate | date:"dd/MM/yyyy"}}</td>
+                  <td style="font-size: 12px;">{{leave.lsDate | date:"dd/MM/yyyy"}}</td>
+                  <td style="font-size: 12px;">{{leave.leDate | date:"dd/MM/yyyy"}}</td>
+                  <td style="font-size: 12px;">{{leave.accepteDuration}}</td>
+                  <td *ngIf="leave.status==0" style="background-color:  #ffad33;text-align: center;"><span style="color:white;font-weight:bolder;">Pending</span></td>
+                  <td *ngIf="leave.status==1" style="background-color:  #006622;text-align: center;"><span style="color:white;font-weight:bolder;">Approved</span></td>
+                  <td *ngIf="leave.status==2" style="background-color:  #006622;text-align: center;"><span style="color:white;font-weight:bolder;">Recommend</span></td>
+                  <td *ngIf="leave.status==3" style="background-color:  #b30000;text-align: center;"><span style="color:white;font-weight:bolder;">Canceled</span></td>
+                  <td style="padding: 2px;font-size: 15px;width: 4%;"><button (click)="deleteByIdConfirm(leave, confirmDelete)"  class="btn btn-danger"> <span class="fas fa-trash"></span></button></td>
+
+
+              </tr>
+          </tbody>
+      </table>
+  </div>
+
+</div>
+
+
+
+<ng-template #confirmDelete>
+  <div class="card">
+      <h4 class="card-header">Are you sure want to Delete Leave?
+          <span class="fa fa-window-close pull-right text-danger" (click)="dismiss()"></span></h4>
+      <div class="card-body">
+        <form [formGroup]="leaveForm">
+        <div class="form-group row">
+          <label class="col-form-label col-sm-4 text-right">EmpCode:
+          </label>
+          <div class="input-group col-sm-4">
+            <input type="text" formControlName="empCode" class="form-control" readonly>
+          </div>
+        </div>
+        <div class="form-group row">
+          <label class="col-form-label col-sm-4 text-right">EmpName:
+          </label>
+          <div class="input-group col-sm-4">
+            <input type="text" formControlName="empName" class="form-control" readonly>
+          </div>
+        </div>
+
+        <!-- <div class="form-group row">
+          <label class="col-form-label col-sm-4 text-right">StartDate:
+          </label>
+          <div class="input-group col-sm-4">
+            <input type="date" formControlName="laDate" class="form-control" readonly>
+          </div>
+        </div> -->
+      </form>
+      </div>
+      <div class="card-footer">
+          <div class="pull-right demo-inline-spacing">
+              <button (click)="dismiss()" class="btn btn-danger">Not now</button>
+              <button (click)="deleteById()" class="btn btn-success">Confirm</button>
+          </div>
+      </div>
+  </div>
+</ng-template>

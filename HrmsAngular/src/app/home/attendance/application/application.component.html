@@ -1,0 +1,185 @@
+<div class="card">
+  <h4 class="card-header text-center bg-light">
+    {{title}}
+  </h4>
+  <div class="card-body">
+    <form [formGroup]="attendenceAppForm">
+      <div class="row">
+        <div class="col-md-6">
+          <div class="form-group row">
+            <label for="empId" class="col-md-4">Employee Id</label>
+            <div class="input-group col-md-6">
+
+             <app-employee-select-list [fixedWidth]="'170px'" [setEmpCode]="f['empCode'].value" (onChange)="getAttendenceListByEmpCode($event.empCode)"></app-employee-select-list>
+              <!-- <input type="text" name="employeeId" id="empId" class="form-control" placeholder="Employee Id">
+              <div class="input-group-append">
+                <button class="input-group-text btn btn-info" type="button">
+                  <span class="fas fa-search" style="cursor: pointer;"></span>
+                </button>
+              </div> -->
+              <div *ngIf="(isSubmitted || f['empCode'].touched || f['empCode'].dirty) && f['empCode'].invalid" class="text-danger">
+                <i *ngIf="f['empCode'].errors.required"> Employee Code is required</i>
+         </div>
+            </div>
+          </div>
+          <div class=" form-group row">
+            <label class="col-form-label col-md-4" for="empName">Employee Name</label>
+            <div class="col-md-8">
+              <input formControlName="empName" type="text" name="employeeName" id="empName" class="form-control" disabled placeholder="Employee Name">
+              <div *ngIf="(isSubmitted || f['empName'].touched || f['empName'].dirty) && f['empName'].invalid" class="text-danger">
+                <i *ngIf="f['empName'].errors.required">Apply Employee Code is required</i>
+         </div>
+            </div>
+          </div>
+          <div class=" form-group row">
+            <label class="col-form-label col-md-4" for="designation">Designation</label>
+            <div class="col-md-8">
+              <input formControlName="empDesignation" type="text" name="designation" id="designation" class="form-control" disabled placeholder="Designation">
+              <div *ngIf="(isSubmitted || f['empDesignation'].touched || f['empDesignation'].dirty) && f['empDesignation'].invalid" class="text-danger">
+                <i *ngIf="f['empDesignation'].errors.required">Apply Employee Code is required</i>
+         </div>
+            </div>
+          </div>
+          <div class="border" style="padding: 5px;">
+
+            <div class="form-group row">
+              <label for="appEmpId" class="col-md-4">Apply to Employee Id</label>
+              <div class="input-group col-md-6">
+                <!-- <input formControlName="toEmpCode" type="text" name="appEmpId" id="appEmpId" class="form-control" placeholder="Apply to Employee Id">
+                <div class="input-group-append">
+                  <button class="input-group-text btn btn-info" type="button">
+                    <span class="fas fa-search" style="cursor: pointer;"></span>
+                  </button>
+                </div> -->
+                <app-employee-select-list [fixedWidth]="'170px'" [setEmpCode]="f['reqTo'].value" (onChange)="applyToEmpInfo($event.empCode)"></app-employee-select-list>
+              </div>
+            </div>
+
+          <div class=" form-group row">
+              <label class="col-form-label col-md-4" for="empName">Employee Name</label>
+              <div class="col-md-8">
+                <input formControlName="toEmpName" type="text" name="employeeName" id="empName" class="form-control" disabled placeholder="Employee Name">
+              </div>
+            </div>
+
+          <div class="form-group row">
+              <label class="col-form-label col-md-4" for="designation">Designation</label>
+              <div class="col-md-8">
+                <input formControlName="toEmpDesignation" type="text" name="designation" id="designation" class="form-control" disabled placeholder="Designation">
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+        <div class="col-md-6">
+            <div class="form-group row">
+                <label class="form-label col-md-4">Attendance Date</label>
+                <div class="input-group col-md-8">
+                  <!-- <input class="form-control" placeholder="dd-mm-yyyy" name="attendanceDate" ngbDatepicker
+                    [displayMonths]="1" #d1="ngbDatepicker">
+                  <div class="input-group-append">
+                    <button class="input-group-text" (click)="d1.toggle()" type="button">
+                      <span class="ion ion-md-calendar" style="cursor: pointer;"></span>
+                    </button>
+                  </div> -->
+                  <app-date-control (getLocalDate)="f['attnDate'].setValue($event)" (getNgbDate)="f['attnDateNgb'].setValue($event)" [setNgbDate]="f['attnDateNgb'].value"></app-date-control>
+                  <div *ngIf="(isSubmitted || f['attnDateNgb'].touched || f['attnDateNgb'].dirty) && f['attnDateNgb'].invalid" class="text-danger">
+                    <i *ngIf="f['attnDateNgb'].errors.required">Please Select Date</i>
+             </div>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-form-label col-md-4" for="reason">Reason</label>
+                <div class="col-md-8">
+                  <textarea formControlName="reason" row="3" name="reason" id="reason" class="form-control" placeholder="Reason"></textarea>
+                  <div *ngIf="(isSubmitted || f['reason'].touched || f['reason'].dirty) && f['reason'].invalid" class="text-danger">
+                    <i *ngIf="f['reason'].errors.required">Please Input Reason</i>
+             </div>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-form-label col-md-4" for="intTime">In Time</label>
+              <div class="col-md-8">
+
+                <app-time-control [ngbTime]="f['inTimeNgb'].value" (getTimeObj)="f['inTimeNgb'].setValue($event)" (getTimeString)="f['inTime'].setValue($event)"></app-time-control>
+                <!-- <app-time-control [ngbTime]="f['inTimeNgb'].value" (getTimeString)="f['inTime'].setValue($event)"></app-time-control> -->
+              </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="col-form-label col-md-4" for="outTime">Out Time</label>
+              <div class="col-md-8">
+                <app-time-control  [ngbTime]="f['outTimeNgb'].value" (getTimeObj)="f['outTimeNgb'].setValue($event)" (getTimeString)="f['outTime'].setValue($event)"></app-time-control>
+
+                <!-- <app-time-control [ngbTime]="f['outTimeNgb'].value" (getTimeString)="f['outTime'].setValue($event)"></app-time-control> -->
+
+              </div>
+            </div>
+
+          <div class="row">
+            <label for="" class="col-form-label col-sm-2 "></label>
+            <div class="demo-inline-spacing mt-3">
+              <button (click)="onSubmit()" class="btn btn-success"><span class="fas fa-save"></span>{{btnStatus}}</button>
+              <button (click)="Reset()" class="btn btn-info"><span class="ion ion-ios-refresh"></span> Reset</button>
+              <!-- <button class="btn btn-danger"><span class="fas fa-trash-alt"></span> Delete</button> -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+
+    <div class="card">
+      <div class="card-header">
+        <div class="row">
+          <div class="col">
+            Per page: &nbsp;
+            <select (change)="update()"
+              class="custom-select custom-select-md d-inline-block w-auto">
+              <option *ngFor="let limit of [5, 10, 20, 30, 40, 50]">{{limit}}</option>
+            </select>
+          </div>
+          <div class="col">
+            <input type="text" (input)="currentPage = 1; update()"
+              class="form-control form-control-md d-inline-block w-auto float-sm-right" placeholder="Search...">
+          </div>
+        </div>
+      </div>
+      <table class="table table-hover table-striped mb-0">
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>In Time</th>
+            <th>Out Time</th>
+            <th>Reason</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngIf="tempItems.length==0">
+            <td colspan="3" class="font-italic text-center">No Item available</td>
+          </tr>
+          <tr (click)="getAttendenceById(item.id)" *ngFor="let item of tempItems">
+            <td>{{item.attnDate|date:'dd-MM-yyyy'}}</td>
+            <td>{{item.inTime}}</td>
+            <td>{{item.outTime}}</td>
+            <td>{{item.reason}}</td>
+          </tr>
+        </tbody>
+      </table>
+      <!-- Pagination -->
+      <div class="card-body py-0">
+        <div class="row">
+          <div class="col-sm text-sm-left text-center pt-3">
+            <span class="text-muted" *ngIf="totalItems">Page {{ currentPage }} of {{ totalPages }}</span>
+          </div>
+          <div class="col-sm pt-3">
+            <ngb-pagination [collectionSize]="totalItems" [pageSize]="perPage" [(page)]="currentPage"
+              (pageChange)="update()" size="sm" class="d-flex justify-content-center justify-content-sm-end m-0">
+            </ngb-pagination>
+          </div>
+        </div>
+      </div>
+      <!-- / Pagination -->
+    </div>
+  </div>
+</div>

@@ -1,0 +1,128 @@
+<div class="card section">
+    <h4 class="card-header text-center bg-light">Challan Prepare</h4>
+    <div>
+        <form [formGroup]="challanPrepareForm">
+            <div class="col-md-6 center mt-3">
+
+                <div class="form-group row">
+                    <label class="col-form-label col-sm-4 ">Salary Period
+                  </label>
+                    <div class="col-sm-8">
+                        <ng-select formControlName="periodID" placeholder="Select Period" [items]="salaryPeriod" bindLabel="periodName" bindValue="id">
+                        </ng-select>
+                        <div *ngIf="f['periodID'].invalid && (isShowClick || f['periodID'].touched || f['periodID'].dirty)" class="text-danger">
+                            <i *ngIf="f['periodID'].errors.required">Select Salary Period  </i>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label class="col-form-label col-sm-4 "> Tax Type
+                  </label>
+                    <div class="col-sm-8">
+                        <select formControlName="paymentType" class="custom-select ">
+                          <option value="0">--Select--</option>
+                      <option value="1">Salary Payment</option>
+                      <option value="2">Other Payment</option>
+                    </select>
+                        <div *ngIf="f['paymentType'].invalid && (isShowClick || f['paymentType'].touched || f['paymentType'].dirty)" class="text-danger">
+                            <i *ngIf="f['paymentType'].errors.required">Select Tax Type </i>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-form-label col-sm-4 "> Branch
+                  </label>
+                    <div class="col-sm-8">
+                        <ng-select formControlName="branch" placeholder="Select Branch" [items]="branches" bindLabel="description" bindValue="id">
+                        </ng-select>
+                    </div>
+                </div>
+
+                <div *ngIf="f['paymentType'].value==2" class="form-group row">
+                    <label class="col-form-label col-sm-4 ">Bonus Type
+                  </label>
+                    <div class="col-sm-8">
+                        <ng-select formControlName="bonusType" placeholder="Select paymentType" [items]="allPaymentType" bindLabel="paymentType" bindValue="id" placeholder="Payment Type"></ng-select>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label class="col-form-label col-sm-4 "> Employee Type
+              </label>
+                    <div class="col-sm-8">
+                        <ng-select formControlName="gradeValue" placeholder="select Grade Name" [items]="empTypeModel" bindLabel="gradeName" bindValue="gradeID">
+                        </ng-select>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="demo-inline-spacing mt-3" style="margin:0 auto">
+                    <button [ladda]="showLadda" (click)="ShowAll()" type="" class="btn btn-info"> Show</button>
+                </div>
+            </div>
+            <table id="data" class="table table-hover table-bordered table-striped text-center">
+                <thead>
+                    <tr>
+                        <th>Code</th>
+                        <th>Employee Name</th>
+                        <th>Designation</th>
+                        <th>Department</th>
+                        <th>Amount</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of challanPrepareItem;  let i=index">
+                        <td>{{item.empCode}}</td>
+                        <td>{{item.empName}}</td>
+                        <td>{{item.designation}}</td>
+                        <td>{{item.department}}</td>
+                        <td>{{item.amount|number:'.2'}}</td>
+                        <td><button (click)="deleteFromList(item.empCode)" class="btn btn-danger btn-sm"><span class="fas fa-trash"></span></button></td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="row ml-2 mr-2">
+                <div class="col-md-4">
+                    <div class="form-group row">
+                        <label class="col-form-label col-sm-12">Challan Group</label>
+                        <div class="col-12">
+                            <ng-select formControlName="gruopID" [items]="taxGroup" bindLabel="groupName" bindValue="id" placeholder="Secelt Challan Group">
+                            </ng-select>
+                            <div *ngIf="f['gruopID'].invalid && (isSubmitted || f['gruopID'].touched || f['gruopID'].dirty)" class="text-danger">
+                                <i *ngIf="f['gruopID'].errors.required">Please Select Challan Group </i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group row">
+                        <label class="col-form-label col-sm-12">Number</label>
+                        <div class="col-sm-12">
+                            <input formControlName="gLNo" type="text" class="form-control" placeholder="Number">
+                            <div *ngIf="f['gLNo'].invalid && (isSubmitted || f['gLNo'].touched || f['gLNo'].dirty)" class="text-danger">
+                                <i *ngIf="f['gLNo'].errors.required">Please Input Gl Number </i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group row">
+                        <label class="col-form-label col-sm-12 ">Total Amount </label>
+                        <div class="col-sm-12">
+                            <input type="number" [value]="totalAmountTaka" class="form-control" placeholder="Total Amount"></div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="row">
+
+        <label for=""> Total Employee={{totalEmployee}}</label>
+        <div class="demo-inline-spacing mt-3" style="margin:0 auto">
+            <button (click)="Reset()" class="btn btn-info "><span class="ion ion-ios-refresh"></span> Reset</button>
+            <button (click)="saveChallanPrepare()" type="" class="btn btn-success">Process</button>
+        </div>
+    </div>
+</div>

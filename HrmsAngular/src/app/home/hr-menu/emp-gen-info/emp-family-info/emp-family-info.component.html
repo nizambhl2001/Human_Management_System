@@ -1,0 +1,305 @@
+<div class="card-body">
+    <div class="card">
+        <h4 class="card-header text-center bg-light">
+            {{title}}
+        </h4>
+        <div class="card-body">
+            <form [formGroup]="empFamilyInfoForm" class="row">
+                <div class="col-md-6">
+                    <div class="form-group row">
+                        <label class="col-form-label col-sm-4 ">Employee Id
+            </label>
+                        <div class="col-sm-3">
+                            <input formControlName="empCode" name="empCode" type="text" class="form-control" value="{{empCode}}" placeholder="ID" readonly>
+                        </div>
+                        <div class="col-sm-5">
+                            <input formControlName="empName" name="empName" type="text" class="form-control" value="{{empName}}" placeholder="Employee Name" readonly>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-form-label col-sm-3 ">Relationship
+              <i class="text-danger">*</i>
+            </label>
+                        <div class="input-group col-sm-9">
+                            <ng-select [ngStyle]="{'width.%':85}" [ngClass]="{'is-invalid': (isSubmitted || f['relationship'].touched || f['relationship'].dirty) && f['relationship'].invalid}" formControlName="relationship" [items]="allRelationship" bindLabel="description" bindValue="description"
+                                placeholder="Select Relationship">
+                            </ng-select>
+                            <div class="input-group-append">
+                                <button (click)="createNewRelationShip(RealtionshipModel)" class="input-group-text btn btn-info" type="button">
+                  <span class="fa fa-plus" style="cursor: pointer;"></span>
+                  </button>
+
+                            </div>
+
+                            <div *ngIf="(isSubmitted || f['relationship'].touched || f['relationship'].dirty) && f['relationship'].invalid" class="text-danger">
+                                <i *ngIf="f['relationship'].errors.required">Relationship is required</i>
+                            </div>
+                        </div>
+                        <ng-template #RealtionshipModel>
+                            <app-relationship (getItems)="allRelationship = $event"></app-relationship>
+                        </ng-template>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-form-label col-sm-3 ">Family Member's Name
+              <!-- <i class="text-danger">*</i> -->
+            </label>
+                        <div class="col-sm-9">
+                            <input [ngClass]="{'is-invalid': (isSubmitted || f['personName'].touched || f['personName'].dirty) && f['personName'].invalid}" formControlName="personName" name="personName" type="text" class="form-control" placeholder="Family Member's Name" required>
+                            <div *ngIf="(isSubmitted || f['personName'].touched || f['personName'].dirty) && f['personName'].invalid" class="text-danger">
+                                <i *ngIf="f['personName'].errors.required">Family Member's Name is required</i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-form-label col-sm-3 ">Date Of Birth
+             </label>
+                        <div class="input-group col-sm-9">
+                            <app-date-control [setNgbDate]="f['dobNgb'].value" (getNgbDate)="f['dobNgb'].setValue($event)" (getLocalDate)="f['dob'].setValue($event)"></app-date-control>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-form-label col-sm-3 ">Place Of Birth
+            </label>
+                        <div class="input-group col-sm-9">
+                            <ng-select [ngStyle]="{'width.%':85}" formControlName="districtName" [items]="allLocation" bindLabel="description" bindValue="description" placeholder="Select place of birth">
+                            </ng-select>
+                            <div class="input-group-append">
+                                <button (click)="createNewRelationShip(locationModel)" class="input-group-text btn btn-info" type="button">
+                    <span class="fa fa-plus" style="cursor: pointer;"></span>
+                    </button>
+                            </div>
+                        </div>
+                        <ng-template #locationModel>
+                            <app-location (getItems)="allLocation = $event"></app-location>
+                        </ng-template>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-form-label col-sm-3 ">Gender
+                <!-- <i class="text-danger">*</i> -->
+              </label>
+                        <div class="col-sm-9">
+                            <app-basic-entry-select-list [ngClass]="{'is-invalid': (isSubmitted || f['gender'].touched || f['gender'].dirty) && f['gender'].invalid}" [itemId]="formVal.gender" (onChange)="f['gender'].setValue($event.id)" [modalName]="genderModal" [tableName]="'Gender'"
+                                [allItem]="allGender"></app-basic-entry-select-list>
+
+
+                            <div *ngIf="(isSubmitted || f['gender'].touched || f['gender'].dirty) && f['gender'].invalid" class="text-danger">
+                                <i *ngIf="f['gender'].errors.required">Gender is required</i>
+                            </div>
+                        </div>
+                        <ng-template #genderModal>
+                            <app-gender (getItems)="allGender = $event"></app-gender>
+                        </ng-template>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-form-label col-sm-3 ">Blood Group
+                <!-- <i class="text-danger">*</i> -->
+                </label>
+                        <div class="col-sm-9">
+                            <app-basic-entry-select-list [ngClass]="{'is-invalid': (isSubmitted || f['bloodGroup'].touched || f['bloodGroup'].dirty) && f['bloodGroup'].invalid}" [itemId]="formVal.bloodGroup" (onChange)="f['bloodGroup'].setValue($event.id)" [modalName]="bloodGroupModal"
+                                [tableName]="'BloodGroup'" [allItem]="allBloodGroup"></app-basic-entry-select-list>
+
+                            <div *ngIf="(isSubmitted || f['bloodGroup'].touched || f['bloodGroup'].dirty) && f['bloodGroup'].invalid" class="text-danger">
+                                <i *ngIf="f['bloodGroup'].errors.required">BloodGroup is required</i>
+                            </div>
+                        </div>
+                        <ng-template #bloodGroupModal>
+                            <app-blood-group (getItems)="allBloodGroup = $event"></app-blood-group>
+                        </ng-template>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-form-label col-sm-3 ">Marital Status
+                    <!-- <i class="text-danger">*</i> -->
+                  </label>
+                        <div class="col-sm-9">
+                            <app-basic-entry-select-list [ngClass]="{'is-invalid': (isSubmitted || f['maritalStatus'].touched || f['maritalStatus'].dirty) && f['maritalStatus'].invalid}" [itemId]="formVal.maritalStatus" (onChange)="f['maritalStatus'].setValue($event.id)" [modalName]="maritalStatusModal"
+                                [tableName]="'MaritalStatus'" [allItem]="allMaritalStatus"></app-basic-entry-select-list>
+
+
+                            <div *ngIf="(isSubmitted || f['maritalStatus'].touched || f['maritalStatus'].dirty) && f['maritalStatus'].invalid" class="text-danger">
+                                <i *ngIf="f['maritalStatus'].errors.required">MaritalStatus is required</i>
+                            </div>
+                        </div>
+                        <ng-template #maritalStatusModal>
+                            <app-marital-status (getItems)="allMaritalStatus = $event"></app-marital-status>
+                        </ng-template>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-form-label col-sm-3 ">Occupation
+                <!-- <i class="text-danger">*</i> -->
+              </label>
+                        <div class="input-group col-sm-9">
+                            <ng-select [ngStyle]="{'width.%':85}" [ngClass]="{'is-invalid': (isSubmitted || f['occupation'].touched || f['occupation'].dirty) && f['occupation'].invalid}" formControlName="occupation" [items]="allOccupation" bindLabel="description" bindValue="description"
+                                placeholder="Select Occupation">
+                            </ng-select>
+                            <div class="input-group-append">
+                                <button (click)="createNewRelationShip(occupationModal)" class="input-group-text btn btn-info" type="button">
+                      <span class="fa fa-plus" style="cursor: pointer;"></span>
+                      </button>
+                            </div>
+
+                            <div *ngIf="(isSubmitted || f['occupation'].touched || f['occupation'].dirty) && f['occupation'].invalid" class="text-danger">
+                                <i *ngIf="f['occupation'].errors.required">Occupation is required</i>
+                            </div>
+                        </div>
+                        <ng-template #occupationModal>
+                            <app-occupation (getItems)="allOccupation= $event"></app-occupation>
+                        </ng-template>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-form-label col-sm-3 ">Nationality
+                <!-- <i class="text-danger">*</i> -->
+              </label>
+                        <div class="input-group col-sm-9">
+                            <ng-select [ngClass]="{'is-invalid': (isSubmitted || f['nationality'].touched || f['nationality'].dirty) && f['nationality'].invalid}" [ngStyle]="{'width.%':85}" formControlName="nationality" [items]="allNationality" bindLabel="description" bindValue="description"
+                                placeholder="Select Occupation">
+                            </ng-select>
+                            <div class="input-group-append">
+                                <button (click)="createNewRelationShip(nationalityModal)" class="input-group-text btn btn-info" type="button">
+                      <span class="fa fa-plus" style="cursor: pointer;"></span>
+                      </button>
+                            </div>
+
+                            <div *ngIf="(isSubmitted || f['nationality'].touched || f['nationality'].dirty) && f['nationality'].invalid" class="text-danger">
+                                <i *ngIf="f['nationality'].errors.required">Nationality is required</i>
+                            </div>
+                        </div>
+                        <ng-template #nationalityModal>
+                            <app-nationality (getItems)="allNationality= $event"></app-nationality>
+                        </ng-template>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-form-label col-sm-3 ">National Id
+              </label>
+                        <div class="col-sm-8">
+                            <input formControlName="nationalID" name="nationalID" id="" type="text" class="form-control" placeholder="National Id">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-form-label col-sm-3 ">Passport No
+            </label>
+                        <div class="col-sm-8">
+                            <input formControlName="passportNo" name="passportNo" type="text" class="form-control" placeholder="Passport No">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group row">
+                        <label class="col-form-label col-md-3 ">Picture
+            </label>
+                        <div class="col-sm-9">
+                            <app-image-control [fieldId]="'familyMemberImg'" [previewImg]="formVal.photo" (selectedFile)="f['photo'].setValue($event)"></app-image-control>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-form-label col-md-3 ">Signature
+          </label>
+                        <div class="col-sm-9">
+                            <app-image-control [fieldId]="'familyMemberSignature'" [previewImg]="formVal.signature" (selectedFile)="f['signature'].setValue($event)"></app-image-control>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-form-label col-sm-3 ">Contact No
+            </label>
+                        <div class="col-sm-9">
+                            <input formControlName="contactNo" name="contactNo" type="text" class="form-control" placeholder="Contact No">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-form-label col-sm-3 ">Email Address</label>
+                        <div class="col-sm-9">
+                            <input formControlName="email" name="email" type="text" class="form-control" placeholder="Email Address">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-form-label col-sm-3 ">Is Nominee
+              <!-- <i class="text-danger">*</i> -->
+            </label>
+                        <div class="col-sm-9">
+                            <select [ngClass]="{'is-invalid': (isSubmitted || f['isNominee'].touched || f['isNominee'].dirty) && f['isNominee'].invalid}" formControlName="isNominee" name="isNominee" placeholder="Select Nominee" class="custom-select ">
+                <option value="No">No</option>
+                <option value="Yes">Yes</option>
+              </select>
+                            <div *ngIf="(isSubmitted || f['isNominee'].touched || f['isNominee'].dirty) && f['isNominee'].invalid" class="text-danger">
+                                <i *ngIf="f['isNominee'].errors.required">Nominee is required</i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-form-label col-sm-3 ">Percent(%)
+              <i class="text-danger">*</i>
+            </label>
+                        <div class="col-sm-4">
+                            <input [ngClass]="{'is-invalid': (isSubmitted || f['percentage'].touched || f['percentage'].dirty) && f['percentage'].invalid}" formControlName="percentage" name="percentage" (change)="isAvailablePercantage()" type="number" class="form-control" min="0"
+                                placeholder="0.00%" required>
+                            <div *ngIf="(isSubmitted || f['percentage'].touched || f['percentage'].dirty) && f['percentage'].invalid" class="text-danger">
+                                <i *ngIf="f['percentage'].errors.required">Percentage is required</i>
+                            </div>
+                            <!-- <div *ngIf="!availablePercentage" class="text-danger">
+                                <i>Percentage not available</i>
+                            </div> -->
+                        </div>
+                        <div class="col-sm-4">
+                            % 
+                        </div>
+                    </div>
+                </div>
+            </form>
+            <div class="row">
+                <div class="demo-inline-spacing mt-3" style="margin:0 auto">
+                    <button (click)="resetFamily()" type="clear" class="btn btn-info">
+                    <span class="ion ion-ios-refresh"></span> Reset
+                  </button>
+                    <button (click)="saveOrUpdateEmpFamily()" class="btn btn-success"> {{empFamilyBtn}}
+          </button>
+                </div>
+            </div>
+            <div class="row">
+
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Person Name</th>
+                            <th>Relationship</th>
+                            <th>Place of Birth</th>
+                            <th>Contact No</th>
+                            <th>Nominee Status</th>
+                            <th>Percentage</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let empF of empFamilyInfo; let i = index">
+                            <td>{{i+1}}</td>
+                            <td>{{empF.personName}}</td>
+                            <td>{{empF.relationship}}</td>
+                            <td>{{empF.districtName}}</td>
+                            <td>{{empF.contactNo}}</td>
+                            <td>{{empF.isNominee}}</td>
+                            <td>{{empF.percentage}}%</td>
+                            <td class="demo-inline-spacing">
+                                <button (click)="getFamilyMember(empF.id)" class="btn btn-info btn-sm"><span
+                    class="fas fa-edit"></span></button>
+                                <button (click)="delete(empF.id, deleteModal)" class="btn btn-danger btn-sm"><span class="fas fa-trash"></span></button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Delete Confirmation Modal -->
+<ng-template #deleteModal>
+    <div class="modal-header bg-warning">
+        <h4>Confirmation</h4>
+    </div>
+    <div class="modal-body">
+        <p class="text-danger">Are you sure want to remove this member?</p>
+    </div>
+    <div class="modal-footer">
+        <button (click)="cancel()" class="btn btn-secondary">Cancel</button>
+        <button (click)="confirmRemoveFamilyMember()" class="btn btn-danger">Confirm</button>
+    </div>
+</ng-template>

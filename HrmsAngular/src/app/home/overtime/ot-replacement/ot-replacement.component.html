@@ -1,0 +1,131 @@
+<div class="card">
+  <h4 class="card-header text-center bg-light">Employee wise OT Replacement</h4>
+  <div class="card-body">
+    <form [formGroup]="applicationForm">
+      <div class="row">
+        <div class="col-md-6 center">
+          <div class="form-group row">
+            <label for="EmpCode" class="col-md-3">Employee ID</label>
+            <div class="col-md-9">
+              <app-employee-select-list (onChange)="onSelectEmp($event)"></app-employee-select-list>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="" class="col-md-3">Name</label>
+            <div class="col-md-9">
+              <input formControlName="empName" type="text" class="form-control" readonly>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="" class="col-md-3">Department</label>
+            <div class="col-md-9">
+              <input formControlName="department" type="text" class="form-control" readonly>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="" class="col-md-3">Designation</label>
+            <div class="col-md-9">
+              <input formControlName="designation" type="text" class="form-control" disabled>
+            </div>
+          </div>
+          <div class="row mt-2">
+            <div class="col">
+              <button class="btn btn-success pull-right">Show</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div *ngIf="allReplacedApprovedOt.length>0" class="row">
+        <div class="col-12 center">
+          <div class="card">
+            <h5 class="card-header bg-facebook text-white py-1">Summery</h5>
+            <div class="card-body p-0">
+              <div class="data-table m-0 p-0 center">
+                <table class="table table-bordered">
+                  <thead>
+                    <tr>
+                      <th>#SL</th>
+                      <th>OT_Date</th>
+                      <th>OT_Hour</th>
+                      <th>Date_of_Replacement</th>
+                      <th>Replacement_Hour</th>
+                      <th>Balance_OT_Hour</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let or of allReplacedApprovedOt; let i=index">
+                      <td>{{i+1}}</td>
+                      <td>{{or.otDate | date:'MMM dd, yyyy'}}</td>
+                      <td>{{or.otHours}}</td>
+                      <td>
+                        <span *ngIf="!or.replacedDate" class="badge badge-pill badge-danger">not replaced yet</span>
+                        <span *ngIf="or.replacedDate">{{or.replacedDate | date :'MMM dd, yyyy'}}</span>  
+                      </td>
+                      <td>{{or.replacedHours}}</td>
+                      <td>{{or.otBalance}}</td>
+                    </tr>
+                  </tbody> <br>
+                  <tfoot class="bg-light font-weight-bold">
+                    <tr>
+                      <td colspan="5" class="text-right">Current OT Balance</td>
+                      <td>{{currentOtBalance}}</td>
+                    </tr>
+                  </tfoot>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12 center">
+          <div class="card">
+            <h5 class="card-header bg-facebook text-white py-1">Replacement Application</h5>
+            <div class="card-body p-0">
+              <div class="data-table m-0 p-0 center">
+                <table class="table table-bordered" style="min-height: 250px;">
+                  <thead>
+                    <tr>
+                      <th>Apply Date</th>
+                      <th>OT_On</th>
+                      <th>Date_of_Replacement</th>
+                      <th>Replacement_Hour</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>
+                        <app-date-control
+                        [setDefault]="true"
+                        (getLocalDate)="formControl['applyDate'].patchValue($event)"></app-date-control>
+                      </td>
+                      <td>
+                        <app-date-control
+                        (getLocalDate)="formControl['otDate'].patchValue($event)"></app-date-control>
+                      </td>
+                      <td>
+                        <app-date-control
+                        (getLocalDate)="formControl['replacedDate'].patchValue($event)"></app-date-control></td>
+                      <td>
+                        <input formControlName="replacedHours" type="number" class="form-control" placeholder="Replace hour"/>
+                      </td>
+                    </tr>
+                  </tbody>
+                  <tfoot>
+                    <tr>
+                      <td colspan="4">
+                        <div class="col-12">
+                          <button (click)="apply()" class="btn btn-success pull-right mt-2 mr-5">Save</button>
+                        </div>
+                      </td>
+                    </tr>
+                  </tfoot>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

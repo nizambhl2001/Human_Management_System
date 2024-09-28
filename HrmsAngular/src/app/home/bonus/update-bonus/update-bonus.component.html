@@ -1,0 +1,101 @@
+<div class="card section">
+    <h4 class="card-header text-center bg-light">
+        Update Bonus
+    </h4>
+    <div class="container">
+        <br />
+        <form [formGroup]="updateFormGroup">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group row">
+                        <label class="col-form-label col-sm-4 "> Employee Id
+                       </label>
+                        <div class="input-group col-sm-8">
+                            <app-employee-select-list [ngClass]="{'is-invalid':(isSubmitted || f['empCode'].touched || f['empCode'].dirty)&& f['empCode'].invalid}" (onChange)="getEmpInfo($event.empCode)" [setEmpCode]="formVal.empCode">
+                            </app-employee-select-list>
+                        </div>
+                        <label class="col-form-label col-sm-4 "></label>
+                        <div *ngIf="f['empCode'].invalid && (isSubmitted || f['empCode'].touched || f['empCode'].dirty)" class="text-danger">
+                            <i *ngIf="f['empCode'].errors['required']">EmpCode Required</i>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-form-label col-sm-4 ">Salary Period
+                      </label>
+                        <div class="col-sm-8">
+                            <ng-select [items]="allBonusPeriod" formControlName="periodID" bindLabel="periodName" bindValue="id" placeholder="Period">
+                                ></ng-select>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-form-label col-sm-4 ">Salary Head
+          </label>
+                        <div class="col-sm-8">
+                            <ng-select [items]="allBonusAllowance" formControlName="salaryHeadID" bindLabel="accountName" bindValue="id" placeholder="Bonus Head"></ng-select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group row">
+                        <label class="col-form-label col-sm-4 ">Department
+          </label>
+                        <div class="col-sm-8">
+                            <ng-select [items]="allDepartment" formControlName="departmentID" bindLabel="description" bindValue="id" placeholder="Department"></ng-select>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-form-label col-sm-4 ">Designation
+          </label>
+                        <div class="col-sm-8">
+                            <ng-select [items]="allDesignation" formControlName="designationID" bindLabel="description" bindValue="id" placeholder="Designation"></ng-select>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-form-label col-sm-4 ">Bonus Type
+          </label>
+                        <div class="col-sm-8">
+                            <ng-select [ngClass]="{'is-invalid':(isSubmitted || f['bonusType'].touched || f['bonusType'].dirty)&& f['bonusType'].invalid}" [items]="allBonusType" formControlName="bonusType" bindLabel="paymentType" bindValue="id" placeholder="Bonus Type"></ng-select>
+                        </div>
+                        <label class="col-form-label col-sm-4 "></label>
+                        <div *ngIf="f['bonusType'].invalid && (isSubmitted || f['bonusType'].touched || f['bonusType'].dirty)" class="text-danger">
+                            <i *ngIf="f['bonusType'].errors['required']">BonusType Required</i>
+                        </div>
+                    </div>
+                </div>
+                <div class="demo-inline-spacing mt-3" style="margin:0 auto">
+                    <button (click)="getAllUpdateBonus()" type="" class="btn btn-success">
+            <span class="fas fa-file-download"> Show Data</span>
+          </button>
+                </div>
+                <table class="table table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <th>Code</th>
+                            <th>Employee Name</th>
+                            <th>Designation</th>
+                            <th>Bonus</th>
+                            <th>Amount</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let bonus of allBonus;let i=index">
+                            <td>{{bonus.empCode}}</td>
+                            <td>{{bonus.empName}}</td>
+                            <td>{{bonus.designation}}</td>
+                            <td>{{bonus.accountName}}</td>
+                            <td>
+                                <input (keyup)="onChangeAmount(i,$event.target.value)" formControlName="amount" [value]="bonus.amount" class="form-control" type="number">
+                            </td>
+                        </tr>
+
+                    </tbody>
+                </table>
+                <div class="demo-inline-spacing mt-3" style="margin:0 auto">
+                    <button (click)="updateBonus()" type="" class="btn btn-success">
+              <span class="fas fa-save"> Update</span>
+            </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

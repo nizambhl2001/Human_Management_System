@@ -1,0 +1,632 @@
+<sidenav [orientation]="orientation" [ngClass]="getClasses()">
+
+    <!-- Brand demo (see src/demo.css) -->
+    <div class="app-brand demo" *ngIf="orientation !== 'horizontal'">
+        <span class="app-brand-logo demo bg-primary">
+            <svg viewBox="0 0 148 80" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                <defs>
+                    <linearGradient id="a" x1="46.49" x2="62.46" y1="53.39" y2="48.2" gradientUnits="userSpaceOnUse">
+                        <stop stop-opacity=".25" offset="0"></stop>
+                        <stop stop-opacity=".1" offset=".3"></stop>
+                        <stop stop-opacity="0" offset=".9"></stop>
+                    </linearGradient>
+                    <linearGradient id="e" x1="76.9" x2="92.64" y1="26.38" y2="31.49" xlink:href="#a"></linearGradient>
+                    <linearGradient id="d" x1="107.12" x2="122.74" y1="53.41" y2="48.33" xlink:href="#a">
+                    </linearGradient>
+                </defs>
+                <path style="fill: #fff;" transform="translate(-.1)"
+                    d="M121.36,0,104.42,45.08,88.71,3.28A5.09,5.09,0,0,0,83.93,0H64.27A5.09,5.09,0,0,0,59.5,3.28L43.79,45.08,26.85,0H.1L29.43,76.74A5.09,5.09,0,0,0,34.19,80H53.39a5.09,5.09,0,0,0,4.77-3.26L74.1,35l16,41.74A5.09,5.09,0,0,0,94.82,80h18.95a5.09,5.09,0,0,0,4.76-3.24L148.1,0Z">
+                </path>
+                <path transform="translate(-.1)" d="M52.19,22.73l-8.4,22.35L56.51,78.94a5,5,0,0,0,1.64-2.19l7.34-19.2Z"
+                    fill="url(#a)"></path>
+                <path transform="translate(-.1)" d="M95.73,22l-7-18.69a5,5,0,0,0-1.64-2.21L74.1,35l8.33,21.79Z"
+                    fill="url(#e)">
+                </path>
+                <path transform="translate(-.1)" d="M112.73,23l-8.31,22.12,12.66,33.7a5,5,0,0,0,1.45-2l7.3-18.93Z"
+                    fill="url(#d)"></path>
+            </svg>
+        </span>
+        <a routerLink="/" class="app-brand-text demo sidenav-text font-weight-normal ml-2">The Daily Star</a>
+        <a href="javascript:void(0)" class="layout-sidenav-toggle sidenav-link text-large ml-auto" (click)="toggleSidenav()">
+            <i class="ion ion-md-menu align-middle"></i>
+        </a>
+    </div>
+    <div class="sidenav-divider mt-0" *ngIf="orientation !== 'horizontal'"></div>
+
+    <!-- Links -->
+    <div class="sidenav-inner" style="background-color:rgba(13, 100, 170, 0.809); min-height: 600px;" [ngClass]="{ 'py-1': orientation !== 'horizontal' }">
+        <!--Home-->
+        <sidenav-router-link icon="ion ion-md-home" route="/startup" [active]="isActive('/startup')">Home
+        </sidenav-router-link>
+        <!-- Dashboard -->
+        <sidenav-router-link icon="ion ion-md-pulse" route="/dashboard" [active]="isActive('/dashboard')">Dashboard
+        </sidenav-router-link>
+        <!-- System-setup -->
+        <sidenav-menu *ngIf="authService.IsPermittedModule(1)" icon="fa fa-cogs" text="System Setup" [active]="isMenuActive('/system-setup')" [open]="isMenuOpen('/system-setup')">
+            <sidenav-menu *ngIf="authService.IsPermittedPage(1)" icon="ion ion-md-arrow-dropright" text="Basic Entry" [active]="isMenuActive('/system-setup/basic-entry')" [open]="isMenuOpen('/system-setup/basic-entry')">
+                <sidenav-router-link route="/system-setup/basic-entry/department" [active]="isActive('/system-setup/basic-entry/department')">Department</sidenav-router-link>
+                <sidenav-router-link route="/system-setup/basic-entry/department-gl" [active]="isActive('/system-setup/basic-entry/department-gl')">Department GL</sidenav-router-link>
+                <sidenav-router-link route="/system-setup/basic-entry/section" [active]="isActive('/system-setup/basic-entry/section')">Section</sidenav-router-link>
+                <sidenav-router-link route="/system-setup/basic-entry/location" [active]="isActive('/system-setup/basic-entry/location')">Location</sidenav-router-link>
+                <sidenav-router-link route="/system-setup/basic-entry/country" [active]="isActive('/system-setup/basic-entry/country')">Country</sidenav-router-link>
+                <sidenav-router-link route="/system-setup/basic-entry/nationality" [active]="isActive('/system-setup/basic-entry/nationality')">Nationality</sidenav-router-link>
+                <sidenav-router-link route="/system-setup/basic-entry/gender" [active]="isActive('/system-setup/basic-entry/gender')">Gender</sidenav-router-link>
+                <sidenav-router-link route="/system-setup/basic-entry/religion" [active]="isActive('/system-setup/basic-entry/religion')">Religion</sidenav-router-link>
+                <sidenav-router-link route="/system-setup/basic-entry/relationship" [active]="isActive('/system-setup/basic-entry/relationship')">Relationship</sidenav-router-link>
+                <sidenav-router-link route="/system-setup/basic-entry/blood-group" [active]="isActive('/system-setup/basic-entry/blood-group')">Blood Group</sidenav-router-link>
+                <sidenav-router-link route="/system-setup/basic-entry/education-level" [active]="isActive('/system-setup/basic-entry/education-level')">Education Level
+                </sidenav-router-link>
+                <sidenav-router-link route="/system-setup/basic-entry/education-board" [active]="isActive('/system-setup/basic-entry/education-board')">Education Board
+                </sidenav-router-link>
+                <sidenav-router-link route="/system-setup/basic-entry/institute" [active]="isActive('/system-setup/basic-entry/institute')">Institute</sidenav-router-link>
+                <sidenav-router-link route="/system-setup/basic-entry/result" [active]="isActive('/system-setup/basic-entry/result')">Result</sidenav-router-link>
+                <sidenav-router-link route="/system-setup/basic-entry/passing-year" [active]="isActive('/system-setup/basic-entry/passing-year')">Passing Year</sidenav-router-link>
+                <sidenav-router-link route="/system-setup/basic-entry/training-type" [active]="isActive('/system-setup/basic-entry/training-type')">Training Type</sidenav-router-link>
+                <sidenav-router-link route="/system-setup/basic-entry/training-country" [active]="isActive('/system-setup/basic-entry/training-country')">Training Country
+                </sidenav-router-link>
+                <sidenav-router-link route="/system-setup/basic-entry/training-institute" [active]="isActive('/system-setup/basic-entry/training-institute')">Training Institute
+                </sidenav-router-link>
+                <sidenav-router-link route="/system-setup/basic-entry/training-nature" [active]="isActive('/system-setup/basic-entry/training-nature')">Training Nature
+                </sidenav-router-link>
+                <sidenav-router-link route="/system-setup/basic-entry/training-sponsor-by" [active]="isActive('/system-setup/basic-entry/training-sponsor-by')">Training Sponsor By
+                </sidenav-router-link>
+                <sidenav-router-link route="/system-setup/basic-entry/project" [active]="isActive('/system-setup/basic-entry/project')">Project</sidenav-router-link>
+                <sidenav-router-link route="/system-setup/basic-entry/job-type" [active]="isActive('/system-setup/basic-entry/job-type')">Job Type</sidenav-router-link>
+                <sidenav-router-link route="/system-setup/basic-entry/designation" [active]="isActive('/system-setup/basic-entry/designation')">Designation</sidenav-router-link>
+                <sidenav-router-link route="/system-setup/basic-entry/occupation" [active]="isActive('/system-setup/basic-entry/occupation')">Occupation</sidenav-router-link>
+                <sidenav-router-link route="/system-setup/basic-entry/experience-type" [active]="isActive('/system-setup/basic-entry/experience-type')">Experience Type
+                </sidenav-router-link>
+                <sidenav-router-link route="/system-setup/basic-entry/punishment" [active]="isActive('/system-setup/basic-entry/punishment')">Punishment</sidenav-router-link>
+                <sidenav-router-link route="/system-setup/basic-entry/bank" [active]="isActive('/system-setup/basic-entry/bank')">Bank</sidenav-router-link>
+                <sidenav-router-link route="/system-setup/basic-entry/branch" [active]="isActive('/system-setup/basic-entry/branch')">Branch</sidenav-router-link>
+                <sidenav-router-link route="/system-setup/basic-entry/unit" [active]="isActive('/system-setup/basic-entry/unit')">Unit</sidenav-router-link>
+                <sidenav-router-link route="/system-setup/basic-entry/signatory" [active]="isActive('/system-setup/basic-entry/signatory')">Signatory</sidenav-router-link>
+                <sidenav-router-link route="/system-setup/basic-entry/misconduct" [active]="isActive('/system-setup/basic-entry/misconduct')">Misconduct</sidenav-router-link>
+                <sidenav-router-link route="/system-setup/basic-entry/prefix" [active]="isActive('/system-setup/basic-entry/prefix')">Prefix</sidenav-router-link>
+                <sidenav-router-link route="/system-setup/basic-entry/suffix" [active]="isActive('/system-setup/basic-entry/suffix')">Suffix</sidenav-router-link>
+                <sidenav-router-link route="/system-setup/basic-entry/publication-type" [active]="isActive('/system-setup/basic-entry/publication-type')">Publication Type
+                </sidenav-router-link>
+                <sidenav-router-link route="/system-setup/basic-entry/document-type" [active]="isActive('/system-setup/basic-entry/document-type')">Document Type
+                </sidenav-router-link>
+                <sidenav-router-link route="/system-setup/basic-entry/thana" [active]="isActive('/system-setup/basic-entry/thana')">Thana
+                </sidenav-router-link>
+            </sidenav-menu>
+            <sidenav-router-link *ngIf="authService.IsPermittedPage(2)" route="/system-setup/bank-branch" [active]="isActive('/system-setup/bank-branch')">Bank Branch
+            </sidenav-router-link>
+            <sidenav-router-link *ngIf="authService.IsPermittedPage(3)" route="/system-setup/division" [active]="isActive('/system-setup/division')">Division
+            </sidenav-router-link>
+            <sidenav-router-link *ngIf="authService.IsPermittedPage(4)" route="/system-setup/group" [active]="isActive('/system-setup/group')">Academic Decipline
+            </sidenav-router-link>
+            <sidenav-router-link *ngIf="authService.IsPermittedPage(5)" route="/system-setup/holyday-calender" [active]="isActive('/system-setup/holyday-calender')">
+                Holyday Calender</sidenav-router-link>
+            <sidenav-router-link *ngIf="authService.IsPermittedPage(6)" route="/system-setup/assign-dept-gl" [active]="isActive('/system-setup/assign-dept-gl')">
+                Assign Department GL</sidenav-router-link>
+            <sidenav-router-link *ngIf="authService.IsPermittedPage(7)" route="/system-setup/production-unit" [active]="isActive('/system-setup/production-unit')">
+                Production Unit</sidenav-router-link>
+            <sidenav-router-link *ngIf="authService.IsPermittedPage(8)" route="/system-setup/production-floor" [active]="isActive('/system-setup/production-floor')">
+                Production Floor</sidenav-router-link>
+            <sidenav-router-link *ngIf="authService.IsPermittedPage(9)" route="/system-setup/production-line" [active]="isActive('/system-setup/production-line')">
+                Production Line</sidenav-router-link>
+            <sidenav-router-link *ngIf="authService.IsPermittedPage(10)" route="/system-setup/production-machine" [active]="isActive('/system-setup/production-machine')">Production Machine</sidenav-router-link>
+        </sidenav-menu>
+        <!--HR Menu-->
+        <sidenav-menu *ngIf="authService.IsPermittedModule(2)" icon="fa fa-chart-line" text="HR Menu" [active]="isMenuActive('/hr-menu')" [open]="isMenuOpen('/hr-menu')">
+            <sidenav-router-link *ngIf="authService.IsPermittedPage(11)" route="/hr-menu/emp-gen-info" [active]="isActive('/hr-menu/emp-gen-info')">Employee Information
+            </sidenav-router-link>
+            <sidenav-router-link *ngIf="authService.IsPermittedPage(12)" route="/hr-menu/employent-info" [active]="isActive('/hr-menu/employent-info')">
+                Employment Information
+            </sidenav-router-link>
+            <sidenav-router-link *ngIf="authService.IsPermittedPage(13)" route="/hr-menu/additional-duties" [active]="isActive('/hr-menu/additional-duties')">
+                Additional Duties</sidenav-router-link>
+            <sidenav-router-link *ngIf="authService.IsPermittedPage(14)" route="/hr-menu/emp-company-transfer" [active]="isActive('/hr-menu/emp-company-transfer')">
+                Employee Company Transfer</sidenav-router-link>
+            <sidenav-router-link *ngIf="authService.IsPermittedPage(15)" route="/hr-menu/emp-pro-info" [active]="isActive('/hr-menu/emp-pro-info')">Employee Promotion Information
+            </sidenav-router-link>
+            <sidenav-router-link *ngIf="authService.IsPermittedPage(16)" route="/hr-menu/holiday-info" [active]="isActive('/hr-menu/holiday-info')">Holiday Information
+            </sidenav-router-link>
+            <sidenav-router-link *ngIf="authService.IsPermittedPage(17)" route="/hr-menu/casual-join-date" [active]="isActive('/hr-menu/casual-join-date')">
+                Non-Management Casual Date Of Joining</sidenav-router-link>
+            <sidenav-router-link *ngIf="authService.IsPermittedPage(18)" route="/hr-menu/emp-block-info" [active]="isActive('/hr-menu/emp-block-info')">Employee Block Information
+            </sidenav-router-link>
+            <!-- <sidenav-router-link route="/hr-menu/emp-for-attendance" [active]="isActive('/hr-menu/emp-for-attendance')">
+        Employee Select For Attendance</sidenav-router-link> -->
+            <sidenav-router-link *ngIf="authService.IsPermittedPage(19)" route="/hr-menu/resignation-letter" [active]="isActive('/hr-menu/resignation-letter')">
+                Resignation Letter</sidenav-router-link>
+            <sidenav-router-link *ngIf="authService.IsPermittedPage(20)" route="/hr-menu/resignation-letter-approve" [active]="isActive('/hr-menu/resignation-letter-approve')">Resignation Letter Approve
+            </sidenav-router-link>
+            <sidenav-router-link *ngIf="authService.IsPermittedPage(21)" route="/hr-menu/emp-for-resignation" [active]="isActive('/hr-menu/emp-for-resignation')">
+                Employee For Resignation</sidenav-router-link>
+            <sidenav-router-link *ngIf="authService.IsPermittedPage(22)" route="/hr-menu/notice-by-employee" [active]="isActive('/hr-menu/notice-by-employee')">
+                Notice By Employee</sidenav-router-link>
+            <sidenav-router-link *ngIf="authService.IsPermittedPage(23)" route="/hr-menu/notice-by-company" [active]="isActive('/hr-menu/notice-by-company')">
+                Notice By Company</sidenav-router-link>
+            <sidenav-router-link *ngIf="authService.IsPermittedPage(24)" route="/hr-menu/emp-separation-info" [active]="isActive('/hr-menu/emp-separation-info')">
+                Employee Separation Info</sidenav-router-link>
+            <sidenav-router-link *ngIf="authService.IsPermittedPage(25)" route="/hr-menu/emp-objective-info" [active]="isActive('/hr-menu/emp-objective-info')">
+                Employee Objective Info</sidenav-router-link>
+            <sidenav-router-link *ngIf="authService.IsPermittedPage(26)" route="/hr-menu/production-position-info" [active]="isActive('/hr-menu/production-position-info')">Production Position Info</sidenav-router-link>
+            <!-- <sidenav-router-link *ngIf="authService.IsPermittedPage(27)" route="/hr-menu/emp-certificate-upload" [active]="isActive('/hr-menu/emp-certificate-upload')">Employee Certificate Upload</sidenav-router-link> -->
+            <sidenav-router-link *ngIf="authService.IsPermittedPage(29)" route="/hr-menu/upload-file" [active]="isActive('/hr-menu/upload-file')">Upload Documents</sidenav-router-link>
+            <sidenav-router-link *ngIf="authService.IsPermittedPage(28)" route="/hr-menu/download-certificate" [active]="isActive('/hr-menu/download-certificate')">
+                Download Documents </sidenav-router-link>
+            <!-- <sidenav-router-link route="/hr-menu/download-img-signature"
+                [active]="isActive('/hr-menu/download-img-signature')">Download Image And Signature
+            </sidenav-router-link> -->
+            <sidenav-router-link *ngIf="authService.IsPermittedPage(30)" route="/hr-menu/basic-hr-report" [active]="isActive('/hr-menu/basic-hr-report')">Basic HR Report
+            </sidenav-router-link>
+            <sidenav-router-link *ngIf="authService.IsPermittedPage(31)" route="/hr-menu/hr-report" [active]="isActive('/hr-menu/hr-report')">HR Report
+            </sidenav-router-link>
+            <sidenav-router-link *ngIf="authService.IsPermittedPage(32)" route="/hr-menu/exit-interview" [active]="isActive('/hr-menu/exit-interview')">Exit Interview
+            </sidenav-router-link>
+            <sidenav-router-link *ngIf="authService.IsPermittedPage(230)" route="/hr-menu/personal-file" [active]="isActive('/hr-menu/personal-file')">Personal Information
+            </sidenav-router-link>
+            <!-- <sidenav-router-link *ngIf="authService.IsPermittedPage(33)" route="/hr-menu/joining-info" [active]="isActive('/hr-menu/joining-info')">Joining Information
+            </sidenav-router-link> -->
+            <sidenav-router-link *ngIf="authService.IsPermittedPage(34)" route="/hr-menu/exit-interview-report" [active]="isActive('/hr-menu/exit-interview-report')">Exit Inerview Report
+            </sidenav-router-link>
+        </sidenav-menu>
+        <!-- Property -->
+        <sidenav-menu *ngIf="authService.IsPermittedModule(3)" icon="ion ion-md-speedometer" text="Property" [active]="isMenuActive('/property')" [open]="isMenuOpen('/property')">
+            <sidenav-router-link *ngIf="authService.IsPermittedPage(35)" route="/property/property-category" [active]="isActive('/property/property-category')">
+                Property Category</sidenav-router-link>
+            <sidenav-router-link *ngIf="authService.IsPermittedPage(36)" route="/property/property-name" [active]="isActive('/property/property-name')">Property Name
+            </sidenav-router-link>
+            <sidenav-router-link *ngIf="authService.IsPermittedPage(37)" route="/property/vehicle-tax-assagin" [active]="isActive('/property/vehicle-tax-assagin')">
+                Vehicle Tax Assagin</sidenav-router-link>
+            <sidenav-router-link *ngIf="authService.IsPermittedPage(38)" route="/property/asset-addition" [active]="isActive('/property/asset-addition')">Asset Addition
+            </sidenav-router-link>
+            <sidenav-router-link *ngIf="authService.IsPermittedPage(39)" route="/property/property-assaign" [active]="isActive('/property/property-assaign')">
+                Property Assaign</sidenav-router-link>
+            <sidenav-router-link *ngIf="authService.IsPermittedPage(40)" route="/property/property-disposal" [active]="isActive('/property/property-disposal')">
+                Property Disposal</sidenav-router-link>
+            <sidenav-router-link *ngIf="authService.IsPermittedPage(41)" route="/property/report" [active]="isActive('/property/report')">Report
+            </sidenav-router-link>
+
+        </sidenav-menu>
+        <!-- Attendance -->
+        <!-- *ngIf="authService.IsPermittedModule(4)" -->
+        <sidenav-menu  icon="ion ion-md-speedometer" text="Attendance" [active]="isMenuActive('/attendance')" [open]="isMenuOpen('/attendance')">
+            <!-- <sidenav-router-link *ngIf="authService.IsPermittedPage(44)" route="/attendance/weekend-setup" [active]="isActive('/attendance/weekend-setup')">
+                Weekend Setup
+            </sidenav-router-link> -->
+
+            <sidenav-router-link  *ngIf="authService.IsPermittedPage(240)"  route="/attendance/weekend-setup-update" [active]="isActive('/attendance/weekend-setup-update')">
+              Weekend Update
+          </sidenav-router-link>
+
+            <sidenav-router-link *ngIf="authService.IsPermittedPage(46)" route="/attendance/manual-attendance" [active]="isActive('/attendance/manual-attendance')">
+                Manual Attendance
+            </sidenav-router-link>
+            <sidenav-router-link *ngIf="authService.IsPermittedPage(47)" route="/attendance/monthly-attendance" [active]="isActive('/attendance/monthly-attendance')">
+                Monthly Attendance
+            </sidenav-router-link>
+            <sidenav-router-link *ngIf="authService.IsPermittedPage(49)" route="/attendance/process-attendance" [active]="isActive('/attendance/process-attendance')">
+                Process Attendance
+            </sidenav-router-link>
+            <sidenav-router-link *ngIf="authService.IsPermittedPage(51)" route="/attendance/summery" [active]="isActive('/attendance/summery')">
+                Process Attendance Summery
+            </sidenav-router-link>
+
+            <sidenav-router-link  route="/attendance/attendance-report-view" [active]="isActive('/attendance/attendance-report-view')">
+              Attendance Data View
+          </sidenav-router-link>
+            <!-- *ngIf="authService.IsPermittedPage(49)" -->
+            <sidenav-router-link *ngIf="authService.IsPermittedPage(50)" route="/attendance/report" [active]="isActive('/attendance/report')">
+                Report
+            </sidenav-router-link>
+            <sidenav-router-link *ngIf="authService.IsPermittedPage(51)" route="/attendance/shift-setup" [active]="isActive('/attendance/shift-setup')">Shift Setup
+            </sidenav-router-link>
+            <sidenav-router-link *ngIf="authService.IsPermittedPage(52)" route="/attendance/assign-shift" [active]="isActive('/attendance/assign-shift')">Assign Shift
+            </sidenav-router-link>
+            <!-- <sidenav-router-link *ngIf="authService.IsPermittedPage(53)" route="/attendance/shift-update" [active]="isActive('/attendance/shift-update')">Duty Roaster
+            </sidenav-router-link> -->
+            <!-- <sidenav-router-link *ngIf="authService.IsPermittedPage(54)" route="/attendance/monthly-data-process" [active]="isActive('/attendance/monthly-data-process')">Check Shift
+            </sidenav-router-link>
+            <sidenav-router-link *ngIf="authService.IsPermittedPage(54)" route="/attendance/roster-shift" [active]="isActive('/attendance/roster-shift')">Roster Shift
+            </sidenav-router-link>
+            <sidenav-router-link *ngIf="authService.IsPermittedPage(55)" route="/attendance/import" [active]="isActive('/attendance/import')">Import
+            </sidenav-router-link> -->
+        </sidenav-menu>
+        <!-- Leave  -->
+        <!-- *ngIf="authService.IsPermittedModule(5)" -->
+        <sidenav-menu  icon="ion ion-md-speedometer" text="Leave" [active]="isMenuActive('/leave')" [open]="isMenuOpen('/leave')">
+            <sidenav-router-link *ngIf="authService.IsPermittedPage(56)" route="/leave/leave-setup" [active]="isActive('/leave/leave-setup')">Leave Setup
+            </sidenav-router-link>
+            <!-- *ngIf="authService.IsPermittedPage(57)"  -->
+            <sidenav-router-link route="/leave/leave-entry" [active]="isActive('/leave/leave-entry')">Leave Apply
+            </sidenav-router-link>
+            <sidenav-router-link *ngIf="authService.IsPermittedPage(58)" route="/leave/manual-leave-entry" [active]="isActive('/leave/manual-leave-entry')">
+                Manual Leave Apply</sidenav-router-link>
+            <sidenav-router-link *ngIf="authService.IsPermittedPage(59)" route="/leave/update-leave-entry" [active]="isActive('/leave/update-leave-entry')">
+                Update Leave Apply</sidenav-router-link>
+            <sidenav-router-link *ngIf="authService.IsPermittedPage(245)" route="/leave/leave-recommend" [active]="isActive('/leave/leave-recommend')">Supervisor Approval
+            </sidenav-router-link>
+            <sidenav-router-link *ngIf="authService.IsPermittedPage(60)" route="/leave/leave-approval" [active]="isActive('/leave/leave-approval')">Leave Approval
+            </sidenav-router-link>
+            <sidenav-router-link *ngIf="authService.IsPermittedPage(61)" route="/leave/leave-approval-by-hr" [active]="isActive('/leave/leave-approval-by-hr')">
+                Leave Approval By HR</sidenav-router-link>
+            <sidenav-router-link *ngIf="authService.IsPermittedPage(62)" route="/leave/emp-leave-opening-balance" [active]="isActive('/leave/emp-leave-opening-balance')">Employee Leave Opening Balance
+            </sidenav-router-link>
+
+         <sidenav-router-link *ngIf="authService.IsPermittedPage(242)"  route="/leave/leave-apply-user" [active]="isActive('/leave/leave-apply-user')">Leave Apply By User
+        </sidenav-router-link>
+        <sidenav-router-link *ngIf="authService.IsPermittedPage(243)"  route="/leave/leave-data-view" [active]="isActive('/leave/leave-data-view')">Leave Data View
+        </sidenav-router-link>
+            <!-- <sidenav-router-link *ngIf="authService.IsPermittedPage(63)" route="/leave/leave-carry-forward" [active]="isActive('/leave/leave-carry-forward')">
+                Leave Carry Forward</sidenav-router-link> -->
+            <!-- <sidenav-router-link *ngIf="authService.IsPermittedPage(64)" route="/leave/leave-encashment" [active]="isActive('/leave/leave-encashment')">Leave Encashment
+            </sidenav-router-link> -->
+            <!-- <sidenav-router-link route="/leave/recreation-leave-encashment"
+        [active]="isActive('/leave/recreation-leave-encashment')">Recreation Leave Encashment</sidenav-router-link> -->
+            <!-- <sidenav-router-link *ngIf="authService.IsPermittedPage(65)" route="/leave/substitute-leave" [active]="isActive('/leave/substitute-leave')">
+                Substitute Leave
+            </sidenav-router-link> -->
+            <sidenav-router-link *ngIf="authService.IsPermittedPage(66)" route="/leave/leave-report" [active]="isActive('/leave/leave-report')">Leave Report
+            </sidenav-router-link>
+            <!-- <sidenav-router-link route="/leave/leave-info-details" [active]="isActive('/leave/leave-info-details')">Leave
+        Info Details</sidenav-router-link> -->
+
+        </sidenav-menu>
+        <!--Overtime-->
+        <sidenav-menu *ngIf="authService.IsPermittedModule(6)" icon="ion ion-md-speedometer" text="Overtime" [active]="isMenuActive('/Overtime')" [open]="isMenuOpen('/overtime')">
+            <sidenav-router-link *ngIf="authService.IsPermittedPage(236)" route="/overtime/ot-requsation" [active]="isActive('/overtime/ot-requsation')">OT Requisition</sidenav-router-link>
+            <sidenav-router-link *ngIf="authService.IsPermittedPage(71)" route="/overtime/overtime-approve" [active]="isActive('/overtime/overtime-approve')">OT Approve</sidenav-router-link>
+            <sidenav-router-link *ngIf="authService.IsPermittedPage(83)" route="/overtime/over-time-menual" [active]="isActive('/overtime/over-time-menual')">OT Manual Entry</sidenav-router-link>
+            <sidenav-router-link *ngIf="authService.IsPermittedPage(235)" route="/overtime/ot-replacement" [active]="isActive('/overtime/ot-replacement')">OT Replacement</sidenav-router-link>
+            <sidenav-router-link *ngIf="authService.IsPermittedPage(233)" route="/overtime/ot-calculation" [active]="isActive('/overtime/ot-calculation')">OT Calculation</sidenav-router-link>
+            <sidenav-router-link *ngIf="authService.IsPermittedPage(234)" route="/overtime/ot-payment" [active]="isActive('/overtime/ot-payment')">OT Payment</sidenav-router-link>
+        </sidenav-menu>
+        <!-- shift-allowance -->
+        <!-- <sidenav-menu *ngIf="authService.IsPermittedModule(7)" icon="ion ion-md-speedometer" text="Shift Allowance" [active]="isMenuActive('/shift-allowance')" [open]="isMenuOpen('/shift-allowance')">
+            <sidenav-router-link *ngIf="authService.IsPermittedPage(87)" route="/shift-allowance/setup" [active]="isActive('/shift-allowance/setup')">Setup
+            </sidenav-router-link>
+            <sidenav-router-link *ngIf="authService.IsPermittedPage(88)" route="/shift-allowance/assign" [active]="isActive('/shift-allowance/assign')">Assign
+            </sidenav-router-link>
+            <sidenav-router-link *ngIf="authService.IsPermittedPage(89)" route="/shift-allowance/edit" [active]="isActive('/shift-allowance/edit')">Edit
+            </sidenav-router-link>
+            <sidenav-router-link *ngIf="authService.IsPermittedPage(90)" route="/shift-allowance/auto-payment" [active]="isActive('/shift-allowance/auto-payment')">
+                Auto Payment
+            </sidenav-router-link>
+            <sidenav-router-link *ngIf="authService.IsPermittedPage(91)" route="/shift-allowance/manual-payment" [active]="isActive('/shift-allowance/manual-payment')">Manual Payment
+            </sidenav-router-link>
+            <sidenav-router-link *ngIf="authService.IsPermittedPage(92)" route="/shift-allowance/shift-allowance-report" [active]="isActive('/shift-allowance/shift-allowance-report')">Report
+            </sidenav-router-link>
+        </sidenav-menu> -->
+        <!-- disciplinary -->
+        <sidenav-menu *ngIf="authService.IsPermittedModule(8)" icon="ion ion-md-speedometer" text="Disciplinary Action" [active]="isMenuActive('/disciplinary')" [open]="isMenuOpen('/disciplinary')">
+            <sidenav-router-link *ngIf="authService.IsPermittedPage(93)" route="/disciplinary/show-cause" [active]="isActive('/disciplinary/show-cause')">Show Cause Info
+            </sidenav-router-link>
+            <sidenav-router-link *ngIf="authService.IsPermittedPage(94)" route="/disciplinary/show-cause-result" [active]="isActive('/disciplinary/show-cause-result')">Show Cause Result
+            </sidenav-router-link>
+            <sidenav-router-link *ngIf="authService.IsPermittedPage(95)" route="/disciplinary/notice-enquiry" [active]="isActive('/disciplinary/notice-enquiry')">
+                Notice Enquiry
+            </sidenav-router-link>
+            <sidenav-router-link *ngIf="authService.IsPermittedPage(96)" route="/disciplinary/punishment" [active]="isActive('/disciplinary/punishment')">
+                Punishment
+            </sidenav-router-link>
+            <sidenav-router-link *ngIf="authService.IsPermittedPage(97)" route="/disciplinary/disciplinary-report" [active]="isActive('/disciplinary/disciplinary-report')">Report
+            </sidenav-router-link>
+        </sidenav-menu>
+        <!-- Loan -->
+        <sidenav-menu *ngIf="authService.IsPermittedModule(9)" icon="ion ion-md-speedometer" text="Loan" [active]="isMenuActive('/loan')" [open]="isMenuOpen('/loan')">
+            <sidenav-router-link *ngIf="authService.IsPermittedPage(98)" route="/loan/loan-info" [active]="isActive('/loan/loan-info')">Loan Information
+            </sidenav-router-link>
+            <sidenav-router-link *ngIf="authService.IsPermittedPage(99)" route="/loan/cash-receive" [active]="isActive('/loan/cash-receive')">Cash Receive
+            </sidenav-router-link>
+            <sidenav-router-link *ngIf="authService.IsPermittedPage(100)" route="/loan/stop-deduction" [active]="isActive('/loan/stop-deduction')">Stop Deduction
+            </sidenav-router-link>
+            <sidenav-router-link *ngIf="authService.IsPermittedPage(101)" route="/loan/loan-report" [active]="isActive('/loan/loan-report')">Report
+            </sidenav-router-link>
+        </sidenav-menu>
+        <!-- Salary Setup -->
+        <sidenav-menu *ngIf="authService.IsPermittedModule(10)" icon="ion ion-md-speedometer" text="Salary Setup" [active]="isMenuActive('/salary-setup')" [open]="isMenuOpen('/salary-setup')">
+            <sidenav-router-link *ngIf="authService.IsPermittedPage(102)" route="/salary-setup/other-allowance" [active]="isActive('/salary-setup/other-allowance')">
+                Other Allowance</sidenav-router-link>
+            <sidenav-router-link *ngIf="authService.IsPermittedPage(103)" route="/salary-setup/salary-year-setup" [active]="isActive('/salary-setup/salary-year-setup')">Salary Year Setup</sidenav-router-link>
+            <sidenav-router-link *ngIf="authService.IsPermittedPage(104)" route="/salary-setup/salary-period" [active]="isActive('/salary-setup/salary-period')">
+                Salary Period</sidenav-router-link>
+            <sidenav-router-link *ngIf="authService.IsPermittedPage(105)" route="/salary-setup/salary-head" [active]="isActive('/salary-setup/salary-head')">
+                Salary Head
+            </sidenav-router-link>
+            <sidenav-router-link *ngIf="authService.IsPermittedPage(106)" route="/salary-setup/salary-grade" [active]="isActive('/salary-setup/salary-grade')">
+                Salary Grade
+            </sidenav-router-link>
+            <sidenav-router-link *ngIf="authService.IsPermittedPage(107)" route="/salary-setup/payscale-grade" [active]="isActive('/salary-setup/payscale-grade')">
+                Payscale Grade</sidenav-router-link>
+            <sidenav-router-link *ngIf="authService.IsPermittedPage(108)" route="/salary-setup/payscal-setup" [active]="isActive('/salary-setup/payscale-setup')">
+                Payscale Setup</sidenav-router-link>
+        </sidenav-menu>
+        <!-- Salary-Process -->
+        <sidenav-menu *ngIf="authService.IsPermittedModule(11)" icon="ion ion-md-speedometer" text="Salary Process" [active]="isMenuActive('/salary-process')" [open]="isMenuOpen('/salary-process')">
+            <sidenav-router-link *ngIf="authService.IsPermittedPage(109)" route="/salary-process/enrolment-information" [active]="isActive('/salary-process/enrolment-information')">Enrolment Information</sidenav-router-link>
+            <!-- <sidenav-router-link *ngIf="authService.IsPermittedPage(110)" route="/salary-process/allowance-add-deduct" [active]="isActive('/salary-process/allowance-add-deduct')">Allowance Add Deduct</sidenav-router-link> -->
+            <!-- <sidenav-router-link *ngIf="authService.IsPermittedPage(111)" route="/salary-process/manual-confirm-or-inc" [active]="isActive('/salary-process/manual-confirm-or-inc')">
+                Manual Confirmation Or Increment
+            </sidenav-router-link> -->
+            <sidenav-router-link *ngIf="authService.IsPermittedPage(112)" route="/salary-process/salary-Inc" [active]="isActive('/salary-process/salary-Inc')">
+                Salary Increment
+            </sidenav-router-link>
+            <!-- <sidenav-router-link *ngIf="authService.IsPermittedPage(113)" route="/salary-process/salary-view" [active]="isActive('/salary-process/salary-view')">
+                Salary View</sidenav-router-link> -->
+            <sidenav-router-link *ngIf="authService.IsPermittedPage(114)" route="/salary-process/salary-structure" [active]="isActive('/salary-process/salary-structure')">Salary Structure</sidenav-router-link>
+            <sidenav-router-link *ngIf="authService.IsPermittedPage(115)" route="/salary-process/emp-salary-structure" [active]="isActive('/salary-process/emp-salary-structure')">Emp Salary Structure</sidenav-router-link>
+            <!-- <sidenav-router-link *ngIf="authService.IsPermittedPage(116)" route="/salary-process/edit-emp-salary-structure" [active]="isActive('/salary-process/edit-emp-salary-structure')">Edit Emp Salary Structure
+            </sidenav-router-link> -->
+            <sidenav-router-link *ngIf="authService.IsPermittedPage(117)" route="/salary-process/salary-process" [active]="isActive('/salary-process/salary-process')">
+                Salary Process</sidenav-router-link>
+            <sidenav-router-link *ngIf="authService.IsPermittedPage(118)" route="/salary-process/undo-salary-process" [active]="isActive('/salary-process/undo-salary-process')">Undo Salary Process</sidenav-router-link>
+            <sidenav-router-link *ngIf="authService.IsPermittedPage(119)" route="/salary-process/block-salary-process" [active]="isActive('/salary-process/block-salary-process')">Block Salary Process</sidenav-router-link>
+            <!-- <sidenav-router-link *ngIf="authService.IsPermittedPage(120)" route="/salary-process/update-salary" [active]="isActive('/salary-process/update-salary')">
+                Update Salary </sidenav-router-link> -->
+            <!-- <sidenav-router-link *ngIf="authService.IsPermittedPage(121)" route="/salary-process/salary-publish" [active]="isActive('/salary-process/salary-publish')">
+                Salary Publish </sidenav-router-link> -->
+            <!-- <sidenav-router-link *ngIf="authService.IsPermittedPage(122)" route="/salary-process/pay-slip-email" [active]="isActive('/salary-process/pay-slip-email')">
+                Pay Slip Email </sidenav-router-link> -->
+            <!-- <sidenav-router-link *ngIf="authService.IsPermittedPage(123)" route="/salary-process/new-join" [active]="isActive('/salary-process/new-join')">New Join
+            </sidenav-router-link>
+            <sidenav-router-link *ngIf="authService.IsPermittedPage(124)" route="/salary-process/change-report" [active]="isActive('/salary-process/change-report')">
+                Change Report</sidenav-router-link>
+            <sidenav-router-link *ngIf="authService.IsPermittedPage(125)" route="/salary-process/extra-salary" [active]="isActive('/salary-process/extra-salary')">
+                Extra Salary</sidenav-router-link> -->
+        </sidenav-menu>
+        <!-- Addition -->
+        <!-- <sidenav-menu *ngIf="authService.IsPermittedModule(12)" icon="ion ion-md-speedometer" text="Addition" [active]="isMenuActive('/addition')" [open]="isMenuOpen('/addition')">
+            <sidenav-router-link *ngIf="authService.IsPermittedPage(126)" route="/addition/employee-allowance" [active]="isActive('/addition/employee-allowance')">
+                Employee Allowance
+            </sidenav-router-link>
+            <sidenav-router-link *ngIf="authService.IsPermittedPage(127)" route="/addition/driver-allowance" [active]="isActive('/addition/driver-allowance')">
+                Driver Allowance
+            </sidenav-router-link>
+            <sidenav-router-link *ngIf="authService.IsPermittedPage(128)" route="/addition/driver-bonus" [active]="isActive('/addition/driver-bonus')">Driver Bonus
+            </sidenav-router-link>
+            <sidenav-router-link *ngIf="authService.IsPermittedPage(129)" route="/addition/import-addition" [active]="isActive('/addition/import-addition')">
+                Import
+            </sidenav-router-link>
+            <sidenav-router-link *ngIf="authService.IsPermittedPage(130)" route="/addition/process-import" [active]="isActive('/addition/import-import')">
+                Process Import
+            </sidenav-router-link>
+        </sidenav-menu> -->
+        <!-- Deduction -->
+        <sidenav-menu *ngIf="authService.IsPermittedModule(13)" icon="ion ion-md-speedometer" text="Deduction" [active]="isMenuActive('/deduction')" [open]="isMenuOpen('/deduction')">
+            <sidenav-router-link *ngIf="authService.IsPermittedPage(131)" route="/deduction/salary-deduct" [active]="isActive('/deduction/salary-deduct')">Salary Deduct
+            </sidenav-router-link>
+            <sidenav-router-link *ngIf="authService.IsPermittedPage(132)" route="/deduction/loan-deduct" [active]="isActive('/deduction/loan-deduct')">Loan Deduct
+            </sidenav-router-link>
+            <sidenav-router-link *ngIf="authService.IsPermittedPage(133)" route="/deduction/lwp-deduct" [active]="isActive('/deduction/lwp-deduct')">LWP Deduct
+            </sidenav-router-link>
+            <sidenav-router-link *ngIf="authService.IsPermittedPage(134)" route="/deduction/other-deduct" [active]="isActive('/deduction/other-deduct')">Other Deduct
+            </sidenav-router-link>
+            <sidenav-router-link *ngIf="authService.IsPermittedPage(135)" route="/deduction/import-deduction" [active]="isActive('/deduction/import-deduction')">
+                Import
+            </sidenav-router-link>
+            <sidenav-router-link *ngIf="authService.IsPermittedPage(136)" route="/deduction/process-import" [active]="isActive('/addition/import-import')">
+                Process Import
+            </sidenav-router-link>
+        </sidenav-menu>
+        <!--Bonus-->
+        <sidenav-menu *ngIf="authService.IsPermittedModule(14)" icon="ion ion-md-speedometer" text="Bonus" [active]="isMenuActive('/Overtime')" [open]="isMenuOpen('/overtime')">
+            <sidenav-router-link *ngIf="authService.IsPermittedPage(137)" route="/bonus/allowance-setup" [active]="isActive('/bonus/allowance-setup')">Bonus And Allowance Setup</sidenav-router-link>
+            <sidenav-router-link *ngIf="authService.IsPermittedPage(138)" route="/bonus/bonus-setup" [active]="isActive('/bonus/bonus-setup')">Bonus Setup
+            </sidenav-router-link>
+            <sidenav-router-link *ngIf="authService.IsPermittedPage(139)" route="/bonus/emp-festival-bonus" [active]="isActive('/bonus/emp-festival-bonus')">
+                Employee Festival Bonus Info</sidenav-router-link>
+            <sidenav-router-link *ngIf="authService.IsPermittedPage(140)" route="/bonus/emp-performance-bonus" [active]="isActive('/bonus/emp-performance-bonus')">
+                Employee Performance Bonus Info</sidenav-router-link>
+            <sidenav-router-link *ngIf="authService.IsPermittedPage(141)" route="/bonus/update-bonus" [active]="isActive('/bonus/update-bonus')">Update Bonus
+            </sidenav-router-link>
+            <sidenav-router-link *ngIf="authService.IsPermittedPage(142)" route="/bonus/upload-emp-payment" [active]="isActive('/bonus/upload-emp-payment')">
+                Import Bonus</sidenav-router-link>
+            <sidenav-router-link *ngIf="authService.IsPermittedPage(143)" route="/bonus/process-import-bonus" [active]="isActive('/bonus/process-import-bonus')">
+                Process Import Bonus</sidenav-router-link>
+        </sidenav-menu>
+        <!-- Incentive -->
+        <!-- <sidenav-menu *ngIf="authService.IsPermittedModule(15)" icon="ion ion-md-speedometer" text="Incentive Other" [active]="isMenuActive('/incentive')" [open]="isMenuOpen('/incentive')">
+            <sidenav-router-link *ngIf="authService.IsPermittedPage(144)" route="/incentive/leave-type-setup" [active]="isActive('/incentive/leave-type-setup')">
+                Leave Type Setup
+            </sidenav-router-link>
+            <sidenav-router-link *ngIf="authService.IsPermittedPage(145)" route="/incentive/leave-amount-setup" [active]="isActive('/incentive/leave-amount-setup')">
+                Leave Amount Setup
+            </sidenav-router-link>
+            <sidenav-router-link *ngIf="authService.IsPermittedPage(146)" route="/incentive/leave-payment" [active]="isActive('/incentive/leave-payment')">Leave Payment
+            </sidenav-router-link>
+            <sidenav-router-link *ngIf="authService.IsPermittedPage(147)" route="/incentive/sales-commission" [active]="isActive('/incentive/sales-commission')">
+                Sales Commission
+            </sidenav-router-link>
+            <sidenav-router-link *ngIf="authService.IsPermittedPage(148)" route="/incentive/encashment-payment" [active]="isActive('/incentive/encashment-payment')">
+                Encashment Payment
+            </sidenav-router-link>
+            <sidenav-router-link *ngIf="authService.IsPermittedPage(149)" route="/incentive/arrear-payment-auto" [active]="isActive('/incentive/arrear-payment-auto')">
+                Arrear Payment Auto
+            </sidenav-router-link>
+            <sidenav-router-link *ngIf="authService.IsPermittedPage(150)" route="/incentive/arrear-payment-manual" [active]="isActive('/incentive/arrear-payment-manual')">Arrear Payment Manual
+            </sidenav-router-link>
+        </sidenav-menu> -->
+        <!--Subsistence Allowance-->
+        <!-- <sidenav-menu *ngIf="authService.IsPermittedModule(16)" icon="ion ion-md-speedometer" text="Subsistance Allowance" [active]="isMenuActive('/subsistance-allowance')" [open]="isMenuOpen('/subsistance-allowance')">
+            <sidenav-router-link *ngIf="authService.IsPermittedPage(151)" route="/subsistance-allowance/amount-setup" [active]="isActive('/subsistance-allowance/amount-setup')">Subsistence Allowance Amount Setup
+            </sidenav-router-link>
+            <sidenav-router-link *ngIf="authService.IsPermittedPage(152)" route="/subsistance-allowance/allowance-auto" [active]="isActive('/subsistance-allowance/allowance-auto')">Subsistence Allowance Auto
+            </sidenav-router-link>
+            <sidenav-router-link *ngIf="authService.IsPermittedPage(153)" route="/subsistance-allowance/allowance-manual" [active]="isActive('/subsistance-allowance/allowance-manual')">Subsistence Allowance Manual
+            </sidenav-router-link>
+            <sidenav-router-link *ngIf="authService.IsPermittedPage(154)" route="/subsistance-allowance/allowance-report" [active]="isActive('/subsistance-allowance/allowance-report')">Subsistence Allowance Report
+            </sidenav-router-link>
+        </sidenav-menu> -->
+        <!--Income Tax-->
+        <sidenav-menu *ngIf="authService.IsPermittedModule(17)" icon="ion ion-md-speedometer" text="Income Tax" [active]="isMenuActive('/income-tax')" [open]="isMenuOpen('/income-tax')">
+            <sidenav-router-link *ngIf="authService.IsPermittedPage(155)" route="/income-tax/tax-year-info" [active]="isActive('/income-tax/tax-year-info')">Tax Year Information
+            </sidenav-router-link>
+            <sidenav-router-link *ngIf="authService.IsPermittedPage(156)" route="/income-tax/income-tax-slab" [active]="isActive('/income-tax/income-tax-slab')">
+                Income Tax Slab</sidenav-router-link>
+            <sidenav-router-link *ngIf="authService.IsPermittedPage(157)" route="/income-tax/income-tax-setup" [active]="isActive('/income-tax/income-tax-setup')">
+                Income Tax Setup</sidenav-router-link>
+            <sidenav-router-link *ngIf="authService.IsPermittedPage(158)" route="/income-tax/minimum-tax-setup" [active]="isActive('/income-tax/minimum-tax-setup')">
+                Minimum Tax Setup</sidenav-router-link>
+            <sidenav-router-link *ngIf="authService.IsPermittedPage(159)" route="/income-tax/surcharge-assign" [active]="isActive('/income-tax/surcharge-assign')">
+                Surcharge Assign</sidenav-router-link>
+            <sidenav-router-link *ngIf="authService.IsPermittedPage(160)" route="/income-tax/search-charge-setup" [active]="isActive('/income-tax/search-charge-setup')">Search Charge Setup</sidenav-router-link>
+            <sidenav-router-link *ngIf="authService.IsPermittedPage(161)" route="/income-tax/block-tax-calculation" [active]="isActive('/income-tax/block-tax-calculation')">Block Tax Calculation</sidenav-router-link>
+            <sidenav-router-link *ngIf="authService.IsPermittedPage(162)" route="/income-tax/tax-challan" [active]="isActive('/income-tax/tax-challan')">Tax Challan
+            </sidenav-router-link>
+            <sidenav-router-link *ngIf="authService.IsPermittedPage(163)" route="/income-tax/additional-tax-info" [active]="isActive('/income-tax/additional-tax-info')">Additional Tax Information</sidenav-router-link>
+            <sidenav-router-link *ngIf="authService.IsPermittedPage(164)" route="/income-tax/other-tax-calculation" [active]="isActive('/income-tax/other-tax-calculation')">Other Tax Calculation</sidenav-router-link>
+            <sidenav-router-link *ngIf="authService.IsPermittedPage(165)" route="/income-tax/challan-prepare" [active]="isActive('/income-tax/challan-prepare')">
+                Challan Prepare</sidenav-router-link>
+            <sidenav-router-link *ngIf="authService.IsPermittedPage(166)" route="/income-tax/challan-number-assign" [active]="isActive('/income-tax/challan-number-assign')">Challan Number Assign</sidenav-router-link>
+            <sidenav-router-link *ngIf="authService.IsPermittedPage(167)" route="/income-tax/txt-card-report" [active]="isActive('/income-tax/txt-card-report')">
+                Tax Card Report</sidenav-router-link>
+            <sidenav-router-link *ngIf="authService.IsPermittedPage(168)" route="/income-tax/tax-report" [active]="isActive('/income-tax/tax-report')">Tax Report
+            </sidenav-router-link>
+            <sidenav-router-link *ngIf="authService.IsPermittedPage(169)" route="/income-tax/tax-paid-payroll" [active]="isActive('/income-tax/tax-paid-payroll')">
+                Tax Paid Payroll</sidenav-router-link>
+            <sidenav-router-link *ngIf="authService.IsPermittedPage(170)" route="/income-tax/tax-adjust" [active]="isActive('/income-tax/tax-adjust')">Tax Adjust
+            </sidenav-router-link>
+            <sidenav-router-link *ngIf="authService.IsPermittedPage(171)" route="/income-tax/process-income-tax" [active]="isActive('/income-tax/process-income-tax')">
+                Process Income Tax</sidenav-router-link>
+            <sidenav-router-link *ngIf="authService.IsPermittedPage(172)" route="/income-tax/return-tax" [active]="isActive('/income-tax/return-tax')">
+                Tax Return
+            </sidenav-router-link>
+
+        </sidenav-menu>
+        <!-- Settlement -->
+        <sidenav-menu *ngIf="authService.IsPermittedModule(18)" icon="ion ion-md-speedometer" text="Settlement" [active]="isMenuActive('/settlement')" [open]="isMenuOpen('/settlement')">
+            <sidenav-router-link *ngIf="authService.IsPermittedPage(173)" route="/settlement/notice-day-setup" [active]="isActive('/settlement/notice-day-setup')">
+                Notice Day Setup
+            </sidenav-router-link>
+            <sidenav-router-link *ngIf="authService.IsPermittedPage(174)" route="/settlement/notice-pay-amount" [active]="isActive('/settlement/notice-pay-amount')">
+                Notice Pay Amount
+            </sidenav-router-link>
+            <sidenav-router-link *ngIf="authService.IsPermittedPage(175)" route="/settlement/gratuity-setup" [active]="isActive('/settlement/gratuity-setup')">
+                Gratuity Setup
+            </sidenav-router-link>
+            <sidenav-router-link *ngIf="authService.IsPermittedPage(176)" route="/settlement/gratuity-year-setup" [active]="isActive('/settlement/gratuity-year-setup')">
+                Gratuity Year Setup
+            </sidenav-router-link>
+            <sidenav-router-link *ngIf="authService.IsPermittedPage(177)" route="/settlement/final-settlement" [active]="isActive('/settlement/final-settlement')">
+                Final Settlement
+            </sidenav-router-link>
+            <sidenav-router-link *ngIf="authService.IsPermittedPage(178)" route="/settlement/settlement-report" [active]="isActive('/settlement/settlement-report')">
+                Report
+            </sidenav-router-link>
+        </sidenav-menu>
+
+         <!-- Provident Fun  -->
+         <sidenav-menu *ngIf="authService.IsPermittedModule(26)" icon="ion ion-md-speedometer" text="Provident Fund" [active]="isMenuActive('/provident-fund')" [open]="isMenuOpen('/provident-fund')">
+          <sidenav-router-link *ngIf="authService.IsPermittedPage(241)" route="/provident-fund/subledger" [active]="isActive('/provident-fund/subledger')">Subledger
+          </sidenav-router-link>
+        </sidenav-menu>
+        <!-- Reports -->
+        <sidenav-menu *ngIf="authService.IsPermittedModule(19)" icon="ion ion-md-speedometer" text="Reports" [active]="isMenuActive('/reports')" [open]="isMenuOpen('/reports')">
+            <sidenav-router-link *ngIf="authService.IsPermittedPage(179)" route="/reports/salary-report" [active]="isActive('/reports/salary-report')">Salary Report
+            </sidenav-router-link>
+            <sidenav-router-link *ngIf="authService.IsPermittedPage(180)" route="/reports/bank-advice" [active]="isActive('/reports/bank-advice')">Bank Advice
+            </sidenav-router-link>
+            <sidenav-router-link *ngIf="authService.IsPermittedPage(181)" route="/reports/salary-reconciliation" [active]="isActive('/reports/salary-reconciliation')">
+                Salary Reconciliation</sidenav-router-link>
+            <sidenav-router-link *ngIf="authService.IsPermittedPage(182)" route="/reports/salary-summary" [active]="isActive('/reports/salary-summary')">Salary Summary
+            </sidenav-router-link>
+            <!-- <sidenav-router-link *ngIf="authService.IsPermittedPage(183)" route="/reports/basic-information" [active]="isActive('/reports/basic-information')">
+                Basic Information
+            </sidenav-router-link> -->
+            <sidenav-router-link *ngIf="authService.IsPermittedPage(184)" route="/reports/payslip" [active]="isActive('/reports/payslip')">PaySlip
+            </sidenav-router-link>
+            <!-- <sidenav-router-link *ngIf="authService.IsPermittedPage(185)" route="/reports/employee-cv" [active]="isActive('/reports/employee-cv')">Employee CV
+            </sidenav-router-link> -->
+            <sidenav-router-link *ngIf="authService.IsPermittedPage(186)" route="/reports/provident-fund" [active]="isActive('/reports/provident-fund')">
+                Provident Fund
+            </sidenav-router-link>
+            <!-- <sidenav-router-link *ngIf="authService.IsPermittedPage(187)" route="/reports/fooding-own" [active]="isActive('/reports/fooding-own')">Fooding Own
+            </sidenav-router-link>
+            <sidenav-router-link *ngIf="authService.IsPermittedPage(188)" route="/reports/in-out-own" [active]="isActive('/reports/in-out-own')">In Out Own
+            </sidenav-router-link> -->
+            <!-- <sidenav-router-link *ngIf="authService.IsPermittedPage(189)" route="/reports/asset-under-emp" [active]="isActive('/reports/asset-under-emp')">Asset Under Employee</sidenav-router-link> -->
+            <!-- <sidenav-router-link *ngIf="authService.IsPermittedPage(190)" route="/reports/bank-account" [active]="isActive('/reports/bank-account')">Bank Account
+            </sidenav-router-link> -->
+            <sidenav-router-link *ngIf="authService.IsPermittedPage(191)" route="/reports/salary-yearly-detail" [active]="isActive('/reports/salary-yearly-detail')">
+                Salary Yearly Detail</sidenav-router-link>
+            <sidenav-router-link *ngIf="authService.IsPermittedPage(192)" route="/reports/yearly-summary" [active]="isActive('/reports/yearly-summary')">Yearly Summary
+            </sidenav-router-link>
+            <sidenav-router-link *ngIf="authService.IsPermittedPage(193)" route="/reports/employee-loan" [active]="isActive('/reports/employee-loan')">Employee Loan
+            </sidenav-router-link>
+            <!-- <sidenav-router-link *ngIf="authService.IsPermittedPage(194)" route="/reports/single-emp-salary" [active]="isActive('/reports/single-emp-salary')">
+                Single Employee Salary</sidenav-router-link> -->
+            <!-- <sidenav-router-link *ngIf="authService.IsPermittedPage(195)" route="/reports/single-emp-leave" [active]="isActive('/reports/single-emp-leave')">
+                Single Employee Leave</sidenav-router-link> -->
+            <!-- <sidenav-router-link *ngIf="authService.IsPermittedPage(196)" route="/reports/single-emp-increment" [active]="isActive('/reports/single-emp-increment')">
+                Single Employee increment</sidenav-router-link> -->
+            <sidenav-router-link *ngIf="authService.IsPermittedPage(197)" route="/reports/single-emp-income-tax" [active]="isActive('/reports/single-emp-income-tax')">
+                Single Emp Income Tax</sidenav-router-link>
+        </sidenav-menu>
+        <!-- Security -->
+        <sidenav-menu icon="fa fa-user-lock" text="Security" [active]="isMenuActive('/security')" [open]="isMenuOpen('/security')">
+            <!-- <sidenav-router-link *ngIf="authService.IsPermittedPage(198)" route="/security/create-company" [active]="isActive('/security/create-company')">Create Company
+            </sidenav-router-link> -->
+            <!-- <sidenav-router-link *ngIf="authService.IsPermittedPage(199)" route="/security/create-user-type" [active]="isActive('/security/create-user-type')">
+                Create User Type
+            </sidenav-router-link> -->
+            <sidenav-router-link *ngIf="authService.IsPermittedPage(200)" route="/security/create-user" [active]="isActive('/security/create-user')">Create User
+            </sidenav-router-link>
+            <sidenav-router-link *ngIf="authService.IsPermittedPage(201)" route="/security/log-history" [active]="isActive('/security/log-history')">Log History
+            </sidenav-router-link>
+            <sidenav-router-link route="/security/change-password" [active]="isActive('/security/change-password')">
+                Change Password
+            </sidenav-router-link>
+            <sidenav-router-link *ngIf="authService.IsPermittedPage(203)" route="/security/password-show" [active]="isActive('/security/password-show')">Show Password
+            </sidenav-router-link>
+            <!-- <sidenav-router-link *ngIf="authService.IsPermittedPage(204)" route="/security/application-module" [active]="isActive('/security/application-module')">App Module
+            </sidenav-router-link> -->
+            <!-- <sidenav-router-link *ngIf="authService.IsPermittedPage(205)" route="/security/application-page" [active]="isActive('/security/application-page')">
+                App Page
+            </sidenav-router-link> -->
+            <sidenav-router-link *ngIf="authService.IsPermittedPage(206)" route="/security/assign-page-access" [active]="isActive('/security/assign-page-access')">
+                Assign Page Access
+            </sidenav-router-link>
+            <!-- <sidenav-router-link *ngIf="authService.IsPermittedPage(207)" route="/security/assign-company" [active]="isActive('/security/assign-company')">Assign Company
+            </sidenav-router-link>
+            <sidenav-router-link *ngIf="authService.IsPermittedPage(208)" route="/security/assign-branch" [active]="isActive('/security/assign-branch')">Assign Branch
+            </sidenav-router-link> -->
+            <sidenav-router-link *ngIf="authService.IsPermittedPage(209)" route="/security/lock-unlock-salary" [active]="isActive('/security/lock-unlock-salary')">
+                Lock/Unlock Salary Process
+            </sidenav-router-link>
+            <sidenav-router-link *ngIf="authService.IsPermittedPage(232)" route="/security/backup" [active]="isActive('/security/backup')">
+                Backup
+            </sidenav-router-link>
+        </sidenav-menu>
+        <!-- Gl-Integration -->
+        <!-- <sidenav-menu *ngIf="authService.IsPermittedModule(21)" icon="ion ion-md-speedometer" text="Gl Integration" [active]="isMenuActive('/gl-integration')" [open]="isMenuOpen('/gl-integration')">
+            <sidenav-router-link *ngIf="authService.IsPermittedPage(210)" route="/gl-integration/cost-head" [active]="isActive('/gl-integration/cost-head')">Cost Head
+            </sidenav-router-link>
+            <sidenav-router-link *ngIf="authService.IsPermittedPage(211)" route="/gl-integration/gl-code" [active]="isActive('/gl-integration/gl-code')">GL-Code
+            </sidenav-router-link>
+            <sidenav-router-link *ngIf="authService.IsPermittedPage(212)" route="/gl-integration/salary-head-assign" [active]="isActive('/gl-integration/salary-head-assign')">Salary Head Assign</sidenav-router-link>
+            <sidenav-router-link *ngIf="authService.IsPermittedPage(213)" route="/gl-integration/gl-report" [active]="isActive('/gl-integration/gl-report')">GL Report
+            </sidenav-router-link>
+        </sidenav-menu> -->
+        <!--Apprisal-->
+        <sidenav-menu icon="ion ion-md-speedometer" *ngIf="authService.IsPermittedModule(22)"  text="Apprisal" [active]="isMenuActive('/apprisal')" [open]="isMenuOpen('/apprisal')">
+            <sidenav-router-link *ngIf="authService.IsPermittedPage(215)" route="/apprisal/employeewisekpi" [active]="isActive('/apprisal/employeewisekpi')">
+                EmployeeWise Kpi</sidenav-router-link>
+            <sidenav-router-link *ngIf="authService.IsPermittedPage(216)" route="/apprisal/agreebyboss" [active]="isActive('/apprisal/agreebyboss')">Agree by Boss
+            </sidenav-router-link>
+            <sidenav-router-link *ngIf="authService.IsPermittedPage(217)" route="/apprisal/emp-apprisal" [active]="isActive('/apprisal/emp-apprisal')">Employee Apprisal
+            </sidenav-router-link>
+            <sidenav-router-link *ngIf="authService.IsPermittedPage(218)" route="/apprisal/apprisalbyboss" [active]="isActive('/apprisal/apprisalbyboss')">
+                Appraisal By Boss</sidenav-router-link>
+            <sidenav-router-link *ngIf="authService.IsPermittedPage(237)" route="/apprisal/recommendation" [active]="isActive('/apprisal/recommendation')">Recommendation
+            </sidenav-router-link>
+            <sidenav-router-link *ngIf="authService.IsPermittedPage(219)" route="/apprisal/report" [active]="isActive('/apprisal/report')">Report
+            </sidenav-router-link>
+            <sidenav-router-link *ngIf="authService.IsPermittedPage(238)" route="/apprisal/reset" [active]="isActive('/apprisal/reset')">Reset
+            </sidenav-router-link>
+        </sidenav-menu>
+        <sidenav-menu *ngIf="authService.IsPermittedModule(25)" icon="ion ion-md-speedometer" text="Tour" [active]="isMenuActive('/tour')" [open]="isMenuOpen('/tour')">
+            <sidenav-router-link *ngIf="authService.IsPermittedPage(227)" route="/tour/tour-apply" [active]="isActive('/tour/tour-apply')">Apply
+            </sidenav-router-link>
+            <sidenav-router-link *ngIf="authService.IsPermittedPage(228)" route="/tour/tour-approve" [active]="isActive('/tour/tour-approve')">Approve
+            </sidenav-router-link>
+            <sidenav-router-link *ngIf="authService.IsPermittedPage(229)" route="/tour/tour-approve-hr" [active]="isActive('/tour/tour-approve-hr')">Approve by HR
+            </sidenav-router-link>
+        </sidenav-menu>
+
+    </div>
+</sidenav>

@@ -1,0 +1,125 @@
+<div class="card">
+  <h4 class="card-header text-center bg-light mb-4">
+    Salary Structure
+  </h4>
+  <div class="card-body mb-5">
+    <div class="row">
+      <div class="col-md-7 center">
+        <form [formGroup]="structureForm">
+          <!--Salary Type-->
+          <div class="form-group row">
+            <label class="col-form-label col-sm-3 ">Salary Type</label>
+            <div class="col-sm-7">
+              <ng-select formControlName="structureID" [disabled]="true" (change)="getAdditionOrDeductionList(f['structureID'].value)"
+                placeholder="Select Present Scale" [items]="structureModel" bindLabel="structureName" bindValue="id">
+
+              </ng-select>
+              <div
+                *ngIf="f['structureID'].invalid && (isSubmitted || f['structureID'].touched || f['structureID'].dirty)"
+                class="text-danger">
+                <i *ngIf="f['structureID'].errors.required">Select Salary Type</i>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-header py-2">
+            <h5 class="text-center">Addition</h5>
+          </div>
+          <div class="card-body m-0 data-table p-0">
+            <table id="addition" class="table table-hover table-striped mb-0 ">
+              <thead>
+                <tr>
+                  <th colspan="2">Salary_Head</th>
+                  <th style="width: 200px;">Amount</th>
+                  <th colspan="2">Type</th>
+                  <th>Based_On</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let emp of additionForm.controls; let i=index" [formGroup]="emp">
+                  <td colspan="2">
+                    <ng-select formControlName="salaryHeadID" [items]="salaryHeadModel" bindLabel="accountName"
+                      bindValue="id"></ng-select>
+                  </td>
+                  <td style="width: 200px;" id="amount"><input formControlName="amount" type="number"
+                      class="form-control">
+                  </td>
+                  <td colspan="2">
+                    <ng-select formControlName="salaryTypeID" [items]="typeItem" bindLabel="typeName" bindValue="id">
+                    </ng-select>
+                  </td>
+                  <ng-select formControlName="basedOnID" [items]="lstBasedOn" bindLabel="name" bindValue="id">
+                  </ng-select>
+                  <td>
+                    <span (click)="removeAdditionRow(i)" class="btn btn-sm btn-danger">X</span>
+                    <span *ngIf="additionForm.controls.length==(i+1)" (click)="addAdditionRow()"
+                      class="btn btn-sm btn-success">+</span>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-header py-2">
+            <h5 class="text-center">Deduction</h5>
+          </div>
+          <div class="card-body m-0 data-table p-0">
+            <table id="deduction" class="table table-hover table-striped mb-0">
+              <thead>
+                <tr>
+                  <th colspan="2">Salary_Head</th>
+                  <th style="width: 100px;">Amount</th>
+                  <th colspan="2">Type</th>
+                  <th>Based_On</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody class="small">
+
+                <tr *ngFor="let emp of deductionForm.controls; let i=index" [formGroup]="emp">
+                  <td colspan="2">
+                    <ng-select formControlName="salaryHeadID" [items]="salaryHeadModel" bindLabel="accountName"
+                      bindValue="id"></ng-select>
+                  </td>
+
+                  <td style="width: 100px;" id="amount"><input formControlName="amount" type="number"
+                      class="form-control"></td>
+                  <td colspan="2">
+                    <ng-select formControlName="salaryTypeID" [items]="typeItem" bindLabel="typeName" bindValue="id">
+                    </ng-select>
+                  </td>
+
+                  <ng-select formControlName="basedOnID" [items]="lstBasedOn" bindLabel="name" bindValue="id">
+                  </ng-select>
+                  <td id="addOrDelete">
+                    <span (click)="removeDeductionRow(i)" class="btn btn-sm btn-danger">X</span>
+                    <span *ngIf="deductionForm.controls.length==(i+1)" (click)="addDedutionRow()"
+                      class="btn btn-sm btn-success">+</span>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="card-footer row py-2">
+    <div class="m-auto">
+      <button (click)="Reset()" class="btn btn-info">
+        <span class="far fa-reset"></span> Reset</button>
+        <button (click)="saveSalaryStructure()" class="btn btn-success">Save</button>
+    </div>
+  </div>
+</div>

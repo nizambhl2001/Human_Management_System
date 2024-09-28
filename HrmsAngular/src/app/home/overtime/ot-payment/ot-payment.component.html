@@ -1,0 +1,99 @@
+<div class="card">
+  <h4 class="card-header text-center bg-light">OT Payment</h4>
+  <div class="card-body">
+    <form [formGroup]="otPaymentForm">
+      <div class="row">
+        <div class="col-lg-6 col-md-8 center">
+          <div class="form-group row">
+            <label for="departmentID" class="col-md-3">Department</label>
+            <div class="col-md-9">
+              <app-department-select-list [setDeptId]="formVal.departmentID"
+                (onChange)="formControl['departmentID'].patchValue($event.id)">
+              </app-department-select-list>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="sectionID" class="col-md-3">Location</label>
+            <div class="col-md-9">
+              <app-location-select-list [setLocationId]="formVal.locationID"
+                (onChange)="formControl['locationID'].patchValue($event.id)">
+              </app-location-select-list>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="" class="col-md-3">Month</label>
+            <div class="col-md-9 pr-0 input-group">
+              <ng-select formControlName="month" [items]="monthList" bindLabel="display" bindValue="value"
+                [ngClass]="{'is-invalid':(formControl['month'].touched || formControl['month'].dirty || isSubmitted) && formControl['month'].invalid}"
+                placeholder="Select Month"></ng-select>
+              <div class="input-group-append">
+                <ng-select formControlName="year" [items]="yearList" bindLabel="display" bindValue="value"
+                  [ngClass]="{'is-invalid':(formControl['year'].touched || formControl['year'].dirty || isSubmitted) && formControl['year'].invalid}"
+                  placeholder="Select Year"></ng-select>
+              </div>
+              <div class="text-danger mt-2"
+                *ngIf="((formControl['month'].touched || formControl['month'].dirty || isSubmitted) && formControl['month'].invalid)">
+                <i *ngIf="formControl['month'].errors.required">Month is required</i>
+              </div>
+              <div class="text-danger mt-2 ml-2"
+                *ngIf="(formControl['year'].touched || formControl['year'].dirty || isSubmitted) && formControl['year'].invalid">
+                <i *ngIf="formControl['year'].errors.required">Year is required</i>
+              </div>
+            </div>
+          </div>
+          <div class="row mt-3">
+            <div class="col-12">
+              <button [ladda]="isLoading" (click)="getProcessOt()"
+                class="btn btn-success pull-right mr-2">Show</button>
+                <button (click)="reset()" class="btn btn-secondary pull-right mr-3">Reset</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+    <div *ngIf="isLoading" class="row">
+      <div class="col">
+        <h5 class="py-2 text-center text-success">Loading...</h5>
+      </div>
+    </div>
+    <div *ngIf="processListForm.controls.length>0" class="row">
+      <div class="data-table">
+        <table class="table-bordered">
+          <thead>
+            <tr>
+              <th>#SL</th>
+              <th>ID</th>
+              <th>Name</th>
+              <th>Designation</th>
+              <th>Total_Hour</th>
+              <th>Amount</th>
+              <th>Bank_Name</th>
+              <th>Acc_No</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let frm of processListForm.controls; let i = index" [formGroup]="frm">
+              <td>{{i+1}}</td>
+              <td>{{frm.value.empCode}}</td>
+              <td>{{frm.value.empName}}</td>
+              <td>{{frm.value.designation}}</td>
+              <td class="p-0">{{frm.value.totalHour | number:'0.0-2'}} </td>
+              <td class="p-0">{{frm.value.payAmount | number:'0.0-2'}}</td>
+              <td class="p-0">
+                <input formControlName="bankName" type="text" class="form-control" placeholder="Bank Name">
+              </td>
+              <td class="p-0">
+                <input formControlName="accNo" type="text" class="form-control" placeholder="Account No.">
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div *ngIf="processListForm.controls.length>0" class="row">
+      <div class="col">
+        <button (click)="onSubmit()" class="pull-right btn btn-success mr-5">Save</button>
+      </div>
+    </div>
+  </div>
+</div>

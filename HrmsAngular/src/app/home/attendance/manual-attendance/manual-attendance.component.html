@@ -1,0 +1,148 @@
+<div class="card">
+  <h4 class="card-header text-center bg-light">
+    {{title}}
+  </h4>
+  <div class="card-body">
+    <form [formGroup]="manualAttForm">
+      <div class="row">
+        <div class="col-md-6">
+          <h6 class="card-header text-center">Employee Information</h6>
+          <div class="card-body border">
+            <div class="form-group row">
+              <label for="empId" class="col-md-4">Employee Id</label>
+              <div class="col-md-8">
+                <app-employee-select-list [fixedWidth]="'200px'" [setEmpCode]="f['empCod'].value"
+                  (onChange)="getEmpInfo($event)"></app-employee-select-list>
+                <div *ngIf="f['empCod'].invalid && (isSubmitted || f['empCod'].touched || f['empCod'].dirty)"
+                  class="text-danger">
+                  <i *ngIf="f['empCod'].errors.required">Insert EmpCode </i>
+                </div>
+              </div>
+            </div>
+            <div class=" form-group row">
+              <label class="col-form-label col-md-4" for="empName">Name</label>
+              <div class="col-md-8">
+                <input formControlName="empName" type="text" name="employeeName" id="empName" class="form-control"
+                  placeholder="Employee Name">
+              </div>
+            </div>
+            <div class="form-group row">
+              <label class="form-label col-md-4" for="joiningDate">Joining Date</label>
+              <div class="input-group col-md-8">
+                <app-date-control (getLocalDate)="f['joinDate'].setValue($event)"
+                  (getNgbDate)="f['joinDateNgb'].setValue($event)"
+                  [setNgbDate]="f['joinDateNgb'].value"></app-date-control>
+              </div>
+            </div>
+            <div class=" form-group row">
+              <label class="col-form-label col-md-4" for="designation">Designation</label>
+              <div class="col-md-8">
+                <input formControlName="designation" type="text" name="designation" id="designation"
+                  class="form-control" placeholder="Designation">
+              </div>
+            </div>
+            <div class=" form-group row">
+              <label class="col-form-label col-md-4" for="location">Location</label>
+              <div class="col-md-8">
+                <input formControlName="location" type="text" name="location" id="location" class="form-control"
+                  placeholder="Location">
+              </div>
+            </div>
+            <div class="form-group row demo-inline-spacing">
+              <label for="" class="col-md-4"></label>
+              <button (click)="reset()" class="btn btn-info"><span class="ion ion-ios-refresh"></span>Reset</button>
+              <button (click)="getAttendenceByDDMMYY()" class="btn btn-success">Show Attendance</button>
+            </div>
+          </div>
+
+        </div>
+        <div class="col-md-6 border" style="padding-top: 5px;">
+          <br>
+          <div class="form-group row">
+            <label class="form-label col-md-4"></label>
+            <div class="col-md-4 form-check">
+              <input formControlName="typee" type="radio" name="typee" id="loginTime" [value]="0"
+                class="form-check-input">
+              <label for="loginTime" class="form-check-label">Login Time</label>
+            </div>
+            <div class="col-md-4 form-check">
+              <input formControlName="typee" type="radio" name="typee" id="logoutTime" [value]="1"
+                class="form-check-input">
+              <label for="logoutTime" class="form-check-label">Logout Time</label>
+            </div>
+            <div *ngIf="f['typee'].invalid && (isSubmitted || f['typee'].touched || f['typee'].dirty)"
+              class="text-danger">
+              <i *ngIf="f['typee'].errors.required">Select Login/LogOut Time </i>
+            </div>
+          </div>
+          <!-- <div class="form-group row">
+            <label class="form-label col-md-3">Date</label>
+            <div class="input-group col-md-8">
+              <app-date-control (getLocalDate)="f['attnDate'].setValue($event)"
+                (getNgbDate)="f['attnDateNgb'].setValue($event)"
+                [setNgbDate]="f['attnDateNgb'].value"></app-date-control>
+              <div *ngIf="f['attnDate'].invalid && (isShowdata || f['attnDate'].touched || f['attnDate'].dirty)"
+                class="text-danger">
+                <i *ngIf="f['attnDate'].errors.required">Select Date </i>
+              </div>
+            </div>
+          </div> -->
+          <!-- <form [formGroup]="form"> -->
+          <div class="form-group row">
+            <label class="form-label col-md-3">Date</label>
+            <div class="input-group col-md-8">
+              <input class="form-control" placeholder="dd/mm/yyyy" name="dp" ngbDatepicker [(ngModel)]="date"
+                [ngModelOptions]="{standalone: true}" (ngModelChange)="date=$event;getDate()" #d="ngbDatepicker">
+              <div class="input-group-append">
+                <button class="btn btn-outline-secondary calendar" (click)="d.toggle()" type="button"></button>
+              </div>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="col-form-label col-md-4" for="intTime">Time</label>
+            <div class="col-md-8">
+              <app-time-control [ngbTime]="f['attnTimeNgb'].value" (getTimeObj)="f['attnTimeNgb'].setValue($event)"
+                (getTimeString)="f['attnTime'].setValue($event)"></app-time-control>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="" class="col-md-4"></label>
+            <button (click)="Save()" class="btn btn-primary">Save Attendance</button>
+          </div>
+          <div class="row">
+            <label for="" class="col-form-label col-sm-2 "></label>
+            <table class="table table-hover table-bordered table-striped mb-0">
+              <thead>
+                <tr>
+                  <th>Employee Code</th>
+                  <th>Date</th>
+                  <th>Time</th>
+                  <th>Type</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngIf="manualAttendenceItem.length==0">
+                  <td colspan="3" class="font-italic text-center">No Item available</td>
+                </tr>
+                <tr *ngFor="let item of manualAttendenceItem">
+                  <td>{{item.empCod}}</td>
+                  <td>{{item.ddmmyyyy | date:"dd/MM/yyyy" }}</td>
+                  <td>{{item.attnTime | date:"HH:mm"}}</td>
+                  <td>{{item.typee}}</td>
+                  <td class="demo-inline-spacing">
+                    <button (click)="getManualAttendenceById(item.id)" class="btn btn-info btn-sm"><span
+                        class="fas fa-edit"></span></button>
+                    <!-- <button (click)="deleteManualAttendence(item.id)" class="btn btn-danger btn-sm"><span
+                        class="fas fa-trash"></span></button> -->
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            <!-- Pagination -->
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

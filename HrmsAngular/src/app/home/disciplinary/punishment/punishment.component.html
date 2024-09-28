@@ -1,0 +1,141 @@
+<div class="card">
+    <h4 class="card-header text-center bg-light">{{title}}</h4>
+    <div class="card-body">
+        <form [formGroup]="punishmentForm">
+            <div class="row">
+                <div class="col-md-8 center">
+                    <div class="form-group row">
+                        <label class=" col-sm-3"> Employee Id
+             </label>
+                        <div class="input-group col-sm-6">
+                            <app-employee-select-list [isRequired]="f['empCode'].invalid && (isSubmitted || f['empCode'].touched || f['empCode'].dirty)" (onChange)="getEmpInfo($event.empCode)" [setEmpCode]="formVal.empCode">
+                            </app-employee-select-list>
+                            <div *ngIf="f['empCode'].invalid && (isSubmitted || f['empCode'].touched || f['empCode'].dirty)" class="text-danger">
+                                <i *ngIf="f['empCode'].errors['required']">Employee Code is required</i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="empName" class="col-md-3">Employee Name</label>
+                        <div class="col-md-6">
+                            <input formControlName="empName" type="text" name="empName" id="empName" class="form-control" disabled>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="department" class="col-md-3">Department</label>
+                        <div class="col-md-6">
+                            <input formControlName="department" type="text" name="department" id="department" class="form-control" disabled>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="designation" class="col-md-3">Designation</label>
+                        <div class="col-md-6">
+                            <input formControlName="designation" type="text" name="designation" id="designation" class="form-control" disabled>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="form-label col-md-3" for="issueDate">Date of Letter Issue</label>
+                        <div class="input-group col-md-6">
+                            <app-date-control (getLocalDate)="f['dateOfLetterIssue'].setValue($event)" (getNgbDate)="f['dateOfLetterIssueNgb'].setValue($event)" [setNgbDate]="f['dateOfLetterIssueNgb'].value"></app-date-control>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="action" class="col-md-3">Action</label>
+                        <div class="col-md-6">
+                            <app-basic-entry-select-list [itemId]="f['actionID'].value" (onChange)="f['actionID'].setValue($event.id)" [modalName]="actionModal" [tableName]="'Action'" [allItem]="Action"></app-basic-entry-select-list>
+                            <div *ngIf="f['actionID'].invalid && (isSubmitted || f['actionID'].touched || f['actionID'].dirty)" class="text-danger">
+                                <i *ngIf="f['actionID'].errors.required">Please Select Action</i>
+                            </div>
+                        </div>
+                        <ng-template #actionModal>
+                            <app-nature-punishment (getItems)="Action"></app-nature-punishment>
+                        </ng-template>
+                    </div>
+
+                    <div class="form-group row">
+                        <label for="natureOfPunishmentID" class="col-md-3">Nature of Punishment</label>
+                        <div class="col-md-6">
+                            <app-basic-entry-select-list [itemId]="f['natureOfPunishmentID'].value" (onChange)="f['natureOfPunishmentID'].setValue($event.id)" [modalName]="natureOfPunismentModal" [tableName]="'NatureOfPunishment'" [allItem]="punishmentType"></app-basic-entry-select-list>
+                            <div *ngIf="f['natureOfPunishmentID'].invalid && (isSubmitted || f['natureOfPunishmentID'].touched || f['natureOfPunishmentID'].dirty)" class="text-danger">
+                                <i *ngIf="f['natureOfPunishmentID'].errors.required">Please Select Punishment</i>
+                            </div>
+                        </div>
+                    </div>
+                    <ng-template #natureOfPunismentModal>
+                        <app-basic-punishment (getItems)="punishmentType"></app-basic-punishment>
+                    </ng-template>
+
+                    <div [hidden]="f['natureOfPunishmentID'].value!=10">
+                        <div class="form-group row">
+                            <label class="form-label col-md-3" for="startDateNgb">Start Date</label>
+                            <div class="input-group col-md-6">
+                                <input class="form-control" placeholder="dd-mm-yyyy" id="startDateNgb" name="startDateNgb" ngbDatepicker readonly formControlName="startDateNgb" [displayMonths]="1" #d2="ngbDatepicker">
+                                <div class="input-group-append">
+                                    <button class="input-group-text" (click)="d2.toggle()" type="button">
+                  <span class="ion ion-md-calendar" style="cursor: pointer;"></span>
+                </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="form-label col-md-3" for="endDateNgb">End Date</label>
+                            <div class="input-group col-md-6">
+                                <input (ngModelChange)="dateDiff()" class="form-control" placeholder="dd-mm-yyyy" id="endDateNgb" name="issueDate" ngbDatepicker readonly formControlName="endDateNgb" [displayMonths]="1" #d3="ngbDatepicker">
+                                <div class="input-group-append">
+                                    <button class="input-group-text" (click)="d3.toggle()" type="button">
+                  <span class="ion ion-md-calendar" style="cursor: pointer;"></span>
+                </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="sDays" class="col-md-3">Days</label>
+                            <div class="col-md-6">
+                                <input  formControlName="sDays" type="text" name="sDays" id="sDays" class="form-control">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="demo-inline-spacing center">
+                            <button (click)="reset()" class="btn btn-info"><span class="ion ion-ios-refresh"></span> Reset</button>
+                            <button (click)="saveUpdate()" class="btn btn-success">{{btnStatus}}</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+        <!-- <div class="row">
+            <div class="col-md-4 ml-auto">
+                <input (keyup)="onFilter($event)" class="form-control" placeholder="Search by branch name">
+            </div>
+        </div> -->
+        <div class="row">
+            <div class="data-table">
+                <table class="table table-hover table-bordered table-striped mb-0">
+                    <thead>
+                        <tr>
+                            <th>Enquiry Employee Code</th>
+                            <th>Employee Name</th>
+                            <th>Designation</th>
+                            <th>Department</th>
+                            <th>Nature of Punishment</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngIf="tempItems.length==0">
+                            <td colspan="11" class="font-italic text-center">No Item available</td>
+                        </tr>
+                        <tr (click)="getByID(item.id)" *ngFor="let item of tempItems">
+                            <td>{{item.empCode}}</td>
+                            <td>{{item.empName}}</td>
+                            <td>{{item.designation}}</td>
+                            <td>{{item.department}}</td>
+                            <td>{{item.description}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+</div>

@@ -1,0 +1,91 @@
+<div class="card">
+    <h4 class="card-header text-center bg-light">{{title}}</h4>
+    <div class="card-body">
+        <form [formGroup]="noticeDaySetupForm">
+            <div class="row">
+                <div class="col-md-6 center">
+
+                    <div class="form-group row">
+                        <label for="empType" class="col-md-4">Employee Type<i class="text-danger">*</i></label>
+                        <div class="col-md-8">
+                            <app-employee-type-list [ngClass]="{'is-invalid': (isSubmitted || f['grade'].touched || f['grade'].dirty) && f['grade'].invalid}" [empTypeModel]="f['grade'].value" (onChange)="f['grade'].setValue($event.gradeID)"></app-employee-type-list>
+                            <div *ngIf="(isSubmitted || f['grade'].touched || f['grade'].dirty) && f['grade'].invalid" class="text-danger">
+                                <i *ngIf="f['grade'].errors.required">Emlpoyee Type is required</i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="daysForCompany" class="col-md-4">Days For Company<i class="text-danger">*</i></label>
+                        <div class="col-md-8">
+                            <input type="number" [ngClass]="{'is-invalid': (isSubmitted || f['day'].touched || f['day'].dirty) && f['day'].invalid}" formControlName="day" name="daysForCompany" id="daysForCompany" class="form-control" placeholder="Days For Company">
+                            <div *ngIf="(isSubmitted || f['day'].touched || f['day'].dirty) && f['day'].invalid" class="text-danger">
+                                <i *ngIf="f['day'].errors.required">Days For Company is required</i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="daysForEmp" class="col-md-4">Days For Employee<i class="text-danger">*</i></label>
+                        <div class="col-md-8">
+                            <input type="number" [ngClass]="{'is-invalid': (isSubmitted || f['empDay'].touched || f['empDay'].dirty) && f['empDay'].invalid}" formControlName="empDay" name="daysForEmployee" id="daysForEmp" class="form-control" placeholder="Days For Employee">
+                            <div *ngIf="(isSubmitted || f['empDay'].touched || f['empDay'].dirty) && f['empDay'].invalid" class="text-danger">
+                                <i *ngIf="f['empDay'].errors.required">Days For Employee is required</i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="date" class="col-md-4">Date</label>
+                        <div class="input-group col-md-8">
+                            <app-date-control [setNgbDate]="f['sDateNgb'].value" (getNgbDate)="f['sDateNgb'].setValue($event)" (getLocalDate)="f['sDate'].setValue($event)"></app-date-control>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="note" class="col-md-4">Note<i class="text-danger">*</i></label>
+                        <div class="col-md-8">
+                            <textarea [ngClass]="{'is-invalid': (isSubmitted || f['note'].touched || f['note'].dirty) && f['note'].invalid}" formControlName="note" name="note" id="note" type="text" rows="2" placeholder="Note" class="form-control"></textarea>
+                            <div *ngIf="(isSubmitted || f['note'].touched || f['note'].dirty) && f['note'].invalid" class="text-danger">
+                                <i *ngIf="f['note'].errors.required">Note is required</i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="center demo-inline-spacing">
+                    <button (click)="reset()" class="btn btn-info"><span class="ion ion-ios-refresh"></span> Reset</button>
+                    <button (click)="onSubmit()" class="btn btn-success">{{btnStatus}}</button>
+
+                </div>
+            </div>
+        </form>
+        <div class="row">
+            <div class="col-md-4 ml-auto">
+                <input type="text" [(ngModel)]="filterVal" (input)="currentPage = 1; update()" class="form-control form-control-md d-inline-block w-auto float-sm-right" placeholder="Search...">
+            </div>
+        </div>
+        <div class="row">
+            <div class="data-table">
+                <table class="table table-hover table-bordered table-striped mb-0">
+                    <thead>
+                        <tr>
+                            <th>Employee Type</th>
+                            <th>Days</th>
+                            <th>Note</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngIf="tempItems.length==0">
+                            <td colspan="11" class="font-italic text-center">No Item available</td>
+                        </tr>
+                        <tr *ngFor="let item of tempItems">
+                            <td>{{item.gradeName}}</td>
+                            <td>{{item.day}}</td>
+                            <td>{{item.note}}</td>
+                            <td><button (click)="getByID(item.id)" class="btn btn-primary btn-sm"><span
+            class="fas fa-edit"></span></button></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>

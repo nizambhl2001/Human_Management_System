@@ -1,0 +1,53 @@
+<div class="card">
+  <h4 class="card-header text-center bg-light">
+    Salary Process
+  </h4>
+  <div class="card-body">
+    <div class="col-md-7 center">
+      <ngb-alert *ngIf="processedStatus" [type]="(processedEmployees>0)?'success':'danger'" (close)="closeAlert()">
+        {{processedStatus}}</ngb-alert>
+      <form [formGroup]="salaryProcessForm">
+        <!-- Period-->
+        <div class="form-group row">
+          <label class="col-form-label col-sm-3">Period</label>
+          <div class="col-sm-7">
+            <app-period-select-list [setPeriodId]="f['periodID'].value" (onChange)="onSelectPeriod($event)"
+              [isRequired]="true"></app-period-select-list>
+          </div>
+        </div>
+        <!-- Process-->
+        <div class="form-group row">
+          <label class="col-form-label col-sm-3">Process</label>
+          <div class="col-sm-7">
+            <ng-select formControlName="structureID" placeholder="Select Structure" [items]="salaryStructures"
+              bindLabel="structureName" bindValue="id">
+            </ng-select>
+            <div *ngIf="f['structureID'].invalid && (isSubmitted || f['structureID'].touched || f['structureID'].dirty)"
+              class="text-danger">
+              <i *ngIf="f['structureID'].errors.required">Structure Type is required</i>
+            </div>
+          </div>
+        </div>
+        <!--Employee-->
+        <div class="form-group row">
+          <label class="col-form-label col-sm-3">Employee</label>
+          <div class="col-sm-7">
+            <app-employee-select-list [isSearchBtnHide]="true" [setEmpCode]="f['empCode'].value"
+              (onChange)="f['empCode'].setValue($event.empCode);">
+            </app-employee-select-list>
+          </div>
+        </div>
+        <!--Button-->
+        <div class="form-group row m-auto">
+          <div class="demo-inline-spacing mt-3 center">
+            <button (click)="Reset()" type="" class="btn btn-info">
+              Reset</button>
+            <button [ladda]="isSubmitted" (click)="salaryProcess()" type="submit" class="btn btn-success">
+              Process</button>
+          </div>
+        </div>
+      </form>
+
+    </div>
+  </div>
+</div>

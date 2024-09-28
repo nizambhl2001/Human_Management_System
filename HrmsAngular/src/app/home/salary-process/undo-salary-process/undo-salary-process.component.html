@@ -1,0 +1,33 @@
+<div class="card">
+  <h4 class="card-header text-center bg-light">
+    Undo Salary Process
+  </h4>
+  <div class="card-body">
+    <div class="col-md-7 center">
+      <form [formGroup]="undoSalaryProForm">
+        <!-- Period-->
+        <div class="form-group row">
+          <label class="col-form-label col-sm-3 ">Period</label>
+          <div class="col-sm-7">
+            <ng-select formControlName="periodID" placeholder="Select Period" [items]="salaryPeriod"
+              bindLabel="periodName" bindValue="id">
+            </ng-select>
+            <div *ngIf="f['periodID'].invalid && (isSubmitted || f['periodID'].touched || f['periodID'].dirty)"
+              class="text-danger">
+              <i *ngIf="f['periodID'].errors.required">Select Period</i>
+            </div>
+          </div>
+        </div>
+        <!--Button-->
+        <div class="form-group row m-auto">
+          <div class="demo-inline-spacing mt-3 center">
+            <button (click)="Reset()" class="btn btn-info">
+              <span class="far fa-reset"></span> Reset</button>
+            <button (click)="undoSalryProcess()" class="btn btn-success">Process</button>
+          </div>
+        </div>
+      </form>
+    </div>
+
+  </div>
+</div>

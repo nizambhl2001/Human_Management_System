@@ -1,0 +1,53 @@
+<div class="card">
+    <h4 class="card-header text-center bg-light">
+        Exit Interview Report
+    </h4>
+    <div class="card-body">
+        <div class="col-md-7 center">
+            <form [formGroup]="exitInterviewReportForm">
+                <!--Report Name-->
+                <div class="form-group row">
+                    <label class="col-form-label col-sm-3 ">Report Type</label>
+                    <div class="col-sm-7">
+                        <ng-select formControlName="ReportId" [items]="reportType" bindLabel="TypeName" bindValue="ReportId" [ngClass]="{'is-invalid':(exitInterviewReportForm.controls.ReportId.invalid && (exitInterviewReportForm.controls.ReportId.touched || exitInterviewReportForm.controls.ReportId.dirty || isSubmit))}"
+                            placeholder="Select report Type">
+                        </ng-select>
+                        <div class="text-danger" *ngIf="(exitInterviewReportForm.controls['ReportId'].invalid && (exitInterviewReportForm.controls['ReportId'].touched || exitInterviewReportForm.controls['ReportId'].dirty || isSubmit))">
+                            <i *ngIf="exitInterviewReportForm.controls['ReportId'].errors.required">Report Type Is Required</i>
+                        </div>
+                    </div>
+                </div>
+                <div *ngIf="[205].includes(formControl['ReportId'].value)" class="form-group row">
+                    <label class="col-form-label col-sm-3 ">Employee Code</label>
+                    <div class="col-sm-7">
+                        <app-employee-select-list (onChange)="formControl['EmpCode'].setValue($event.empCode)">
+                        </app-employee-select-list>
+                        <div>
+                        </div>
+                    </div>
+                </div>
+                <div *ngIf="[206].includes(formControl['ReportId'].value)" class="form-group row">
+                    <label class="col-form-label col-sm-3 ">From Date</label>
+                    <div class="col-sm-7">
+                        <app-date-control (getYyyymmdd)="formControl['StartDate'].setValue($event)"></app-date-control>
+                    </div>
+                </div>
+                <div *ngIf="[206].includes(formControl['ReportId'].value)" class="form-group row">
+                    <label class="col-form-label col-sm-3 "> To Date</label>
+                    <div class="col-sm-7">
+                        <app-date-control (getYyyymmdd)="formControl['EndDate'].setValue($event)"></app-date-control>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <div class="demo-inline-spacing mt-3 center">
+                        <button [ladda]="exportingPdf" (click)="exportToPdf('pdf')" type="submit" class="btn btn-info">
+              <span class="fas fa-file-download"></span> Generate Report </button>
+                        <button (click)="reset()" class="btn btn-primary">Reset</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+
+    </div>

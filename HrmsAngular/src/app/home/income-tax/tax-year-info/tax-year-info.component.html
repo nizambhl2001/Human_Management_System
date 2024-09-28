@@ -1,0 +1,87 @@
+<div class="card section">
+    <h4 class="card-header text-center bg-light">
+        Create Tax Year
+    </h4>
+    <div class="card-body">
+        <br/>
+        <div class="col-md-7 center">
+            <form [formGroup]="taxYearInfoForm">
+                <div class="form-group row">
+                    <label class="col-form-label col-sm-4 ">Income Year Name
+            </label>
+                    <div class="col-sm-8">
+                        <input formControlName="taxYearName" type="text" class="form-control" placeholder="2017-2018">
+                        <div *ngIf="f['taxYearName'].invalid && (isSubmitted || f['taxYearName'].touched || f['taxYearName'].dirty)" class="text-danger">
+                            <i *ngIf="f['taxYearName'].errors.required">Please insert Tax Year Name</i>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-form-label col-sm-4 "> Start Date
+
+            </label>
+
+                    <div class="input-group col-sm-8">
+                        <input formControlName="startDateNgb" class="form-control" name="dp1" placeholder="dd-mm-yyyy" ngbDatepicker #d1="ngbDatepicker" readonly>
+                        <div class="input-group-append">
+                            <button class="input-group-text" (click)="d1.toggle()" type="button">
+                  <span class="ion ion-md-calendar" style="cursor: pointer;"></span>
+                </button>
+                        </div>
+                        <div *ngIf="f['startDateNgb'].invalid && (isSubmitted || f['startDateNgb'].touched || f['startDateNgb'].dirty)" class="text-danger">
+                            <i *ngIf="f['startDateNgb'].errors.required">Please Select Start Date</i>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-form-label col-sm-4">End Date
+            </label>
+                    <div class="input-group col-sm-8">
+                        <input formControlName="endDateNgb" class="form-control" name="dp2" placeholder="dd-mm-yyyy" ngbDatepicker #d2="ngbDatepicker" readonly>
+                        <div class="input-group-append">
+                            <button class="input-group-text" (click)="d2.toggle()" type="button">
+                  <span class="ion ion-md-calendar" style="cursor: pointer;"></span>
+                </button>
+                        </div>
+                        <div *ngIf="f['endDateNgb'].invalid && (isSubmitted || f['endDateNgb'].touched || f['endDateNgb'].dirty)" class="text-danger">
+                            <i *ngIf="f['endDateNgb'].errors.required">Please Select End Date</i>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-form-label col-sm-4 ">Tax Info
+            </label>
+                    <div class="col-sm-8">
+                        <select class="custom-select ">
+               <option></option>
+              </select>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="row">
+            <div class="demo-inline-spacing mt-3" style="margin:0 auto">
+                <button (click)="Reset()" class="btn btn-info ">
+          <span class="ion ion-ios-refresh"></span> Reset
+        </button>
+                <button (click)="saveTaxYearIn()" type="" class="btn btn-success"> Save </button>
+            </div>
+        </div>
+        <table style="text-align: center " class="table table-bordered ">
+            <thead>
+                <tr>
+                    <th>Sl No</th>
+                    <th>Tax Year Name</th>
+
+                </tr>
+            </thead>
+            <tbody>
+                <tr (click)="getByid(year.id)" *ngFor="let year of taxYearInfo; let i=index">
+                    <td>{{year.id}}</td>
+                    <td>{{year.taxYearName}}</td>
+                </tr>
+
+            </tbody>
+        </table>
+    </div>
+</div>

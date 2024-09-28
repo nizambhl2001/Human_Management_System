@@ -1,0 +1,95 @@
+<div class="card section">
+    <h4 class="card-header text-center bg-light">
+        Employee Festival Bonus
+    </h4>
+    <form [formGroup]="festivalBonusForm">
+        <div class="container">
+            <br />
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group row">
+                        <label class="col-form-label col-sm-4 ">Period
+          </label>
+                        <div class="col-sm-8">
+                            <ng-select [items]="allBonusPeriod" formControlName="periodID" bindLabel="periodName" bindValue="id" placeholder="Period">
+                                ></ng-select>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-form-label col-sm-4 ">Bonus Type
+          </label>
+                        <div class="col-sm-8">
+                            <ng-select [ngClass]="{'is-invalid': (isSubmitted || f['bonusType'].touched ||f['bonusType'].dirty) && f['bonusType'].invalid}" [items]="allBonusType" formControlName="bonusType" bindLabel="paymentType" bindValue="id" placeholder="Bonus Type"></ng-select>
+                        </div>
+                        <label class="col-form-label col-sm-4 ">
+          </label>
+                        <div *ngIf="f['bonusType'].invalid && (isSubmitted || f['bonusType'].touched || f['bonusType'].dirty)" class="text-danger">
+                            <i *ngIf="f['bonusType'].errors['required']">Bonus Type is required</i>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-form-label col-sm-4 ">Bonus Head
+          </label>
+                        <div class="col-sm-8">
+                            <ng-select [items]="allBonusAllowance" formControlName="salaryHeadID" bindLabel="accountName" bindValue="id" placeholder="Bonus Head"></ng-select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-group row">
+                        <label class="col-form-label col-sm-4 ">Department
+          </label>
+                        <div class="col-sm-8">
+                            <ng-select [items]="allDepartment" formControlName="depertment" bindLabel="description" bindValue="description" placeholder="Department"></ng-select>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-form-label col-sm-4 ">Job Type
+          </label>
+                        <div class="col-sm-8">
+                            <div class="input-group">
+                                <ng-select [items]="allJobType" formControlName="jobType" bindLabel="description" bindValue="id" placeholder="Job Type" style="width: 80%"></ng-select>
+                                <div class="input-group-append">
+                                    <button (click)="addNewJobType()" class="btn btn-primary"><span class="fa fa-plus"></span></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="demo-inline-spacing mt-3" style="margin:0 auto">
+                    <button (click)="getAllBonus()" type="" class="btn btn-primary">
+          <span class="fas fa-file-download"></span> Show Data
+        </button>
+                </div>
+                <div class="row">
+                    <div class="data-table">
+                        <table class="table table-hover table-bordered table-striped mb-0">
+                            <thead>
+                                <tr>
+                                    <th>Code</th>
+                                    <th>Employee Name</th>
+                                    <th>Designation</th>
+                                    <th>Basic Amount</th>
+                                    <th>Bonus</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let bonus of allBonus;let i=index">
+                                    <td>{{bonus.empCode}}</td>
+                                    <td>{{bonus.empName}}</td>
+                                    <td>{{bonus.designation}}</td>
+                                    <td>{{bonus.amount}}</td>
+                                    <td>{{bonus.bonusAmount}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="demo-inline-spacing mt-3" style="margin:0 auto">
+                    <button (click)="saveBonus()" type="" class="btn btn-success">Save</button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

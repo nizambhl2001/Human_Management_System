@@ -1,0 +1,229 @@
+<div class="card-body">
+    <div class="card ">
+        <h4 class="card-header text-center bg-light">
+            Publication Information
+        </h4>
+        <br>
+        <form [formGroup]="empPublicationForm">
+            <div class="form-group row">
+                <label class="col-form-label col-sm-4 ">Employee Id
+      </label>
+                <div class="col-sm-6">
+                    <input formControlName="empCode" name="empCode" type="text" class="form-control" value="{{empCode}}" placeholder="ID" readonly>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-form-label col-sm-4 ">Publication Title
+        <!-- <i class="text-danger">*</i> -->
+      </label>
+                <div class="col-sm-6">
+                    <input [ngClass]="{'is-invalid': (isSubmitted || f['publicationTitle'].touched || f['publicationTitle'].dirty) && f['publicationTitle'].invalid}" formControlName="publicationTitle" type="text" class="form-control" placeholder="Publication Title">
+                    <div *ngIf="(isSubmitted || f['publicationTitle'].touched || f['publicationTitle'].dirty) && f['publicationTitle'].invalid" class="text-danger">
+                        <i *ngIf="f['publicationTitle'].errors.required">Publication Title is required</i>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-form-label col-sm-4 ">Where Published
+        <!-- <i class="text-danger">*</i> -->
+      </label>
+                <div class="col-sm-6">
+                    <input [ngClass]="{'is-invalid': (isSubmitted || f['wherePublished'].touched || f['wherePublished'].dirty) && f['wherePublished'].invalid}" formControlName="wherePublished" type="text" class="form-control" placeholder="Where Published">
+                    <div *ngIf="(isSubmitted || f['wherePublished'].touched || f['wherePublished'].dirty) && f['wherePublished'].invalid" class="text-danger">
+                        <i *ngIf="f['wherePublished'].errors.required">Where Published is required</i>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-form-label col-sm-4 ">Publication Type
+                  <!-- <i class="text-danger">*</i> -->
+                </label>
+                <div class="col-sm-6">
+                    <app-basic-entry-select-list [ngClass]="{'is-invalid': (isSubmitted || f['publicationType'].touched || f['publicationType'].dirty) && f['publicationType'].invalid}" [itemId]="formVal.publicationType" (onChange)="f['publicationType'].patchValue($event.id)"
+                        [allItem]="allPublication" [modalName]="PublicationModel" [tableName]="'PublicationType'"></app-basic-entry-select-list>
+                    <ng-template #PublicationModel>
+                        <app-publication-type (getItems)="allPublication = $event"></app-publication-type>
+                    </ng-template>
+                    <div *ngIf="(isSubmitted || f['publicationType'].touched || f['publicationType'].dirty) && f['publicationType'].invalid" class="text-danger">
+                        <i *ngIf="f['publicationType'].errors.required">Publication Type is required</i>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-form-label col-sm-4 ">Designation
+                  <!-- <i class="text-danger">*</i> -->
+                </label>
+                <div class="col-sm-6">
+                    <app-basic-entry-select-list [ngClass]="{'is-invalid': (isSubmitted || f['designationId'].touched || f['designationId'].dirty) && f['designationId'].invalid}" [itemId]="formVal.designationId" (onChange)="f['designationId'].patchValue($event.id)" [allItem]="allDesignPublication"
+                        [modalName]="DesignPublicationModel" [tableName]="'DesignationPublication'"></app-basic-entry-select-list>
+                    <ng-template #DesignPublicationModel>
+                        <app-designation-publication (getAllDesignPublication)="allDesignPublication = $event"></app-designation-publication>
+                    </ng-template>
+                    <div *ngIf="(isSubmitted || f['designationId'].touched || f['designationId'].dirty) && f['designationId'].invalid" class="text-danger">
+                        <i *ngIf="f['designationId'].errors.required">Designation is required</i>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-form-label col-sm-4 ">Single/Multiple</label>
+                <div class="col-md-6">
+                    <label class="custom-control  custom-radio">
+          <input formControlName="singleMultiple" [value]="1" name="singleMultiple" type="radio" class="custom-control-input">
+          <span class="custom-control-label">Single</span>
+        </label>
+                    <label class="custom-control  custom-radio">
+          <input formControlName="singleMultiple" [value]="2" name="singleMultiple" type="radio" class="custom-control-input">
+          <span class="custom-control-label">Multiple</span>
+        </label>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-form-label col-sm-4 ">Local/International</label>
+                <div class="col-md-6">
+                    <label class="custom-control  custom-radio">
+          <input formControlName="localOrIntl" [value]="1" name="localOrIntl" type="radio" class="custom-control-input">
+          <span class="custom-control-label">Local</span>
+        </label>
+                    <label class="custom-control  custom-radio">
+          <input formControlName="localOrIntl" [value]="2" name="localOrIntl" type="radio" class="custom-control-input">
+          <span class="custom-control-label">International</span>
+        </label>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="col-form-label col-md-4 ">Picture
+
+      </label>
+                <div class="col-md-4">
+                    <div class="col-sm-8">
+                        <app-image-control [previewImg]="formVal.photo" (selectedFile)="f['photo'].setValue($event)"></app-image-control>
+
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-form-label col-sm-4 ">Number Of Author
+
+      </label>
+                <div class="col-sm-6">
+                    <input formControlName="numberofauthor" type="text" class="form-control" placeholder="Number Of Author" readonly>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-form-label col-sm-4 ">Total Point Acquired
+
+      </label>
+                <div class="col-sm-6">
+                    <input formControlName="contribution" type="text" class="form-control" placeholder="Total Point Acquired" readonly>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-form-label col-sm-4 ">Remarks
+
+      </label>
+                <div class="col-sm-6">
+                    <textarea formControlName="remarks" type="text" class="form-control" placeholder="Remarks"></textarea>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-form-label col-sm-4 ">Url
+
+      </label>
+                <div class="col-sm-6">
+                    <input formControlName="url" type="text" class="form-control" placeholder="Url">
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-form-label col-sm-4 ">Publication Date
+        <!-- <i class="text-danger">*</i> -->
+      </label>
+
+                <div class="input-group col-sm-6">
+                    <app-date-control [ngClass]="{'is-invalid': (isSubmitted || f['publicationDateNgb'].touched || f['publicationDateNgb'].dirty) && f['publicationDateNgb'].invalid}" (getLocalDate)="f['publicationDate'].setValue($event)" (getNgbDate)="f['publicationDateNgb'].setValue($event)"
+                        [setNgbDate]="f['publicationDateNgb'].value"></app-date-control>
+                    <div *ngIf="(isSubmitted || f['publicationDateNgb'].touched || f['publicationDateNgb'].dirty) && f['publicationDateNgb'].invalid" class="text-danger">
+                        <i *ngIf="f['publicationDateNgb'].errors.required">Publication Date is required</i>
+                    </div>
+                </div>
+            </div>
+
+        </form>
+        <div class=" row">
+            <div class="demo-inline-spacing mt-3" style="margin:0 auto">
+                <button (click)="reset()" typ e="clear" class="btn btn-info">
+          <span class="ion ion-ios-refresh"></span> Reset
+        </button>
+                <button (click)="onSubmit()" class="btn btn-success">
+      {{btnStatus}}
+        </button>
+            </div>
+        </div>
+        <div class="row ">
+            <div class="col-md-9">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Publication Title</th>
+                            <th>Publication date</th>
+                            <th>Designation</th>
+                            <th>Point</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let item of empPublicationModel;let i=index">
+                            <th>{{i+1}}</th>
+                            <td>{{item.publicationTitle}}</td>
+                            <td>{{item.publicationDate}}</td>
+                            <td>{{item.description}}</td>
+                            <td>{{item.contribution}}</td>
+                            <td>
+                                <button (click)="getById(item.id)" class="btn btn-primary btn-sm"><span class="fas fa-edit btn-sm"></span></button>
+                                <button (click)="delete(item.id,deleteModal)" class="btn btn-danger btn-sm"><span
+                class="fas fa-trash"></span></button>
+                            </td>
+                        </tr>
+
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-md-3">
+
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Designation</th>
+                            <th>Point</th>
+                            <th></th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let citem of empChildPublicationModel;let i=index">
+                            <th>{{i+1}}</th>
+                            <td>{{citem.description}}</td>
+                            <td>{{citem.contribution}}</td>
+                            <td></td>
+                        </tr>
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<ng-template #deleteModal>
+    <div class="modal-header bg-warning">
+        <h4>Confirmation</h4>
+    </div>
+    <div class="modal-body">
+        <p class="text-danger">Are you sure want to remove this member?</p>
+    </div>
+    <div class="modal-footer">
+        <button (click)="cancel()" class="btn btn-secondary">Cancel</button>
+        <button (click)="confirmRemovePublication()" class="btn btn-danger">Confirm</button>
+    </div>
+</ng-template>

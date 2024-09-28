@@ -1,0 +1,25 @@
+export class LeaveReportParamModel{
+    ReportId:number;
+    ReportType:string;
+    ExportType:string;
+    CompanyID:number;
+    //companyid:number;
+    EmpCode:string;
+    Emocode:string;
+    //empcode:string;
+    DepartmentID:number;
+    DepertmentId:number;
+    Depertment:string;
+    department:string;
+    Branch:string;
+    BranchID:number;
+    ProjectID:number;
+    PeriodID:number;
+    Grade:number;
+    GradeValue:string;
+    YearID:number;
+    StartDate:any;
+    //startdate:any;
+    EndDate:any;
+    //enddate:any;
+}

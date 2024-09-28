@@ -1,0 +1,113 @@
+<div class="card">
+    <h4 class="card-header text-center bg-light">{{title}}</h4>
+    <div class="card-body">
+        <form [formGroup]="createUserForm">
+            <div class="row">
+                <div class="col-md-6 center">
+                    <div class="form-group row">
+                        <label for="company" class="col-md-3">Company</label>
+                        <div class="col-md-8">
+                            <ng-select formControlName="companyID" [items]="allCompany" bindLabel="companyName" bindValue="id" placeholder="Please select company"></ng-select>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="userName" class="col-md-3">User Name</label>
+                        <div class="col-md-8">
+                            <input type="text" formControlName="userName" name="userName" id="userName" class="form-control" placeholder="User Name">
+                            <div *ngIf="f['userName'].invalid && (isSubmitted || f['userName'].touched || f['userName'].dirty)" class="text-danger">
+                                <i *ngIf="f['userName'].errors['required']">Please input UserName</i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="loginId" class="col-md-3">Login Id</label>
+                        <div class="col-md-8">
+                            <input type="text" formControlName="loginID" name="loginId" id="loginId" class="form-control" placeholder="Login Id">
+                            <div *ngIf="f['loginID'].invalid && (isSubmitted || f['loginID'].touched || f['loginID'].dirty)" class="text-danger">
+                                <i *ngIf="f['loginID'].errors['required']">Please input loginID</i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="password" class="col-md-3">Password</label>
+                        <div class="col-md-8">
+                            <input type="password" formControlName="loginPassword" name="password" id="password" class="form-control" placeholder="Password">
+                            <div *ngIf="f['loginPassword'].invalid && (isSubmitted || f['loginPassword'].touched || f['loginPassword'].dirty)" class="text-danger">
+                                <i *ngIf="f['loginPassword'].errors['required']">Please input Password</i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="userType" class="col-md-3">User Type</label>
+                        <div class="col-md-8">
+                            <ng-select formControlName="userTypeID" [items]="allUserType" bindLabel="userTypeName" bindValue="id" placeholder="Please select user type"></ng-select>
+                            <div *ngIf="f['userTypeID'].invalid && (isSubmitted || f['userTypeID'].touched || f['userTypeID'].dirty)" class="text-danger">
+                                <i *ngIf="f['userTypeID'].errors['required']">Please Select UserType</i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="empCode" class="col-md-3">Employee Code</label>
+                        <div class="input-group col-md-8">
+                            <app-employee-select-list [setEmpCode]="f['empCode'].value" [isSearchBtnHide]="false" (onChange)="onSelectEmp($event)"></app-employee-select-list>
+                            <div *ngIf="f['empCode'].invalid && (isSubmitted || f['empCode'].touched || f['empCode'].dirty)" class="text-danger">
+                                <i *ngIf="f['empCode'].errors['required']">Please Select UserType</i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="accessArea" class="col-md-3">Access Area</label>
+                        <div class="col-md-8">
+                            <app-employee-type-list [empTypeModel]="f['gradeValue'].value" (onChange)="f['gradeValue'].setValue($event.gradeID)"></app-employee-type-list>
+
+                            <div *ngIf="f['gradeValue'].invalid && (isSubmitted || f['gradeValue'].touched || f['gradeValue'].dirty)" class="text-danger">
+                                <i *ngIf="f['gradeValue'].errors['required']">Please Select UserType</i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row mt-3">
+                        <label for="" class="col-md-3"></label>
+                        <div class="col-md-8 demo-inline-spacing">
+                            <button *ngIf="inActive" (click)="updateCreateUser()" class="btn btn-danger"><span
+                  class="fas fa-ban"></span> Inactive</button>
+                            <button (click)="Reset()" class="btn btn-info"><span class="ion ion-ios-refresh"></span> Reset</button>
+                            <button (click)="saveCreateUser()" class="btn btn-success"> Save</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+        <div class="row">
+            <div class="col-md-4 ml-auto">
+                <input (click)="getAllAdminAndUser()" type="radio" name="type" id="adminUser">
+                <label for="adminUser"> Admin/User</label>
+                <input (click)="getAllEmployee()" type="radio" name="type" id="empUser">
+                <label for="empUser">Employee</label>
+            </div>
+        </div>
+        <div class="row">
+            <div class="data-table">
+                <table class="table table-hover table-bordered table-striped mb-0">
+                    <thead>
+                        <tr>
+                            <th>User Name</th>
+                            <th>User Type</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngIf="adminAndUserShowModel.length==0">
+                            <td colspan="3" class="font-italic text-center">No user found</td>
+                        </tr>
+                        <tr *ngFor="let item of adminAndUserShowModel">
+                            <td>{{item.userName}}</td>
+                            <td>{{item.userTypeName}}</td>
+                            <td><button (click)="getByID(item.id)" class="btn btn-info btn-sm"><span
+          class="fas fa-edit"></span></button></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

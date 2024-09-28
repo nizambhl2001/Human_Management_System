@@ -1,0 +1,98 @@
+<div class="card">
+    <h4 class="card-header text-center bg-light">{{title}}</h4>
+    <div class="card-body">
+        <form [formGroup]="arrearPaymentAutoForm">
+            <div class="row">
+                <div class="col-md-7 center">
+                    <div class="form-group row">
+                        <label class="col-form-label col-sm-4 ">Employee ID</label>
+                        <div class="col-sm-8">
+                            <app-employee-select-list [fixedWidth]="'200px'" (onChange)="f['empCode'].setValue($event.empCode)" [setEmpCode]="formVal.empCode">
+                            </app-employee-select-list>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="startMonth" class="col-md-4">Start Month</label>
+                        <div class="col-md-6">
+                            <ng-select [ngClass]="{'is-invalid': (isSubmitted || f['startPeriod'].touched ||f['startPeriod'].dirty) && f['startPeriod'].invalid}" [items]="allBonusPeriod" formControlName="startPeriod" bindLabel="periodName" bindValue="id" placeholder="Period">
+                                ></ng-select>
+                        </div>
+                        <label class="col-md-4"></label>
+                        <div *ngIf="f['startPeriod'].invalid && (isSubmitted || f['startPeriod'].touched || f['startPeriod'].dirty)" class="text-danger">
+                            <i *ngIf="f['startPeriod'].errors['required']">Start Period is required</i>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="compareMonth" class="col-md-4">Compare Month</label>
+                        <div class="col-md-6">
+                            <ng-select [ngClass]="{'is-invalid': (isSubmitted || f['comparePeriod'].touched ||f['comparePeriod'].dirty) && f['comparePeriod'].invalid}" [items]="allBonusPeriod" formControlName="comparePeriod" bindLabel="periodName" bindValue="id" placeholder="Period">
+                                ></ng-select>
+                        </div>
+                        <label class="col-md-4"></label>
+                        <div *ngIf="f['comparePeriod'].invalid && (isSubmitted || f['comparePeriod'].touched || f['comparePeriod'].dirty)" class="text-danger">
+                            <i *ngIf="f['comparePeriod'].errors['required']">Compare month is required</i>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="paymentMonth" class="col-md-4">Payment Month</label>
+                        <div class="col-md-6">
+                            <ng-select [ngClass]="{'is-invalid': (isSubmitted || f['arrearPeriod'].touched ||f['arrearPeriod'].dirty) && f['arrearPeriod'].invalid}" [items]="allBonusPeriod" formControlName="arrearPeriod" bindLabel="periodName" bindValue="id" placeholder="Period">
+                                ></ng-select>
+                        </div>
+                        <label class="col-md-4"></label>
+                        <div *ngIf="f['arrearPeriod'].invalid && (isSubmitted || f['arrearPeriod'].touched || f['arrearPeriod'].dirty)" class="text-danger">
+                            <i *ngIf="f['arrearPeriod'].errors['required']">Payment month is required</i>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="compareMonth" class="col-md-4">Select Type</label>
+                        <div class="col-md-6">
+                            <ng-select [ngClass]="{'is-invalid': (isSubmitted || f['bonusTYpe'].touched ||f['bonusTYpe'].dirty) && f['bonusTYpe'].invalid}" [items]="allBonusType" formControlName="bonusTYpe" bindLabel="paymentType" bindValue="id" placeholder="Select Type"></ng-select>
+                        </div>
+                        <label class="col-md-4"></label>
+                        <div *ngIf="f['bonusTYpe'].invalid && (isSubmitted || f['bonusTYpe'].touched || f['bonusTYpe'].dirty)" class="text-danger">
+                            <i *ngIf="f['bonusTYpe'].errors['required']">Type is required</i>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="form-label col-md-4" for="incrDate">Increment Effective Date</label>
+                        <div class="input-group col-md-6">
+                            <input [ngClass]="{'is-invalid': (isSubmitted || f['incrementDateNgb'].touched ||f['incrementDateNgb'].dirty) && f['incrementDateNgb'].invalid}" readonly formControlName="incrementDateNgb" class="form-control" placeholder="dd-mm-yyyy" id="incrDate" name="incrDate"
+                                ngbDatepicker [displayMonths]="1" #d1="ngbDatepicker">
+                            <div class="input-group-append">
+                                <button class="input-group-text" (click)="d1.toggle()" type="button">
+                  <span class="ion ion-md-calendar" style="cursor: pointer;"></span>
+                </button>
+                            </div>
+                        </div>
+                        <label class="col-md-4"></label>
+                        <div *ngIf="f['incrementDateNgb'].invalid && (isSubmitted || f['incrementDateNgb'].touched || f['incrementDateNgb'].dirty)" class="text-danger">
+                            <i *ngIf="f['incrementDateNgb'].errors['required']">Increment Effective Date is required</i>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="form-label col-md-4" for="paymentDate">Payment Date</label>
+                        <div class="input-group col-md-6">
+                            <input [ngClass]="{'is-invalid': (isSubmitted || f['arrearDateNgb'].touched ||f['arrearDateNgb'].dirty) && f['arrearDateNgb'].invalid}" readonly formControlName="arrearDateNgb" class="form-control" placeholder="dd-mm-yyyy" id="paymentDate" name="paymentDate"
+                                ngbDatepicker [displayMonths]="1" #d2="ngbDatepicker">
+                            <div class="input-group-append">
+                                <button class="input-group-text" (click)="d2.toggle()" type="button">
+                  <span class="ion ion-md-calendar" style="cursor: pointer;"></span>
+                </button>
+                            </div>
+                        </div>
+                        <label class="col-md-4"></label>
+                        <div *ngIf="f['arrearDateNgb'].invalid && (isSubmitted || f['arrearDateNgb'].touched || f['arrearDateNgb'].dirty)" class="text-danger">
+                            <i *ngIf="f['arrearDateNgb'].errors['required']">Arrear Date is required</i>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="demo-inline-spacing center">
+                            <button (click)=" save()" class="btn btn-success">Auto Process Access</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

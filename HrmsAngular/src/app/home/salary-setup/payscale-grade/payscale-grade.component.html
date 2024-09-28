@@ -1,0 +1,87 @@
+<div class="card">
+  <h4 class="card-header text-center bg-light">
+    Payscale Grade
+  </h4>
+  <div class="card-body row">
+    <div class="col-md-6">
+      <form [formGroup]="payscaleform">
+        <!--Payscal Grade-->
+        <div class="form-group row">
+          <label for="payScale" class="col-form-label col-sm-3 ">Payscale Grade<i class="text-danger">*</i></label>
+          <div class="col-sm-7">
+            <input formControlName="payScale"
+              [ngClass]="{'is-invalid':(f.payScale.touched || f.payScale.dirty || isSaveBtnClick) && f.payScale.invalid}"
+              id="payScale" name="payScale" type="text" class="form-control" placeholder="Payscale Grade">
+            <div *ngIf="f.payScale.invalid && (f.payScale.touched || f.payScale.dirty || isSaveBtnClick)"
+              class="text-danger">
+              <i *ngIf="f.payScale.errors.required" class="text-danger">Payscale grade is required</i>
+            </div>
+          </div>
+        </div>
+        <!--Button-->
+        <div class="form-group row text-right">
+          <div class="demo-inline-spacing mt-3 center">
+            <button (click)="reset()" type="clear" class="btn btn-info">
+              <span class="ion ion-ios-refresh"></span> Reset</button>
+            <button (click)="onSubmit()" type="submit" class="btn btn-success"> {{btnStatus}}</button>
+          </div>
+        </div>
+      </form>
+    </div>
+    <div class="col-md-6">
+      <div class="card">
+        <div class="card-header p-0">
+          <div class="row p-2 mb-0">
+            <div class="col">
+              Per page: &nbsp;
+              <select [(ngModel)]="perPage" (change)="update()" class="custom-select custom-select-md d-inline-block w-auto">
+                <option *ngFor="let limit of [5,10, 20, 30, 40, 50]">{{limit}}</option>
+              </select>
+            </div>
+            <div class="col">
+              <input type="text" [(ngModel)]="filterVal" (input)="currentPage = 1; update()"
+                class="form-control form-control-md d-inline-block w-auto float-sm-right" placeholder="Search...">
+            </div>
+          </div>
+        </div>
+        <div class="card-body p-0">
+          <div class="data-table m-0">
+            <table class="table table-hover table-striped mb-0 center">
+              <thead>
+                <tr>
+                  <th>Payscal Grade</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngIf="tempItems.length==0">
+                  <td colspan="2" class="font-italic text-center">No item available</td>
+                </tr>
+                <tr *ngFor="let item of tempItems; let i=index">
+                  <td>{{item.payScale}}</td>
+                  <td>
+                    <button (click)="getById(item.id)" class="btn btn-sm btn-primary">
+                      <span class="fas fa-edit"></span>
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="card-footer bg-card-footer py-0">
+          <div class="row">
+            <div class="col-sm text-sm-left text-center pt-3">
+              <span class="text-muted" *ngIf="totalItems">Page {{ currentPage }} of {{ totalPages }}</span>
+            </div>
+            <div class="col-sm pt-3">
+              <ngb-pagination [collectionSize]="totalItems" [pageSize]="perPage" [(page)]="currentPage"
+                (pageChange)="update()" size="sm" class="d-flex justify-content-center justify-content-sm-end m-0">
+              </ngb-pagination>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

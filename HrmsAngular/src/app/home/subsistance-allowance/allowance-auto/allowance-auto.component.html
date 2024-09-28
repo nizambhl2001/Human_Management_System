@@ -1,0 +1,174 @@
+<div class="card section">
+  <h4 class="card-header text-center bg-light">
+    Subsistence Allowance Auto
+  </h4>
+  <div class="container">
+    <br/>
+    <div class="row">
+<div class="col-md-6">
+  <div class="form-group row">
+    <label class="col-form-label col-sm-4 ">Subsistence Month
+    </label>
+    <div class="col-sm-8">
+      <select class="custom-select ">
+        <option>Select state</option>
+        <option>Type 1</option>
+        <option>Type 2</option>
+        <option></option>
+        <option></option>
+        <option></option>
+        <option></option>
+      </select>
+    </div>
+  </div>
+  <div class="form-group row">
+    <label class="col-form-label col-sm-4 ">Select Type
+    </label>
+    <div class="col-sm-8">
+      <select class="custom-select ">
+        <option>Select state</option>
+        <option>Type 1</option>
+        <option>Type 2</option>
+        <option></option>
+        <option></option>
+        <option></option>
+        <option></option>
+      </select>
+    </div>
+  </div>
+  <div class="form-group row">
+      <label class="col-form-label col-sm-4 "> Employee Id
+          <i class="text-danger">*</i>
+      </label>
+
+      <div class="input-group col-sm-8">
+        <input class="form-control" name="" placeholder="Employee-Id" >
+        <div class="input-group-append">
+          <button class="input-group-text btn btn-info" type="button">
+            <span class="ion ion-md-search" style="cursor: pointer;"></span>
+          </button>
+        </div>
+      </div>
+    </div>
+  <div class="form-group row">
+    <label class="col-form-label col-sm-4 ">Date
+
+    </label>
+
+    <div class="input-group col-sm-8">
+      <input class="form-control" name="dp1" placeholder="dd-mm-yyyy" ngbDatepicker #d1="ngbDatepicker">
+      <div class="input-group-append">
+        <button class="input-group-text" (click)="d1.toggle()" type="button">
+          <span class="ion ion-md-calendar" style="cursor: pointer;"></span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="col-md-6">
+  <div class="form-group row">
+    <label class="col-form-label col-sm-4 ">Payment Month
+    </label>
+    <div class="col-sm-8">
+      <select class="custom-select ">
+        <option>Select state</option>
+        <option>Type 1</option>
+        <option>Type 2</option>
+        <option></option>
+        <option></option>
+        <option></option>
+        <option></option>
+      </select>
+    </div>
+  </div>
+  <div class="form-group row">
+    <label class="col-form-label col-sm-4 ">Payment Date
+
+    </label>
+
+    <div class="input-group col-sm-8">
+      <input class="form-control" name="dp1" placeholder="dd-mm-yyyy" ngbDatepicker #d1="ngbDatepicker">
+      <div class="input-group-append">
+        <button class="input-group-text" (click)="d1.toggle()" type="button">
+          <span class="ion ion-md-calendar" style="cursor: pointer;"></span>
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="form-group row">
+    <label class="col-form-label col-sm-4 ">Employee Name
+    </label>
+    <div class="col-sm-8">
+      <input type="text" class="form-control" placeholder="Employee Name">
+    </div>
+  </div>
+  <div class="form-group row">
+    <label class="col-form-label col-sm-4 ">Designation
+    </label>
+    <div class="col-sm-8">
+      <input type="text" class="form-control" placeholder="Designation">
+    </div>
+  </div>
+</div>
+    </div>
+    <div class="row">
+    <div class="demo-inline-spacing mt-3"  style="margin:0 auto">
+      <button type="" class="btn btn-success" >
+        <span class="fas fa-calculator">Calculate</span>
+      </button>
+    </div>
+    </div>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Description</th>
+          <th>Salary head</th>
+          <th>Amount</th>
+          <th>Sub Amount</th>
+          <th>Paid Days </th>
+          <th>Days Of Month</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <th>1</th>
+          <td></td>
+          <td></td>
+          <td>0</td>
+          <td>0</td>
+          <td>0</td>
+          <td>0</td>
+        </tr>
+        <tr>
+          <th>2</th>
+          <td></td>
+          <td></td>
+          <td>0</td>
+          <td>0</td>
+          <td>0</td>
+          <td>0</td>
+        </tr>
+        <tr>
+          <th>3</th>
+          <td></td>
+          <td></td>
+          <td>0</td>
+          <td>0</td>
+          <td>0</td>
+          <td>0</td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="row">
+      <div class="demo-inline-spacing mt-3"  style="margin:0 auto">
+        <button type="" class="btn btn-success" >
+          <span class="fas fa-save"> Save</span>
+        </button>
+        <button type="" class="btn btn-secondary ">
+          <span class="fas fa-window-close"> Close</span>
+        </button>
+      </div>
+      </div>
+    </div>
+    </div>

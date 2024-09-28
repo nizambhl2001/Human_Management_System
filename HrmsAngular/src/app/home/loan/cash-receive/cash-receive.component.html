@@ -1,0 +1,143 @@
+<div class="card">
+    <h4 class="card-header text-center bg-light">{{title}}</h4>
+    <div class="card-body">
+        <form [formGroup]="cashReceivedForm">
+            <div class="card">
+                <h5 class="card-header">Employee Basic Information</h5>
+                <div class="card-body row mt-2">
+                    <div class="col-md-6">
+                        <div class="form-group row">
+                            <label for="empCode" class="col-md-4">Employee Code<i class="text-danger">*</i></label>
+                            <div class="input-group col-md-8">
+                                <app-employee-select-list [ngClass]="{'is-invalid':(f.empCode.touched || f.empCode.dirty || isSaveBtnClick) && f.empCode.invalid}" [setEmpCode]="f['empCode'].value" (onChange)="onSelectEmp($event)"></app-employee-select-list>
+                                <div *ngIf="f.empCode.invalid && (f.empCode.touched || f.empCode.dirty || isSaveBtnClick)" class="text-danger">
+                                    <i *ngIf="f.empCode.errors.required" class="text-danger">Employee code is required</i>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="empName" class="col-md-4">Employee Name</label>
+                            <div class="col-md-6">
+                                <input formControlName="empName" type="text" name="employeeName" id="empName" class="form-control" placeholder="Employee Name" readonly>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group row">
+                            <label class="form-label col-md-4" for="joiningDate">Joining Date</label>
+                            <div class="input-group col-md-6">
+                                <input formControlName="joinDate" class="form-control" placeholder="dd-mm-yyyy" id="joiningDate" name="joiningDate" readonly>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="designation" class="col-md-4">Designation</label>
+                            <div class="col-md-6">
+                                <input formControlName="designation" type="text" name="designation" id="designation" class="form-control" placeholder="Designation" readonly>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div> <br>
+            <div class="card">
+                <h5 class="card-header">Employee Payment Information</h5>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6 border padding-top">
+                            <div class="form-group row">
+                                <label for="type" class="col-md-4">Loan Type<i class="text-danger">*</i></label>
+                                <div class="col-md-8">
+                                    <ng-select [ngClass]="{'is-invalid':(f.salaryHeadID.touched || f.salaryHeadID.dirty || isSaveBtnClick) && f.salaryHeadID.invalid}" formControlName="salaryHeadID" [items]="loanHeadData" bindLabel="accountName" bindValue="id" name="type" id="type" placeholder="Select Loan Type">
+
+                                    </ng-select>
+                                    <div *ngIf="f.salaryHeadID.invalid && (f.salaryHeadID.touched || f.salaryHeadID.dirty || isSaveBtnClick)" class="text-danger">
+                                        <i *ngIf="f.salaryHeadID.errors.required" class="text-danger">Employee Payment Information is required</i>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="principalAmount" class="col-md-4">Principal Amount<i class="text-danger">*</i></label>
+                                <div class="col-md-8">
+                                    <input [ngClass]="{'is-invalid':(f.principleAmount.touched || f.principleAmount.dirty || isSaveBtnClick) && f.principleAmount.invalid}" formControlName="principleAmount" (keyup)="onCalcution()" value="principleAmount" type="number" name="principalAmount"
+                                        id="principalAmount" class="form-control" placeholder="Principal Amount">
+                                    <div *ngIf="f.principleAmount.invalid && (f.principleAmount.touched || f.principleAmount.dirty || isSaveBtnClick)" class="text-danger">
+                                        <i *ngIf="f.principleAmount.errors.required" class="text-danger">Principal Amount is required</i>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="netAmount" class="col-md-4">Net Amount</label>
+                                <div class="col-md-8">
+                                    <input formControlName="netPayment" [value]="netPayment" type="number" name="netAmount" id="netAmount" class="form-control" placeholder="Net Amount">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 border padding-top">
+                            <div class="form-group row">
+                                <label class="form-label col-md-5" for="paymentDate">Payment Date<i class="text-danger">*</i></label>
+                                <div class="input-group col-md-7">
+                                    <app-date-control (getLocalDate)="f['paymentDate'].setValue($event)" (getNgbDate)="f['paymentDateNgb'].setValue($event)" [setNgbDate]="f['paymentDateNgb'].value"></app-date-control>
+
+                                    <div *ngIf="f.paymentDateNgb.invalid && (f.paymentDateNgb.touched || f.paymentDateNgb.dirty || isSaveBtnClick)" class="text-danger">
+                                        <i *ngIf="f.paymentDateNgb.errors.required" class="text-danger">Payment date is required</i>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="interest" class="col-md-5">Interest<i class="text-danger">*</i></label>
+                                <div class="col-md-7">
+                                    <input [ngClass]="{'is-invalid':(f.interest.touched || f.interest.dirty || isSaveBtnClick) && f.interest.invalid}" formControlName="interest" (keyup)="onCalcution()" value="interest" type="number" name="interest" id="interest" class="form-control" placeholder="Interest">
+                                    <div *ngIf="f.interest.invalid && (f.interest.touched || f.interest.dirty || isSaveBtnClick)" class="text-danger">
+                                        <i *ngIf="f.interest.errors.required" class="text-danger">Interest is required</i>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="remarks" class="col-md-5">Remarks</label>
+                                <div class="col-md-7">
+                                    <textarea rows="2" formControlName="remarks" name="remarks" id="remarks" class="form-control" placeholder="Remarks"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6"></div>
+                        <div class="col-md-6 demo-inline-spacing">
+                            <button (click)="reset()" class="btn btn-info"><span class="ion ion-ios-refresh"></span> Reset</button>
+                            <button (click)="onSubmit()" class="btn btn-success">{{btnStatus}}</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+
+        <div class="row">
+            <div class="col-md-4 ml-auto">
+                <input type="text" (input)="currentPage = 1; update()" class="form-control form-control-md d-inline-block w-auto float-sm-right" placeholder="Search...">
+            </div>
+        </div>
+        <div class="row">
+            <div class="data-table">
+                <table class="table table-hover table-bordered table-striped mb-0">
+                    <thead>
+                        <tr>
+                            <th>Payment Date</th>
+                            <th>Principal Amount</th>
+                            <th>Interest</th>
+                            <th>Net Payment</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let item of cashReceivedInfo">
+                            <td>{{item.paymentDate | date: 'dd MMM, yyyy'}}</td>
+                            <td>{{item.principleAmount}}</td>
+                            <td>{{item.interest}}</td>
+                            <td>{{item.netPayment}}</td>
+                            <td> <button (click)="getCashReceivedInfobyId(item.id)" class="btn btn-info btn-sm"><span class="fas fa-edit"></span></button></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

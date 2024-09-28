@@ -1,0 +1,71 @@
+<div class="card section">
+  <h4 class="card-header text-center bg-light">
+    Process Income Tax
+  </h4>
+  <div class="card-body">
+    <br />
+    <form [formGroup]="processIncomeTaxForm">
+      <div class="row">
+        <div class="col-md-10 center">
+          <ngb-alert *ngIf="preProcessStatus" [type]="(isReadyToProcess)?'success':'danger'"
+            (close)="closeAlert('preProcess')">{{preProcessStatus}}</ngb-alert>
+          <ngb-alert *ngIf="processedStatus" [type]="(isProcessed)?'success':'danger'" (close)="closeAlert('process')">
+            {{processedStatus}}</ngb-alert>
+
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6 mx-auto">
+          <div class="form-group row">
+            <label class="col-form-label col-sm-4 ">Tax Year
+            </label>
+            <div class="col-sm-6">
+              <ng-select formControlName="taxYearID" (change)="onSelectYear($event)" placeholder="Select Tax Year"
+                [items]="taxYear" bindLabel="taxYearName" bindValue="id">
+              </ng-select>
+              <div *ngIf="f['taxYearID'].invalid && (isSubmitted || f['taxYearID'].touched || f['taxYearID'].dirty)"
+                class="text-danger">
+                <i *ngIf="f['taxYearID'].errors['required']">Please Select Tax Year </i>
+              </div>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="col-form-label col-sm-4 ">Period
+            </label>
+            <div class="col-sm-6">
+              <ng-select (change)="periodGetById($event)" formControlName="periodID" placeholder="Select Period"
+                [items]="yearWiseSalaryPeriod" bindLabel="periodName" bindValue="id">
+              </ng-select>
+              <div *ngIf="f['periodID'].invalid && (isSubmitted || f['periodID'].touched || f['periodID'].dirty)"
+                class="text-danger">
+                <i *ngIf="f['periodID'].errors['required']">Please Select Period </i>
+              </div>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="col-form-label col-sm-4 ">Employee Code
+            </label>
+            <div class="col-sm-6">
+              <ng-select formControlName="empCode" placeholder="Select Emp Code" [items]="processIncomeTaxModel"
+                bindLabel="empCode" bindValue="empCode">
+              </ng-select>
+            </div>
+          </div>
+          <div class="progress my-3">
+            <div id="progressBar" class="progress-bar progress-bar-striped" role="progressbar" [ngStyle]="{'width':percentOfProcess+'%'}" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">{{percentOfProcess}}%</div>
+          </div>
+          <div class="row mt-3">
+            <div class="ml-auto col-sm-10">
+              <button (click)="reset()" class="btn btn-info">Reset</button>
+              <button *ngIf="!(isReadyToProcess && preProcessStatus)" [ladda]="preProcessing" (click)="preProcess()"
+                [disabled]="preProcessing" class="btn btn-secondary">Pre-Process</button>
+              <button [ladda]="processing" (click)="process()" class="btn btn-success"
+                [disabled]="(!isReadyToProcess) || processing"
+                [ngStyle]="{'cursor':(isReadyToProcess && !processing)?'pointer':'not-allowed'}">Process</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

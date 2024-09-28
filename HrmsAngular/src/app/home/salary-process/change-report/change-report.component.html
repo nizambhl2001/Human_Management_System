@@ -1,0 +1,42 @@
+<div class="card">
+  <h4 class="card-header text-center bg-light">
+    Change Report
+  </h4>
+  <div class="card-body">
+    <div class="col-md-6 center">
+        <form [formGroup]="changeReportForm">
+            <!--Start Date-->
+            <div class="form-group row">
+              <label class="col-form-label col-sm-3 ">Start Date</label>
+              <div class="col-sm-9">
+                <app-date-control (getLocalDate)="formControl['StartDate'].setValue($event)"></app-date-control>
+              </div>
+            </div>
+            <!--End Date-->
+            <div class="form-group row">
+              <label class="col-form-label col-sm-3 ">End Date</label>
+              <div class="col-sm-9">
+             <app-date-control (getLocalDate)="formControl['EndDate'].setValue($event)"></app-date-control>
+              </div>
+            </div>
+
+            <!--Select Branch-->
+            <div class="form-group row">
+              <label class="col-form-label col-sm-3 ">Select Branch</label>
+              <div class="col-sm-9">
+
+                <app-branch-select-list (onChange)="formControl['Branch'].setValue($event.id)"></app-branch-select-list>
+              </div>
+            </div>
+            <!--Button-->
+            <div class="form-group row">
+              <div class="ml-auto mr-3 mt-2">
+                <button [ladda]="exportingPdf" (click)="exportToPdf('pdf')" type="submit" class="btn btn-success">
+                  <span class="fas fa-file-download"></span> Generate Report </button>
+              </div>
+            </div>
+          </form>
+
+    </div>
+
+  </div>

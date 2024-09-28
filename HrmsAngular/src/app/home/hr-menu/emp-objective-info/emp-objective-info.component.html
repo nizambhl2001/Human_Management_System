@@ -1,0 +1,116 @@
+<div class="card section">
+    <h4 class="card-header text-center bg-light">
+        Employee Objective Information
+    </h4>
+    <div class="container">
+        <br />
+        <form [formGroup]="objectiveInfoForm">
+            <div class="row">
+                <div class="col-md-7 center">
+                    <div class="form-group row">
+                        <label class="col-form-label col-sm-4 "> Employee Id
+              <i class="text-danger">*</i>
+            </label>
+                        <div class="input-group col-sm-8">
+                            <app-employee-select-list [isRequired]="f['empCode'].invalid && (isSubmitted || f['empCode'].touched || f['empCode'].dirty)" (onChange)="getEmpInfo($event.empCode)" [setEmpCode]="formVal.empCode">
+                            </app-employee-select-list>
+                        </div>
+                        <label class="col-form-label col-sm-4 "></label>
+                        <div *ngIf="f['empCode'].invalid && (isSubmitted || f['empCode'].touched || f['empCode'].dirty)" class="text-danger">
+                            <i *ngIf="f['empCode'].errors['required']">Employee Code is required</i>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-form-label col-sm-4 ">Employee Name
+
+            </label>
+                        <div class="col-sm-6">
+                            <input readonly formControlName="empName" type="text" class="form-control" placeholder="Employee Name">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-form-label col-sm-4 ">Department
+
+            </label>
+                        <div class="col-sm-6">
+                            <input readonly formControlName="department" type="text" class="form-control" placeholder="Department">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-form-label col-sm-4 ">Designation
+            </label>
+                        <div class="col-sm-6">
+                            <input readonly formControlName="designation" type="text" class="form-control" placeholder="Designation">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-form-label col-sm-4 ">Joining Date
+            </label>
+
+                        <div class="input-group col-sm-6">
+                            <input formControlName="joinDateNgb" class="form-control" disabled name="dp1" placeholder="dd-mm-yyyy" ngbDatepicker #d1="ngbDatepicker">
+                            <div class="input-group-append">
+                                <button class="input-group-text" (click)="d1.toggle()" type="button">
+                  <span class="ion ion-md-calendar" style="cursor: pointer;"></span>
+                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-form-label col-sm-4 ">Year
+              <i class="text-danger">*</i>
+            </label>
+                        <div class="input-group col-sm-6">
+                            <ng-select [ngClass]="{'is-invalid': (isSubmitted || f['yearID'].touched || f['yearID'].dirty) && f['yearID'].invalid}" formControlName="yearID" [items]="salaryYear" bindValue="yearName" bindLabel="yearName" placeholder="Year"></ng-select>
+                        </div>
+                        <label class="col-form-label col-sm-4 "></label>
+                        <div *ngIf="f['yearID'].invalid && (isSubmitted || f['yearID'].touched || f['yearID'].dirty)" class="text-danger">
+                            <i *ngIf="f['yearID'].errors['required']">Year is required</i>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-form-label col-sm-4 ">Comment
+            </label>
+                        <div class="col-sm-6">
+                            <textarea formControlName="description" rows="5" class="form-control" placeholder="Comment"></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+        <div class="row">
+            <div class="demo-inline-spacing mt-3" style="margin:0 auto">
+                <button (click)="reset()" type="" class="btn btn-info ">
+                <span class="ion ion-ios-refresh"> Reset</span>
+              </button>
+                <button (click)="onSubmit()" type="" class="btn btn-success"> {{btnStatus}}
+        </button>
+            </div>
+        </div>
+        <div class="data-table">
+            <table class="table table-bordered table-striped">
+                <thead>
+                    <tr>
+                        <th>SN</th>
+                        <th>Code</th>
+                        <th>Separation Type</th>
+                        <th>Year </th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of objectiveModelList;let i=index">
+                        <td>{{i+1}}</td>
+                        <td>{{item.empCode}}</td>
+                        <td>{{item.description}}</td>
+                        <td>{{item.yearID}}</td>
+                        <td>
+                            <button (click)="getById(item.id);" type="" class="btn btn-sm btn-info">
+                <span class="fas fa-edit"></span></button>&nbsp;
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

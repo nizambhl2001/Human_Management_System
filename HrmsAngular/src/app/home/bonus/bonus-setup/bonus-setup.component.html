@@ -1,0 +1,126 @@
+<div class="card section">
+    <h4 class="card-header text-center bg-light">
+        Bonus Setup
+    </h4>
+    <form [formGroup]="paymentSetupForm">
+        <div class="container">
+            <br/>
+            <div class="col-md-7 center">
+                <div class="form-group row">
+                    <label class="col-form-label col-sm-4 ">Job Type
+            </label>
+                    <div class="col-sm-6">
+                        <ng-select [ngClass]="{'is-invalid':(isSubmitted || f['jobType'].touched || f['jobType'].dirty)&& f['jobType'].invalid}" [items]="allJobType" formControlName="jobType" bindLabel="description" bindValue="id" placeholder="JobType">
+                        </ng-select>
+                        <div *ngIf="f['jobType'].invalid && (isSubmitted || f['jobType'].touched || f['jobType'].dirty)" class="text-danger">
+                            <i *ngIf="f['jobType'].errors.required">Job Type Required</i>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-form-label col-sm-4 ">Payment Type
+            </label>
+                    <div class="col-sm-6">
+                        <ng-select [ngClass]="{'is-invalid':(isSubmitted || f['paymentTypeID'].touched || f['paymentTypeID'].dirty)&& f['paymentTypeID'].invalid}" [items]="allPaymentType" formControlName="paymentTypeID" bindLabel="paymentType" bindValue="id" placeholder="Payment Type"></ng-select>
+                        <div *ngIf="f['paymentTypeID'].invalid && (isSubmitted || f['paymentTypeID'].touched || f['paymentTypeID'].dirty)" class="text-danger">
+                            <i *ngIf="f['paymentTypeID'].errors.required">Payment Type Required</i>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-form-label col-sm-4 ">Employee Type
+            </label>
+                    <div class="col-sm-6">
+                        <ng-select [ngClass]="{'is-invalid':(isSubmitted || f['employeeTepe'].touched || f['employeeTepe'].dirty)&& f['employeeTepe'].invalid}" [items]="allEmployeeType" formControlName="employeeTepe" bindLabel="gradeName" bindValue="gradeID" placeholder="Employee Type"></ng-select>
+                        <div *ngIf="f['employeeTepe'].invalid && (isSubmitted || f['employeeTepe'].touched || f['employeeTepe'].dirty)" class="text-danger">
+                            <i *ngIf="f['employeeTepe'].errors.required">Employee Type Required</i>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-form-label col-sm-4 ">Allowance Type
+            </label>
+                    <div class="col-sm-6">
+                        <ng-select [ngClass]="{'is-invalid':(isSubmitted || f['salaryHead'].touched || f['salaryHead'].dirty)&& f['salaryHead'].invalid}" [items]="allBonusAllowance" formControlName="salaryHead" bindLabel="accountName" bindValue="id" placeholder="Bonus Head"></ng-select>
+                        <div *ngIf="f['salaryHead'].invalid && (isSubmitted || f['salaryHead'].touched || f['salaryHead'].dirty)" class="text-danger">
+                            <i *ngIf="f['salaryHead'].errors.required">Allowance Type Required</i>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-form-label col-sm-4 ">Number Of Times
+            </label>
+                    <div class="col-sm-6">
+                        <input [ngClass]="{'is-invalid':(isSubmitted || f['number'].touched || f['number'].dirty)&& f['number'].invalid}" formControlName="number" type="number" class="form-control" placeholder="Number Of Times">
+                    </div>
+                    <label class="col-form-label col-sm-4 ">
+            </label>
+                    <div *ngIf="f['number'].invalid && (isSubmitted || f['number'].touched || f['number'].dirty)" class="text-danger">
+                        <i *ngIf="f['number'].errors.required">Number Of Times Required</i>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-form-label col-sm-4 ">Date
+            </label>
+
+                    <div class="input-group col-sm-6">
+                        <input [ngClass]="{'is-invalid':(isSubmitted || f['bDateNgb'].touched || f['bDateNgb'].dirty)&& f['bDateNgb'].invalid}" readonly formControlName="bDateNgb" class="form-control" name="dp1" placeholder="dd-mm-yyyy" ngbDatepicker #d1="ngbDatepicker">
+                        <div class="input-group-append">
+                            <button class="input-group-text" (click)="d1.toggle()" type="button">
+                  <span class="ion ion-md-calendar" style="cursor: pointer;"></span>
+                </button>
+                        </div>
+                    </div>
+                    <label class="col-form-label col-sm-4 ">
+            </label>
+                    <div *ngIf="f['bDateNgb'].invalid && (isSubmitted || f['bDateNgb'].touched || f['bDateNgb'].dirty)" class="text-danger">
+                        <i *ngIf="f['bDateNgb'].errors.required">Date Required</i>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-form-label col-sm-4 ">Note
+            </label>
+                    <div class="col-sm-6">
+                        <input formControlName="note" type="text" class="form-control" placeholder="Note">
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="demo-inline-spacing mt-3" style="margin:0 auto">
+                    <button (click)="reset()" type="clear" class="btn btn-info">
+                    <span class="ion ion-ios-refresh"></span> Reset</button>
+                    <button (click)="Save()" type="" class="btn btn-success">
+          {{btnStatus}}
+        </button>
+                </div>
+            </div>
+            <div class="row">
+                <div class="data-table">
+                    <table class="table table-hover table-bordered table-striped mb-0">
+                        <thead>
+                            <tr>
+                                <th>SN</th>
+                                <th>Employee Type</th>
+                                <th>Allowance</th>
+                                <th>Payment Type</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let bonus of allBonus;let i=index">
+                                <td>{{i+1}}</td>
+                                <td>{{bonus.gradeName}}</td>
+                                <td>{{bonus.accountName}}</td>
+                                <td>{{bonus.paymentType}}</td>
+                                <td><button (click)="getById(bonus.id)" type="" class="btn btn-info btn-sm">
+                <span class="fas fa-edit"></span></button>&nbsp;</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+    </form>
+</div>

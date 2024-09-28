@@ -1,0 +1,107 @@
+<nav class="navbar pt-0 pb-0 navbar-expand-lg align-items-lg-center container-p-x" [ngClass]="currentBg()">
+
+    <!-- Brand demo (see demo.css) -->
+    <a routerLink="/" class="navbar-brand app-brand demo d-lg-none py-0 mr-4">
+        <span class="app-brand-logo demo">
+      <!-- <img src="../../../assets/img/logo1.png" height="30" width="30"> -->
+      <img src="../../../assets/img/pic/star.png" height="40" width="40">
+    </span>
+        <span class="app-brand-text demo font-weight-normal ml-2">The Daily Star</span>
+    </a>
+
+    <!-- Sidenav toggle (see demo.css) -->
+    <div class="layout-sidenav-toggle navbar-nav d-lg-none align-items-lg-center mr-auto" *ngIf="sidenavToggle">
+        <a class="nav-item nav-link px-0 mr-lg-4" href="javascript:void(0)" (click)="toggleSidenav()">
+            <i class="ion ion-md-menu text-large align-middle"></i>
+        </a>
+    </div>
+
+    <button class="navbar-toggler" type="button" (click)="isExpanded = !isExpanded">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+    <div class="navbar-collapse collapse" [ngbCollapse]="!isExpanded">
+        <!-- Divider -->
+        <hr class="d-lg-none w-100 my-2">
+        <b>Notice:</b>
+        <div class="navbar-nav">
+          
+            <!-- Search -->
+            <!-- <label class="nav-item navbar-text navbar-search-box p-0 active">
+        <i class="ion ion-ios-search navbar-icon align-middle"></i>
+        <span class="navbar-search-input pl-2">
+          <input type="text" class="form-control navbar-text mx-2" placeholder="Search..." style="width:200px">
+        </span>
+      </label> -->
+        </div>
+        <div class="navbar-nav align-items-lg-center ml-auto">
+
+            <!-- Divider
+            <div class="nav-item d-none d-lg-block text-big font-weight-bold line-height-1 opacity-25 mr-3 ml-1">|</div> -->
+
+            <div ngbDropdown [placement]="isRTL ? 'bottom-left' : 'bottom-right'" class="demo-navbar-user nav-item">
+                <a ngbDropdownToggle class="nav-link" href="javascript:void(0)">
+                    <span class="d-inline-flex flex-lg-row-reverse align-items-center align-middle">
+            <img src="data:image/jpg;base64,{{picture}}" alt class="d-block ui-w-30 rounded-circle">
+            <span class="px-1 mr-lg-2 ml-2 ml-lg-0">{{userName}} <br> {{gradeName}}</span>
+                    </span>
+                </a>
+                <div ngbDropdownMenu [class.dropdown-menu-right]="!isRTL">
+                    <a href="javascript:void(0)" (click)="myprofile()" id="myprofile" class="dropdown-item"><i class="ion ion-ios-person text-lightest"></i> &nbsp; My profile</a>
+
+
+                    <!-- <a href="javascript:void(0)"  class="dropdown-item"><i class="ion ion-ios-person text-lightest"></i> &nbsp; My profile</a> -->
+
+<!-- 
+                    <a href="javascript:void(0)" class="dropdown-item"><i class="ion ion-ios-mail text-lightest"></i> &nbsp; Messages</a> -->
+                    <!-- <a href="javascript:void(0)" class="dropdown-item"><i class="ion ion-md-settings text-lightest"></i> &nbsp; settings</a>
+          <div class="dropdown-divider"></div>
+          <a href="javascript:void(0)" (click) = "locked()" class="dropdown-item"><i class="ion ion-md-desktop text-lightest"></i> &nbsp; Lock</a>
+          <div class="dropdown-divider"></div> -->
+                    <a href="javascript:void(0)" (click)="logout()" class="dropdown-item"><i class="ion ion-ios-log-out text-danger"></i> &nbsp; Log Out</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="personal_Info" id="personal_Info" style="display: none;  position: absolute; top:70px; right:10px; width: 250px; height: 300px;background: rgba(255, 253, 253, 0.89); border-radius: 5%;" >
+            <div class="d-block text-danger"  style="text-align: right; font-weight: bolder"> <i style="text-align: right;margin: 10px 0 10px 10px; padding: 10px 15px; background: #ebe9e9;border-radius: 100%; cursor: pointer;" id="displayHide" (click)="displayHide()">X</i></div>
+        
+            
+            <div class="container"> 
+                <div class="text-center emp-info text-dark">
+                
+                   
+                    
+                <div *ngIf="empGenInfo">
+                    <img style="height: 80px; width: 90px ;  border-radius: 10% 10% 0 0 ;"
+                        src="data:image/jpg;base64,{{empGenInfo.picture}}" alt="">
+                </div>
+                <br /> 
+                    <p class="p-0 m-0  ">
+                       <u> <b>{{empGenInfo.empName}}</b></u>
+                    </p>
+                    <p class="p-0 m-0  ">
+                        {{employment.designation}}
+                    </p>
+                    <p class="p-0 m-0">
+                        {{employment.gradeValue}}
+                    </p>
+                    <p class="p-0 m-0">
+                        {{employment.department}}
+                    </p>
+                    <p class="p-0">
+                        Joining Date: {{empJoinInfo.DateOfJoining}}
+ 
+                    </p>
+                </div>
+                <div class="row">
+                    <div class="col-6"></div>
+                    <div class="col-6"> <a href="javascript:void(0)" (click)="logout()" class="dropdown-item"><i class="ion ion-ios-log-out text-danger"></i> &nbsp; Log Out</a></div>
+                </div>
+            </div> 
+
+
+        </div>
+
+    </div>
+</nav>

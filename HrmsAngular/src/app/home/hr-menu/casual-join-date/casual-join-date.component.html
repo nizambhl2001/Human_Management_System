@@ -1,0 +1,120 @@
+<div class="card section">
+    <h4 class="card-header text-center bg-light">
+        Non Management Casual Date Of Joining
+    </h4>
+    <form [formGroup]="casualJoiningForm">
+        <div class="row">
+            <div class="col-md-8 center">
+                <br />
+                <div class="form-group row">
+                    <label class="col-form-label col-sm-4 "> Employee Id
+              <i class="text-danger">*</i>
+            </label>
+                    <div class="input-group col-sm-8">
+                        <app-employee-select-list [isRequired]="f['empCode'].invalid && (isSubmitted || f['empCode'].touched || f['empCode'].dirty)" (onChange)="getEmpInfo($event.empCode)" [setEmpCode]="formVal.empCode">
+                        </app-employee-select-list>
+                    </div>
+                    <br/>
+                    <label class="col-form-label col-sm-5 ">
+            </label>
+                    <div *ngIf="f['empCode'].invalid && (isSubmitted || f['empCode'].touched || f['empCode'].dirty)" class="text-danger">
+                        <i *ngIf="f['empCode'].errors['required']">Employee Code is required</i>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-form-label col-sm-4 ">Employee Name
+            </label>
+                    <div class="col-sm-5">
+                        <input readonly formControlName="empName" type="text" class="form-control" placeholder="Employee Name">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-form-label col-sm-4 ">Designation
+            </label>
+                    <div class="col-sm-5">
+                        <input readonly formControlName="designation" type="text" class="form-control" placeholder="Designation">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-form-label col-sm-4 ">Department
+            </label>
+                    <div class="col-sm-5">
+                        <input readonly formControlName="department" type="text" class="form-control" placeholder="Department">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-form-label col-sm-4  ">Joining Date
+              <i class="text-danger">*</i>
+            </label>
+
+                    <div class="input-group col-sm-5">
+                        <input readonly [ngClass]="{'is-invalid':(isSubmitted || f['joiningDateNgb'].touched || f['joiningDateNgb'].dirty)&& f['joiningDateNgb'].invalid}" formControlName="joiningDateNgb" class="form-control" placeholder="dd-mm-yyyy" ngbDatepicker #d3="ngbDatepicker">
+                        <div class="input-group-append">
+                            <button class="input-group-text" (click)="d3.toggle()" type="button">
+                  <span class="ion ion-md-calendar" style="cursor: pointer;"></span>
+                </button>
+                        </div>
+                    </div>
+                    <label class="col-form-label col-sm-5  ">
+                    </label>
+                    <div *ngIf="f['joiningDateNgb'].invalid && (isSubmitted || f['joiningDateNgb'].touched || f['joiningDateNgb'].dirty)" class="text-danger">
+                        <i *ngIf="f['joiningDateNgb'].errors['required']">Joining Date Required</i>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-form-label col-sm-4  ">Casual Date
+              <i class="text-danger">*</i>
+            </label>
+
+                    <div class="input-group col-sm-5">
+                        <input readonly [ngClass]="{'is-invalid':(isSubmitted || f['casualJoiningDateNgb'].touched || f['casualJoiningDateNgb'].dirty)&& f['casualJoiningDateNgb'].invalid}" class="form-control" formControlName="casualJoiningDateNgb" placeholder="dd-mm-yyyy" ngbDatepicker
+                            #d2="ngbDatepicker">
+                        <div class="input-group-append">
+                            <div class="input-group-append">
+                                <button class="input-group-text" (click)="d2.toggle()" type="button">
+                    <span class="ion ion-md-calendar" style="cursor: pointer;"></span>
+                  </button>
+                            </div>
+                        </div>
+                    </div>
+                    <label class="col-form-label col-sm-5 text-sm-right ">
+                    </label>
+                    <div *ngIf="f['casualJoiningDateNgb'].invalid && (isSubmitted || f['casualJoiningDateNgb'].touched || f['casualJoiningDateNgb'].dirty)" class="text-danger">
+                        <i *ngIf="f['casualJoiningDateNgb'].errors['required']">Casual Join Date Required</i>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-form-label col-sm-4 "> Date
+                    <i class="text-danger">*</i>
+                   </label>
+                    <div class="input-group col-sm-5">
+                        <input readonly [ngClass]="{'is-invalid':(isSubmitted || f['dateNgb'].touched || f['dateNgb'].dirty)&& f['dateNgb'].invalid}" class="form-control" formControlName="dateNgb" placeholder="dd-mm-yyyy" ngbDatepicker #d1="ngbDatepicker">
+                        <div class="input-group-append">
+                            <button class="input-group-text" (click)="d1.toggle()" type="button">
+                  <span class="ion ion-md-calendar" style="cursor: pointer;"></span>
+                </button>
+                        </div>
+                    </div>
+                    <label class="col-form-label col-sm-5 text-sm-right ">
+                    </label>
+                    <div *ngIf="f['dateNgb'].invalid && (isSubmitted || f['dateNgb'].touched || f['dateNgb'].dirty)" class="text-danger">
+                        <i *ngIf="f['dateNgb'].errors['required']">Date Required</i>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="demo-inline-spacing mt-3 " style="margin:0 auto">
+                        <button (click)="reset()" type="clear" class="btn btn-info">
+                        <span class="ion ion-ios-refresh"></span> Reset</button>
+                        <button (click)="saveUpdate()" type="" class="btn btn-success">
+          {{btnStatus}}
+        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<!-- Employee Search Modal -->
+<ng-template #searchModal>
+    <app-search-employee (selectEvent)="getCasualJoining($event)"></app-search-employee>
+</ng-template>

@@ -1,0 +1,134 @@
+<div class="card">
+    <h4 class="card-header text-center bg-light">Payscale Setup</h4>
+    <div class="card-body">
+        <form [formGroup]="payscaleSetupForm">
+            <div class="row pt-3">
+                <div class="col-md-4">
+                    <div class="form-group row">
+                        <label class="col-form-label col-sm-5 ">Employee Type<i class="text-danger">*</i></label>
+                        <div class="col-sm-7">
+                            <ng-select formControlName="gradeValue" [ngClass]="{'is-invalid':payscaleSetupForm.get('gradeValue').invalid && (payscaleSetupForm.get('gradeValue').touched || payscaleSetupForm.get('gradeValue').dirty || isSaveBtnClick)}" type="number" [items]="allEmployeeType"
+                                bindLabel="gradeName" bindValue="gradeID" placeholder="Select Employee Type">
+                            </ng-select>
+                            <div *ngIf="payscaleSetupForm.get('gradeValue').invalid && (payscaleSetupForm.get('gradeValue').touched || payscaleSetupForm.get('gradeValue').dirty || isSaveBtnClick)" class="text-danger">
+                                <i *ngIf="payscaleSetupForm.get('gradeValue').errors.required">Employee type is required</i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group row">
+                        <label class="col-form-label col-sm-5">Payscale Grade<i class="text-danger">*</i></label>
+                        <div class="col-sm-7">
+                            <ng-select formControlName="gradeName" [ngClass]="{'is-invalid':payscaleSetupForm.get('gradeName').invalid && (payscaleSetupForm.get('gradeName').touched || payscaleSetupForm.get('gradeName').dirty || isSearchBtnClick)}" type="text" [items]="allSalaryGrade"
+                                bindLabel="payScale" bindValue="payScale" placeholder="Select PayScale Grade"></ng-select>
+                            <div *ngIf="payscaleSetupForm.get('gradeName').invalid && (payscaleSetupForm.get('gradeName').touched || payscaleSetupForm.get('gradeName').dirty || isSearchBtnClick)" class="text-danger">
+                                <i *ngIf="payscaleSetupForm.get('gradeName').errors.required">Payscale Grade is required</i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group row">
+                        <label class="col-form-label col-sm-5 ">Salary Year<i class="text-danger">*</i></label>
+                        <div class="col-sm-7">
+                            <ng-select formControlName="payscaleYear" [ngClass]="{'is-invalid':payscaleSetupForm.get('payscaleYear').invalid && (payscaleSetupForm.get('payscaleYear').touched || payscaleSetupForm.get('payscaleYear').dirty || isSaveBtnClick)}" type="text" [items]="salaryYear"
+                                bindLabel="yearName" bindValue="yearName" placeholder="Select Salary Year"></ng-select>
+                            <div *ngIf="payscaleSetupForm.get('payscaleYear').invalid && (payscaleSetupForm.get('payscaleYear').touched || payscaleSetupForm.get('payscaleYear').dirty || isSaveBtnClick)" class="text-danger">
+                                <i *ngIf="payscaleSetupForm.get('payscaleYear').errors.required">Salary year is required</i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="m-auto">
+                    <button (click)="reset()" type="submit" class="btn btn-info">Refresh</button>
+                    <button [ladda]="isLoading" (click)="getall()" type="submit" class="btn btn-success">Show</button>
+                </div>
+            </div>
+        </form>
+        <div class="card p-0">
+            <div class="card-header">
+                <div class="row">
+                    <div class="m-auto">
+                        <label class="col-form-label">{{_payscaleSetupDetails.length}} payscale found</label>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body p-0">
+                <div class="data-table m-0">
+                    <table class="table table-hover table-striped table-bordered">
+                        <thead>
+                            <tr>
+                                <th class="pl-3">#SN</th>
+                                <th class="custom-col-lg">Grade-Description</th>
+                                <th class="custom-col-md">Increment</th>
+                                <th class="custom-col-md">Basic</th>
+                                <th class="custom-col-md">Hrent</th>
+                                <th class="custom-col-md">DA</th>
+                                <th class="custom-col-md">Others</th>
+                                <th class="custom-col-md">Convance</th>
+                                <th class="custom-col-md">Medical</th>
+                                <th class="custom-col-md">Beverage</th>
+                                <th class="custom-col-md">Incentive</th>
+                                <th class="custom-col-md">Entertainment</th>
+                                <th class="custom-col-md">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngIf="_payscaleSetupDetails.controls.length==0">
+                                <td colspan="13" class="font-italic text-center">No item available</td>
+                            </tr>
+                            <tr *ngFor="let detailsForm of _payscaleSetupDetails.controls; let i=index" [formGroup]="detailsForm">
+                                <td class="pl-3">{{i+1}}</td>
+                                <td class="custom-col-lg">
+                                    <input formControlName="gradeDescription" type="text" class="form-control-plaintext">
+                                </td>
+                                <td class="custom-col-md">
+                                    <input formControlName="incrementAmount" type="number" class="form-control-plaintext">
+                                </td>
+                                <td class="custom-col-md">
+                                    <input formControlName="basic" type="number" class="form-control-plaintext">
+                                </td>
+                                <td class="custom-col-md">
+                                    <input formControlName="hrent" type="number" class="form-control-plaintext">
+                                </td>
+                                <td class="custom-col-md">
+                                    <input formControlName="da" type="number" class="form-control-plaintext">
+                                </td>
+                                <td class="custom-col-md">
+                                    <input formControlName="others" type="number" class="form-control-plaintext">
+                                </td>
+                                <td class="custom-col-md">
+                                    <input formControlName="convance" type="number" class="form-control-plaintext">
+                                </td>
+                                <td class="custom-col-md">
+                                    <input formControlName="medicale" type="number" class="form-control-plaintext">
+                                </td>
+                                <td class="custom-col-md">
+                                    <input formControlName="beverage" type="number" class="form-control-plaintext">
+                                </td>
+                                <td class="custom-col-md">
+                                    <input formControlName="incentive" type="number" class="form-control-plaintext">
+                                </td>
+                                <td class="custom-col-md">
+                                    <input formControlName="entertainment" type="number" class="form-control-plaintext">
+                                </td>
+                                <td>
+                                    <span (click)="removeRow(i)" class="btn btn-sm btn-danger">X</span>
+                                    <span (click)="addrow()" class="btn btn-sm btn-success">+</span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="card-footer bg-card-footer row py-1 mx-0 mb-0">
+                <div class="m-auto">
+                    <button (click)="onSubmit()" type="submit" class="btn btn-success"> Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

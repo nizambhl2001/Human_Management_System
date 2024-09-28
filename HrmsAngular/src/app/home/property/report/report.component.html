@@ -1,0 +1,67 @@
+<div class="card">
+  <h4 class="card-header text-center bg-light">
+      Property Report
+  </h4>
+  <div class="card-body">
+    <form>
+      <div class="col-md-7 center">
+    <!--Report Name-->
+      <div class="form-group row">
+        <label class="col-form-label col-sm-4 ">Report Name</label>
+        <div class="col-sm-8">
+            <select [(ngModel)]="reportId" name="reportId" class="form-control">
+              <!-- Here value is consider as ReportId from report table -->
+                <option value="0">Select Report Type</option>
+                <option value="37">Asset By Employee</option>
+                <option value="38">All Assigned Asset</option>
+                <option value="39">Employee Asset Ledger</option>
+                <option value="40">Asset Ledger</option>
+                <option value="41">Dispose Asset</option>
+                <option value="42">Unassigned Asset</option>
+                <option value="43">All Asset List</option>
+              </select>
+        </div>
+      </div>
+      <div *ngIf="reportId==39 || reportId==37" class="form-group row">
+          <label class="col-form-label col-sm-4 ">Employee ID</label>
+          <div class="col-sm-8">
+            <div class="input-group">
+              <input [(ngModel)]="empCode" name="empCode"  class="form-control" type="text" placeholder="Employee ID">
+              <div class="input-group-append">
+                <button (click)="onEmpSearchClick(searchModal)" class="input-group-text btn btn-primary" type="button">
+                  <span class="fas fa-search" style="cursor: pointer;"></span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      <div *ngIf="reportId==43 || reportId==42 || reportId==40 || reportId==38" class="form-group row">
+        <label class="col-form-label col-sm-4 ">Asset Name</label>
+        <div class="col-sm-8">
+            <ng-select (change)="getAllAssetModel()"  [(ngModel)]="propertyId" name="propertyId" [items]="allAsset" bindLabel="assetName" bindValue="id" placeholder="Select Property">
+              </ng-select>
+        </div>
+      </div>
+      <div *ngIf="reportId==40" class="form-group row">
+          <label class="col-form-label col-sm-4 ">Asset Model</label>
+          <div class="col-sm-8">
+              <ng-select [(ngModel)]="assetModelId" name="assetModelId" [items]="allAssetModel" bindLabel="model" bindValue="id" placeholder="Select Model">
+                </ng-select>
+          </div>
+        </div>
+    </div>
+    <!--Button-->
+      <div class="form-group row">
+          <div class="demo-inline-spacing mt-3 center">
+          <button [ladda]="isLoading" (click)="onRptBtnClick('pdf')" type="submit" class="btn btn-success">
+            <span class="fas fa-file-download"></span> Generate Report </button>
+        </div>
+      </div>
+    </form>
+
+
+</div>
+
+<ng-template #searchModal>
+  <app-search-employee (selectEvent)="empCode=$event"></app-search-employee>
+</ng-template>

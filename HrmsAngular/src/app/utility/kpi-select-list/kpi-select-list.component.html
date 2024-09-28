@@ -1,0 +1,5 @@
+<tag-input [(ngModel)]="selectedTag" name="selectedTag" #tagField="ngModel" [editable]="true" [maxItems]="1" [disable]="disabled" [required]="isRequired" [addOnBlur]="true" (onAdd)="onAddTag($event)" (onRemove)="onRemove()" [secondaryPlaceholder]="placeholder"
+    [ripple]="false" [ngClass]="{'is-invalid':(tagField.touched || tagField.dirty) && tagField.invalid}">
+    <tag-input-dropdown [ngClass]="'tag-input'" [showDropdownIfEmpty]="true" [autocompleteItems]="suggestedTags">
+    </tag-input-dropdown>
+</tag-input>

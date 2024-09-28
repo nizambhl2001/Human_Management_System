@@ -1,0 +1,24 @@
+export class PersonalInfoModel {
+  FatherName:string;
+         MotherName:string;
+         SpouseName:string;
+         NoOfChildren:string;
+         DateOfBirth:string;
+         Religion:string;
+         MaritalStatus:string;
+         BloodGroup:string;
+         NID:string;
+         PassportNo:string;
+         TIN:string;
+         BankAccountNo:string;
+         BankName:string;
+         PresentAddress:string;
+         PermanentAddress:string;
+         Mobile:string;
+         EmergencyContractNo:string;
+         NomineeName:string;
+         PercentageNominee:string;
+         RelationNominee:string;
+         NomineeDateOfBirth:string;
+         NomineeNID:string;
+}

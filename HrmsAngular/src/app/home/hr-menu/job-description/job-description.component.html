@@ -1,0 +1,63 @@
+<div class="card">
+    <h4 class="card-header text-center bg-light">
+        Job Descriotion
+    </h4>
+    <form [formGroup]="jobDescriptionForm">
+        <div class="card-body">
+            <div class="col-md-10 center">
+                <!--Employee Id-->
+                <div class="form-group row">
+                    <label class="col-form-label col-sm-4 ">Employee ID</label>
+                    <div class="col-sm-8">
+                        <input formControlName="empCode" readonly type="text" class="form-control" placeholder="Employee Code">
+                    </div>
+                </div>
+                <!--Employee Name-->
+                <div class="form-group row">
+                    <label class="col-form-label col-sm-4 ">Employee Name</label>
+                    <div class="col-sm-8">
+                        <input formControlName="empName" readonly type="text" class="form-control" placeholder="Employee Name">
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label class="col-form-label col-sm-4 ">Job Description</label>
+                    <div class="col-sm-8">
+                        <textarea formControlName="description" type="text" class="form-control" placeholder="Job Description"></textarea>
+                    </div>
+                </div>
+
+            </div>
+
+            <!--Button-->
+            <div class="form-group row">
+                <div class="demo-inline-spacing mt-3 center">
+                    <button (click)="reset()" type="clear" class="btn btn-info">
+                      <span  class="ion ion-ios-refresh"></span> Reset</button>
+                    <button (click)="saveJobDescription()" type="submit" class="btn btn-success">{{btnStatus}}</button>
+                </div>
+            </div>
+        </div>
+    </form>
+    <div class="card-footer">
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>EmpCode</th>
+                    <th>Job Description</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let emp of jobDescriptionModel;let i=index">
+                    <td>{{emp.empCode}}</td>
+                    <td>{{emp.description}}</td>
+                    <td class="demo-inline-spacing">
+                        <button (click)="getJobDescriptionById(emp.id)" class="btn btn-info py-1 px-2 rounded-0"><span
+                      class="fas fa-edit"></span></button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

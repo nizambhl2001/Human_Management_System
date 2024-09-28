@@ -1,0 +1,133 @@
+<div class="card">
+    <h4 class="card-header text-center bg-light">
+        Exit Inter View
+    </h4>
+    <form [formGroup]="exitInterViewForm">
+        <div class="container row pt-2">
+            <br/>
+            <br/>
+            <div class="col-md-6">
+                <b><p>Employee Information</p></b>
+                <div class="p-2" style="border: 1px solid #CAD2E4 ;">
+                    <div class="form-group row">
+                        <label class="col-form-label col-sm-4 "> Employee Id
+                </label>
+                        <div class="input-group col-sm-8">
+                            <app-employee-select-list [isRequired]="f['empCode'].invalid && (isSubmitted || f['empCode'].touched || f['empCode'].dirty)" [fixedWidth]="'170px'" (onChange)="getEmpInfo($event.empCode)" [setEmpCode]="formValue.empCode">
+                            </app-employee-select-list>
+                        </div>
+                        <label class="col-form-label col-sm-4 ">
+                        </label>
+                        <div *ngIf="f['empCode'].invalid && (isSubmitted || f['empCode'].touched || f['empCode'].dirty)" class="text-danger">
+                            <i *ngIf="f['empCode'].errors['required']">Employee Code is required</i>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-form-label col-sm-4 ">Employee Name
+              </label>
+                        <div class="col-sm-8">
+                            <input disabled formControlName="empName" type="text" class="form-control" placeholder="Employee Name">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-form-label col-sm-4 ">Designation
+              </label>
+                        <div class="col-sm-8">
+                            <input disabled formControlName="designation" type="text" class="form-control" placeholder="Designation">
+                        </div>
+                    </div>
+                </div>
+                <br/>
+                <b><p>InterViewer Information</p></b>
+                <div class="p-2" style="border: 1px solid #CAD2E4">
+                    <div class="form-group row">
+                        <label class="col-form-label col-sm-4 "> Employee Id
+                </label>
+                        <div class="input-group col-sm-8">
+                            <app-employee-select-list [isRequired]="f['interViewer'].invalid && (isSubmitted || f['interViewer'].touched || f['interViewer'].dirty)" (onChange)="getIVEmpInfo($event.empCode)" [fixedWidth]="'170px'" [setEmpCode]="formValue.interViewer">
+                            </app-employee-select-list>
+                        </div>
+                        <label class="col-form-label col-sm-4 ">
+                        </label>
+                        <div *ngIf="f['interViewer'].invalid && (isSubmitted || f['interViewer'].touched || f['interViewer'].dirty)" class="text-danger">
+                            <i *ngIf="f['interViewer'].errors['required']">InterViewer is required</i>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-form-label col-sm-4 ">Employee Name
+              </label>
+                        <div class="col-sm-8">
+                            <input disabled formControlName="ivName" type="text" class="form-control" placeholder="Employee Name">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-form-label col-sm-4 ">Designation
+              </label>
+                        <div class="col-sm-8">
+                            <input disabled formControlName="ivDesignation" type="text" class="form-control" placeholder="Designation">
+                        </div>
+                    </div>
+                    <label class="col-form-label col-sm-4 ">OR
+                </label>
+                    <div class="form-group row">
+                        <label class="col-form-label col-sm-4 ">
+            </label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control" placeholder="">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <br/>
+                <br/>
+                <div class="form-group row">
+                    <label class="col-form-label col-sm-4 ">Joining Date
+                </label>
+                    <div class="input-group col-sm-8">
+                        <input [ngClass]="{'is-invalid': (isSubmitted || f['dateOfInterviewNgb'].touched ||f['dateOfInterviewNgb'].dirty) && f['dateOfInterviewNgb'].invalid}" formControlName="dateOfInterviewNgb" readonly class="form-control" name="dp" placeholder="dd-mm-yyyy"
+                            ngbDatepicker #d="ngbDatepicker">
+                        <div class="input-group-append">
+                            <button class="input-group-text" (click)="d.toggle()" type="button">
+                    <span class="ion ion-md-calendar" style="cursor: pointer;"></span>
+                    </button>
+                        </div>
+                    </div>
+                    <label class="col-form-label col-sm-4 ">
+                    </label>
+                    <div *ngIf="f['dateOfInterviewNgb'].invalid && (isSubmitted || f['dateOfInterviewNgb'].touched || f['dateOfInterviewNgb'].dirty)" class="text-danger">
+                        <i *ngIf="f['dateOfInterviewNgb'].errors['required']">Joining Date is required</i>
+                    </div>
+                </div>
+                <b><p>Reasone Of Leaving</p></b>
+                <div class="data-table">
+                    <table class="table table-bordered table-striped table-hover">
+                        <thead>
+                            <tr>
+                                <th [ngStyle]="{'width.%':10}"><input (click)="onSelectAll($event.target.checked)" type="checkbox"> Select</th>
+                                <th [ngStyle]="{'width.%':28}">Reason</th>
+                                <th [ngStyle]="{'width.%':15}">%</th>
+                            </tr>
+                        </thead>
+                        <tbody style="min-height: 250px;">
+                            <tr *ngFor="let reasonForm of leaveReasonForm.controls;let i=index" [formGroup]="reasonForm">
+                                <td [ngStyle]="{'width.%':12}"><input formControlName="isSelected" type="checkbox" value=""></td>
+                                <td [hidden]="true" [ngStyle]="{'width.%':5}"><input formControlName="leavingReasonID" type="text" value=""></td>
+                                <td [ngStyle]="{'width.%':32}"><input formControlName="leavingReason" class="form-control-plaintext" type="text" readonly></td>
+                                <td [ngStyle]="{'width.%':15}"><input formControlName="reasonPerchentage" type="number" class="form-control"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+    </form>
+    <div class="demo-inline-spacing mt-3" style="margin:0 auto">
+        <button (click)="reset()" type="clear" class="btn btn-info">
+        <span class="ion ion-ios-refresh"></span> Reset
+        </button>
+        <button (click)="submit()" type="" class="btn btn-success">Save
+</button>
+    </div>
+</div>

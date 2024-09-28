@@ -1,0 +1,52 @@
+<div class="card">
+    <h4 class="card-header text-center bg-light">{{title}}</h4>
+    <div class="row mt-3">
+        <div class="col-md-6 center">
+            <form [formGroup]="userTypeForm">
+                <div class="form-group row">
+                    <label for="type" class="col-md-3">User type</label>
+                    <div class="col-md-9">
+                        <input formControlName="userTypeName" [ngClass]="{'is-invalid':(isSubmitted || formControl['userTypeName'].touched || formControl['userTypeName'].dirty) && formControl['userTypeName'].invalid}" type="text" name="type" id="type" class="form-control" placeholder="User Type">
+                        <div *ngIf="(isSubmitted || formControl['userTypeName'].touched || formControl['userTypeName'].dirty) && formControl['userTypeName'].invalid" class="text-danger">
+                            <i *ngIf="formControl['userTypeName'].errors.required">User type name is required</i>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row mt-3">
+                    <label for="" class="col-md-3"></label>
+                    <div class="col-md-9 demo-inline-spacing">
+                        <button (click)="onSubmit()" class="btn btn-success pull-right">{{btnStatus}}</button>
+                        <button (click)="reset()" class="btn btn-info pull-right"><span class="ion ion-ios-refresh"></span>Refresh</button>
+                    </div>
+                </div>
+            </form>
+            <div class="row">
+                <div class="data-table">
+                    <table class="table table-hover table-bordered table-striped mb-0">
+                        <thead>
+                            <tr>
+                                <th>S/N</th>
+                                <th>User Type</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let userType of userTypes; let i=index">
+                                <td>{{i+1}}</td>
+                                <td>{{userType.userTypeName}}</td>
+                                <td>
+                                    <button (click)="edit(userType.id)" class="btn btn-info btn-sm"><span class="fa fa-edit"></span></button>
+                                    <button (click)="delete(userType.id, deleteModal)" class="btn btn-danger btn-sm"><span class="fa fa-trash"></span></button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<ng-template #deleteModal>
+    <app-delete-confirmation [rowId]="selectedTypeId" (onConfirmedId)="confirmDelete($event)"></app-delete-confirmation>
+</ng-template>

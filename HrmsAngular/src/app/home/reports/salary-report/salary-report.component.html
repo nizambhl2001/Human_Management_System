@@ -1,0 +1,115 @@
+<div class="card">
+    <h4 class="card-header text-center bg-light">
+        Salary Report
+    </h4>
+    <div class="card-body">
+        <div class="col-md-7 center">
+            <form [formGroup]="salaryReportForm">
+                <!--Report Name-->
+                <div class="form-group row">
+                    <label class="col-form-label col-sm-3 ">Report Type <span class="text-danger">*</span></label>
+                    <div class="col-sm-7">
+                        <ng-select formControlName="ReportId" [items]="filteredRptType" bindLabel="TypeName" bindValue="ReportId" [ngClass]="{'is-invalid':(salaryReportForm.controls.ReportId.invalid && (salaryReportForm.controls.ReportId.touched || salaryReportForm.controls.ReportId.dirty || isSubmit))}"
+                            placeholder="Select report Type">
+                        </ng-select>
+                        <div class="text-danger" *ngIf="(salaryReportForm.controls['ReportId'].invalid && (salaryReportForm.controls['ReportId'].touched || salaryReportForm.controls['ReportId'].dirty || isSubmit))">
+                            <i *ngIf="salaryReportForm.controls['ReportId'].errors.required">Report type is required</i>
+                        </div>
+                    </div>
+                </div>
+                <div *ngIf="[110,111,112,113,114,116,117,118,120,121,123,126,130,131,132,133,134,135,207].includes(formControl['ReportId'].value)" class="form-group row">
+                    <label class="col-form-label col-sm-3 ">Employee Code</label>
+                    <div class="col-sm-7">
+                        <app-employee-select-list [employees]="employees" (onChange)="onSelectEmpCode($event.empCode)">
+                        </app-employee-select-list>
+                        <div>
+                        </div>
+                    </div>
+                </div>
+                <div *ngIf="[110,111,112,113,114,116,117,118,120,121,122,123,124,125,126,127,128,129,130,131,132,133,134,135,207].includes(formControl['ReportId'].value)" class="form-group row">
+                    <label class="col-form-label col-sm-3 ">Select Month</label>
+                    <div class="col-sm-7">
+                        <app-period-select-list (onChange)="onSelectPeriod($event)"></app-period-select-list>
+                    </div>
+                </div>
+
+                <div *ngIf="[129,122].includes(formControl['ReportId'].value)" class="form-group row">
+                    <label class="col-form-label col-sm-3 ">Select Salary Head</label>
+                    <div class="col-sm-7">
+                        <app-salaryhead-select-list (onChange)="formControl['SalaryHeadID'].setValue($event.id)"></app-salaryhead-select-list>
+                    </div>
+                </div>
+
+                <div *ngIf="[111,112,113,114,116,117,118,120,121,122,123,124,125,126,127,128,129,130,131,133,134].includes(formControl['ReportId'].value)" class="form-group row">
+                    <label class="col-form-label col-sm-3 ">Select Department</label>
+                    <div class="col-sm-7">
+                        <app-department-select-list (onChange)="onSelectDepartment($event.id)"></app-department-select-list>
+                    </div>
+                </div>
+
+                <div *ngIf="[111,112,113,114,116,117,118,120,121,122,123,124,125,126,127,128,129,130,131,133,134].includes(formControl['ReportId'].value)" class="form-group row">
+                    <label class="col-form-label col-sm-3 "> Select Branch</label>
+                    <div class="col-sm-7">
+                        <app-branch-select-list (onChange)="onSelectBranch($event.id)"></app-branch-select-list>
+                    </div>
+                </div>
+
+                <div *ngIf="[111,112,113,114,116,117,118,120,121,122,123,124,125,126,127,128,129,130,131,133,134].includes(formControl['ReportId'].value)" class="form-group row">
+                    <label class="col-form-label col-sm-3 ">Select Project</label>
+                    <div class="col-sm-7">
+                        <app-project-select-list (onChange)="formControl['ProjectID'].setValue($event.id)"></app-project-select-list>
+                    </div>
+                </div>
+                <div *ngIf="[111,112,113,114,116,117,118,120,121,123,124,125,126,130,131,133,134].includes(formControl['ReportId'].value)" class="form-group row">
+                    <label class="col-form-label col-sm-3 ">Pay By <span class="text-danger">*</span></label>
+                    <div class="col-sm-7">
+                        <ng-select formControlName="PaymentMode" [items]="payBy" bindLabel="typeName" bindValue="typeName" placeholder="Select Pay Type">
+                        </ng-select>
+                    </div>
+                </div>
+
+                <div *ngIf="[123,126,127,128,129,130,131].includes(formControl['ReportId'].value)" class="form-group row">
+                    <label class="col-form-label col-sm-3 ">Payment Category</label>
+                    <div class="col-sm-7">
+                        <app-bonus-select-list (onChange)="onSelectBonus($event.id)"></app-bonus-select-list>
+                    </div>
+                </div>
+
+
+                <div *ngIf="[110,111,112,113,114,116,117,118,120,121,122,123,124,125,126,127,128,129,130,131,133,134].includes(formControl['ReportId'].value)" class="form-group row">
+                    <label class="col-form-label col-sm-3 ">Employee Type</label>
+                    <div class="col-sm-7">
+                        <app-employee-type-list (onChange)="onSelectGrade($event.gradeValue)"></app-employee-type-list>
+                    </div>
+                </div>
+
+                <div *ngIf="[207].includes(formControl['ReportId'].value)" class="form-group row">
+                    <label class="col-form-label col-sm-3 ">Signatory Left</label>
+                    <div class="col-sm-7">
+                        <app-signatory-select-list (onChange)="formControl['SignatoryL'].setValue($event.description)"></app-signatory-select-list>
+                    </div>
+                </div>
+                <!-- <div *ngIf="[207].includes(formControl['ReportId'].value)" class="form-group row">
+          <label class="col-form-label col-sm-3 ">Signatory Right</label>
+          <div class="col-sm-7">
+            <app-signatory-select-list (onChange)="formControl['SignatoryR'].setValue($event.description)"></app-signatory-select-list>
+          </div>
+        </div> -->
+
+                <!--Button-->
+                <div class="form-group row mt-2">
+                    <div class="col-10">
+                        <!-- , {typeName:'xlsx'} -->
+                        <ng-select class="pull-right mr-1" formControlName="ExportType" [items]="[{typeName:'pdf'},{typeName:'xls'}]" bindLabel="typeName" bindValue="typeName"></ng-select>
+                        <button [ladda]="exporting" (click)="export()" type="submit" class="btn btn-info pull-right m2-1">
+              <b>Generate Report</b></button>
+                    </div>
+                </div>
+                <div *ngIf="exporting" class="row">
+                    <div class="m-auto">
+                        <img src="../../../../assets/img/loading_icon.gif" height="80" width="80"> Please wait...
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>

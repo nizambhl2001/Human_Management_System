@@ -1,0 +1,132 @@
+<div class="card">
+    <h4 class="card-header text-center bg-light">
+        {{title}}
+    </h4>
+    <div class="card-body">
+        <form [formGroup]="showCauseForm">
+            <div class="col-md-8 center">
+                <div class="form-group row">
+                    <label class=" col-sm-3"> Employee Id
+           </label>
+                    <div class="input-group col-sm-6">
+                        <app-employee-select-list [isRequired]="f['empCode'].invalid && (isSubmitted || f['empCode'].touched || f['empCode'].dirty)" (onChange)="getEmpInfo($event.empCode)" [setEmpCode]="formVal.empCode">
+                        </app-employee-select-list>
+                        <div *ngIf="f['empCode'].invalid && (isSubmitted || f['empCode'].touched || f['empCode'].dirty)" class="text-danger">
+                            <i *ngIf="f['empCode'].errors['required']">Employee Code is required</i>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="empName" class="col-md-3">Employee Name</label>
+                    <div class="col-md-6">
+                        <input formControlName="empName" type="text" name="empName" id="empName" class="form-control" readonly>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="department" class="col-md-3">Department</label>
+                    <div class="col-md-6">
+                        <input formControlName="department" type="text" name="department" id="department" class="form-control" readonly>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="designation" class="col-md-3">Designation</label>
+                    <div class="col-md-6">
+                        <input formControlName="designation" type="text" name="designation" id="designation" class="form-control" readonly>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="type" class="col-md-3">Type</label>
+                    <div class="col-md-6">
+                        <select formControlName="type" name="type" id="type" class="form-control">
+              <option value="0">-----------Select Type------------</option>
+              <option *ngFor="let d of redetails" value="{{d.id}}">{{d.description}}</option>
+            </select>
+                        <div *ngIf="f['type'].invalid && (isSubmitted || f['type'].touched || f['type'].dirty)" class="text-danger">
+                            <i *ngIf="f['type'].errors.required">Please Select Type</i>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label for="reason" class="col-md-3">Reason</label>
+                    <div class="col-md-6 input-group">
+                        <app-basic-entry-select-list [itemId]="f['action'].value" (onChange)="f['action'].setValue($event.id)" [modalName]="reasonModal" [tableName]="'ShowcauseRules'" [isPlusIconHide]="true" [allItem]="allCauseRules"></app-basic-entry-select-list>
+
+                        <div *ngIf="f['action'].invalid && (isSubmitted || f['action'].touched || f['action'].dirty)" class="text-danger">
+                            <i *ngIf="f['action'].errors.required">Please Select Reason</i>
+                        </div>
+                    </div>
+                </div>
+                <ng-template #reasonModal>
+                    <app-misconduct (getItems)="allCauseRules = $event"></app-misconduct>>
+                </ng-template>
+
+
+                <div class="form-group row">
+                    <label class="form-label col-md-3" for="showDate">Show Cause Date</label>
+                    <div class="input-group col-md-6">
+                        <app-date-control (getLocalDate)="f['showcaseDate'].setValue($event)" (getNgbDate)="f['showcaseDateNgb'].setValue($event)" [setNgbDate]="f['showcaseDateNgb'].value"></app-date-control>
+                    </div>
+                </div>
+                <div *ngIf="f['type'].value==2">
+                    <div class="form-group row">
+                        <label class="form-label col-md-3" for="startDate">Start Date</label>
+                        <div class="input-group col-md-6">
+                            <app-date-control (getLocalDate)="f['startDate'].setValue($event)" (getNgbDate)="f['startDateNgb'].setValue($event)" [setNgbDate]="f['startDateNgb'].value"></app-date-control>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label class="form-label col-md-3" for="endDate">End Date</label>
+                        <div class="input-group col-md-6">
+                            <app-date-control (getLocalDate)="f['endDate'].setValue($event)" (getNgbDate)="f['endDateNgb'].setValue($event)" [setNgbDate]="f['endDateNgb'].value"></app-date-control>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label for="remarks" class="col-md-3">Remarks</label>
+                    <div class="col-md-6">
+                        <textarea formControlName="remarks" name="remarks" id="remarks" rows="2" placeholder="Remarks" class="form-control"></textarea>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="demo-inline-spacing center">
+                        <button (click)="ResetForm()" class="btn btn-info"><span class="ion ion-ios-refresh"></span> Reset</button>
+                        <button (click)="SaveShowCause()" class="btn btn-success">  {{btnStatus}}</button>
+
+                    </div>
+                </div>
+            </div>
+        </form>
+        <div class="row">
+            <div class="col">
+                <input type="text" [(ngModel)]="filterVal" (input)="currentPage = 1; update()" class="form-control form-control-md d-inline-block w-auto float-sm-right" placeholder="Search...">
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="data-table">
+                <table class="table table-hover table-bordered table-striped mb-0">
+                    <thead>
+                        <tr>
+                            <th>Employee Code</th>
+                            <th>Show Cause Date</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngIf="tempItems.length==0">
+                            <td colspan="11" class="font-italic text-center">No Item available</td>
+                        </tr>
+                        <tr (click)="getById(item.id)" *ngFor="let item of tempItems">
+                            <td>{{item.empCode}}</td>
+                            <td>{{item.showcaseDate|date:'dd-MMM-yyyy'}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+
+</div>

@@ -1,0 +1,142 @@
+<div class="card">
+    <h4 class="card-header text-center bg-light">
+        Download Documents
+    </h4>
+
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-8 center">
+                <form [formGroup]="downloadCertificate">
+                    <br />
+                    <div class="form-group row">
+                        <label class="col-form-label col-sm-4 "> Employee Id
+          </label>
+                        <div class="input-group col-sm-8">
+                            <app-employee-select-list (onChange)="onSelectEmployee($event)" [setEmpCode]="formVal.empCode">
+                            </app-employee-select-list>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-form-label col-sm-4 ">Employee Name
+          </label>
+                        <div class="input-group col-sm-6">
+                            <input readonly formControlName="empName" type="text" class="form-control" placeholder=" Employee Name ">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-form-label col-sm-4 ">Department
+          </label>
+                        <div class="input-group col-sm-6">
+                            <input readonly formControlName="department" type="text" class="form-control" placeholder=" Employee Name ">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-form-label col-sm-4 ">Designation
+          </label>
+                        <div class="input-group col-sm-6">
+                            <input readonly formControlName="designation" type="text" class="form-control" placeholder=" Employee Name ">
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div class="row" *ngIf="isLoadingCertificate || isLoadingDocument || isLoadingImgSig">
+            <div class="m-auto">
+                <img src="../../../../assets/img/loading_icon.gif" height="80" width="80" /> Please wait...
+            </div>
+        </div>
+        <div class="card p-0" *ngIf="!isLoadingCertificate && !isLoadingDocument && !isLoadingImgSig">
+            <div class="card-header py-2 px-2">
+                <h5 class="p-0">Image & Signature</h5>
+            </div>
+            <div class="card-body p-0">
+                <div class="data-table">
+                    <table *ngIf="imageSignatureByEmpCode.length>0" class="table  table-bordered table-striped">
+                        <thead style="text-align: center;">
+                            <tr>
+                                <th>Image</th>
+                                <th>Signature</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngIf="imageSignatureByEmpCode.length==0">
+                                <td colspan="2" class="text-center">No data found.</td>
+                            </tr>
+                            <tr *ngFor="let item of imageSignatureByEmpCode; let i=index">
+                                <td>
+                                    <img class="d-block" *ngIf="item.picture" src="data:image/jpg;base64,{{item.picture}}" height="75px" width="80px" alt="image" />
+                                    <button style="width:80px ;height: 25px;" (click)="onDownloadImgSignature(item.picture)" *ngIf="item.picture" class="btn btn-outline-success mt-1 p-0">
+                    <span class="fas fa-download "></span>
+                  </button>
+                                </td>
+                                <td>
+                                    <img *ngIf="item.signature" src="data:image/jpg;base64,{{item.signature}}" height="75px" width="80px" alt="image" />
+                                    <button style="width:80px ;height: 25px;" (click)="onDownloadImgSignature(item.signature)" *ngIf="item.signature" class="btn btn-outline-success mt-1 p-0">
+                    <span class="fas fa-download"></span>
+                  </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="card-header py-2 px-2" style="background: rgb(186, 222, 236);">
+                <h5 class="p-0">Certificates</h5>
+            </div>
+            <div class="card-body p-0">
+                <div class="data-table">
+                    <table class="table  table-bordered table-striped">
+                        <thead>
+                            <tr>
+                                <th>Description</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngIf="dataByEmpCode.length==0">
+                                <td colspan="2" class="text-center">No data found.</td>
+                            </tr>
+                            <tr *ngFor="let item of dataByEmpCode; let i=index">
+                                <td>{{item.description}}</td>
+                                <td>
+                                    <button (click)="onDownloadCertificate(item.id)" type="" class="btn btn-outline-success">
+                    <span class="fas fa-download"></span>
+                  </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="card-header py-2 px-2" style="background: rgb(186, 222, 236);">
+                <h5 class="p-0">Documents</h5>
+            </div>
+            <div class="card-body p-0">
+                <div class="data-table">
+                    <table class="table  table-bordered table-striped">
+                        <thead>
+                            <tr>
+                                <th>#SN</th>
+                                <th>Document_Type</th>
+                                <th>Upload_Date</th>
+                                <th>Download</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngIf="allDocument.length==0">
+                                <td colspan="4" class="text-center">No data found.</td>
+                            </tr>
+                            <tr *ngFor="let item of allDocument; let i=index">
+                                <td>{{i+1}}</td>
+                                <td>{{item.documentTypeName}}</td>
+                                <td>{{item.date | date:'dd MMM yyyy'}}</td>
+                                <td><button (click)="onDownloadDocument(item.id)" type="" class="btn btn-outline-success">
+                    <span class="fas fa-download"></span></button></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>

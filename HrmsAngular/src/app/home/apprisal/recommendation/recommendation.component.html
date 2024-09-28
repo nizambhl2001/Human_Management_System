@@ -1,0 +1,192 @@
+<div class="card">
+    <h4 class="card-header text-center bg-light">Recommendation</h4>
+    <div class="card-body">
+        <form [formGroup]="recommendationform">
+            <div class="row">
+                <div class="col-md-5">
+                    <div class="form-group row">
+                        <label for="year" class="col-md-4">Year</label>
+                        <div class="col-md-8">
+                            <ng-select required formControlName="year" [items]="years" bindLabel="yearName" bindValue="id" name="year" id="year" placeholder="Select Year" [ngClass]="{'is-invalid':(isSubmitted || recommendationform.controls.year.touched || recommendationform.controls.year.dirty) && recommendationform.controls.year.invalid}">
+                            </ng-select>
+                            <div *ngIf="(isSubmitted || recommendationform.controls.year.touched || recommendationform.controls.year.dirty) && recommendationform.controls.year.invalid" class="text-danger">
+                                <i *ngIf="recommendationform.controls.year.errors.required">Year is required</i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="employeeId" class="col-md-4">Employee Code</label>
+                        <div class="col-md-8">
+                            <ng-select class="custom" required formControlName="empCode" [items]="empCodes" bindLabel="empCode" bindValue="empCode" name="empCode" id="employeeId" placeholder="Select EmpCode" [ngClass]="{'is-invalid':(isSubmitted || recommendationform.controls.empCode.touched || recommendationform.controls.empCode.dirty) && recommendationform.controls.empCode.invalid}">
+                            </ng-select>
+                            <div *ngIf="(isSubmitted || recommendationform.controls.empCode.touched || recommendationform.controls.empCode.dirty) && recommendationform.controls.empCode.invalid" class="text-danger">
+                                <i *ngIf="recommendationform.controls.empCode.errors.required">Employee Code is required</i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-md-9"></div>
+                        <div class="col-md-3">
+                            <button (click)="show()" class="btn btn-info btn-sm"><span class="fa fa-eye"></span> Show</button>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="empName" class="col-md-4">Name</label>
+                        <div class="col-md-8">
+                            <input type="text" readonly formControlName="empName" name="empName" id="empName" class="form-control">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="department" class="col-md-4">Department</label>
+                        <div class="col-md-8">
+                            <input type="text" readonly name="department" formControlName="department" id="department" class="form-control">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="designation" class="col-md-4">Designation</label>
+                        <div class="col-md-8">
+                            <input type="text" readonly name="designation" formControlName="designation" id="designation" class="form-control">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th width="60%">Quarter</th>
+                                <th width="40%">Score</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let scr of scores">
+                                <td width="60%">{{scr.qName}}</td>
+                                <td width="40%">{{scr.score}}</td>
+                            </tr>
+                        </tbody>
+                        <tfoot>
+                            <h5 class="title" style="color:#2980B9;"></h5>
+                        </tfoot>
+                    </table>
+                    <div class="form-group row">
+
+                        <label for="avgscore" class="col-md-6">Avg. Score</label>
+                        <div class="col-md-6">
+                            <input type="text" readonly name="avgscore" formControlName="avgscore" id="avgscore" class="form-control">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group row">
+                        <label for="payscale" class="col-md-6">Present Payscale</label>
+                        <div class="col-md-6">
+                            <!-- <input type="text" readonly name="payscale" formControlName="payscale" id="payscale" class="form-control"> -->
+                            <ng-select disable [items]="allSalaryGrade" bindLabel="payScale" bindValue="id" formControlName="payscale" placeholder="Salary Grade">
+                            </ng-select>
+                        </div>
+                    </div>
+                    <!-- <div class="form-group row">
+                        <label for="grossSalary" class="col-md-6">Present Gross Salary</label>
+                        <div class="col-md-6">
+                            <input type="text" readonly name="grossSalary" formControlName="grossSalary" id="grossSalary" class="form-control">
+                        </div>
+                    </div> -->
+                    <div class="form-group row">
+                        <label for="presentScore" class="col-md-6">Previous Score</label>
+                        <div class="col-md-6">
+                            <input type="text" readonly name="presentScore" formControlName="presentScore" id="presentScore" class="form-control">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="transferDate" class="col-md-6">Last Promotion Date</label>
+                        <div class="col-md-6">
+                            <input formControlName="transferDate" class="form-control" placeholder="dd-mm-yyyy" ngbDatepicker readonly>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="joinDate" class="col-md-6">Date of Joinning</label>
+                        <div class="col-md-6">
+                            <input formControlName="joinDate" class="form-control" placeholder="dd-mm-yyyy" ngbDatepicker readonly>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-5">
+                    <div class="form-group row">
+                        <label for="lyrecommendation" class="col-md-4">Last Year Recommendation</label>
+                        <div class="col-md-8">
+                            <textarea type="text" readonly formControlName="lyrecommendation" name="lyrecommendation" id="lyrecommendation" class="form-control"></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="lastYearNoOfIncr" class="col-md-4">Last Year Increment</label>
+                        <div class="col-md-4">
+                            <input readonly type="number" name="lastYearNoOfIncr" formControlName="lastYearNoOfIncr" id="lastYearNoOfIncr" class="form-control">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="noofincreament" class="col-md-4 pr-0">No. of Increament</label>
+                        <div class="col-md-4">
+                            <input [readOnly]="isApprove" type="number" name="noofincreament" formControlName="noofincreament" id="noofincreament" class="form-control">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="promotion" class="col-md-4 pr-0">Promotion Type</label>
+                        <div class="col-md-4">
+                            <ng-select [disabled]="isApprove" formControlName="promotion" [items]="promotions" bindLabel="promotionType" bindValue="promotionType" name="promotion" id="promotion" placeholder="Type"></ng-select>
+
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label for="comments" class="col-md-3">Comments</label>
+                        <div class="col-md-9">
+                            <textarea [readOnly]="isApprove" type="text" name="comments" formControlName="comments" id="comments" class="form-control"></textarea>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="col-md-7">
+                    <h5 class="title" style="color:#2980B9;"><b>All Reporting Employee</b></h5>
+                    <div class="data-table m-0" style="max-height: 200px;">
+                        <table class="table table-bordered mb-0">
+                            <thead>
+                                <tr>
+                                    <th width="15%">Code</th>
+                                    <th width="30%">Name</th>
+                                    <th width="20%">QName</th>
+                                    <th width="20%">Employee</th>
+                                    <th width="15%">Boss</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let emp of employees">
+                                    <td width="15%">{{emp.empCode}}</td>
+                                    <td width="30%">{{emp.empName}}</td>
+                                    <td width="20%">{{emp.qName}}</td>
+                                    <td width="20%">{{emp.employee}}</td>
+                                    <td width="15%">{{emp.boss}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <br/>
+            </div>
+            <div class="row">
+                <div class="m-auto col-md-4">
+                    <button (click)="reset()" type="clear" class="btn btn-info"><span class="ion ion-ios-refresh"></span> Reset</button>
+                    <button *ngIf="isApprove==false" (click)="saveUpdateKpi()" [disabled]="isSavebtn" class="btn btn-success btn-sm-6"> {{saveupdate}}</button>
+                    <div *ngIf="isApprove==false" class="float-right mr-5">
+                        <input formControlName="isApprove" id="isApprove" type="checkbox" class="">
+                        <label for="isApprove" class="form-control-label">Approve?</label>
+                    </div>
+                    <div *ngIf="isApprove" class="float-right">
+                        <h4><span class="badge badge-pill badge-success">{{isApprove?'Approved':''}}</span></h4>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

@@ -1,0 +1,147 @@
+<div class="card">
+    <h4 class="card-header text-center bg-light">
+        HR Report
+    </h4>
+    <div class="card-body">
+        <div class="col-md-6 center">
+            <br>
+            <form [formGroup]="_hrReportForm">
+                <!--Report Type-->
+                <div class="form-group row">
+                    <label class="col-form-label col-sm-4">Report Type</label>
+                    <div class="col-sm-8">
+                        <ng-select formControlName="ReportId" [ngClass]="{'is-invalid':(_hrReportForm.controls['ReportId'].invalid && (_hrReportForm.controls['ReportId'].touched || _hrReportForm.controls['ReportId'].dirty || _isSubmit))}" [items]="_reportTypeList" bindLabel="TypeName"
+                            bindValue="ReportId" placeholder="Select Report Type">
+                        </ng-select>
+                        <div class="text-danger" *ngIf="(_hrReportForm.controls['ReportId'].invalid && (_hrReportForm.controls['ReportId'].touched || _hrReportForm.controls['ReportId'].dirty || _isSubmit))">
+                            <i *ngIf="_hrReportForm.controls['ReportId'].errors['required']">Report type is required</i>
+                        </div>
+                    </div>
+                </div>
+                <!-- EmpCode -->
+                <div *ngIf="!([null,22,23,28,29,35].includes(formVal.ReportId))" class="form-group row">
+                    <label class="col-form-label col-sm-4 ">Employee Code</label>
+                    <div class="col-sm-8">
+                        <div class="input-group">
+                            <ng-select formControlName="EmpCode" (change)="onSelectEmpCode(formVal.EmpCode)" [items]="_employees" bindLabel="empCode" style="width: 250px;" bindValue="empCode" placeholder="Select Employee">
+                            </ng-select>
+                            <div class="input-group-append">
+                                <button (click)="onSearchBtnClick(searchModal)" class="input-group-text btn btn-primary" type="button">
+                  <span class="fas fa-search" style="cursor: pointer;"></span>
+                </button>
+                            </div>
+                        </div>
+                        <label *ngIf="formVal.EmpCode" class="form-label" for=""> Name: {{formVal.EmpName}}</label>
+                    </div>
+                </div>
+                <!-- Gender -->
+                <div *ngIf="[11].includes(formVal.ReportId)" class="form-group row">
+                    <label class="col-form-label col-sm-4">Gender</label>
+                    <div class="col-sm-8">
+                        <ng-select formControlName="Gender" [items]="_genders" bindLabel="description" bindValue="id" placeholder="Select Gender">
+                        </ng-select>
+                    </div>
+                </div>
+                <!-- Religion -->
+                <div *ngIf="[12].includes(formVal.ReportId)" class="form-group row">
+                    <label class="col-form-label col-sm-4">Religion</label>
+                    <div class="col-sm-8">
+                        <ng-select formControlName="Relision" [items]="_religions" bindLabel="description" bindValue="id" placeholder="Select Gender">
+                        </ng-select>
+                    </div>
+                </div>
+                <!-- Grade -->
+                <div *ngIf="[13,35].includes(formVal.ReportId)" class="form-group row">
+                    <label class="col-form-label col-sm-4">Grade</label>
+                    <div class="col-sm-8">
+                        <ng-select formControlName="PayscaleGrade" [items]="_payScaleGrades" bindLabel="payScale" bindValue="payScale" placeholder="Select Pay Scale grade">
+                        </ng-select>
+                    </div>
+                </div>
+                <!-- Location -->
+                <div *ngIf="[14,28].includes(formVal.ReportId)" class="form-group row">
+                    <label class="col-form-label col-sm-4">Location</label>
+                    <div class="col-sm-8">
+                        <ng-select formControlName="Location" [items]="_locations" bindLabel="description" bindValue="id" placeholder="Select Location">
+                        </ng-select>
+                    </div>
+                </div>
+                <!-- JobType -->
+                <div *ngIf="[17].includes(formVal.ReportId)" class="form-group row">
+                    <label class="col-form-label col-sm-4">Job Type</label>
+                    <div class="col-sm-8">
+                        <ng-select formControlName="JobType" [items]="_jobTypes" bindLabel="description" bindValue="id" placeholder="Select Job Type">
+                        </ng-select>
+                    </div>
+                </div>
+                <!-- BloodGroup -->
+                <div *ngIf="[18].includes(formVal.ReportId)" class="form-group row">
+                    <label class="col-form-label col-sm-4">Blood Group</label>
+                    <div class="col-sm-8">
+                        <ng-select formControlName="BloodGroup" [items]="_bloodGroup" bindLabel="description" bindValue="id" placeholder="Select Blood Group">
+                        </ng-select>
+                    </div>
+                </div>
+                <!-- MaritalStatus -->
+                <div *ngIf="[19].includes(formVal.ReportId)" class="form-group row">
+                    <label class="col-form-label col-sm-4">Marital Status</label>
+                    <div class="col-sm-8">
+                        <ng-select formControlName="MeritalStatus" [items]="_maritalStatus" bindLabel="description" bindValue="id" placeholder="Select Marital Status">
+                        </ng-select>
+                    </div>
+                </div>
+                <!-- Education Degree -->
+                <div *ngIf="[22].includes(formVal.ReportId)" class="form-group row">
+                    <label class="col-form-label col-sm-4">Education Degree</label>
+                    <div class="col-sm-8">
+                        <ng-select formControlName="Degree" [items]="_educations" bindLabel="description" bindValue="id" placeholder="Select Education Degree">
+                        </ng-select>
+                    </div>
+                </div>
+                <!-- Branch -->
+                <div *ngIf="!([null,'',27,32,33,35].includes(formVal.ReportId))" class="form-group row">
+                    <label class="col-form-label col-sm-4">Branch</label>
+                    <div class="col-sm-8">
+                        <ng-select formControlName="BranchID" (change)="onBranchChange()" [items]="_branches" bindLabel="description" bindValue="id" placeholder="Select Branch">
+                        </ng-select>
+                    </div>
+                </div>
+                <!-- Department -->
+                <div *ngIf="!([null,'',27,32,33].includes(formVal.ReportId))" class="form-group row">
+                    <label class="col-form-label col-sm-4">Department</label>
+                    <div class="col-sm-8">
+                        <ng-select formControlName="DepartmentID" (change)="onDeptChange()" [items]="_departments" bindLabel="description" bindValue="id" placeholder="Select Department">
+                        </ng-select>
+                    </div>
+                </div>
+                <!-- Project -->
+                <div *ngIf="!([null,'',27,32,33,35,208,209].includes(formVal.ReportId))" class="form-group row">
+                    <label class="col-form-label col-sm-4">Project</label>
+                    <div class="col-sm-8">
+                        <ng-select formControlName="ProjectID" [items]="_projects" bindLabel="description" bindValue="id" placeholder="Select Project">
+                        </ng-select>
+
+                    </div>
+                </div>
+                <!--Button-->
+                <div class="form-group row mt-2">
+                    <div class="col-12">
+                        <ng-select class="pull-right mr-1" formControlName="ExportType" [items]="[{typeName:'pdf'},{typeName:'xls'}, {typeName:'xlsx'}]" bindLabel="typeName" bindValue="typeName"></ng-select>
+                        <button [ladda]="exporting" (click)="export()" type="submit" class="btn btn-info pull-right m2-1">
+              <b>Generate Report</b></button>
+                    </div>
+                </div>
+                <div *ngIf="exporting" class="row">
+                    <div class="m-auto">
+                        <img src="../../../../assets/img/loading_icon.gif" height="80" width="80"> Please wait...
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<ng-template #searchModal>
+    <app-search-employee (selectEvent)="onSelectEmpCode($event)">
+    </app-search-employee>
+</ng-template>

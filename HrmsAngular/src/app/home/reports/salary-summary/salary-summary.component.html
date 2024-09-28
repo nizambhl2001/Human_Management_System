@@ -1,0 +1,88 @@
+<div class="card">
+  <h4 class="card-header text-center bg-light">
+    Salary Summary
+  </h4>
+  <div class="card-body">
+    <div class="col-md-7 center">
+      <form [formGroup]="salarySummaryReportForm">
+        <!--Report Name-->
+        <div class="form-group row">
+          <label class="col-form-label col-sm-3 ">Report Type <span class="text-danger">*</span> </label>
+          <div class="col-sm-7">
+            <ng-select formControlName="ReportId" [items]="reportType" bindLabel="TypeName" bindValue="ReportId"
+              [ngClass]="{'is-invalid':(salarySummaryReportForm.controls.ReportId.invalid && (salarySummaryReportForm.controls.ReportId.touched || salarySummaryReportForm.controls.ReportId.dirty || isSubmit))}"
+              placeholder="Select report Type">
+            </ng-select>
+            <div class="text-danger"
+              *ngIf="(salarySummaryReportForm.controls['ReportId'].invalid && (salarySummaryReportForm.controls['ReportId'].touched || salarySummaryReportForm.controls['ReportId'].dirty || isSubmit))">
+              <i *ngIf="salarySummaryReportForm.controls['ReportId'].errors.required">Report type is required</i>
+            </div>
+          </div>
+        </div>
+
+        <div *ngIf="[143,144,145,146,147,148,149,150,151,152,153,154,155,211].includes(formControl['ReportId'].value)"
+          class="form-group row">
+          <label class="col-form-label col-sm-3 ">Select Month</label>
+          <div class="col-sm-7">
+            <app-period-select-list (onChange)=" onSelectPeriod($event.id)"></app-period-select-list>
+          </div>
+        </div>
+
+        <div *ngIf="[145].includes(formControl['ReportId'].value)" class="form-group row">
+          <label class="col-form-label col-sm-3 ">Select To Month</label>
+          <div class="col-sm-7">
+            <app-period-select-list (onChange)=" onSelectPeriod($event.id)"></app-period-select-list>
+          </div>
+        </div>
+
+        <div *ngIf="[144,154,211].includes(formControl['ReportId'].value)" class="form-group row">
+          <label class="col-form-label col-sm-3 ">Select Salary Head</label>
+          <div class="col-sm-7">
+            <app-salaryhead-select-list (onChange)="formControl['SalaryHeadID'].setValue($event.id)">
+            </app-salaryhead-select-list>
+          </div>
+        </div>
+
+        <div *ngIf="[143,145,148,149,150,151,152,153].includes(formControl['ReportId'].value)" class="form-group row">
+          <label class="col-form-label col-sm-3 "> Select Branch</label>
+          <div class="col-sm-7">
+            <app-branch-select-list (onChange)="onSelectBranch($event.id)"></app-branch-select-list>
+          </div>
+        </div>
+
+        <div *ngIf="[148,149,150,151,152,153,154,155].includes(formControl['ReportId'].value)" class="form-group row">
+          <label class="col-form-label col-sm-3 ">Bonus Name</label>
+          <div class="col-sm-7">
+            <app-bonus-select-list (onChange)="onSelectBonus($event.id)"></app-bonus-select-list>
+          </div>
+        </div>
+
+        <div *ngIf="[143].includes(formControl['ReportId'].value)" class="form-group row">
+          <label class="col-form-label col-sm-3 ">Pay By</label>
+          <div class="col-sm-7">
+            <ng-select formControlName="PaymentMode" [items]="payBy" bindLabel="typeName" bindValue="typeName"
+              placeholder="Select Pay Type">
+            </ng-select>
+          </div>
+        </div>
+        <!--Button-->
+        <div class="form-group row mt-2">
+          <div class="col-10">
+            <ng-select class="pull-right mr-1" formControlName="ExportType"
+              [items]="[{typeName:'pdf'},{typeName:'xls'}, {typeName:'xlsx'}]" bindLabel="typeName"
+              bindValue="typeName"></ng-select>
+            <button [ladda]="exporting" (click)="export()" type="submit" class="btn btn-info pull-right m2-1">
+              <b>Generate Report</b></button>
+          </div>
+        </div>
+        <div *ngIf="exporting" class="row">
+          <div class="m-auto">
+            <img src="../../../../assets/img/loading_icon.gif" height="80" width="80">
+            Please wait...
+          </div>
+        </div>
+      </form>
+    </div>
+
+
+  </div>

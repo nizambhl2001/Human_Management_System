@@ -1,0 +1,44 @@
+td .form-control-plaintext {
+    padding-top: 0.438rem;
+    padding-right: 0.875rem;
+    padding-bottom: 0.438rem;
+    padding-left: 0.875rem;
+}
+
+td {
+    padding: 0px;
+}
+
+td .form-control-plaintext:focus {
+    background: #fff;
+}
+
+.tablediv {
+    padding: 20px;
+}
+
+tbody {
+    display: block;
+    height: 300px;
+    overflow: auto;
+}
+
+thead,
+tbody tr {
+    display: table;
+    width: 100%;
+    table-layout: fixed;
+    /* even columns width , fix width of table too*/
+}
+
+thead {
+    width: calc( 100% - 1em)/* scrollbar is average 1em/16px width, remove it from thead width */
+}
+
+table {
+    widows: 100%;
+}
+
+.card {
+    min-height: auto!important;
+}

@@ -1,0 +1,154 @@
+<div class="card">
+    <h4 class="card-header text-center bg-light">{{title}}</h4>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-5 card">
+                <h5 class="card-header text-center">Enquiry Entry Section</h5>
+                <form [formGroup]="enquireForm" class="card-body">
+                    <div class="form-group row">
+                        <label class=" col-sm-4"> Employee Id
+                        </label>
+                        <div class="input-group col-sm-8">
+                            <app-employee-select-list [fixedWidth]="'175px'" [isRequired]="f['empCode'].invalid && (isSubmitted || f['empCode'].touched || f['empCode'].dirty)" (onChange)="getEmpInfo($event.empCode)" [setEmpCode]="formVal.empCode">
+                            </app-employee-select-list>
+                            <div *ngIf="f['empCode'].invalid && (isSubmitted || f['empCode'].touched || f['empCode'].dirty)" class="text-danger">
+                                <i *ngIf="f['empCode'].errors['required']">Employee Code is required</i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="empName" class="col-md-4">Employee Name</label>
+                        <div class="col-md-8">
+                            <input formControlName="empName" type="text" name="empName" id="empName" class="form-control" readonly>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="department" class="col-md-4">Department</label>
+                        <div class="col-md-8">
+                            <input formControlName="department" type="text" name="department" id="department" class="form-control" readonly>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="designation" class="col-md-4">Designation</label>
+                        <div class="col-md-8">
+                            <input formControlName="designation" type="text" name="designation" id="designation" class="form-control" readonly>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="form-label col-md-4" for="dateOfEnquireNgb">Date of Enquiry</label>
+                        <div class="input-group col-md-8">
+                            <input class="form-control" placeholder="dd-mm-yyyy" id="dateOfEnquireNgb" name="dateOfEnquireNgb" ngbDatepicker readonly formControlName="dateOfEnquireNgb" [displayMonths]="1" #d1="ngbDatepicker">
+                            <div class="input-group-append">
+                                <button class="input-group-text" (click)="d1.toggle()" type="button">
+                  <span class="ion ion-md-calendar" style="cursor: pointer;"></span>
+                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="form-label col-md-4" for="dateOfNoticeIssueNgb">Date of Notice Issue</label>
+                        <div class="input-group col-md-8">
+                            <input class="form-control" placeholder="dd-mm-yyyy" id="dateOfNoticeIssueNgb" name="dateOfNoticeIssueNgb" ngbDatepicker readonly formControlName="dateOfNoticeIssueNgb" [displayMonths]="1" #d2="ngbDatepicker">
+                            <div class="input-group-append">
+                                <button class="input-group-text" (click)="d2.toggle()" type="button">
+                  <span class="ion ion-md-calendar" style="cursor: pointer;"></span>
+                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="venue" class="col-md-4">Venue</label>
+                        <div class="col-md-8">
+                            <input formControlName="venue" type="text" name="venue" id="venue" placeholder="Venue" class="form-control">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="note" class="col-md-4">Note</label>
+                        <div class="col-md-8">
+                            <textarea formControlName="note" rows="2" name="note" id="note" placeholder="Note" class="form-control"></textarea>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="col-md-7">
+
+                <h5 class="text-center">Enquiry Committee</h5>
+                <div class="row">
+                    <div class="col">
+                        <input type="text" [(ngModel)]="filterVal" (input)="currentPage = 1; update()" class="form-control form-control-md d-inline-block w-auto float-sm-right" placeholder="Search...">
+                    </div>
+
+                </div>
+                <div class="row">
+                    <div class="data-table">
+                        <table class="table table-hover table-bordered table-striped mb-0">
+                            <thead>
+                                <tr>
+                                    <th>Enquiry Employee Code</th>
+                                    <th>Employee Name</th>
+                                    <th>Designation</th>
+                                    <th>Department</th>
+                                    <th>Emp Note</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let emp of enquireCommitty; let i=index;">
+                                    <td>
+                                        <!-- <input [(ngModel)]="selectedInquirEmp[i].empCode" (keyup)="getInquirEmp(i, selectedInquirEmp[i].empCode)" type="text" class="form-control"> -->
+                                        <input [(ngModel)]="enquireCommitty[i].empCode" (keyup)="getInquirEmp(i, enquireCommitty[i].empCode)" type="text" class="form-control">
+
+                                    </td>
+                                    <td>{{enquireCommitty[i].empName}}</td>
+                                    <td>{{enquireCommitty[i].designation}}</td>
+                                    <td>{{enquireCommitty[i].department}}</td>
+                                    <td><input [(ngModel)]="enquireCommitty[i].empNote" type="text" class="form-control"></td>
+                                    <td class="demo-inline-spacing center">
+                                        <button (click)="getInquirEmp(i, enquireCommitty[i].empCode)" class="btn btn-info py-1 px-2 rounded-0"><span
+                                   class="fas fa-edit"></span></button>
+                                        <button (click)="removeSelectedEmp(i)" class="btn btn-danger py-1 px-2"><span class="fas fa-trash-alt"></span></button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="demo-inline-spacing mt-2 center">
+                        <button (click)="Reset()" class="btn btn-info"><span class="ion ion-ios-refresh"></span> Reset</button>
+                        <button (click)="saveUpdateEnquire()" class="btn btn-success"><span class="fas fa-save"></span> {{btnStatus}}</button>
+
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <input type="text" [(ngModel)]="filterVal" (input)="currentPage = 1; update()" class="form-control form-control-md d-inline-block w-auto float-sm-right" placeholder="Search...">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="data-table">
+                        <table class="table table-hover table-bordered table-striped mb-0">
+                            <thead>
+                                <tr>
+                                    <th>Enquiry Employee Code</th>
+                                    <th>Employee Name</th>
+                                    <th>Designation</th>
+                                    <th>Department</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngIf="tempItems.length==0">
+                                    <td colspan="11" class="font-italic text-center">No Item available</td>
+                                </tr>
+                                <tr (click)="getByid(item.noticeID)" *ngFor="let item of tempItems; let i=index">
+                                    <td>{{item.empCode}}</td>
+                                    <td>{{item.empName}}</td>
+                                    <td>{{item.designation}}</td>
+                                    <td>{{item.department}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>

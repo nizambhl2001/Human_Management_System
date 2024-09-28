@@ -1,0 +1,97 @@
+<div class="card section ">
+    <h4 class="card-header text-center bg-light">
+        Search Charge Setup
+    </h4>
+    <div class="card-body">
+        <br/>
+        <div class="col-md-7 center">
+            <form [formGroup]="searchChargeForm">
+                <div class="form-group row">
+                    <label class="col-form-label col-sm-4 ">Tax Year
+            </label>
+                    <div class="col-sm-8">
+                        <ng-select formControlName="taxYear" [items]="taxYear" bindLabel="taxYearName" bindValue="id" (change)="getAllSerChargeList(f['taxYear'].value)" placeholder="Select Tax Year">
+                        </ng-select>
+                        <div *ngIf="f['taxYear'].invalid && (isSubmitted || f['taxYear'].touched || f['taxYear'].dirty)" class="text-danger">
+                            <i *ngIf="f['taxYear'].errors.required">Please Select Tax Year</i>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-form-label col-sm-4 ">Slab Name
+              </label>
+                    <div class="col-sm-8">
+                        <input formControlName="slabName" type="text" class="form-control" placeholder="Slab Name">
+                        <div *ngIf="f['slabName'].invalid && (isSubmitted || f['slabName'].touched || f['slabName'].dirty)" class="text-danger">
+                            <i *ngIf="f['slabName'].errors.required">Please insert slab name</i>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-form-label col-sm-4 ">Slab Amount
+                </label>
+                    <div class="col-sm-8">
+                        <input formControlName="slabAmount" type="text" class="form-control" placeholder="Slab Amount">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-form-label col-sm-4 ">Percentage
+                  </label>
+                    <div class="col-sm-8">
+                        <input formControlName="persentage" type="number" class="form-control" placeholder="Percentage">
+                        <div *ngIf="f['persentage'].invalid && (isSubmitted || f['persentage'].touched || f['persentage'].dirty)" class="text-danger">
+                            <i *ngIf="f['persentage'].errors.required">Please insert  persentage</i>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-form-label col-sm-4 ">Note
+                    </label>
+                    <div class="col-sm-8">
+                        <input formControlName="note" type="text" class="form-control" placeholder="Note">
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label class="col-form-label col-sm-4 "> From Date
+
+                  </label>
+
+                    <div class="input-group col-sm-8">
+                        <app-date-control (getLocalDate)="f['setupDate'].setValue($event)" (getNgbDate)="f['setupDateNgb'].setValue($event)" [setNgbDate]="f['setupDateNgb'].value"></app-date-control>
+
+                        <div *ngIf="f['setupDateNgb'].invalid && (isSubmitted || f['setupDateNgb'].touched || f['setupDateNgb'].dirty)" class="text-danger">
+                            <i *ngIf="f['setupDateNgb'].errors.required">Please insert  date</i>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="row">
+            <div class="demo-inline-spacing mt-3" style="margin:0 auto">
+                <button (click)="reset()" class="btn btn-info ">
+                <span class="ion ion-ios-refresh"></span>Reset
+              </button>
+                <button (click)="saveUpdate()" type="" class="btn btn-success">{{btnStatus}} </button>
+            </div>
+        </div>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>#SN</th>
+                    <th>Slab Name</th>
+                    <th>Slab Amount</th>
+                    <th>Percentage</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr (click)="getBYID(search.id)" *ngFor="let search of searchargeModel; let i=index">
+                    <td>{{i+1}}</td>
+                    <td>{{search.slabName}}</td>
+                    <td>{{search.slabAmount}}</td>
+                    <td>{{search.persentage|number:'.2'}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

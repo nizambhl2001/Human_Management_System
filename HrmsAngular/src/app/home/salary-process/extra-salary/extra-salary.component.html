@@ -1,0 +1,137 @@
+<div class="card">
+  <h4 class="card-header text-center bg-light"> Employee Extra Salary</h4>
+  <div class="card-body">
+    <!--Row -->
+    <form [formGroup]="extraSalaryForm">
+      <div class="row pt-3">
+        <div class="col-6 m-auto">
+          <div class="form-group row">
+            <label class="col-form-label col-sm-4 ">Code </label>
+            <div class="col-sm-8">
+              <div class="input-group">
+                <app-employee-select-list [isSearchBtnHide]="true" [fixedWidth]="'310px'"
+                  [setEmpCode]="f['empCode'].value" (onChange)="f['empCode'].setValue($event.empCode);">
+                </app-employee-select-list>
+                <!-- <div *ngIf="f['empCode'].invalid && (isSubmitted || f['empCode'].touched || f['empCode'].dirty)" class="text-danger">
+                  <i *ngIf="f['empCode'].errors.required">Select EmpCode</i>
+                </div> -->
+              </div>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="col-form-label col-sm-4 ">Period </label>
+            <div class="col-sm-8">
+              <ng-select formControlName="periodID" [items]="salaryPeriodItem" bindLabel="periodName" bindValue="id"
+                placeholder="Select Period">
+
+              </ng-select>
+              <div *ngIf="f['periodID'].invalid && (isSubmitted || f['periodID'].touched || f['periodID'].dirty)"
+                class="text-danger">
+                <i *ngIf="f['periodID'].errors['required']">Select Period</i>
+              </div>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="col-form-label col-sm-4 ">Payment Type </label>
+            <div class="col-sm-8">
+              <ng-select formControlName="bonusTypeID" [items]="bonusTypesModel" bindLabel="paymentType" bindValue="id"
+                placeholder="Select Payment Type">
+
+              </ng-select>
+              <div
+                *ngIf="f['bonusTypeID'].invalid && (isSaveButtonClick || f['bonusTypeID'].touched || f['bonusTypeID'].dirty)"
+                class="text-danger">
+                <i *ngIf="f['bonusTypeID'].errors['required']">Select Payment Type</i>
+              </div>
+            </div>
+          </div>
+          <div class="form-group row ">
+            <div class="mr-3 mt-2 ml-auto">
+              <button (click)="Reset()" class="btn btn-info">Reset</button>
+              <button [ladda]="ShoData" (click)="searchExtraSalary()" class="btn btn-success">Show Data</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="card">
+    <div class="card-header">
+      <div class="row">
+        <div class="col">
+          Per page: &nbsp;
+          <select [(ngModel)]="perPage" (change)="update()"
+            class="custom-select custom-select-md d-inline-block w-auto">
+            <option *ngFor="let limit of [5,10, 20, 30, 40, 50]">{{limit}}</option>
+          </select>
+        </div>
+        <div class="col">
+          <input type="text" [(ngModel)]="filterVal" (input)="currentPage = 1; update()"
+            class="form-control form-control-md d-inline-block w-auto float-sm-right" placeholder="Search...">
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="data-table m-0">
+        <table class="table table-hover table-bordered table-striped mb-0">
+          <thead>
+            <tr>
+              <th>Code</th>
+              <th> Employee Name</th>
+              <th>Designation</th>
+              <th>Department</th>
+              <th>Salary Head</th>
+              <th>Amount</th>
+              <th>Note</th>
+
+
+            </tr>
+          </thead>
+          <tbody>
+
+            <tr *ngIf="tempItems.length==0">
+              <td colspan="7" class="font-italic text-center">No item available</td>
+            </tr>
+            <tr *ngFor="let extraFormArray of empExtraSalaryFormArray.controls; let i=index"
+              [formGroup]="extraFormArray">
+              <td>
+                <app-employee-select-list [isSearchBtnHide]="true" [fixedWidth]="'130px'"
+                  [setEmpCode]="extraFormArray.value.empCode" (onChange)="getEmployment($event.empCode,i);">
+                </app-employee-select-list>
+              </td>
+              <td>{{extraFormArray.value.empName}}</td>
+              <td>{{extraFormArray.value.designation}}</td>
+              <td>{{extraFormArray.value.department}}</td>
+              <td>
+                <ng-select formControlName="salaryHeadID" [items]="salaryHeadItem" bindLabel="accountName"
+                  bindValue="id" placeholder="Select Period">
+
+                </ng-select>
+              </td>
+              <td><input formControlName="amount" type="number" class="form-control" placeholder="Amount"></td>
+              <td><input formControlName="note" type="text" class="form-control" placeholder="Note"></td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="row p-0 m-0">
+          <div class="col-sm text-sm-left text-center pt-1">
+            <span class="text-muted" *ngIf="totalItems">Page {{ currentPage }} of {{ totalPages }}</span>
+          </div>
+          <div class="col-sm pt-1">
+            <ngb-pagination [collectionSize]="totalItems" [pageSize]="perPage" [(page)]="currentPage"
+              (pageChange)="update()" size="sm" class="d-flex justify-content-center justify-content-sm-end m-0">
+            </ngb-pagination>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card-footer bg-card-footer py-1">
+      <div class="row p-0 m-0">
+        <div class="m-auto">
+          <button (click)="Reset()" type="" class="btn btn-info">
+            <span class="far fa-refresh"></span> Reset</button>
+            <button (click)="saveEmpExtraSalary()" class="btn btn-success"> Save</button>
+        </div>
+      </div>
+    </div>
+  </div>

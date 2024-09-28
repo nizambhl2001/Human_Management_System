@@ -1,0 +1,68 @@
+<div class="card">
+    <h4 class="card-header text-center bg-light">
+        {{title}}
+    </h4>
+    <div class="card-body col-md-9" style="margin: 0 auto">
+        <form [formGroup]="ProductionLineForm">
+            <div class="form-group row">
+                <label class="col-form-label col-sm-3 " for="productionUnit">Production Unit</label>
+                <div class="col-sm-6">
+                    <app-basic-entry-select-list [itemId]="f['productionUniteID'].value" [isPlusIconHide]="true" (onChange)="getFloreListByProUnitID($event.id)" [tableName]="'ProductionUnite'"></app-basic-entry-select-list>
+                    <div *ngIf="f['productionUniteID'].invalid && (isSubmitted || f['productionUniteID'].touched || f['productionUniteID'].dirty)" class="text-danger">
+                        <i *ngIf="f['productionUniteID'].errors.required">Please Select Production Unit</i>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-form-label col-sm-3 " for="productionFloor">Production Floor</label>
+                <div class="col-sm-6">
+                    <app-basic-entry-select-list [allItem]="floreItem" [isPlusIconHide]="true" [isItemLoad]="false" [tableName]="'ProductionFlore'" (onChange)="getProductionLineList($event.id)" [itemId]="f['floreID'].value"></app-basic-entry-select-list>
+                    <div *ngIf="f['floreID'].invalid && (isSubmitted || f['floreID'].touched || f['floreID'].dirty)" class="text-danger">
+                        <i *ngIf="f['floreID'].errors.required">Please Select Production Flore</i>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-form-label col-sm-3 " for="productivityLine">Productivity Line</label>
+                <i class="text-danger">*</i>
+                <div class="col-sm-6">
+                    <input formControlName="description" type="text" name="productivityLine" id="productivityLine" class="form-control" placeholder="Production Line">
+                    <div *ngIf="f['description'].invalid && (isSubmitted || f['description'].touched || f['description'].dirty)" class="text-danger">
+                        <i *ngIf="f['description'].errors.required">Please input ProductionLine</i>
+                    </div>
+                </div>
+            </div>
+
+        </form>
+        <div class="row">
+            <label for="" class="col-form-label col-sm-2 "></label>
+            <div class="demo-inline-spacing mt-3 center">
+                <button (click)="Reset()" class="btn btn-info"><span class="ion ion-ios-refresh"></span> Reset</button>
+                <button (click)="onSubmit()" class="btn btn-success">{{btnStatus}}</button>
+
+                <!-- <button class="btn btn-danger"><span class="fas fa-trash-alt"></span> Delete</button> -->
+            </div>
+        </div>
+        <div class="row">
+            <div class="data-table">
+                <table class="table table-hover table-bordered table-striped mb-0">
+                    <thead>
+                        <tr>
+
+                            <th>Production Line</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngIf="tempItems.length==0">
+                            <td colspan="3" class="font-italic text-center">No Item available</td>
+                        </tr>
+                        <tr (click)="getByIdProductionLine(item.id)" *ngFor="let item of tempItems">
+                            <td>{{item.discription}}</td>
+
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,28 @@
+<div class="card section">
+    <h4 class="card-header text-center bg-light">
+        Tax Adjust
+    </h4>
+    <div class="card-body">
+        <div class="col-md-7 center">
+            <form [formGroup]="taxAdjustForm">
+                <div class="form-group row">
+                    <label class="col-form-label col-sm-4 ">Tax Year
+            </label>
+                    <div class="col-sm-6">
+                        <ng-select placeholder="Tax Year" formControlName="taxYearID" [items]="taxYearInfo" bindLabel="taxYearName" bindValue="id">
+                        </ng-select>
+                        <div *ngIf="f['taxYearID'].invalid && (isSubmitted || f['taxYearID'].touched || f['taxYearID'].dirty)" class="text-danger">
+                            <i *ngIf="f['taxYearID'].errors['required']">Please Select taxYear </i>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="demo-inline-spacing mt-3" style="margin:0 auto">
+                        <button (click)="Reset()" class="btn btn-info"> <span class="ion ion-ios-refresh"></span>Reset
+              </button>
+                        <button (click)="processEmpTAxAdjust()" class="btn btn-success">Adjust</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>

@@ -1,0 +1,55 @@
+<div class="card section">
+    <h4 class="card-header text-center bg-light">
+        Block Tax Calculation
+    </h4>
+    <div class="card-body">
+        <br/>
+        <form [formGroup]="blockTaxCalculationForm">
+            <div class="col-md-7 center">
+                <div class="form-group row">
+                    <label class="col-form-label col-sm-4 ">Period
+            </label>
+                    <div class="col-sm-8">
+                        <ng-select formControlName="periodID" placeholder="Select Period" [items]="salaryPeriod" bindLabel="periodName" bindValue="id">
+                        </ng-select>
+                        <div *ngIf="f['periodID'].invalid && (isSubmitted || f['periodID'].touched || f['periodID'].dirty)" class="text-danger">
+                            <i *ngIf="f['periodID'].errors['required']">Please Select Period Name</i>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-form-label col-sm-4 ">Income Year
+              </label>
+                    <div class="col-sm-8">
+                        <ng-select formControlName="taxYearID" placeholder="Select Tax Year" [items]="taxYear" [items]="taxYear" bindLabel="taxYearName" bindValue="id">
+                        </ng-select>
+                        <div *ngIf="f['taxYearID'].invalid && (isSubmitted || f['taxYearID'].touched || f['taxYearID'].dirty)" class="text-danger">
+                            <i *ngIf="f['taxYearID'].errors['required']">Please Select Tax Year</i>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-form-label col-sm-4 ">EmpCode
+                </label>
+                    <div class="col-sm-8">
+                        <ng-select formControlName="empCode" placeholder="Select Emp Code" [items]="processIncomeTaxModel" bindLabel="empCode" bindValue="empCode">
+                        </ng-select>
+                        <div *ngIf="f['empCode'].invalid && (isSubmitted || f['empCode'].touched || f['empCode'].dirty)" class="text-danger">
+                            <i *ngIf="f['empCode'].errors['required']">Please Input empCode</i>
+                        </div>
+                    </div>
+                </div>
+                <div class="row mt-2 mr-3">
+                    <div class="ml-auto">
+                        <button (click)="Reset()" class="btn btn-info ">
+                        <span class="ion ion-ios-refresh"></span>
+                          Reset </button>
+                        <button (click)="blockTaxCalculation()" class="btn btn-success">
+                            <span class="fas fa-spinner"></span> Process
+                          </button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

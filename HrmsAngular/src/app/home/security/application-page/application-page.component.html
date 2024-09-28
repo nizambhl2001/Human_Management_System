@@ -1,0 +1,85 @@
+<div class="card">
+  <div class="card-header bg-light">
+    <h4 class="text-center">Application Pages</h4>
+  </div>
+  <div class="card-body">
+    <div class="row">
+      <div class="col-md-5">
+        <form [formGroup]="pageForm">
+          <div class="form-group row">
+            <label for="moduleID" class="col-md-3">Module</label>
+            <div class="col-md-9">
+              <ng-select formControlName="moduleID" [items]="modules" bindLabel="name" bindValue="id"
+                [ngClass]="{'is-invalid':(frmControl['moduleID'].touched || frmControl['moduleID'].dirty || isSubmitted) && frmControl['moduleID'].invalid}"
+                placeholder="Select Module">
+              </ng-select>
+              <div
+                *ngIf="(frmControl['moduleID'].touched || frmControl['moduleID'].dirty || isSubmitted) && frmControl['moduleID'].invalid"
+                class="text-danger">
+                <i *ngIf="frmControl['moduleID'].errors.required">Module is required</i>
+              </div>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="name" class="col-md-3">Name</label>
+            <div class="col-md-9">
+              <input formControlName="name"
+                [ngClass]="{'is-invalid':(frmControl['name'].touched || frmControl['name'].dirty || isSubmitted) && frmControl['name'].invalid}"
+                type="text" class="form-control" placeholder="Page Name">
+              <div
+                *ngIf="(frmControl['name'].touched || frmControl['name'].dirty || isSubmitted) && frmControl['name'].invalid"
+                class="text-danger">
+                <i *ngIf="frmControl['name'].errors.required">Page Name is required</i>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <label for="pageRoutePath" class="col-md-3">Route Path</label>
+            <div class="col-md-9">
+              <input formControlName="pageRoutePath"
+                [ngClass]="{'is-invalid':(frmControl['pageRoutePath'].touched || frmControl['pageRoutePath'].dirty || isSubmitted) && frmControl['pageRoutePath'].invalid}"
+                type="text" class="form-control" placeholder="Page Route Path/Url">
+              <div
+                *ngIf="(frmControl['pageRoutePath'].touched || frmControl['pageRoutePath'].dirty || isSubmitted) && frmControl['pageRoutePath'].invalid"
+                class="text-danger">
+                <i *ngIf="frmControl['pageRoutePath'].errors.required">Page Route Path is required</i>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <label for="" class="col-md-3"></label>
+            <div class="col-md-9 demo-inline-spacing">
+              <button (click)="reset()" class="btn btn-secondary pull-right">Reset</button>
+              <button (click)="onSubmit()" class="btn btn-success pull-right">{{btnStatus}}</button>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="col-md-7">
+        <table class="table table-bordered table-hover">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Page Name</th>
+              <th>Module Name</th>
+              <th>Route Path</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let page of pages;let i=index">
+              <td>{{page.id}}</td>
+              <td>{{page.name}}</td>
+              <td>{{page.moduleName}}</td>
+              <td>{{page.pageRoutePath}}</td>
+              <td>
+                <button (click)="edit(page.id)" class="btn btn-info"><span class="fa fa-edit"></span></button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+  </div>
+</div>
+</div>

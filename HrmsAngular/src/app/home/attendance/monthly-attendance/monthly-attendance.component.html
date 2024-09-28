@@ -1,0 +1,136 @@
+<div class="card">
+    <h4 class="card-header text-center bg-light">
+        {{title}}
+    </h4>
+    <div class="card-body">
+        <form [formGroup]="monthlyAttnForm">
+            <div class="row center">
+                <div class="col-md-6 border">
+                    <div class="form-group row">
+                        <label for="year" class="col-md-3">Year</label>
+                        <div class="col-md-9">
+                            <app-salary-year-select-list [yearId]="f['yearID'].value" (onChange)="getPeriodListByYearId($event.id)"></app-salary-year-select-list>
+                            <div *ngIf="f['yearID'].invalid && (isForEdit || f['yearID'].touched || f['yearID'].dirty)" class="text-danger">
+                                <i *ngIf="f['yearID'].errors.required">Select Year  </i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="period" class="col-md-3">Period</label>
+                        <div class="col-md-9">
+                            <ng-select formControlName="periodID" (change)="fillDateControl(f['periodID'].value)" placeholder="Select Period" [items]="salaryPeriodItem" bindLabel="periodName" bindValue="id">
+                            </ng-select>
+                            <div *ngIf="f['periodID'].invalid && (isForEdit || f['periodID'].touched || f['periodID'].dirty)" class="text-danger">
+                                <i *ngIf="f['periodID'].errors.required">Select Period  </i>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="form-group row">
+                        <label class="form-label col-md-3" for="fromDate">From Date</label>
+                        <div class="input-group col-md-9">
+                            <app-date-control (getLocalDate)="f['startDate'].setValue($event)" (getNgbDate)="f['startDateNgb'].setValue($event)" [setNgbDate]="f['startDateNgb'].value">
+                            </app-date-control>
+                            <div *ngIf="f['startDateNgb'].invalid && (isShowData || f['startDateNgb'].touched || f['startDateNgb'].dirty)" class="text-danger">
+                                <i *ngIf="f['startDateNgb'].errors.required">Select from Date  </i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="form-label col-md-3" for="toDate">To Date</label>
+                        <div class="input-group col-md-9">
+                            <app-date-control (getLocalDate)="f['endDate'].setValue($event)" (getNgbDate)="f['endDateNgb'].setValue($event)" [setNgbDate]="f['endDateNgb'].value"></app-date-control>
+                            <div *ngIf="f['endDateNgb'].invalid && (isShowData || f['endDateNgb'].touched || f['endDateNgb'].dirty)" class="text-danger">
+                                <i *ngIf="f['endDateNgb'].errors.required">Select to Date  </i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 border">
+                    <div class="form-group row">
+                        <label for="department" class="col-md-3">Department</label>
+                        <div class="col-md-9">
+                            <app-basic-entry-select-list [itemId]="f['depertment'].value" [isPlusIconHide]="false" [tableName]="'Department'" (onChange)="getDepartment($event)"></app-basic-entry-select-list>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="project" class="col-md-3">Project</label>
+                        <div class="col-md-9">
+                            <app-basic-entry-select-list [itemId]="f['project'].value" [isPlusIconHide]="false" [tableName]="'Project'" (onChange)="getProject($event)"></app-basic-entry-select-list>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="branch" class="col-md-3">Branch</label>
+                        <div class="col-md-9">
+                            <app-basic-entry-select-list [itemId]="f['branch'].value" [isPlusIconHide]="false" [tableName]="'Branch'" (onChange)="getBranchId($event)"></app-basic-entry-select-list>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="empCode" class="col-md-3">Employee Code</label>
+                        <div class="input-group col-md-9">
+                            <app-employee-select-list [isSearchBtnHide]="true" [fixedWidth]="'150px'" [setEmpCode]="formVal.empCode" (onChange)="monthlyAttnForm.patchValue({empCode:$event.empCode})"></app-employee-select-list>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br>
+            <div class="row">
+                <div class="demo-inline-spacing center">
+                    <button (click)="Reset()" class="btn btn-info">Reset</button>
+                    <button [ladda]="isLoading" (click)="forEditAttendence()" class="btn btn-primary">Show Data</button>
+                </div>
+            </div>
+        </form>
+        <h5 class="center">Total Employee : {{empAttnMonthlyViewArray.controls.length}}</h5>
+        <br/>
+        <div class="card">
+            <div class="data-table">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>SN</th>
+                            <th>Code</th>
+                            <th>Employee_Name</th>
+                            <th>Designation</th>
+                            <th>Department</th>
+                            <th>Working_Day</th>
+                            <th>Attendance</th>
+                            <th>With_Pay</th>
+                            <th>Without_Pay</th>
+                            <th>Holiday</th>
+                            <th>Absent</th>
+                            <th>Remarks</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngIf="empAttnMonthlyViewArray.controls.length==0">
+                            <td colspan="13" class="font-italic text-center">No item available</td>
+                        </tr>
+                        <tr *ngFor="let monthlyAttendence of empAttnMonthlyViewArray.controls; let i=index" [formGroup]="monthlyAttendence">
+                            <td>{{i+1}}</td>
+                            <td><input (keyup)="getEmployment(monthlyAttendence.value.empCode,i)" formControlName="empCode" style="width: 80px;" type="text" class="form-control" /></td>
+                            <td style="font-size: 12px;">{{monthlyAttendence.value.empName}}</td>
+                            <td style="font-size: 11px;">{{monthlyAttendence.value.designation}}</td>
+                            <td style="font-size: 11px;">{{monthlyAttendence.value.department}}</td>
+                            <td><input formControlName="totalDay" type="number" class="form-control" /></td>
+                            <td><input formControlName="attendenceDay" type="number" class="form-control" /></td>
+                            <td><input formControlName="leaveWithPay" type="number" class="form-control" /></td>
+                            <td><input formControlName="leavewithOutPay" type="number" class="form-control" /></td>
+                            <td><input formControlName="holiday" type="number" class="form-control" /></td>
+                            <td><input formControlName="absent" type="number" class="form-control" /></td>
+                            <td><input formControlName="remarks" type="text" class="form-control" /></td>
+                            <td><button (click)="removeAdditionRow(i)" class="btn btn-danger btn-sm"><span class="fas fa-times"></span></button></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="row">
+                <div class="ml-auto">
+                    <button (click)="Onsubmit()" class="btn btn-success"> {{btnStatus}}</button>
+                    <button [ladda]="isExporting" (click)="exportToXl()" class="btn btn-primary mr-2"><span class="fa fa-download"></span> Export to Excel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

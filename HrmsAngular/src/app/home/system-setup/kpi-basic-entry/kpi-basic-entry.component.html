@@ -1,0 +1,284 @@
+<!-- <div class="card">
+  <h4 class="card-header text-center bg-light">
+    {{title}}
+    <span *ngIf="showCloseBtn" (click)="close()" class="pull-right text-danger fa fa-window-close"></span>
+  </h4>
+  <div class="card-body col-md-9" style="margin: 0 auto">
+    <form [formGroup]="basicEntryForm">
+      <div class="form-group row">
+        <label class="col-form-label col-sm-2 " for="sortOrder">Sort Order</label>
+        <div class="col-sm-4">
+          <ng-select formControlName="sortOrder" [items]="allSortOrder" bindLabel="sortOrder" bindValue="sortOrder"
+            placeholder="Sort Order">
+          </ng-select>
+        </div>
+      </div>
+      <div *ngIf="descriptionFieldNumber==false" class="form-group row">
+        <label class="col-form-label col-sm-2 " for="description">Description</label>
+        <div class="col-sm-6">
+          <textarea formControlName="description" class="form-control" name="description" id="description"
+            placeholder="Description"></textarea>
+            <div *ngIf="f['description'].invalid && (isSubmitted || f['description'].touched || f['description'].dirty)" class="text-danger">
+              <i *ngIf="f['description'].errors.required">Please input Description</i>
+            </div>
+        </div>
+      </div>
+
+
+      <div *ngIf="descriptionFieldNumber" class="form-group row">
+        <label class="col-form-label col-sm-2 " for="description">Description</label>
+        <div class="col-sm-6">
+          <input formControlName="description" type="number" class="form-control" name="description" id="description"
+            placeholder="Description">
+            <div *ngIf="f['description'].invalid && (isSubmitted || f['description'].touched || f['description'].dirty)" class="text-danger">
+              <i *ngIf="f['description'].errors.required">Please input Description</i>
+            </div>
+        </div>
+      </div>
+
+    </form>
+    <div class="row">
+      <label for="" class="col-form-label col-sm-2 "></label>
+      <div class="demo-inline-spacing mt-3">
+        <button (click)="save()" class="btn btn-success">{{btnStatus}} </button>
+        <button (click)="Reset()" class="btn btn-info"><span class="ion ion-ios-refresh"></span> Reset</button>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-header">
+        <div class="row">
+          <div class="col">
+            Per page: &nbsp;
+            <select [(ngModel)]="perPage" (change)="update()"
+              class="custom-select custom-select-md d-inline-block w-auto">
+              <option *ngFor="let limit of [5, 10, 20, 30, 40, 50]">{{limit}}</option>
+            </select>
+          </div>
+          <div class="col">
+            <input type="text" [(ngModel)]="filterVal" (input)="currentPage = 1; update()"
+              class="form-control form-control-md d-inline-block w-auto float-sm-right" placeholder="Search...">
+          </div>
+        </div>
+      </div>
+      <table class="table table-hover table-striped mb-0">
+        <thead>
+          <tr>
+            <th style="width:15%">ID</th>
+            <th style="width:50%">Description</th>
+            <th>Sort Order</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngIf="tempItems.length==0">
+            <td colspan="3" class="font-italic text-center">No Item available</td>
+          </tr>
+          <tr *ngFor="let item of tempItems">
+            <td style="width:15%">{{item.id}}</td>
+            <td style="width:50%">{{item.description}}</td>
+            <td>{{item.sortOrder}}</td>
+            <td class="demo-inline-spacing">
+              <button (click)="getById(item.id)" class="btn btn-info"><span
+                  class="fas fa-edit"></span></button>
+              <button (click)="delete(item.id, deleteModal)" class="btn btn-danger"><span
+                  class="fas fa-trash-alt"></span></button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="card-body py-0">
+        <div class="row">
+          <div class="col-sm text-sm-left text-center pt-3">
+            <span class="text-muted" *ngIf="totalItems">Page {{ currentPage }} of {{ totalPages }}</span>
+          </div>
+          <div class="col-sm pt-3">
+            <ngb-pagination [collectionSize]="totalItems" [pageSize]="perPage" [(page)]="currentPage"
+              (pageChange)="update()" size="sm" class="d-flex justify-content-center justify-content-sm-end m-0">
+            </ngb-pagination>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<ng-template #deleteModal>
+  <app-delete-confirmation [rowId]="selectedItemId" (onConfirmedId)="confirmDelete($event)"></app-delete-confirmation>
+</ng-template> -->
+
+
+<!-- ============================= New ======================= -->
+
+<div class="card">
+  <h4 class="card-header text-center bg-light">{{title}}</h4>
+  <div class="card-body">
+      <h5 class="title" style="color:#2980B9;"><b>Business Result</b></h5>
+    <div class="row">
+
+      <div class="col-md-12">
+        <form [formGroup]="kpiBusinessfrom">
+          <div class="form-group row">
+            <label for="kpiname" class="col-md-3">Kpi Name</label>
+            <div class="col-md-8">
+              <input type="text" formControlName="kpiName" name="kpiname" id="kpiname" class="form-control"
+                placeholder="Kpi Name" ng-required="true"
+                [ngClass]="{'is-invalid':(isSubmitted || f.kpiName.touched || f.kpiName.dirty) && f.kpiName.invalid}"
+                >
+                <div *ngIf="(isSubmitted || f.kpiName.touched || f.kpiName.dirty) && f.kpiName.invalid"
+                class="text-danger">
+                <i *ngIf="f.kpiName.errors.required">Kpi Name is required</i>
+              </div>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="department" class="col-md-3">Department</label>
+            <div class="col-md-8">
+              <ng-select formControlName="departmentId" [items]="departments" bindLabel="description"
+                bindValue="id" name="department" id="department" placeholder="Select Department"
+                [ngClass]="{'is-invalid':(isSubmitted || f.departmentId.touched || f.departmentId.dirty) && f.departmentId.invalid}"
+                >
+              </ng-select>
+              <div *ngIf="(isSubmitted || f.departmentId.touched || f.departmentId.dirty) && f.departmentId.invalid"
+                class="text-danger">
+                <i *ngIf="f.departmentId.errors.required">Department is required</i>
+              </div>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="serialno" class="col-md-3">Serial No</label>
+            <div class="col-md-8">
+              <input type="number" name="serialNo" formControlName="serialNo" id="serialno" class="form-control"
+                placeholder="Serial No"
+                [ngClass]="{'is-invalid':(isSubmitted || f.serialNo.touched || f.serialNo.dirty) && f.serialNo.invalid}"
+                >
+                <div *ngIf="(isSubmitted || f.serialNo.touched || f.serialNo.dirty) && f.serialNo.invalid"
+                class="text-danger">
+                <i *ngIf="f.serialNo.errors.required">SerialNo is required</i>
+              </div>
+            </div>
+          </div>
+          <div class="demo-inline-spacing center">
+              <button (click)="saveUpdateBusiness()" class="btn btn-success"><span class="fas fa-save"></span> {{saveupdate}}</button>
+              <button (click)="resetBusiness()" type="clear" class="btn btn-info"><span class="ion ion-ios-refresh"></span> Reset</button>
+            </div>
+        </form>
+      </div>
+    </div>
+      <div class="row">
+        <div class="col-md-12">
+          <table class="table table-bordered">
+              <thead>
+                <tr>
+                  <th width="10%">S/L</th>
+                  <th width="50%">Kpi Name</th>
+                  <th width="20%">Department</th>
+                  <th width="20%"></th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let item of items">
+                  <td width="10%">{{item.serialNo}}</td>
+                  <td width="50%">{{item.kpiName}}</td>
+                  <td width="20%">{{item.department}}</td>
+                  <td width="20%">
+                      <button (click)="businessEdit(item.id)" class="btn btn-info btn-sm"><span class="fas fa-edit"></span></button>
+                      <button (click)="businessDelete(item.id)" class="btn btn-danger btn-sm"><span class="fas fa-trash"></span></button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+      </div>
+      </div>
+
+
+
+
+
+
+
+
+    <h5 class="title" style="color:#2980B9;"><b>People Result</b></h5>
+    <div class="row">
+        <div class="col-md-12">
+          <form [formGroup]="kpiPeopleform">
+            <div class="form-group row">
+              <label for="kpiname" class="col-md-3">Kpi Name</label>
+              <div class="col-md-8">
+                <input type="text" formControlName="kpiName" name="kpiname" id="kpiname" class="form-control"
+                  placeholder="Kpi Name"
+                  [ngClass]="{'is-invalid':(isSubmited || g.kpiName.touched || g.kpiName.dirty) && g.kpiName.invalid}"
+                  >
+                  <div *ngIf="(isSubmited || g.kpiName.touched || g.kpiName.dirty) && g.kpiName.invalid"
+                class="text-danger">
+                <i *ngIf="g.kpiName.errors.required">Kpi Name is required</i>
+              </div>
+              </div>
+            </div>
+            <div class="form-group row">
+              <label for="department" class="col-md-3">Department</label>
+              <div class="col-md-8">
+                <ng-select formControlName="departmentId" [items]="departments" bindLabel="description"
+                  bindValue="id" name="department" id="department" placeholder="Select Department"
+                  [ngClass]="{'is-invalid':(isSubmited || g.departmentId.touched || g.departmentId.dirty) && g.departmentId.invalid}"
+                  >
+                </ng-select>
+                <div *ngIf="(isSubmited || g.departmentId.touched || g.departmentId.dirty) && g.departmentId.invalid"
+                class="text-danger">
+                <i *ngIf="g.departmentId.errors.required">Department is required</i>
+              </div>
+              </div>
+            </div>
+            <div class="form-group row">
+              <label for="serialno" class="col-md-3">Serial No</label>
+              <div class="col-md-8">
+                <input type="number" name="serialno" formControlName="serialNo" id="serialno" class="form-control"
+                  placeholder="Serial No"
+                  [ngClass]="{'is-invalid':(isSubmited || g.serialNo.touched || g.serialNo.dirty) && g.serialNo.invalid}"
+                  >
+                  <div *ngIf="(isSubmited || g.serialNo.touched || g.serialNo.dirty) && g.serialNo.invalid"
+                class="text-danger">
+                <i *ngIf="g.serialNo.errors.required">SerialNo is required</i>
+              </div>
+              </div>
+            </div>
+            <div class="demo-inline-spacing right">
+                <button  (click)="saveUpdatePeople()" class="btn btn-success"><span class="fas fa-save"></span> {{SavePeople}}</button>
+                <button (click)="resetPeople()" type="clear" class="btn btn-info"><span class="ion ion-ios-refresh"></span> Reset</button>
+              </div>
+          </form>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <table class="table table-bordered">
+                <thead>
+                  <tr>
+                    <th  width="10%">S/L</th>
+                    <th  width="50%">Kpi Name</th>
+                    <th  width="20%">Department</th>
+                    <th width="20%"></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let item of kpiPeopleResult">
+                    <td  width="10%">{{item.serialNo}}</td>
+                    <td  width="50%">{{item.kpiName}}</td>
+                    <td  width="20%">{{item.department}}</td>
+                    <td  width="20%">
+                        <button (click)="peopleEdit(item.id)" class="btn btn-info btn-sm"><span class="fas fa-edit"></span></button>
+                        <button (click)="peopleDelete(item.id)" class="btn btn-danger btn-sm"><span class="fas fa-trash"></span></button>
+
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+        </div>
+
+      </div>
+
+
+
+  </div>
+</div>

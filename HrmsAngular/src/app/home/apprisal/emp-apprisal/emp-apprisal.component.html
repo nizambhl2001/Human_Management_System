@@ -1,0 +1,197 @@
+<div class="card">
+    <h4 class="card-header text-center bg-light">Appriasal by Employee</h4>
+    <div class="card-body">
+        <form [formGroup]="achievementscoreform">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group row">
+                        <label for="employeeId" class="col-md-4">Employee Code <span class="text-danger">*</span></label>
+                        <div class="col-md-8">
+                            <ng-select class="custom" required (change)="getEmployeeInfo()" formControlName="empCode" [items]="empCodes" bindLabel="empCode" bindValue="empCode" name="empCode" id="employeeId" placeholder="Select EmpCode" [ngClass]="{'is-invalid':(isSubmitted || achievementscoreform.controls.empCode.touched || achievementscoreform.controls.empCode.dirty) && achievementscoreform.controls.empCode.invalid}">
+                            </ng-select>
+                            <div *ngIf="(isSubmitted || achievementscoreform.controls.empCode.touched || achievementscoreform.controls.empCode.dirty) && achievementscoreform.controls.empCode.invalid" class="text-danger">
+                                <i *ngIf="achievementscoreform.controls.empCode.errors.required">Employee Code is required</i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="empName" class="col-md-4">Employee Name</label>
+                        <div class="col-md-8">
+                            <input type="text" readonly formControlName="empName" name="empName" id="empName" class="form-control">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="department" class="col-md-4">Department</label>
+                        <div class="col-md-8">
+                            <input type="text" readonly name="department" formControlName="department" id="department" class="form-control">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="designation" class="col-md-4">Designation</label>
+                        <div class="col-md-8">
+                            <input type="text" readonly name="designation" formControlName="designation" id="designation" class="form-control">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+
+                    <div class="form-group row">
+                        <label for="year" class="col-md-3">Year <span class="text-danger">*</span></label>
+                        <div class="col-md-8">
+                            <ng-select required formControlName="year" [items]="years" bindLabel="yearName" bindValue="id" name="year" id="year" placeholder="Select Year" [ngClass]="{'is-invalid':(isSubmitted || achievementscoreform.controls.year.touched || achievementscoreform.controls.year.dirty) && achievementscoreform.controls.year.invalid}">
+                            </ng-select>
+                            <div *ngIf="(isSubmitted || achievementscoreform.controls.year.touched || achievementscoreform.controls.year.dirty) && achievementscoreform.controls.year.invalid" class="text-danger">
+                                <i *ngIf="achievementscoreform.controls.year.errors.required">Employee Code is required</i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="quarter" class="col-md-3">Period <span class="text-danger">*</span></label>
+                        <div class="col-md-8">
+                            <ng-select required formControlName="quarter" [items]="quarters" bindLabel="shortName" bindValue="id" name="quarter" id="quarter" placeholder="Select Quarter" [ngClass]="{'is-invalid':(isSubmitted || achievementscoreform.controls.quarter.touched || achievementscoreform.controls.quarter.dirty) && achievementscoreform.controls.quarter.invalid}">
+                            </ng-select>
+                            <div *ngIf="(isSubmitted || achievementscoreform.controls.quarter.touched || achievementscoreform.controls.quarter.dirty) && achievementscoreform.controls.quarter.invalid" class="text-danger">
+                                <i *ngIf="achievementscoreform.controls.quarter.errors.required">Employee Code is required</i>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="row">
+                        <div class="col-11">
+                            <button (click)="show()" class="btn btn-info pull-right mt-3">Show</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+        <div class="card mt-3">
+            <div class="card-header pt-2 pb-0 my-0 bg-lighter">
+                <b class="text-big mt-3">Business Result</b>
+            </div>
+            <div class="card-body p-0">
+                <div class="data-table">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th width="20%">KPI Name</th>
+                                <th width="25%">Target</th>
+                                <th width="10%">Weight</th>
+                                <th width="25%">Achievement</th>
+                                <th width="10%">Achievement(%)</th>
+                                <th width="10%">Score</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let empWiseKpiBusinessForm of empWiseKpiBusinessFormList.controls; let i=index" [formGroup]="empWiseKpiBusinessForm">
+                                <td width="20%">{{empWiseKpiBusinessForm.value.kpiName}}</td>
+                                <td width="25%" class="p-0">
+                                    <div *ngFor="let targetGroup of getTargets(i,1).controls; let i=index" [formGroup]="targetGroup">
+                                        <textarea rows="1" class="form-control" formControlName="target" readonly></textarea>
+                                    </div>
+                                </td>
+                                <td width="10%">{{empWiseKpiBusinessForm.value.weight}}</td>
+                                <td width="25%" class="p-0">
+                                    <div *ngFor="let achievementGroup of getAchievements(i,1).controls; let j=index" [formGroup]="achievementGroup" class="input-group">
+                                        <textarea (keyup.enter)="addAchievement(i,1)" rows="2" class="form-control p-1" formControlName="achievement"></textarea>
+                                    </div>
+                                </td>
+                                <td width="10%"><input class="form-control" formControlName="achievementPerchent" (change)="onChangeBusinessAchieveScore(i)" (keyup)="onChangeBusinessAchieveScore(i)" type="number">
+                                </td>
+                                <td width="10%" class="p-0">
+                                    <input class="form-control px-1" formControlName="score" type="number" (change)="onChangeBusinessScore(i)" (keyup)="onChangeBusinessScore(i)" readonly>
+                                </td>
+                            </tr>
+                        </tbody>
+                        <tfoot class="font-weight-bold">
+                            <tr>
+                                <td colspan="2">Total Weight:</td>
+                                <td> {{totalBusinessWeight}}</td>
+                                <td colspan="2">Total Score:</td>
+                                <td> {{sumBusScore | number:'0.2-2'}}</td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="card mt-3">
+            <div class="card-header pt-2 pb-0 my-0 bg-light">
+                <b class="text-big mt-3">People Result</b>
+            </div>
+            <div class="card-body p-0">
+                <div class="data-table">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th width="20%">KPI Name</th>
+                                <th width="25%">Target</th>
+                                <th width="10%">Weight</th>
+                                <th width="25%">Achievement</th>
+                                <th width="10%">Achievement(%)</th>
+                                <th width="10%">Score</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let empWiseKpiPeopleForm of empWiseKpiPeopleFormList.controls; let i=index" [formGroup]="empWiseKpiPeopleForm">
+                                <td width="20%">{{empWiseKpiPeopleForm.value.kpiName}}</td>
+                                <td width="25%" class="p-0">
+                                    <div *ngFor="let targetGroup of getTargets(i,2).controls; let j=index" [formGroup]="targetGroup">
+                                        <textarea rows="1" class="form-control" formControlName="target" readonly></textarea>
+                                    </div>
+                                </td>
+                                <td width="10%">{{empWiseKpiPeopleForm.value.weight}}</td>
+                                <td width="25%" class="p-0">
+                                    <div *ngFor="let achievementGroup of getAchievements(i,2).controls; let j=index" [formGroup]="achievementGroup" class="input-group">
+                                        <textarea (keyup.enter)="addAchievement(i,2)" rows="2" class="form-control p-1" formControlName="achievement"></textarea>
+                                    </div>
+                                </td>
+                                <td width="10%"><input class="form-control" formControlName="achievementPerchent" type="number" (change)="onChangePeopleAchieveScore(i)" (keyup)="onChangePeopleAchieveScore(i)"></td>
+                                <td width="10%"><input class="form-control" formControlName="score" type="number" (change)="onChangePeopleScore(i)" (keyup)="onChangePeopleScore(i)" disabled></td>
+                            </tr>
+                        </tbody>
+                        <tfoot class="font-weight-bold">
+                            <tr>
+                                <td colspan="2">Total Weight:</td>
+                                <td> {{totalPeopleWeight}}</td>
+                                <td colspan="2">Total Score:</td>
+                                <td> {{sumPeoScore | number:'0.2-2'}}</td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="card-footer">
+            <div class="row">
+                <label for="empComment" class="col-md-2">Comment <span class="text-danger">*</span></label>
+                <div class="col-md-6" [formGroup]="achievementscoreform">
+                    <input type="text" name="empComment" placeholder="Type Your Comment" formControlName="empComment" id="empComment" class="form-control">
+                    <div *ngIf="(isSubmitted || achievementscoreform.controls.empComment.touched || achievementscoreform.controls.empComment.dirty) && achievementscoreform.controls.empComment.invalid" class="text-danger">
+                        <i *ngIf="achievementscoreform.controls.empComment.errors.required">Comment is required</i>
+                    </div>
+                </div>
+                <div class="demo-inline-spacing center">
+                    <label><b style="color:#2980B9;"> Grand Total</b></label>
+                    <label><b style="color:#2980B9;">{{(sumBusScore+sumPeoScore) | number:'0.2-2'}}</b></label>
+                </div>
+            </div>
+            <!-- <table>
+                <tr>
+                    <td><input class="form-control"></td>
+                </tr>
+                <tr>
+                    <td><input class="form-control"></td>
+                </tr>
+                <tr>
+                    <td><input class="form-control"></td>
+                </tr>
+            </table> -->
+            <div class="row">
+                <div class="col-10">
+                    <button (click)="saveUpdateKpi()" [disabled]="isSavebtn" class="btn btn-success pull-right m3-3">{{saveupdate}}</button>
+                    <button (click)="resetKpi()" type="clear" class="btn btn-primary pull-right mr-3"> <span class="ion ion-ios-refresh"></span> Reset</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

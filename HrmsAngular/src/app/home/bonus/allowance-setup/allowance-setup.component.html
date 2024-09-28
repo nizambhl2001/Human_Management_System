@@ -1,0 +1,43 @@
+<div class="card section">
+    <h4 class="card-header text-center bg-light">
+        Bonus And Allowance Setup
+    </h4>
+    <div class="container">
+        <form [formGroup]="bonustypeForm">
+            <br />
+            <div class="form-group row">
+                <label class="col-form-label col-sm-5 ">Bonus Name
+               </label>
+                <div class="col-sm-3">
+                    <input [ngClass]="{'is-invalid':(isSubmitted || f['paymentType'].touched || f['paymentType'].dirty)&& f['paymentType'].invalid}" formControlName="paymentType" type="text" class="form-control" placeholder="Bonus Name">
+                    <div *ngIf="f['paymentType'].invalid && (isSubmitted || f['paymentType'].touched || f['paymentType'].dirty)" class="text-danger">
+                        <i *ngIf="f['paymentType'].errors['required']">Bonus Name Required</i>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="demo-inline-spacing mt-3" style="margin:0 auto">
+                    <button (click)=" reset()" type="clear" class="btn btn-info">
+                    <span class="ion ion-ios-refresh"></span> Reset</button>
+                    <button (click)="saveBonus()" type="" class="btn btn-success">Save </button>
+                </div>
+            </div>
+            <div class="col-md-5 center">
+                <table class="table table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <th>#SN</th>
+                            <th>Bonus Name</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let bonustype of bonustype;let i = index">
+                            <td>{{i+1}}</td>
+                            <td>{{bonustype.paymentType}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </form>
+    </div>
+</div>

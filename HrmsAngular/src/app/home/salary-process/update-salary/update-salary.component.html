@@ -1,0 +1,107 @@
+<div class="card">
+  <h4 class="card-header text-center bg-light">
+    Update Salary
+  </h4>
+  <div class="card-body">
+    <div class="row">
+      <div class="col-md-7 center">
+        <form>
+          <!--Employee Id-->
+          <div class="form-group row">
+            <label class="col-form-label col-sm-3 ">Employee ID</label>
+            <div class="col-sm-7">
+              <app-employee-select-list [setEmpCode]="fCon['empCode'].value"
+                (onChange)="fCon['empCode'].patchValue($event.empCode);">
+              </app-employee-select-list>
+              <!-- <div *ngIf="fCon['empCode'].invalid && (isGetEmployee || fCon['empCode'].touched || fCon['empCode'].dirty)" class="text-danger">
+                    <i *ngIf="fCon['empCode'].errors.required">Please Input  EmpCode</i>
+                  </div> -->
+            </div>
+          </div>
+          <!--Salary Period-->
+          <div class="form-group row">
+            <label class="col-form-label col-sm-3 ">Salary Period</label>
+            <div class="col-sm-7">
+              <app-period-select-list [setPeriodId]="fCon['periodID'].value"
+                (onChange)="fCon['periodID'].patchValue($event.id)"></app-period-select-list>
+              <div
+                *ngIf="fCon['periodID'].invalid && (isGetEmployee || fCon['periodID'].touched || fCon['periodID'].dirty)"
+                class="text-danger">
+                <i *ngIf="fCon['periodID'].errors.required">Please Select Period</i>
+              </div>
+            </div>
+          </div>
+          <!--Department-->
+          <div class="form-group row">
+            <label class="col-form-label col-sm-3 ">Department</label>
+            <div class="col-sm-7">
+              <app-department-select-list [setDeptId]="fCon['departmentID'].value"
+                (onChange)="fCon['departmentID'].patchValue($event.id)"></app-department-select-list>
+            </div>
+          </div>
+          <!--Designation-->
+          <div class="form-group row">
+            <label class="col-form-label col-sm-3 ">Designation</label>
+            <div class="col-sm-7">
+              <app-designation-select-list (onChange)="fCon['designationID'].patchValue($event.id)">
+              </app-designation-select-list>
+            </div>
+          </div>
+          <!--Salary Head-->
+          <div class="form-group row">
+            <label class="col-form-label col-sm-3 ">Salary Head</label>
+            <div class="col-sm-7">
+              <app-salaryhead-select-list (onChange)="fCon['salaryHeadID'].patchValue($event.id)">
+              </app-salaryhead-select-list>
+            </div>
+          </div>
+          <!--Button-->
+          <div class="row mt-2">
+            <div class="m-auto">
+              <button (click)="Reset()" class="btn btn-info">
+                <span class="far fa-reset"></span> Reset</button>
+              <button [ladda]="isShowEmplowee" (click)="getEmployeeSalaryUpdate()" class="btn btn-success">
+                Search </button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-body">
+        <div class="data-table">
+          <table class="table table-hover table-striped mb-0">
+            <thead>
+              <tr>
+                <th>Employee</th>
+                <th>Designation</th>
+                <th>Salary Head </th>
+                <th>Amount</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngIf="salaryEditViewForm.controls.length==0">
+                <td colspan="4" class="font-italic text-center">No item available</td>
+              </tr>
+              <tr *ngFor="let salaryEditItem of salaryEditViewForm.controls; let i=index" [formGroup]="salaryEditItem">
+              <td>{{salaryEditItem.value.empName}}</td>
+                <td>{{salaryEditItem.value.designation}}</td>
+                <td>{{salaryEditItem.value.accountName}}</td>
+                <td><input formControlName="amount" type="text" class="form-control" /></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="card-footer py-1">
+        <div class="row">
+          <div class="m-auto">
+            <button (click)="Reset()" class="btn btn-info">
+              <span class="far fa-reset"></span> Reset</button>
+            <button (click)="updateSalry()" class="btn btn-success"> Update</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

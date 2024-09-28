@@ -1,0 +1,86 @@
+<div class="card">
+    <h4 class="card-header text-center bg-light">
+        Asset Category Setup
+    </h4>
+    <div class="card-body">
+        <div class="col-md-7 center">
+            <form [formGroup]="categoryForm">
+                <!--Asset Category Name-->
+                <div class="form-group row">
+                    <label class="col-form-label col-sm-4 ">Asset Category Name</label>
+                    <div class="col-sm-6">
+                        <input [ngClass]="{'is-invalid': (isSubmitted || f['categoryName'].touched || f['categoryName'].dirty) && f['categoryName'].invalid}" formControlName="categoryName" name="categoryName" type="text" class="form-control" placeholder="Asset Category Name">
+                    </div>
+                    <label class="col-form-label col-sm-4 "></label>
+                    <div *ngIf="f['categoryName'].invalid && (isSubmitted || f['categoryName'].touched || f['categoryName'].dirty)" class="text-danger">
+                        <i *ngIf="f['categoryName'].errors['required']">Category required</i>
+                    </div>
+                </div>
+                <!--Description-->
+                <div class="form-group row">
+                    <label class="col-form-label col-sm-4 ">Description</label>
+                    <div class="col-sm-6">
+                        <textarea [ngClass]="{'is-invalid': (isSubmitted || f['description'].touched || f['description'].dirty) && f['description'].invalid}" formControlName="description" name="description" class="form-control" placeholder="Description"></textarea>
+                    </div>
+                    <label class="col-form-label col-sm-4 "></label>
+                    <div *ngIf="f['description'].invalid && (isSubmitted || f['description'].touched || f['description'].dirty)" class="text-danger">
+                        <i *ngIf="f['description'].errors['required']">Description required</i>
+                    </div>
+                </div>
+                <!--Button-->
+                <div class="form-group row">
+                    <div class="demo-inline-spacing mt-3  center">
+                        <button (click)="reset()" type="clear" class="btn btn-info">
+                        <span class="ion ion-ios-refresh"></span> Reset</button>
+                        <button (click)="onSubmit()" type="clear" class="btn btn-success">
+              {{btnStatus}}</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <!-- Table-->
+        <div class="row">
+            <div class="col">
+                <input type="text" [(ngModel)]="filterVal" (input)="currentPage = 1; update()" class="form-control form-control-md d-inline-block w-auto float-sm-right" placeholder="Search...">
+            </div>
+        </div>
+        <div class="row">
+            <div class="data-table">
+                <table class="table table-hover table-bordered table-striped mb-0">
+                    <thead>
+                        <tr>
+                            <th>SN</th>
+                            <th>Category Name</th>
+                            <th>Description</th>
+                            <th>Action</th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let cat of tempItems; let i = index">
+                            <td>{{i+1}}</td>
+                            <td>{{cat.categoryName}}</td>
+                            <td>{{cat.description}}</td>
+                            <td><button (click)="getById(cat.id)" type="" class="btn btn-info btn-sm">
+            <span class="fas fa-edit"></span></button>&nbsp;
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+
+    <ng-template #deleteModal>
+        <div class="modal-header">
+            <h5 class="modal-title">Confirmation</h5>
+        </div>
+        <div class="modal-body">
+            <p>Are you sure want to delete?</p>
+        </div>
+        <div class="modal-footer">
+            <button (click)="cancel()" class="btn btn-secondary">Cancel</button>
+            <button (click)="confirm()" class="btn btn-danger">Confirm</button>
+        </div>
+    </ng-template>

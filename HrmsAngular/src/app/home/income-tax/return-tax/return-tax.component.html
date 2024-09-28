@@ -1,0 +1,132 @@
+<div class="card section">
+    <h4 class="card-header text-center bg-light">
+        Tax Return
+    </h4>
+    <div class="card-body">
+        <br/>
+        <div class="col-md-7 center">
+            <form [formGroup]="returnTaxForm">
+                <div class="row">
+                    <div class="col-md-3">
+                        <label class="col-form-label">Tax Year</label>
+                    </div>
+                    <div class="col-md-5">
+                        <ng-select formControlName="taxYearID" placeholder="Select Tax Year" [items]="taxYearInfo" bindLabel="taxYearName" bindValue="id">
+                        </ng-select>
+                    </div>
+                    <div class="col-md-2">
+                        <button (click)="checkIncomeTaxReturn()" class="btn btn-info"> For Check</button>
+                    </div>
+                    <div class="col-md-2">
+                        <button routerLink='/income-tax/return-tax-report' class="btn btn-info"> Report</button>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label for="empCode" class="col-form-label col-sm-3 ">Employee Code</label>
+                    <div class="input-group col-md-9">
+                        <app-employee-select-list [isSearchBtnHide]="false" [setEmpCode]="f['empCode'].value" (onChange)="getEmpInfoById($event);" [fixedWidth]="'357px'">
+                        </app-employee-select-list>
+                        <div *ngIf="f['empCode'].invalid && (isSubmitted || f['empCode'].touched || f['empCode'].dirty)" class="text-danger">
+                            <i *ngIf="f['empCode'].errors.required">Please Input EmpCode  </i>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="empName" class="col-form-label col-sm-3 ">Employee Name</label>
+                    <div class="col-md-8">
+                        <input formControlName="empName" type="text" name="empName" id="empName" class="form-control" placeholder="Emp Name" readonly>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="department" class="col-form-label col-sm-3 ">Department</label>
+                    <div class="col-md-8">
+                        <input formControlName="department" type="text" name="department" id="department" class="form-control" placeholder="Department" readonly>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-form-label col-sm-3 ">Designation</label>
+                    <div class="col-md-8">
+                        <input formControlName="designation" type="text" name="designation" id="designation" class="form-control" placeholder="Designation" readonly>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label class="col-form-label col-sm-3 ">Submit Date
+
+        </label>
+
+                    <div class="input-group col-sm-8">
+                        <input formControlName="dateNgb" class="form-control" name="dp1" placeholder="dd-mm-yyyy" ngbDatepicker #d1="ngbDatepicker" readonly>
+                        <div class="input-group-append">
+                            <button class="input-group-text" (click)="d1.toggle()" type="button">
+              <span class="ion ion-md-calendar" style="cursor: pointer;"></span>
+            </button>
+                        </div>
+                        <div *ngIf="f['dateNgb'].invalid && (isSubmitted || f['dateNgb'].touched || f['dateNgb'].dirty)" class="text-danger">
+                            <i *ngIf="f['dateNgb'].errors.required">Please Select Submit Date  </i>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-form-label col-sm-3 ">Wealth Amount
+          </label>
+                    <div class="col-sm-8">
+                        <input formControlName="wealthAmount" type="number" class="form-control" placeholder="Wealth Amount">
+                        <div *ngIf="f['wealthAmount'].invalid && (isSubmitted || f['wealthAmount'].touched || f['wealthAmount'].dirty)" class="text-danger">
+                            <i *ngIf="f['wealthAmount'].errors.required">Please Input Wealth Amount </i>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-form-label col-sm-3 ">Taxable Income
+          </label>
+                    <div class="col-sm-8">
+                        <input formControlName="taxableIncome" type="text" class="form-control" placeholder="Taxable Income">
+                        <div *ngIf="f['taxableIncome'].invalid && (isSubmitted || f['taxableIncome'].touched || f['taxableIncome'].dirty)" class="text-danger">
+                            <i *ngIf="f['taxableIncome'].errors.required">Please input Taxable Income  </i>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-form-label col-sm-3 ">Tax Paid Amount
+          </label>
+                    <div class="col-sm-8">
+                        <input type="number" formControlName="taxPaid" placeholder="tax paid amount" class="form-control">
+                        <div *ngIf="f['taxPaid'].invalid && (isSubmitted || f['taxPaid'].touched || f['taxPaid'].dirty)" class="text-danger">
+                            <i *ngIf="f['taxPaid'].errors.required">Please input Paid Income  </i>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-form-label col-sm-3 ">Serial No.
+          </label>
+                    <div class="col-sm-8">
+                        <input formControlName="serialNo" type="text" class="form-control" placeholder="Exemption Amount">
+                        <div *ngIf="f['serialNo'].invalid && (isSubmitted || f['serialNo'].touched || f['serialNo'].dirty)" class="text-danger">
+                            <i *ngIf="f['serialNo'].errors.required">Please Input Serial No  </i>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-form-label col-sm-3 ">Remarks
+          </label>
+                    <div class="col-sm-8">
+                        <input formControlName="remarks" type="text" class="form-control" placeholder="Exemption percent">
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="row">
+            <div class="demo-inline-spacing mt-3" style="margin:0 auto">
+                <button (click)="Reset()" class="btn btn-info ">
+                <span class="ion ion-ios-refresh"></span>Reset
+              </button>
+                <button (click)="saveTaxReturn()" type="" class="btn btn-success">
+          Save
+        </button>
+            </div>
+        </div>
+
+    </div>
+</div>

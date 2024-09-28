@@ -1,0 +1,135 @@
+<div class="card">
+    <h4 class="card-header text-center bg-light">{{title}}</h4>
+    <div class="card-body">
+        <form [formGroup]="stopDeductionForm">
+            <div class="card">
+                <h5 class="card-header">Employee Basic Information</h5>
+                <div class="card-body row mt-2">
+                    <div class="col-md-6">
+                        <div class="form-group row">
+                            <label for="empCode" class="col-md-4">Employee Code<i class="text-danger">*</i></label>
+                            <div class="input-group col-md-8">
+                                <app-employee-select-list [ngClass]="{'is-invalid':(f.empCode.touched || f.empCode.dirty || isSaveBtnClick) && f.empCode.invalid}" [setEmpCode]="f['empCode'].value" (onChange)="onSelectEmp($event)"></app-employee-select-list>
+                                <div *ngIf="f.empCode.invalid && (f.empCode.touched || f.empCode.dirty || isSaveBtnClick)" class="text-danger">
+                                    <i *ngIf="f.empCode.errors.required" class="text-danger">Employee code is required</i>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="empName" class="col-md-4">Name<i class="text-danger">*</i></label>
+                            <div class="col-md-8">
+                                <input formControlName="empName" [ngClass]="{'is-invalid':(f.empName.touched || f.empName.dirty || isSaveBtnClick) && f.empName.invalid}" type="text" name="employeeName" id="empName" class="form-control" placeholder="Employee Name" readonly>
+                                <div *ngIf="f.empName.invalid && (f.empName.touched || f.empName.dirty || isSaveBtnClick)" class="text-danger">
+                                    <i *ngIf="f.empName.errors.required" class="text-danger">Employee Name is required</i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group row">
+                            <label class="form-label col-md-4" for="joiningDate">Joining Date<i class="text-danger">*</i></label>
+                            <div class="input-group col-md-6">
+                                <input formControlName="joinDate" [ngClass]="{'is-invalid':(f.joinDate.touched || f.joinDate.dirty || isSaveBtnClick) && f.joinDate.invalid}" class="form-control" placeholder="dd-mm-yyyy" id="joiningDate" name="joiningDate" readonly>
+                                <div *ngIf="f.joinDate.invalid && (f.joinDate.touched || f.joinDate.dirty || isSaveBtnClick)" class="text-danger">
+                                    <i *ngIf="f.joinDate.errors.required" class="text-danger">Employee Joining Date is required</i>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="designation" class="col-md-4">Designation<i class="text-danger">*</i></label>
+                            <div class="col-md-6">
+                                <input formControlName="designation" [ngClass]="{'is-invalid':(f.designation.touched || f.designation.dirty || isSaveBtnClick) && f.designation.invalid}" type="text" name="designation" id="designation" class="form-control" placeholder="Employee Designation"
+                                    readonly>
+                                <div *ngIf="f.designation.invalid && (f.designation.touched || f.designation.dirty || isSaveBtnClick)" class="text-danger">
+                                    <i *ngIf="f.designation.errors.required" class="text-danger">Employee Designation is required</i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div> <br>
+            <div class="card">
+                <div class="card-body">
+                    <div class="row mt-2">
+                        <div class="col-md-6 center">
+                            <div class="form-group row">
+                                <label for="type" class="col-md-3">Loan Type<i class="text-danger">*</i></label>
+                                <div class="col-md-9">
+                                    <ng-select formControlName="loanType" [ngClass]="{'is-invalid':(f.loanType.touched || f.loanType.dirty || isSaveBtnClick) && f.loanType.invalid}" [items]="loanHeadData" bindLabel="accountName" bindValue="id" name="type" id="type" placeholder="Select Loan Type">
+
+                                    </ng-select>
+                                    <div *ngIf="f.loanType.invalid && (f.loanType.touched || f.loanType.dirty || isSaveBtnClick)" class="text-danger">
+                                        <i *ngIf="f.loanType.errors.required" class="text-danger">loan Type is required</i>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="month" class="col-md-3">Month<i class="text-danger">*</i></label>
+                                <div class="col-md-9">
+                                    <ng-select formControlName="periodID" [ngClass]="{'is-invalid':(f.periodID.touched || f.periodID.dirty || isSaveBtnClick) && f.periodID.invalid}" (change)="getAll(this.f.empCode.value)" [items]="salaryPeriod" bindLabel="periodName" bindValue="id" name="month"
+                                        id="month" placeholder="Select  Months">
+
+                                    </ng-select>
+                                    <div *ngIf="f.periodID.invalid && (f.periodID.touched || f.periodID.dirty || isSaveBtnClick)" class="text-danger">
+                                        <i *ngIf="f.periodID.errors.required" class="text-danger">Month is required</i>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="form-label col-md-3" for="date">Date<i class="text-danger">*</i></label>
+                                <div class="input-group col-md-9">
+                                    <app-date-control [ngClass]="{'is-invalid':(f.dateNgb.touched || f.dateNgb.dirty || isSaveBtnClick) && f.dateNgb.invalid}" (getLocalDate)="f['date'].setValue($event)" (getNgbDate)="f['dateNgb'].setValue($event)" [setNgbDate]="f['dateNgb'].value"></app-date-control>
+
+                                    <div *ngIf="f.dateNgb.invalid && (f.dateNgb.touched || f.dateNgb.dirty || isSaveBtnClick)" class="text-danger">
+                                        <i *ngIf="f.dateNgb.errors.required" class="text-danger">Date is required</i>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="remarks" class="col-md-3">Remarks</label>
+                                <div class="col-md-9">
+                                    <textarea rows="2" formControlName="remarks" name="remarks" id="remarks" class="form-control" placeholder="Remarks"></textarea>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="demo-inline-spacing center">
+                                    <button (click)="reset()" class="btn btn-info"><span class="ion ion-ios-refresh"></span> Reset</button>
+                                    <button (click)="onSubmit()" class="btn btn-success">{{btnStatus}}</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4 ml-auto">
+                    <input type="text" (input)="currentPage = 1; update()" class="form-control form-control-md d-inline-block w-auto float-sm-right" placeholder="Search...">
+                </div>
+            </div>
+            <div class="row">
+                <div class="data-table">
+                    <table class="table table-hover table-bordered table-striped mb-0">
+                        <thead>
+                            <tr>
+                                <th>Employee Code</th>
+                                <th>Name</th>
+                                <th>Designation</th>
+                                <th>Loan Type</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let item of stopDedutionModel">
+                                <td>{{item.empCode}}</td>
+                                <td>{{item.empName}}</td>
+                                <td>{{item.designation}}</td>
+                                <td>{{item.accountName}}</td>
+                                <td> <button (click)="getResultById(item.id)" class="btn btn-info btn-sm"><span class="fas fa-edit"></span></button></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

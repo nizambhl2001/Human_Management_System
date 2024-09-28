@@ -1,0 +1,98 @@
+<div class="card">
+    <h4 class="card-header text-center bg-light">{{title}}</h4>
+    <form [formGroup]="SalesCommissionForm">
+        <div class="row mt-2">
+            <div class="col-md-6">
+                <div class="form-group row">
+                    <label for="period" class="col-md-4">Period</label>
+                    <div class="col-md-8">
+                        <ng-select [ngClass]="{'is-invalid': (isSubmitted || f['periodID'].touched || f['periodID'].dirty) && f['periodID'].invalid}" [items]="allBonusPeriod" formControlName="periodID" bindLabel="periodName" bindValue="id" placeholder="Period">
+                            ></ng-select>
+                    </div>
+                    <label for="period" class="col-md-4"></label>
+                    <div *ngIf="f['periodID'].invalid && (isSubmitted || f['periodID'].touched || f['periodID'].dirty)" class="text-danger">
+                        <i *ngIf="f['periodID'].errors['required']">Period is required</i>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group row">
+                    <label for="department" class="col-md-4">Department</label>
+                    <div class="col-md-8">
+                        <ng-select [ngClass]="{'is-invalid': (isSubmitted || f['depertmentID'].touched || f['depertmentID'].dirty) && f['depertmentID'].invalid}" [items]="allDepartment" formControlName="depertmentID" bindLabel="description" bindValue="id" placeholder="Department"></ng-select>
+                    </div>
+                    <label for="period" class="col-md-4"></label>
+                    <div *ngIf="f['depertmentID'].invalid && (isSubmitted || f['depertmentID'].touched || f['depertmentID'].dirty)" class="text-danger">
+                        <i *ngIf="f['depertmentID'].errors['required']">Department is required</i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group row">
+                    <label for="bonusType" class="col-md-4">Bonus Type</label>
+                    <div class="col-md-8">
+                        <ng-select [ngClass]="{'is-invalid': (isSubmitted || f['bonusType'].touched || f['bonusType'].dirty) && f['bonusType'].invalid}" [items]="allBonusType" formControlName="bonusType" bindLabel="paymentType" bindValue="id" placeholder="Bonus Type"></ng-select>
+                    </div>
+                    <label for="period" class="col-md-4"></label>
+                    <div *ngIf="f['bonusType'].invalid && (isSubmitted || f['bonusType'].touched || f['bonusType'].dirty)" class="text-danger">
+                        <i *ngIf="f['bonusType'].errors['required']">Bonus Type is required</i>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="commissionHead" class="col-md-4">Commission Head</label>
+                    <div class="col-md-8">
+                        <ng-select [ngClass]="{'is-invalid': (isSubmitted || f['salaryHeadID'].touched || f['salaryHeadID'].dirty) && f['salaryHeadID'].invalid}" [items]="allBonusAllowance" formControlName="salaryHeadID" bindLabel="accountName" bindValue="id" placeholder="Commission Head"></ng-select>
+                    </div>
+                    <label for="period" class="col-md-4"></label>
+                    <div *ngIf="f['salaryHeadID'].invalid && (isSubmitted || f['salaryHeadID'].touched || f['salaryHeadID'].dirty)" class="text-danger">
+                        <i *ngIf="f['salaryHeadID'].errors['required']">Commission is required</i>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <div class="card-body ">
+                    <div class="row">
+                        <table class="table table-bordered table-striped">
+                            <thead>
+                                <tr>
+                                    <th>EmpCode</th>
+                                    <th>Employee Name</th>
+                                    <th>Designation</th>
+                                    <th>Department</th>
+                                    <th>Amount</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let emp of employeesForm.controls; let i=index" [formGroup]="emp">
+                                    <td>
+                                        <app-employee-select-list [ngClass]="{'is-invalid':(employeesForm.controls[i].controls.empCode.touched || employeesForm.controls[i].controls.empCode.dirty || isSubmitted) &&  employeesForm.controls[i].controls.empCode.invalid}" [isSearchBtnHide]="true"
+                                            [fixedWidth]="'150px'" (onChange)="getEmployment($event.empCode,i)" [setEmpCode]="formVal.empCode">
+                                        </app-employee-select-list>
+                                    </td>
+                                    <td><input formControlName="empName" disabled type="text" class="form-control"></td>
+                                    <td><input formControlName="department" disabled type="text" class="form-control"></td>
+                                    <td><input formControlName="designation" disabled type="text" class="form-control"></td>
+                                    <td><input formControlName="amount" [ngClass]="{'is-invalid':(employeesForm.controls[i].controls.amount.touched || employeesForm.controls[i].controls.amount.dirty || isSubmitted) &&  employeesForm.controls[i].controls.amount.invalid}"
+                                            type="number" class="form-control col-md-11"></td>
+                                    <td class="row">
+                                        <span (click)="addRow()" *ngIf="employeesForm.controls.length==(i+1)" style="font-size: 1em;" class="btn btn-sm btn-success py-1 mx-1">+</span>
+                                        <span (click)="removeRow(i)" style="font-size: 1em;" class="btn btn-sm btn-danger py-1 mx-1">X</span>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div class="col">
+                            <div class="row">
+                                <div class="demo-inline-spacing mt-3" style="margin:0 auto">
+                                    <button (click)="reset()" type="" class="btn btn-info">
+                                      <span class="ion ion-ios-refresh"></span> Reset</button>
+                                    <button (click)="save()" type="" class="btn btn-success">Save</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>

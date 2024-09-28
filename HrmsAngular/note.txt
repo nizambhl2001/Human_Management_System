@@ -1,0 +1,1 @@
+node --max-old-space-size=X node_modules/@angular/cli/bin/ng build --prod

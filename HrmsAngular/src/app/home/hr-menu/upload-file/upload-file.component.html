@@ -1,0 +1,103 @@
+<div class="card">
+    <h4 class="card-header text-center bg-light">
+        Upload Documents
+    </h4>
+    <div class="card-body">
+        <br />
+        <div class="row">
+            <div class="col-md-8 center">
+                <form [formGroup]="uploadForm">
+                    <div class="form-group row">
+                        <label class="col-form-label col-md-4 "> Employee Id <span class="text-danger">*</span>
+                        </label>
+                        <div class="input-group col-md-6">
+                            <app-employee-select-list
+                                [isRequired]="f['empCode'].invalid && (isSubmitted || f['empCode'].touched || f['empCode'].dirty)"
+                                (onChange)="onSelectEmployee($event)" [setEmpCode]="formVal.empCode">
+                            </app-employee-select-list>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-form-label col-md-4 ">Employee Name
+                        </label>
+                        <div class="input-group col-md-6">
+                            <input readonly formControlName="name" type="text" class="form-control"
+                                placeholder=" Employee Name ">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-form-label col-md-4 ">Department
+                        </label>
+                        <div class="input-group col-md-6">
+                            <input readonly formControlName="department" type="text" class="form-control"
+                                placeholder="Department">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-form-label col-md-4 ">Designation
+                        </label>
+                        <div class="input-group col-md-6">
+                            <input readonly formControlName="designation" type="text" class="form-control"
+                                placeholder="Designation">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-form-label col-md-4 ">Document Type <span class="text-danger">*</span>
+                        </label>
+                        <div class="input-group col-md-6">
+                            <app-document-type-select-list [isInvalid]="!formVal.documentType"
+                                [setDocumentTypeId]="formVal.documentType" (onChange)="onSelectDocumentType($event)">
+                            </app-document-type-select-list>
+                        </div>
+                    </div>
+
+                    <!-- <div *ngIf="formVal.documentType==4" class="form-group row">
+                        <label class="col-form-label col-md-4 ">Level Of Education <span class="text-danger">*</span>
+                        </label>
+                        <div class="col-md-6">
+                            <app-basic-entry-select-list
+                                [isRequired]="f['educationLevelID'].invalid && (isSubmitted || f['educationLevelID'].touched || f['educationLevelID'].dirty)"
+                                [itemId]="formVal.educationLevelID"
+                                (onChange)="f['educationLevelID'].setValue($event.id)" [tableName]="'EducationLevel'"
+                                [allItem]="allEduLevel" [modalName]="eduLevelModal">
+                            </app-basic-entry-select-list>
+                        </div>
+                        <label class="col-form-label col-md-4 "></label>
+                        <div *ngIf="f['educationLevelID'].invalid && (isSubmitted || f['educationLevelID'].touched || f['educationLevelID'].dirty)"
+                            class="text-danger">
+                            <i *ngIf="f['educationLevelID'].errors['required']">Education Level Required</i>
+                        </div>
+                        <ng-template #eduLevelModal>
+                            <app-education-level (getItems)="allEduLevel=$event"></app-education-level>
+                        </ng-template>
+                    </div> -->
+
+                    <div class="form-group row">
+                        <label class="col-form-label col-md-4 ">File <span class="text-danger">*</span>
+                        </label>
+                        <div class="input-group col-md-6">
+                            <app-file-convert [getWithFileType]="true" [maxSize]="3145728"
+                                [ngClass]="{'is-invalid': (isSubmitted || f['data'].touched || f['data'].dirty) && f['data'].invalid}"
+                                [previewFile]="formVal.data" (selectedFile)="onSelectFile($event)">
+                            </app-file-convert>
+                            <div *ngIf="f['data'].invalid && (isSubmitted || f['data'].touched || f['data'].dirty )"
+                                class="text-danger">
+                                <i *ngIf="f['data'].errors['required']">File is required</i>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="row">
+            <div class="demo-inline-spacing mt-3" style="margin:0 auto">
+                <button (click)="reset()" type="" class="btn btn-info "><span class="ion ion-ios-refresh"></span>
+                    Reset</button>
+                <button [ladda]="isUploading" (click)="Upload()" class="btn btn-success"> Upload
+                </button>
+            </div>
+        </div>
+
+    </div>
+
+</div>

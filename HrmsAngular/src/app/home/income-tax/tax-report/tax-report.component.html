@@ -1,0 +1,93 @@
+<div class="card section">
+    <h4 class="card-header text-center bg-light">
+        Tax Report
+    </h4>
+    <div class="card-body">
+        <form [formGroup]="reportForm">
+            <div class="row">
+                <div class="col-md-6 center">
+                    <!--Report Type-->
+                    <div class="form-group row">
+                        <label class="col-form-label col-sm-4">Report Type <span class="text-danger">*</span></label>
+                        <div class="col-sm-8">
+                            <ng-select formControlName="ReportId" [items]="reportType" bindLabel="TypeName" bindValue="ReportId" [ngClass]="{'is-invalid':(reportForm.controls.ReportId.invalid && (reportForm.controls.ReportId.touched || reportForm.controls.ReportId.dirty || isSubmit))}"
+                                placeholder="Select Report Type">
+                            </ng-select>
+                            <div class="text-danger" *ngIf="(reportForm.controls['ReportId'].invalid && (reportForm.controls['ReportId'].touched || reportForm.controls['ReportId'].dirty || isSubmit))">
+                                <i *ngIf="reportForm.controls['ReportId'].errors.required">Report type is required</i>
+                            </div>
+                        </div>
+                    </div>
+                    <div  *ngIf="![212].includes(formControl['ReportId'].value)"  class="form-group row">
+                        <label class="col-form-label col-sm-4">Employee Name</label>
+                        <div class="col-sm-8">
+                            <app-employee-select-list (onChange)="formControl['EmpCode'].setValue($event.empCode)"></app-employee-select-list>
+                            <div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                      <label class="col-form-label col-sm-4 ">Select Month</label>
+                      <div class="col-sm-8">
+                          <app-period-select-list (onChange)="onSelectPeriod($event)"></app-period-select-list>
+                      </div>
+                  </div>
+                    <div class="form-group row">
+                        <label class="col-form-label col-sm-4">Tax Year</label>
+                        <div class="col-sm-8">
+                            <app-tax-year-select-list [setTaxYearId]="formControl['TaxYearID'].value" (onChange)="formControl['TaxYearID'].setValue($event.id)"></app-tax-year-select-list>
+                        </div>
+                    </div>
+                    <div *ngIf="[95].includes(formControl['ReportId'].value)" class="form-group row">
+                        <label class="col-form-label col-sm-3">Signatory</label>
+                        <div class="col-sm-9">
+                            <app-signatory-select-list (onChange)="formControl['SignatoryL'].setValue($event.description)"></app-signatory-select-list>
+                        </div>
+                    </div>
+                    <div *ngIf="[98].includes(formControl['ReportId'].value)" class="form-group row">
+                        <label class="col-form-label col-sm-3">Start Period</label>
+                        <div class="col-sm-9">
+                            <app-period-select-list (onChange)="formControl['StrPeriod'].setValue($event.id)"></app-period-select-list>
+                        </div>
+                    </div>
+                    <div *ngIf="[98].includes(formControl['ReportId'].value)" class="form-group row">
+                        <label class="col-form-label col-sm-3">End Period</label>
+                        <div class="col-sm-9">
+                            <app-period-select-list (onChange)="formControl['EndPeriod'].setValue($event.id)"></app-period-select-list>
+                        </div>
+                    </div>
+                    <div *ngIf="[96,97,98,99].includes(formControl['ReportId'].value)" class="form-group row">
+                        <label class="col-form-label col-sm-3">Department</label>
+                        <div class="col-sm-9">
+                            <app-department-select-list (onChange)="formControl['DepartmentID'].setValue($event.id)"></app-department-select-list>
+                        </div>
+                    </div>
+                    <div *ngIf="[96,97,98,99].includes(formControl['ReportId'].value)" class="form-group row">
+                        <label class="col-form-label col-sm-3">Branch</label>
+                        <div class="col-sm-9">
+                            <app-branch-select-list (onChange)="onSelectBranch($event.id)"></app-branch-select-list>
+                        </div>
+                    </div>
+                    <div *ngIf="[96,97,98,99].includes(formControl['ReportId'].value)" class="form-group row">
+                        <label class="col-form-label col-sm-3">Project</label>
+                        <div class="col-sm-9">
+                            <app-project-select-list (onChange)="onSelectProject($event.id)"></app-project-select-list>
+                        </div>
+                    </div>
+                    <div class="form-group row mt-2">
+                        <div class="col-12">
+                            <ng-select class="pull-right mr-1" formControlName="ExportType" [items]="[{typeName:'pdf'},{typeName:'xls'}, {typeName:'xlsx'}]" bindLabel="typeName" bindValue="typeName"></ng-select>
+                            <button [ladda]="exporting" (click)="export()" type="submit" class="btn btn-info pull-right m2-1">
+                <b>Generate Report</b></button>
+                        </div>
+                    </div>
+                    <div *ngIf="exporting" class="row">
+                        <div class="m-auto">
+                            <img src="../../../../assets/img/loading_icon.gif" height="80" width="80"> Please wait...
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

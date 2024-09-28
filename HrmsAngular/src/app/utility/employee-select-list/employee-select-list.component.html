@@ -1,0 +1,17 @@
+<div class="input-group">
+    <ng-select #empCode="ngModel" [ngClass]="{'is-invalid': empCode.invalid && (empCode.touched || empCode.dirty)}" [(ngModel)]="setEmpCode" name="setEmpCode" (change)="onSelect($event)" [items]="employees" bindLabel="empCode" bindValue="empCode" placeholder="Select Employee"
+        [id]="'selectList'" [ngStyle]="{'width':fixedWidth}" [required]="isRequired">
+    </ng-select>
+    <div *ngIf="isSearchBtnHide==false" class="input-group-append">
+        <button [ladda]="isLoading" (click)="modalService.open(searchModal,{size:'lg'})" class="input-group-text btn btn-primary" type="button">
+        <span *ngIf="!isLoading" class="fas fa-search" style="cursor: pointer;"></span>
+      </button>
+    </div>
+    <div *ngIf="empCode.invalid && (empCode.touched || empCode.dirty)" class="text-danger">
+        <i *ngIf="empCode.errors.required">Employee Code is required</i>
+    </div>
+</div>
+
+<ng-template #searchModal>
+    <app-search-employee (selectEvent)="onSearchBtnClick($event)"></app-search-employee>
+</ng-template>

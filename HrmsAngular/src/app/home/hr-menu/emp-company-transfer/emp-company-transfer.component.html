@@ -1,0 +1,465 @@
+<div class="card section">
+    <h4 class="card-header text-center bg-light">
+        Employee Transfer Information
+    </h4>
+
+    <form [formGroup]="transferForm">
+        <div class="card-body">
+            <div class="row ">
+                <div class="col-sm-6">
+                    <div class="form-group row">
+                        <label class="col-form-label col-sm-4 "> Employee Id
+              <i class="text-danger">*</i>
+            </label>
+
+                        <div class="input-group col-sm-8">
+                            <app-employee-select-list [isRequired]="f['empCode'].invalid && (isSubmitted || f['empCode'].touched || f['empCode'].dirty)" (onChange)="getEmpInfo($event.empCode);getProInfoView($event.empCode);getEmploymentSalary($event.empCode)" [setEmpCode]="formVal.empCode">
+                            </app-employee-select-list>
+                            <div *ngIf="f['empCode'].invalid && (isSubmitted || f['empCode'].touched || f['empCode'].dirty)" class="text-danger">
+                                <i *ngIf="f['empCode'].errors['required']">Employee Code is required</i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-form-label col-sm-4 ">Type
+            </label>
+                        <div class="col-sm-8">
+                            <ng-select [items]="allTransferType" bindLabel="description" bindValue="id" formControlName="tpType" placeholder="Transfer Type">
+                            </ng-select>
+                            <div *ngIf="f['tpType'].invalid && (isSubmitted || f['tpType'].touched || f['tpType'].dirty)" class="text-danger">
+                                <i *ngIf="f['tpType'].errors['required']">Type is required</i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group row">
+                        <label class="col-form-label col-sm-4 ">Employee Name
+            </label>
+                        <div class="col-sm-8">
+                            <input formControlName="empName" [value]="empName" type="text" class="form-control" placeholder="Employee Name" readonly>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br />
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4"></div>
+                <div class="col-md-4">
+                    <h6>Before Transfer</h6>
+                </div>
+                <div class="col-md-4">
+                    <h6>After Transfer</h6>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-2">
+                    <label class="col-form-label">Company
+          </label>
+                </div>
+                <div class="col-md-5">
+                    <div class="row">
+                        <label for="" class="col-form-label col-md-3 ">From
+              <i class="text-danger">*</i>
+            </label>
+                        <div class="col-md-9">
+                            <ng-select [ngClass]="{'is-invalid': (isSubmitted || f['pasCompanyID'].touched || f['pasCompanyID'].dirty) && f['pasCompanyID'].invalid}" [items]="allCompany" bindLabel="companyName" bindValue="id" formControlName="pasCompanyID" placeholder="Past Company">
+                            </ng-select>
+                            <div *ngIf="f['pasCompanyID'].invalid && (isSubmitted || f['pasCompanyID'].touched || f['pasCompanyID'].dirty)" class="text-danger">
+                                <i *ngIf="f['pasCompanyID'].errors['required']">Past Company is required</i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-5">
+                    <div class="row">
+                        <label for="" class="col-form-label col-md-3 ">To
+              <i class="text-danger">*</i>
+            </label>
+                        <div class="col-md-9">
+                            <ng-select [ngClass]="{'is-invalid':(isSubmitted || f['preCompanyID'].touched || f['preCompanyID'].dirty)&& f['preCompanyID'].invalid}" [items]="allCompany" bindLabel="companyName" bindValue="id" formControlName="preCompanyID" placeholder="Present Company">
+                            </ng-select>
+                            <div *ngIf="f['preCompanyID'].invalid && (isSubmitted || f['preCompanyID'].touched || f['preCompanyID'].dirty)" class="text-danger">
+                                <i *ngIf="f['preCompanyID'].errors['required']">Present Company is required</i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-2">
+                    <label class="col-form-label">Salary Location
+          </label>
+                </div>
+                <div class="col-md-5">
+                    <div class="row">
+                        <label for="" class="col-form-label col-md-3 ">From
+              <i class="text-danger">*</i>
+            </label>
+                        <div class="col-md-9">
+                            <app-basic-entry-select-list [isRequired]="f['pasBranchID'].invalid && (isSubmitted || f['pasBranchID'].touched || f['pasBranchID'].dirty)" [itemId]="formVal.pasBranchID" (onChange)="f['pasBranchID'].setValue($event.id)" [tableName]="'Branch'" [modalName]="pasBranchID">
+                            </app-basic-entry-select-list>
+                            <ng-template #pasBranchID>
+                                <app-branch (getItems)="allSalaryLocation">
+                                </app-branch>
+                            </ng-template>
+                            <div *ngIf="f['pasBranchID'].invalid && (isSubmitted || f['pasBranchID'].touched || f['pasBranchID'].dirty)" class="text-danger">
+                                <i *ngIf="f['pasBranchID'].errors['required']">Past Location Is Required</i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-5">
+                    <div class="row">
+                        <label for="" class="col-form-label col-md-3 ">To
+              <i class="text-danger">*</i>
+            </label>
+                        <div class="col-md-9">
+                            <app-basic-entry-select-list [isRequired]="f['preBranchID'].invalid && (isSubmitted || f['preBranchID'].touched || f['preBranchID'].dirty)" [itemId]="formVal.preBranchID" (onChange)="f['preBranchID'].setValue($event.id)" [tableName]="'Branch'" [modalName]="preBranchID">
+                            </app-basic-entry-select-list>
+                            <ng-template #preBranchID>
+                                <app-branch (getItems)="allSalaryLocation">
+                                </app-branch>
+                            </ng-template>
+                            <div *ngIf="f['preBranchID'].invalid && (isSubmitted || f['preBranchID'].touched || f['preBranchID'].dirty)" class="text-danger">
+                                <i *ngIf="f['preBranchID'].errors['required']">Present Location Is Required</i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-2">
+                    <label class="col-form-label">Project Name
+          </label>
+                </div>
+                <div class="col-md-5">
+                    <div class="row">
+                        <label for="" class="col-form-label col-md-3 ">From
+              <i class="text-danger">*</i>
+            </label>
+                        <div class="col-md-9">
+                            <ng-select [ngClass]="{'is-invalid':(isSubmitted || f['pasProjectID'].touched || f['pasProjectID'].dirty)&& f['pasProjectID'].invalid}" [items]="allProjectName" bindLabel="description" bindValue="id" formControlName="pasProjectID" placeholder="Past Project">
+                            </ng-select>
+                            <div *ngIf="f['pasProjectID'].invalid && (isSubmitted || f['pasProjectID'].touched || f['pasProjectID'].dirty)" class="text-danger">
+                                <i *ngIf="f['pasProjectID'].errors['required']">Past Project Required</i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-5">
+                    <div class="row">
+                        <label for="" class="col-form-label col-md-3 ">To
+              <i class="text-danger">*</i>
+            </label>
+                        <div class="col-md-9">
+                            <ng-select [ngClass]="{'is-invalid':(isSubmitted || f['preProjectID'].touched || f['preProjectID'].dirty)&& f['preProjectID'].invalid}" [items]="allProjectName" bindLabel="description" bindValue="id" formControlName="preProjectID" placeholder="Present Project">
+                            </ng-select>
+                            <div *ngIf="f['preProjectID'].invalid && (isSubmitted || f['preProjectID'].touched || f['preProjectID'].dirty)" class="text-danger">
+                                <i *ngIf="f['preProjectID'].errors['required']">Present Project Required</i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-2">
+                    <label class="col-form-label ">Department
+          </label>
+                </div>
+                <div class="col-md-5">
+                    <div class="row">
+                        <label for="" class="col-form-label col-md-3 ">From
+              <i class="text-danger">*</i>
+            </label>
+                        <div class="col-md-9">
+                            <ng-select [ngClass]="{'is-invalid':(isSubmitted || f['pasDepartmentID'].touched || f['pasDepartmentID'].dirty)&& f['pasDepartmentID'].invalid}" [items]="allDepartment" bindLabel="description" bindValue="id" formControlName="pasDepartmentID" placeholder="Past Department">
+                            </ng-select>
+                            <div *ngIf="f['pasDepartmentID'].invalid && (isSubmitted || f['pasDepartmentID'].touched || f['pasDepartmentID'].dirty)" class="text-danger">
+                                <i *ngIf="f['pasDepartmentID'].errors['required']">Past Department Required</i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-5">
+                    <div class="row">
+                        <label for="" class="col-form-label col-md-3 ">To
+              <i class="text-danger">*</i>
+            </label>
+                        <div class="col-md-9">
+                            <ng-select [ngClass]="{'is-invalid':(isSubmitted || f['preDepartmentID'].touched || f['preDepartmentID'].dirty)&& f['preDepartmentID'].invalid}" [items]="allDepartment" bindLabel="description" bindValue="id" formControlName="preDepartmentID" placeholder="Present Department">
+                            </ng-select>
+                            <div *ngIf="f['preDepartmentID'].invalid && (isSubmitted || f['preDepartmentID'].touched || f['preDepartmentID'].dirty)" class="text-danger">
+                                <i *ngIf="f['preDepartmentID'].errors['required']">Present Department Required</i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-2">
+                    <label class="col-form-label">Unit/Area
+          </label>
+                </div>
+                <div class="col-md-5">
+                    <div class="row">
+                        <label for="" class="col-form-label col-md-3 ">From
+              <i class="text-danger">*</i>
+            </label>
+                        <div class="col-md-9">
+                            <app-basic-entry-select-list [isRequired]="f['pasUnit'].invalid && (isSubmitted || f['pasUnit'].touched || f['pasUnit'].dirty)" [itemId]="formVal.pasUnit" (onChange)="f['pasUnit'].setValue($event.id)" [tableName]="'AreaorUnit'" [modalName]="pasUnit">
+                            </app-basic-entry-select-list>
+                            <ng-template #pasUnit>
+                                <app-unit (getItems)="allUnit=$event">
+                                </app-unit>
+                            </ng-template>
+                            <div *ngIf="f['pasUnit'].invalid && (isSubmitted || f['pasUnit'].touched || f['pasUnit'].dirty)" class="text-danger">
+                                <i *ngIf="f['pasUnit'].errors['required']">Past Unit Required</i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-5">
+                    <div class="row">
+                        <label for="" class="col-form-label col-md-3 ">To
+              <i class="text-danger">*</i>
+            </label>
+                        <div class="col-md-9">
+                            <app-basic-entry-select-list [isRequired]="f['preUnit'].invalid && (isSubmitted || f['preUnit'].touched || f['preUnit'].dirty)" [itemId]="formVal.preUnit" (onChange)="f['preUnit'].setValue($event.id)" [tableName]="'AreaorUnit'" [modalName]="preUnit">
+                            </app-basic-entry-select-list>
+                            <ng-template #preUnit>
+                                <app-unit (getItems)="allUnit=$event">
+                                </app-unit>
+                            </ng-template>
+                            <div *ngIf="f['preUnit'].invalid && (isSubmitted || f['preUnit'].touched || f['preUnit'].dirty)" class="text-danger">
+                                <i *ngIf="f['preUnit'].errors['required']">Present Unit Required</i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-2">
+                    <label class="col-form-label">Work Station
+          </label>
+                </div>
+                <div class="col-md-5">
+                    <div class="row">
+                        <label for="" class="col-form-label col-md-3 ">From
+              <i class="text-danger">*</i>
+            </label>
+                        <div class="col-md-9">
+                            <app-basic-entry-select-list [isRequired]="f['pasLocation'].invalid && (isSubmitted || f['pasLocation'].touched || f['pasLocation'].dirty)" [itemId]="formVal.pasLocation" (onChange)="f['pasLocation'].setValue($event.id)" [tableName]="'Location'" [modalName]="pasLocation">
+                            </app-basic-entry-select-list>
+                            <ng-template #pasLocation>
+                                <app-location (getItems)="allWorkStation=$event">
+                                </app-location>
+                            </ng-template>
+                            <div *ngIf="f['pasLocation'].invalid && (isSubmitted || f['pasLocation'].touched || f['pasLocation'].dirty)" class="text-danger">
+                                <i *ngIf="f['pasLocation'].errors['required']">Past Branch Required</i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-5">
+                    <div class="row">
+                        <label for="" class="col-form-label col-md-3 ">To
+              <i class="text-danger">*</i>
+            </label>
+                        <div class="col-md-9">
+                            <app-basic-entry-select-list [isRequired]="f['preLocation'].invalid && (isSubmitted || f['preLocation'].touched || f['preLocation'].dirty)" [itemId]="formVal.preLocation" (onChange)="f['preLocation'].setValue($event.id)" [tableName]="'Location'" [modalName]="preLocation">
+                            </app-basic-entry-select-list>
+                            <ng-template #preLocation>
+                                <app-location (getItems)="allWorkStation=$event">
+                                </app-location>
+                            </ng-template>
+                            <div *ngIf="f['preLocation'].invalid && (isSubmitted || f['preLocation'].touched || f['preLocation'].dirty)" class="text-danger">
+                                <i *ngIf="f['preLocation'].errors['required']">Present Branch Required</i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-2">
+                    <label class="col-form-label">Designation
+          </label>
+                </div>
+                <div class="col-md-5">
+                    <div class="row">
+                        <label for="" class="col-form-label col-md-3 ">From
+              <i class="text-danger">*</i>
+            </label>
+                        <div class="col-md-9">
+                            <ng-select [ngClass]="{'is-invalid':(isSubmitted || f['pasDesignationID'].touched || f['pasDesignationID'].dirty)&& f['pasDesignationID'].invalid}" [items]="allDesignation" bindLabel="description" bindValue="id" formControlName="pasDesignationID" placeholder="Past Designation">
+                            </ng-select>
+                            <div *ngIf="f['pasDesignationID'].invalid && (isSubmitted || f['pasDesignationID'].touched || f['pasDesignationID'].dirty)" class="text-danger">
+                                <i *ngIf="f['pasDesignationID'].errors['required']">Past Designation Required</i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-5">
+                    <div class="row">
+                        <label for="" class="col-form-label col-md-3 ">To
+              <i class="text-danger">*</i>
+            </label>
+                        <div class="col-md-9">
+                            <ng-select [ngClass]="{'is-invalid':(isSubmitted || f['preDesignationID'].touched || f['preDesignationID'].dirty)&& f['preDesignationID'].invalid}" [items]="allDesignation" bindLabel="description" bindValue="id" formControlName="preDesignationID" placeholder="Present Designation">
+                            </ng-select>
+                            <div *ngIf="f['preDesignationID'].invalid && (isSubmitted || f['preDesignationID'].touched || f['preDesignationID'].dirty)" class="text-danger">
+                                <i *ngIf="f['preDesignationID'].errors['required']">Present Designation Required</i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-2">
+                    <label class=" col-form-label">Employee Type
+          </label>
+                </div>
+                <div class="col-md-5">
+                    <div class="row">
+                        <label for="" class="col-form-label col-md-3 ">From
+              <i class="text-danger">*</i>
+            </label>
+                        <div class="col-md-9">
+                            <ng-select [ngClass]="{'is-invalid':(isSubmitted || f['pasGrade'].touched || f['pasGrade'].dirty)&& f['pasGrade'].invalid}" [items]="allEmployeeType" bindLabel="gradeName" bindValue="gradeID" formControlName="pasGrade" placeholder="Past Employee Type">
+                            </ng-select>
+                            <div *ngIf="f['pasGrade'].invalid && (isSubmitted || f['pasGrade'].touched || f['pasGrade'].dirty)" class="text-danger">
+                                <i *ngIf="f['pasGrade'].errors['required']">Past Grade Required</i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-5">
+                    <div class="row">
+                        <label for="" class="col-form-label col-md-3 ">To
+              <i class="text-danger">*</i>
+            </label>
+                        <div class="col-md-9">
+                            <ng-select [ngClass]="{'is-invalid':(isSubmitted || f['preGrade'].touched || f['preGrade'].dirty)&& f['preGrade'].invalid}" [items]="allEmployeeType" bindLabel="gradeName" bindValue="gradeID" formControlName="preGrade" placeholder="present Employee Type">
+                            </ng-select>
+                            <div *ngIf="f['preGrade'].invalid && (isSubmitted || f['preGrade'].touched || f['preGrade'].dirty)" class="text-danger">
+                                <i *ngIf="f['preGrade'].errors['required']">Present Grade Required</i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-2">
+                    <label class="col-form-label ">Salary Grade
+          </label>
+                </div>
+                <div class="col-md-5">
+                    <div class="row">
+                        <label for="" class="col-form-label col-md-3 ">From
+              <i class="text-danger">*</i>
+            </label>
+                        <div class="col-md-9">
+                            <ng-select [ngClass]="{'is-invalid':(isSubmitted || f['pasPayscaleGrade'].touched || f['pasPayscaleGrade'].dirty)&& f['pasPayscaleGrade'].invalid}" [items]="allSalaryGrade" bindLabel="payScale" bindValue="id" formControlName="pasPayscaleGrade" placeholder="Past Salary Grade">
+                            </ng-select>
+                            <div *ngIf="f['pasPayscaleGrade'].invalid && (isSubmitted || f['pasPayscaleGrade'].touched || f['pasPayscaleGrade'].dirty)" class="text-danger">
+                                <i *ngIf="f['pasPayscaleGrade'].errors['required']">Past Salary Required</i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-5">
+                    <div class="row">
+                        <label for="" class="col-form-label col-md-3 ">To
+              <i class="text-danger">*</i>
+            </label>
+                        <div class="col-md-9">
+                            <ng-select [ngClass]="{'is-invalid':(isSubmitted || f['prePayscaleGrade'].touched || f['prePayscaleGrade'].dirty)&& f['prePayscaleGrade'].invalid}" [items]="allSalaryGrade" bindLabel="payScale" bindValue="id" formControlName="prePayscaleGrade" placeholder="Present Salary Grade">
+                            </ng-select>
+                            <div *ngIf="f['prePayscaleGrade'].invalid && (isSubmitted || f['prePayscaleGrade'].touched || f['prePayscaleGrade'].dirty)" class="text-danger">
+                                <i *ngIf="f['prePayscaleGrade'].errors['required']">Present Salary Required</i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br />
+        <div class="container">
+            <div class="row ">
+                <div class="col-sm-6">
+                    <div class="form-group row">
+                        <label class="col-form-label col-sm-4 ">Transfer Date
+            </label>
+
+                        <div class="input-group col-sm-8">
+                            <input readonly class="form-control" formControlName="transferDateNgb" placeholder="dd-mm-yyyy" ngbDatepicker #d1="ngbDatepicker">
+                            <div class="input-group-append">
+                                <button class="input-group-text" (click)="d1.toggle()" type="button">
+                  <span class="ion ion-md-calendar" style="cursor: pointer;"></span>
+                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-form-label col-sm-4 ">Job Responsibilities
+            </label>
+                        <div class="col-sm-8">
+                            <input type="text" formControlName="jobresponsibilities" class="form-control" placeholder="Job Responsibilities">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-form-label col-sm-4 ">Note
+            </label>
+                        <div class="col-sm-8">
+                            <input formControlName="note" type="text" class="form-control" placeholder="Note">
+                        </div>
+                    </div>
+        </div>
+   </div>
+            <div class="row">
+                <div class="demo-inline-spacing mt-3" style="margin:0 auto">
+                    <button (click)="reset()" type="clear" class="btn btn-info">
+                    <span class="ion ion-ios-refresh"></span> Reset
+                  </button>
+                    <button (click)="saveTransferInfo()" type="" class="btn btn-success">
+            Transfer
+          </button>
+                </div>
+            </div>
+            <div class="row">
+
+                <table class="table table-striped table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Serial</th>
+                            <th>From Designation</th>
+                            <th>To Designation</th>
+                            <th>From Grade </th>
+                            <th>To grade</th>
+                            <th>Date</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let item of alldata; let i=index">
+                            <td>{{i+1}}</td>
+                            <td>{{item.pasDesignation}}</td>
+                            <td>{{item.preDesignation}}</td>
+                            <td>{{item.pasPreGrade}}</td>
+                            <td>{{item.preGrade}}</td>
+                            <td>{{item.transferDate | date:'dd MMM yyyy'}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </form>
+</div>
+<!-- Employee Search Modal -->
+<ng-template #searchModal>
+    <app-search-employee (selectEvent)="getCompanyTransfer($event)"></app-search-employee>
+</ng-template>

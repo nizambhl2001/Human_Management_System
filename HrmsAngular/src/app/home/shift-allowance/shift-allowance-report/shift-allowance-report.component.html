@@ -1,0 +1,120 @@
+<div class="card">
+    <h4 class="card-header text-center bg-light">
+        {{title}}
+    </h4>
+    <div class="card-body">
+        <form [formGroup]="_shiftReportForm">
+            <div class="row">
+                <div class="col-md-6 center">
+                    <!--Report Type-->
+                    <div class="form-group row">
+                        <label class="col-form-label col-sm-3">Report Type <span class="text-danger">*</span></label>
+                        <div class="col-sm-9">
+                            <ng-select formControlName="ReportId" [items]="_reportTypeList" bindLabel="TypeName" bindValue="ReportId" [ngClass]="{'is-invalid':(_shiftReportForm.controls.ReportId.invalid && (_shiftReportForm.controls.ReportId.touched || _shiftReportForm.controls.ReportId.dirty || _isSubmit))}"
+                                placeholder="Select Report Type">
+                            </ng-select>
+                            <div class="text-danger" *ngIf="(_shiftReportForm.controls['ReportId'].invalid && (_shiftReportForm.controls['ReportId'].touched || _shiftReportForm.controls['ReportId'].dirty || _isSubmit))">
+                                <i *ngIf="_shiftReportForm.controls['ReportId'].errors.required">Report type is required</i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-form-label col-sm-3 ">Employee Code</label>
+                        <div class="col-sm-9">
+                            <div class="input-group">
+                                <ng-select (change)="onEmpSelect(formVal.EmpCode)" formControlName="EmpCode" [items]="_employees" bindLabel="empCode" style="width: 200px;" bindValue="empCode" placeholder="Select Employee">
+                                </ng-select>
+                                <div class="input-group-append">
+                                    <button (click)="modalService.open(searchModal)" class="input-group-text btn btn-primary" type="button">
+                    <span class="fas fa-search" style="cursor: pointer;"></span>
+                  </button>
+                                </div>
+                            </div>
+                            <div *ngIf="formVal.EmpCode">
+                                Name: <span class="font-weight-bold">{{formVal.EmpName}}</span> <br> Designation: <span class="font-weight-bold">{{formVal.Designation}}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div *ngIf="[78,79].includes(formVal.ReportId)" class="form-group row">
+                        <label class="col-form-label col-sm-3 ">From Date</label>
+                        <div class="col-sm-9">
+                            <div class="input-group">
+                                <input formControlName="StrDate" class="form-control" placeholder="dd-mm-yyyy" ngbDatepicker #d1="ngbDatepicker" readonly>
+                                <div class="input-group-append">
+                                    <button class="input-group-text" (click)="d1.toggle();" type="button">
+                    <span class="ion ion-md-calendar" style="cursor: pointer;"></span>
+                  </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div *ngIf="[78,79].includes(formVal.ReportId)" class="form-group row">
+                        <label class="col-form-label col-sm-3 ">To Date</label>
+                        <div class="col-sm-9">
+                            <div class="input-group">
+                                <input formControlName="EndDate" class="form-control" placeholder="dd-mm-yyyy" ngbDatepicker #d2="ngbDatepicker" readonly>
+                                <div class="input-group-append">
+                                    <button class="input-group-text" (click)="d2.toggle();" type="button">
+                    <span class="ion ion-md-calendar" style="cursor: pointer;"></span>
+                  </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div *ngIf="[80].includes(formVal.ReportId)" class="form-group row">
+                        <label class="col-form-label col-sm-3">Period</label>
+                        <div class="col-sm-9">
+                            <ng-select formControlName="PeriodID" [items]="_salaryPeriods" bindLabel="periodName" bindValue="id" placeholder="Select Period">
+                            </ng-select>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-form-label col-sm-3">Bonus Name</label>
+                        <div class="col-sm-9">
+                            <ng-select formControlName="BonusType" [items]="_bonusType" bindLabel="paymentType" bindValue="id" placeholder="Select Bonus">
+                            </ng-select>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-form-label col-sm-3">Department</label>
+                        <div class="col-sm-9">
+                            <ng-select formControlName="DepartmentID" [items]="_departments" bindLabel="description" bindValue="id" placeholder="Select Department">
+                            </ng-select>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-form-label col-sm-3">Branch</label>
+                        <div class="col-sm-9">
+                            <ng-select formControlName="BranchID" [items]="_branches" bindLabel="description" bindValue="id" placeholder="Select Branch">
+                            </ng-select>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-form-label col-sm-3">Project</label>
+                        <div class="col-sm-9">
+                            <ng-select formControlName="ProjectID" [items]="_projects" bindLabel="description" bindValue="id" placeholder="Select Project">
+                            </ng-select>
+                        </div>
+                    </div>
+                    <!--Button-->
+                    <div class="form-group row mt-2">
+                        <div class="col-12">
+                            <ng-select class="pull-right mr-1" formControlName="ExportType" [items]="[{typeName:'pdf'},{typeName:'xls'}, {typeName:'xlsx'}]" bindLabel="typeName" bindValue="typeName"></ng-select>
+                            <button [ladda]="exporting" (click)="export()" type="submit" class="btn btn-info pull-right m2-1">
+                <b>Generate Report</b></button>
+                        </div>
+                    </div>
+                    <div *ngIf="exporting" class="row">
+                        <div class="m-auto">
+                            <img src="../../../../assets/img/loading_icon.gif" height="80" width="80"> Please wait...
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<ng-template #searchModal>
+    <app-search-employee (selectEvent)="onEmpSelect($event)"> </app-search-employee>
+</ng-template>

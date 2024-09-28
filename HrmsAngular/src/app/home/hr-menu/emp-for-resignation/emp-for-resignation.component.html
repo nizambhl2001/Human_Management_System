@@ -1,0 +1,30 @@
+<div class="card section">
+    <h4 class="card-header text-center bg-light">
+        Employee For Resignation
+    </h4>
+    <div class="container">
+        <br />
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>SL </th>
+                    <th>EmpCode</th>
+                    <th>Employee Name</th>
+                    <th>Department </th>
+                    <th>Designation</th>
+                    <th>Letter</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let letter of allResignationLetter; let i=index">
+                    <th>{{i+1}}</th>
+                    <td>{{letter.empCode}}</td>
+                    <td>{{letter.empName}}</td>
+                    <td>{{letter.department}}</td>
+                    <td>{{letter.designation}}</td>
+                    <td>{{letter.reason}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

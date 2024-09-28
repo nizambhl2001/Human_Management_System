@@ -1,0 +1,113 @@
+<div class="card">
+  <h4 class="card-header text-center bg-light">Block Salary Process</h4>
+  <div class="card-body">
+    <form [formGroup]="blockSalaryProcessForm">
+      <div class="row pt-3">
+        <!--Left column-->
+        <div class="col-6">
+          <!--Period-->
+          <div class="form-group row">
+            <label class="col-form-label col-sm-4 ">Period</label>
+            <div class="col-sm-8">
+              <app-period-select-list (onChange)="onSelectPeriod($event);"></app-period-select-list>
+              <div *ngIf="f['periodID'].invalid && (isSubmitted || f['periodID'].touched || f['periodID'].dirty)"
+                class="text-danger">
+                <i *ngIf="f['periodID'].errors.required">Please Select Period</i>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!--Right column-->
+        <div class="col-6">
+          <!--Payment Type-->
+          <div class="form-group row">
+            <label class="col-form-label col-sm-4 ">Payment Type</label>
+            <div class="col-sm-8">
+              <app-bonus-select-list (onChange)="f['bonustype'].setValue($event.id);"></app-bonus-select-list>
+              <div *ngIf="f['bonustype'].invalid && (isSubmitted || f['bonustype'].touched || f['bonustype'].dirty)"
+                class="text-danger">
+                <i *ngIf="f['bonustype'].errors.required">Please Select PaymentType</i>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </form>
+    <div class="form-group row">
+      <div class="m-auto">
+        <button (click)="getblockSalary()" type="submit" class="btn btn-success">Show Data</button>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-header">
+        <div class="row">
+          <div class="col">
+            Per page: &nbsp;
+            <select [(ngModel)]="perPage" (change)="update()"
+              class="custom-select custom-select-md d-inline-block w-auto">
+              <option *ngFor="let limit of [5,10, 20, 30, 40, 50]">{{limit}}</option>
+            </select>
+          </div>
+          <div class="col">
+            <input type="text" [(ngModel)]="filterVal" (input)="currentPage = 1; update()"
+              class="form-control form-control-md d-inline-block w-auto float-sm-right" placeholder="Search...">
+          </div>
+        </div>
+      </div>
+      <div class="card-body p-0">
+        <div class="table-responsive mb-4">
+          <table class="table table-hover table-striped mb-0">
+            <thead>
+              <tr>
+                <th>Code</th>
+                <th> Employee Name</th>
+                <th>Designation</th>
+                <th>Department</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngIf="tempItems.length==0 && !isShowData">
+                <td colspan="5" class="font-italic text-center">No item available</td>
+              </tr>
+              <tr *ngIf="isShowData">
+                <td colspan="5">
+                  <div class="row">
+                    <img src="../../../../assets/img/loading_icon.gif" width="50" height="50" class="m-auto">
+                  </div>
+                </td>
+              </tr>
+              <tr *ngFor="let item of tempItems; let i=index">
+                <td>{{item.empCode}}</td>
+                <td>{{item.empName}}</td>
+                <td>{{item.designation}}</td>
+                <td>{{item.department}}</td>
+                <td><span (click)="removeBlockSalary(item.empCode)" class="btn btn-sm btn-danger">X</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="row px-3">
+          <div class="col-sm text-sm-left text-center pt-3">
+            <span class="text-muted" *ngIf="totalItems">Page {{ currentPage }} of {{ totalPages }}</span>
+          </div>
+          <div class="col-sm pt-3">
+            <ngb-pagination [collectionSize]="totalItems" [pageSize]="perPage" [(page)]="currentPage"
+              (pageChange)="update()" size="sm" class="d-flex justify-content-center justify-content-sm-end m-0">
+            </ngb-pagination>
+          </div>
+        </div>
+      </div>
+      <div class="card-footer bg-card-footer py-1">
+        <div class="row">
+          <div class="m-auto">
+            <button (click)="Reset()" class="btn btn-info">
+              <span class="far fa-reset"></span> Reset</button>
+            <button (click)="processEmpSalaryBlock()" class="btn btn-success">Process</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

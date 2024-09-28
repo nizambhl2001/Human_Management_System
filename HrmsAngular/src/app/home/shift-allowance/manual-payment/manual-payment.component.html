@@ -1,0 +1,117 @@
+<div class="card">
+    <h4 class="card-header text-center bg-light"> {{title}}</h4>
+    <div class="card-body">
+        <form [formGroup]="shiftManualAllowanceForm">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group row">
+                        <label for="type" class="col-md-3">Select Type<i class="text-danger">*</i></label>
+                        <div class="col-md-6">
+                            <ng-select [ngClass]="{'is-invalid':(f.bonusType.touched ||f.bonusType.dirty || _isSubmitted) && f.bonusType.invalid}" formControlName="bonusType" [items]="bonusTypesModel" bindLabel="paymentType" bindValue="id" placeholder="Select Type"></ng-select>
+                            <div *ngIf="f.bonusType.invalid && (f.bonusType.touched ||f.bonusType.dirty || _isSubmitted)">
+                                <i *ngIf="f.bonusType.errors.required" class="text-danger">Bonus Type is required</i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group row">
+                        <label class="form-label col-md-3" for="dateNgb">Payment Date<i class="text-danger">*</i></label>
+                        <div class="input-group col-md-6">
+                            <app-date-control [ngClass]="{'is-invalid':(_isSubmitted || f.dateNgb.touched || f.dateNgb.dirty)&& f.dateNgb.invalid}" (getLocalDate)="f['date'].setValue($event)" (getNgbDate)="f['dateNgb'].setValue($event)" [setNgbDate]="f['dateNgb'].value"></app-date-control>
+
+                            <div *ngIf="f.dateNgb.invalid && (f.dateNgb.touched ||f.dateNgb.dirty || _isSubmitted)">
+                                <i *ngIf="f.dateNgb.errors.required" class="text-danger">Payment Date is required</i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group row">
+                        <label for="month" class="col-md-3">Payment Month<i class="text-danger">*</i></label>
+                        <div class="col-md-6">
+                            <ng-select [ngClass]="{'is-invalid':(f.periodID.touched ||f.periodID.dirty || _isSubmitted) && f.periodID.invalid}" formControlName="periodID" [items]="salaryPeriod" bindLabel="periodName" bindValue="id" placeholder="Select The Payment Month"></ng-select>
+                            <div *ngIf="f.periodID.invalid && (f.periodID.touched ||f.periodID.dirty || _isSubmitted)">
+                                <i *ngIf="f.periodID.errors.required" class="text-danger">Payment Month is required</i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group row">
+                        <label for="salaryHead" class="col-md-3">Salary Head<i class="text-danger">*</i></label>
+                        <div class="col-md-6">
+                            <ng-select [ngClass]="{'is-invalid':(f.salaryHeadID.touched ||f.salaryHeadID.dirty || _isSubmitted) && f.salaryHeadID.invalid}" formControlName="salaryHeadID" [items]="salaryHeadModel" bindLabel="accountName" bindValue="id" placeholder="Select Salary Head "></ng-select>
+                            <div *ngIf="f.salaryHeadID.invalid && (f.salaryHeadID.touched ||f.salaryHeadID.dirty || _isSubmitted)">
+                                <i *ngIf="f.salaryHeadID.errors.required" class="text-danger">Salary Head is required</i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+        <div style="border: 1px solid lightgray;">
+            <div class="card-body">
+                <form autocomplete="off">
+                    <div class="form-group">
+                        <table class="table table-hover table-bordered table-striped mb-0">
+                            <thead>
+                                <tr>
+                                    <th>#SN</th>
+                                    <th>Code</th>
+                                    <th>Employee Name</th>
+                                    <th>Designation</th>
+                                    <th>Department</th>
+                                    <th>Shift Amount</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngIf="_shiftManualAllowance.controls.length==0">
+                                    <td colspan="11" class="font-italic text-center">No Item available</td>
+                                </tr>
+                                <tr *ngFor="let detailsForm of _shiftManualAllowance.controls ; let i = index" [formGroup]="detailsForm">
+                                    <td class="text-center">{{i+1}}</td>
+                                    <td class="custom-col-md">
+                                        <app-employee-select-list [ngClass]="{'is-invalid':(_shiftManualAllowance.controls[i].controls.empCode.touched || _shiftManualAllowance.controls[i].controls.empCode.dirty || _isSubmitted) &&  _shiftManualAllowance.controls[i].controls.empCode.invalid}"
+                                            [isSearchBtnHide]="true" [fixedWidth]="'150px'" (onChange)="getEmpInfoInRow($event.empCode,i)" [setEmpCode]="detailsForm.value.empCode">
+                                        </app-employee-select-list>
+                                    </td>
+                                    <td class="custom-col-lg">
+                                        <input formControlName="empName" type="text" class="form-control-plaintext">
+                                    </td>
+                                    <td class="custom-col-lg">
+                                        <input formControlName="designation" type="text" class="form-control-plaintext" readonly>
+                                    </td>
+                                    <td class="custom-col-lg">
+                                        <input formControlName="department" type="text" class="form-control-plaintext" readonly>
+                                    </td>
+                                    <td><input formControlName="amount" [ngClass]="{'is-invalid':(_shiftManualAllowance.controls[i].controls.amount.touched || _shiftManualAllowance.controls[i].controls.amount.dirty || _isSubmitted) &&  _shiftManualAllowance.controls[i].controls.amount.invalid}"
+                                            type="number" class="form-control" /></td>
+                                    <td class="text-center demo-inline-spacing" colspan="2">
+                                        <h4 *ngIf="_shiftManualAllowance.length==(i+1)" class="d-inline"><span (click)="addRow()" class="fa fa-plus text-success"></span></h4>
+                                        <h4 *ngIf="_shiftManualAllowance.length!=1" class="d-inline"><span (click)="removeRow(i)" class="fa fa-window-close text-danger"></span></h4>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <!-- <p>Total Employee (s) : 0</p> -->
+            </div>
+            <div class="demo-inline-spacing col-md-6">
+                <button (click)="onSubmit()" class="btn btn-success">Save</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- <ng-template #searchModal>
+  <app-search-employee (selectEvent)="addNewEmpRow($event)"></app-search-employee>
+</ng-template> -->

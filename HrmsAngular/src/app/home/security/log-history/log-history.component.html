@@ -1,0 +1,47 @@
+<div class="card">
+    <h4 class="card-header text-center bg-light">{{title}}</h4>
+    <form [formGroup]="logHistoryForm">
+        <div class="row mt-3">
+            <div class="col-md-6 center">
+                <div class="form-group row">
+                    <label for="type" class="col-md-3">History Type</label>
+                    <div class="col-md-9">
+                        <ng-select formControlName="historyType" [items]="[{id:1, typeName:'All User'}, {id:2, typeName:'Individual'}]" bindLabel="typeName" bindValue="id" placeholder="Select Type">
+                        </ng-select>
+                    </div>
+                </div>
+                <div *ngIf="f['historyType'].value==2" class="form-group row">
+                    <label for="type" class="col-md-3">User</label>
+                    <div class="col-md-9">
+                        <ng-select formControlName="userID" [items]="userList" bindLabel="userName" bindValue="id" placeholder="Select Type">
+                        </ng-select>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6 center">
+                <button [ladda]="isLoading" (click)="getHistory()" class=" btn btn-info pull-right">View History</button>
+            </div>
+        </div>
+    </form>
+    <table class="table table-hover table-striped table-bordered mb-2 center" style="width: 700px;">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Login Time</th>
+                <th>Logout Time</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngIf="userLogHistoryItem.length==0">
+                <td colspan="3" class="font-italic text-center">No Item available</td>
+            </tr>
+            <tr *ngFor="let log of userLogHistoryItem">
+                <td>{{log.userName}}</td>
+                <td>{{log.loginTime}}</td>
+                <td>{{log.logoutTime}}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>

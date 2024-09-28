@@ -1,0 +1,132 @@
+<div class="card-body">
+    <div class="card ">
+        <h4 class="card-header text-center bg-light">
+            Award
+        </h4>
+        <div class="card-body">
+            <form [formGroup]="empAwardForm">
+                <div class="form-group row">
+                    <label class="col-form-label col-sm-4 ">Employee Id
+          </label>
+                    <div class="col-sm-6">
+                        <input formControlName="empCode" name="empCode" type="text" class="form-control" value="{{empCode}}" placeholder="ID" readonly>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-form-label col-sm-4 ">Award Title
+            <!-- <i class="text-danger">*</i> -->
+          </label>
+                    <div class="col-sm-6">
+                        <input [ngClass]="{'is-invalid': (isSubmitted || f['awardTitle'].touched || f['awardTitle'].dirty) && f['awardTitle'].invalid}" formControlName="awardTitle" type="text" class="form-control" placeholder="Award Title">
+                        <div *ngIf="(isSubmitted || f['awardTitle'].touched || f['awardTitle'].dirty) && f['awardTitle'].invalid" class="text-danger">
+                            <i *ngIf="f['awardTitle'].errors.required">Award Title is required</i>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-form-label col-sm-4 ">Institute
+            <!-- <i class="text-danger">*</i> -->
+          </label>
+                    <div class="col-sm-6">
+                        <input [ngClass]="{'is-invalid': (isSubmitted || f['institute'].touched || f['institute'].dirty) && f['institute'].invalid}" formControlName="institute" type="text" class="form-control" placeholder="Institute">
+                        <div *ngIf="(isSubmitted || f['institute'].touched || f['institute'].dirty) && f['institute'].invalid" class="text-danger">
+                            <i *ngIf="f['institute'].errors.required">Institute is required</i>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-form-label col-sm-4 ">location
+            <!-- <i class="text-danger">*</i> -->
+          </label>
+                    <div class="col-sm-6">
+                        <input formControlName="location" type="text" class="form-control" placeholder="location">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-form-label col-sm-4 ">Country</label>
+                    <div class="col-sm-6">
+                        <app-basic-entry-select-list [ngClass]="{'is-invalid': (isSubmitted || f['countryID'].touched || f['countryID'].dirty) && f['countryID'].invalid}" [itemId]="formVal.countryID" (onChange)="f['countryID'].patchValue($event.id)" [allItem]="allCountry" [modalName]="CountryModel"
+                            [tableName]="'Country'">
+                        </app-basic-entry-select-list>
+                        <ng-template #CountryModel>
+                            <app-country (getItems)="allCountry = $event"></app-country>
+                        </ng-template>
+                        <div *ngIf="(isSubmitted || f['countryID'].touched || f['countryID'].dirty) && f['countryID'].invalid" class="text-danger">
+                            <i *ngIf="f['countryID'].errors.required">Country is required</i>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-form-label col-sm-4 ">Award Date
+            <!-- <i class="text-danger">*</i> -->
+          </label>
+
+                    <div class="input-group col-sm-6">
+                        <app-date-control [ngClass]="{'is-invalid': (isSubmitted || f['awardDateNgb'].touched || f['awardDateNgb'].dirty) && f['awardDateNgb'].invalid}" [setNgbDate]="f['awardDateNgb'].value" (getNgbDate)="f['awardDateNgb'].setValue($event)" (getLocalDate)="f['awardDate'].setValue($event)"></app-date-control>
+                        <div *ngIf="(isSubmitted || f['awardDateNgb'].touched || f['awardDateNgb'].dirty) && f['awardDateNgb'].invalid" class="text-danger">
+                            <i *ngIf="f['awardDateNgb'].errors.required"> Award Date is required</i>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-form-label col-sm-4 ">Description
+          </label>
+                    <div class="col-sm-6">
+                        <textarea formControlName="description" type="text" class="form-control" placeholder="Description"></textarea>
+                    </div>
+                </div>
+            </form>
+
+            <div class=" row">
+
+                <div class="demo-inline-spacing mt-3" style="margin:0 auto">
+                    <button (click)="reset()" type="clear" class="btn btn-info">
+              <span class="ion ion-ios-refresh"></span> Reset
+            </button>
+                    <button (click)="onSubmit()" class="btn btn-success">
+               {{btnStatus}}
+            </button>
+                </div>
+            </div>
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Award Title</th>
+                        <th>Institute name</th>
+                        <th>Description</th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of empAwarModel;let i=index">
+                        <th>{{i+1}}</th>
+                        <td>{{item.awardTitle}}</td>
+                        <td>{{item.institute}}</td>
+                        <td>{{item.description}}</td>
+                        <td>
+                            <button (click)="getById(item.id)" class="btn btn-primary"><span class="fas fa-edit btn-sm"></span></button>
+                            <button (click)="delete(item.id,deleteModal)" class="btn btn-danger"><span class="fas fa-trash btn-sm"></span></button>
+                        </td>
+                        <td></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+<ng-template #deleteModal>
+    <div class="modal-header bg-warning">
+        <h4>Confirmation</h4>
+    </div>
+    <div class="modal-body">
+        <p class="text-danger">Are you sure want to remove this member?</p>
+    </div>
+    <div class="modal-footer">
+        <button (click)="cancel()" class="btn btn-secondary">Cancel</button>
+        <button (click)="confirmRemoveAwar()" class="btn btn-danger">Confirm</button>
+    </div>
+</ng-template>

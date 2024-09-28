@@ -1,0 +1,61 @@
+<div class="card">
+    <h4 class="card-header text-center bg-light">
+        GL Cost Head
+    </h4>
+    <div class="card-body">
+        <div class="col-md-7 center">
+            <form [formGroup]="costheadForm">
+                <!-- Description-->
+                <div class="form-group row">
+                    <label class="col-form-label col-sm-3 ">Description
+            <i class="text-danger">*</i>
+          </label>
+                    <div class="col-sm-9">
+                        <input [ngClass]="{'is-invalid':( f.costHead.touched || f.costHead.dirty || isbtnSaveClick) && f.costHead.invalid}" formControlName="costHead" type="text" id="costHead" name="costHead" class="form-control" placeholder="GL Description">
+                        <div *ngIf="( f.costHead.touched || f.costHead.dirty || isbtnSaveClick) && f.costHead.invalid" class="text-danger">
+                            <i *ngIf="f.costHead.errors.required" class="text-danger">Description is required</i>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!--Button-->
+                <div class="form-group row">
+                    <div class="demo-inline-spacing mt-3 center">
+                        <button (click)="reset()" type="clear" class="btn btn-info">
+              <span class="ion ion-ios-refresh"></span> Reset</button>
+                        <button (click)="saveOrUpdateCostHead()" type="submit" class="btn btn-success">{{btnStatus}}</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <!--Table-->
+    <div class="row">
+        <div class="col-md-6 m-auto">
+            <input type="text" [(ngModel)]="filterVal" (input)="currentPage = 1; update()" class="form-control form-control-md d-inline-block w-auto float-sm-right" placeholder="Search...">
+        </div>
+    </div>
+    <div class="row">
+        <div class="data-table col-md-6 m-auto px-0">
+            <table class="table table-hover table-bordered table-striped mb-0">
+                <thead>
+                    <tr>
+                        <th>Cost Head</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngIf="tempItems.length==0">
+                        <td colspan="1" class="font-italic text-center">No item available</td>
+                    </tr>
+                    <tr *ngFor="let item of tempItems; let i=index">
+                        <td>{{item.costHead}}</td>
+                        <td>
+                            <button (click)="getCostHeadByID(item.id)" class="btn btn-primary btn-sm"><span class="fas fa-edit"></span></button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>

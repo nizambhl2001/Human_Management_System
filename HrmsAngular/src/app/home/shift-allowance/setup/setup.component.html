@@ -1,0 +1,89 @@
+<div class="card">
+    <h4 class="card-header text-center bg-light">
+        {{title}}
+    </h4>
+    <div class="card-body col-md-9" style="margin: 0 auto">
+        <form [formGroup]="shiftAmountSetupForm">
+
+            <div>
+                <div class="form-group row">
+                    <label for="employeeType" class="col-md-3 ">Employee Type
+         <i class="text-danger">*</i>
+          </label>
+                    <div class="col-sm-6">
+                        <ng-select formControlName="employeeType" [ngClass]="{'is-invalid':f.employeeType.invalid && (f.employeeType.touched || f.employeeType.dirty || isSaveBtnClick)}" [items]="allEmployeeType" bindValue="gradeID" bindLabel="gradeName" name="employeeType" placeholder="Select Employee Type">
+
+                        </ng-select>
+                        <div *ngIf="f.employeeType.invalid && (f.employeeType.touched || f.employeeType.dirty || isSaveBtnClick)" class="text-danger">
+                            <i *ngIf="f.employeeType.errors.required">Employee type is required</i>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="form-group row">
+                    <label for="shiftID" class="col-md-3">Shift Name
+       <i class="text-danger">*</i></label>
+                    <div class="col-md-6">
+                        <ng-select formControlName="shiftID" [ngClass]="{'is-invalid':f.shiftID.invalid && (f.shiftID.touched || f.shiftID.dirty || isSaveBtnClick)}" [items]="allshiftname" bindValue="id" bindLabel="shfitName" name="shiftID" id="shiftID" placeholder="Select Shift Name ">
+
+                        </ng-select>
+                        <div *ngIf="f.shiftID.invalid && (f.shiftID.touched || f.shiftID.dirty || isSaveBtnClick)" class="text-danger">
+                            <i *ngIf="f.shiftID.errors.required">Shift Name is required</i>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label for="amount" class="col-md-3">Amount
+       <i class="text-danger">*</i></label>
+                    <div class="col-md-6">
+                        <input formControlName="amount" [ngClass]="{'is-invalid':f.amount.invalid && (f.amount.touched || f.amount.dirty || isSaveBtnClick)}" type="number" name="amount" id="amount" class="form-control" placeholder="Amount">
+                        <div *ngIf="f.amount.invalid && (f.amount.touched || f.amount.dirty || isSaveBtnClick)" class="text-danger">
+                            <i *ngIf="f.amount.errors.required">Shift Name is required</i>
+                        </div>
+
+
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <div class="demo-inline-spacing center">
+                        <button (click)="reset()" type="clear" class="btn btn-info">
+                        <span class="ion ion-ios-refresh"></span> Reset</button>
+                        <button (click)="onSubmit()" class="btn btn-success">{{btnStatus}}</button>
+                    </div>
+                </div>
+
+            </div>
+        </form>
+        <div class="card">
+            <table class="table table-hover table-bordered table-striped mb-2">
+                <thead>
+                    <tr>
+                        <th>Shift Name</th>
+                        <th>Employee Type</th>
+                        <th>Amount</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngIf="tempItems.length==0">
+                        <td colspan="11" class="font-italic text-center">No Item available</td>
+                    </tr>
+                    <tr *ngFor="let item of tempItems">
+                        <td>{{item.shfitName}}</td>
+                        <td>{{item.gradeName}}</td>
+                        <td>{{item.amount}}</td>
+                        <td>
+                            <button (click)="getById(item.id)" class="btn btn-info btn-sm"><span class="fas fa-edit"></span></button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+
+
+    </div>
+</div>

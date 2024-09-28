@@ -1,0 +1,121 @@
+<div class="card section">
+    <h4 class="card-header text-center bg-light">
+        Additional Tax Information
+    </h4>
+    <div class="card-body">
+        <div class="col-md-7 center">
+            <form [formGroup]="additionalTaxForm">
+                <div class="form-group row">
+                    <label class="col-form-label col-sm-4 ">Tax Year
+              </label>
+                    <div class="col-sm-8">
+                        <ng-select formControlName="taxYearID" placeholder="2015-2016" [items]="taxYearInfo" bindLabel="taxYearName" bindValue="id">
+                        </ng-select>
+                        <div *ngIf="f['taxYearID'].invalid && (isSubmitted || f['taxYearID'].touched || f['taxYearID'].dirty)" class="text-danger">
+                            <i *ngIf="f['taxYearID'].errors.required">Select Tax Year  </i>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-form-label col-sm-4 ">Item Name
+                </label>
+                    <div class="col-sm-8">
+                        <ng-select formControlName="salaryHeadID" placeholder="Item Name" [items]="salaryHead" bindLabel="accountName" bindValue="id">
+                        </ng-select>
+                        <div *ngIf="f['salaryHeadID'].invalid && (isSubmitted || f['salaryHeadID'].touched || f['salaryHeadID'].dirty)" class="text-danger">
+                            <i *ngIf="f['salaryHeadID'].errors.required">Select Item Name  </i>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-form-label col-sm-4 "> Employee Code
+                      <i class="text-danger">*</i>
+                  </label>
+
+                    <div class="input-group col-sm-8">
+                        <app-employee-select-list [ngClass]="{'is-invalid':(f.empCode.touched || f.empCode.dirty || isSubmitted) && f.empCode.invalid}" [setEmpCode]="f['empCode'].value" (onChange)="onSelectEmp($event)"></app-employee-select-list>
+
+                        <div *ngIf="f['empCode'].invalid && (isSubmitted || f['empCode'].touched || f['empCode'].dirty)" class="text-danger">
+                            <i *ngIf="f['empCode'].errors.required">Select Employee  </i>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-form-label col-sm-4 ">Employee Name
+                    </label>
+                    <div class="col-sm-8">
+                        <input formControlName="empName" type="text" class="form-control" readonly placeholder="EmpName">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-form-label col-sm-4 ">Exemption Amount
+                    </label>
+                    <div class="col-sm-8">
+                        <input formControlName="exemptAmount" type="number" class="form-control" placeholder="Exemption Amount">
+                        <div *ngIf="f['taxYearID'].invalid && (isSubmitted || f['taxYearID'].touched || f['taxYearID'].dirty)" class="text-danger">
+                            <i *ngIf="f['taxYearID'].errors.required">Select to Date  </i>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label class="col-form-label col-sm-4 ">Exemption Rule
+                      </label>
+                    <div class="col-sm-8">
+                        <textarea formControlName="exemptRule" type="text" rows="4" class="form-control" placeholder="Exemption Rule"></textarea>
+                        <div *ngIf="f['exemptRule'].invalid && (isSubmitted || f['exemptRule'].touched || f['exemptRule'].dirty)" class="text-danger">
+                            <i *ngIf="f['exemptRule'].errors.required">Select to Date  </i>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <div class="row">
+            <div class="demo-inline-spacing mt-3" style="margin:0 auto">
+                <button (click)="Reset()" type="" class="btn btn-info ">
+                  <span class="ion ion-ios-refresh"></span> Reset
+              </button>
+                <button (click)="saveAdditionalInfo()" type="" class="btn btn-success">{{btnStatus}}</button>
+            </div>
+        </div>
+        <table class="table table-hover table-striped table-bordered">
+            <thead>
+                <tr>
+                    <th>#SN</th>
+                    <th>Emp.code</th>
+                    <th>EmpName</th>
+                    <th>Item Name</th>
+                    <th>Exempt Amount</th>
+                    <th>Action</th>
+
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let item of additionalTaxinfo; let i=index">
+                    <th>{{i+1}}</th>
+                    <th>{{item.empCode}}</th>
+                    <td>{{item.empName}}</td>
+                    <td>{{item.accountName}}</td>
+                    <td>{{item.exemptAmount}}</td>
+                    <td>
+                        <button (click)="getById(item.id)" class="btn btn-info btn-sm">
+                                <span class="fas fa-edit"> Edit</span>
+                              </button>
+                        <button (click)="deleteAdditionalTaxInfo(item.id,deleteModal)" type="" class="btn btn-danger btn-sm">
+                                <span class="fas fa-window-close"> Delete</span>
+                              </button>
+                    </td>
+
+                </tr>
+
+
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+<ng-template #deleteModal>
+    <app-delete-confirmation [rowId]="selectedItemId" (onConfirmedId)="confirmDelete($event)"></app-delete-confirmation>
+</ng-template>

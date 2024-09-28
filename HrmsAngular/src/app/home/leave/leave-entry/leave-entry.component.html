@@ -1,0 +1,482 @@
+<div class="card">
+  <h4 class="card-header text-center bg-light">Leave Apply</h4>
+  <div class="card-body">
+    <form [formGroup]="leaveApplyForm">
+      <div class="row">
+        <div formGroupName="applicant" class="col-md-6">
+          <!-- Employee Id -->
+          <div class="form-group row">
+            <label class="col-form-label col-sm-4">Employee ID</label>
+            <div class="col-sm-8" *ngIf="userTypeId==9 || userTypeId== 4">
+              <app-employee-select-list (onChange)="getAllLeaveStatus($event.empCode)"
+                [setEmpCode]="applicantControl.empCode">
+              </app-employee-select-list>
+            </div>
+            <div class="col-sm-8" *ngIf="userTypeId!=9 && userTypeId !=4">
+              <input formControlName="empCode" type="number" class="form-control" readonly>
+            </div>
+            <div
+              *ngIf="this.leaveApplyForm.controls['applicant'].get('empCode').invalid && (this.leaveApplyForm.controls['applicant'].get('empCode').touched || this.leaveApplyForm.controls['applicant'].get('empCode').dirty || isSubmitted)"
+              class="text-danger">
+              <i *ngIf="this.leaveApplyForm.controls['applicant'].get('empCode').errors.required">
+                Employee Code is
+                required
+              </i>
+            </div>
+          </div>
+          <!-- Employee Name -->
+          <div class="form-group row">
+            <label class="col-form-label col-sm-4 ">Employee Name</label>
+            <div class="col-sm-8">
+              <input formControlName="empName" type="text" class="form-control" placeholder="Employee Name" readonly>
+            </div>
+          </div>
+          <!-- Designation Name -->
+          <div class="form-group row">
+            <label class="col-form-label col-sm-4 ">Designation</label>
+            <div class="col-sm-8">
+              <input formControlName="designation" type="text" class="form-control" placeholder="Designation" readonly>
+            </div>
+          </div>
+          <!-- Department Name -->
+          <div class="form-group row">
+            <label class="col-form-label col-sm-4 ">Department</label>
+            <div class="col-sm-8">
+              <input formControlName="department" type="text" class="form-control" placeholder="Department" readonly>
+            </div>
+          </div>
+          <br>
+          <p style="text-align: center;font-size: 20px;">Leave Balance</p>
+          <table class="table table-bordered ">
+            <thead>
+              <tr>
+                <th>#SN</th>
+                <th>Leave Type</th>
+                <th>Total</th>
+                <th>Availed</th>
+                <th>Balance</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of leaveStatus; let i=index;">
+                <td>{{i+1}}</td>
+                <td>{{item.typeName}}</td>
+                <td>{{item.tOtalLeave}}</td>
+                <td>{{item.accepteDuration}}</td>
+                <td>{{item.balance}}</td>
+              </tr>
+            </tbody>
+          </table>
+          
+          <p style="text-align: center;font-size: 20px;">Leave Enjoy</p>
+          <table class="table table-bordered ">
+            <thead>
+              <tr>
+                <th>#SN</th>
+                <th>Apply Date</th>
+                <th>Start Date</th>
+                <th>End Date</th>
+                <th>Duration</th>
+                <th>Print</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of leaveInfo; let i =index" (click)="getLeaveApplicationById(item.id);"
+                onmouseout="this.style.background='#FFFFFF'" onmouseover="this.style.background='#caf2fa'">
+                <td>{{i+1}}</td>
+                <td>{{item.laDate | date:'dd MMM'}}</td>
+                <td>{{item.lsDate | date:'dd MMM'}}</td>
+                <td>{{item.leDate | date:'dd MMM'}}</td>
+                <td>{{item.accepteDuration}}</td>
+                <td>
+                  <button class="btn btn-secondary">
+                    <span class="fas fa-print"></span>
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+       
+          <p style="text-align: center;font-size: 20px;">Leave Status</p>
+          <table class="table table-bordered ">
+            <thead>
+              <tr>
+                <th>#SN</th>
+                <th>Leave Name</th>
+                <th>Duration</th>
+                <th>Remark</th>
+                <th>Last Position</th>
+                <th>Status</th>
+                <th>Details</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of appliedLeaveStatus;let i=index">
+                <td>{{i+1}}</td>
+                <td>{{item.typeName}}</td>
+                <td>{{item.accepteDuration}}</td>
+                <td>{{item.remarks}}</td>
+                <td>{{item.empName}}</td>
+                <td>{{item.status}}</td>
+                <td>
+                  <button (click)="getLeaveDetailsStatus(item.id,View)" class="btn btn-secondary">
+                    View
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+
+
+
+        </div>
+        <hr>
+        <div class="col-md-6">
+          <div formGroupName="application" class="card">
+            <h5 class="card-header bg-light">Application</h5>
+            <div class="card-body">
+              <div class="form-group row">
+                <label class="col-form-label col-sm-4 ">Leave Type</label>
+                <div class="col-sm-8">
+                  <ng-select formControlName="lTypedID" (ngModelChange)="checkPendingApplication()" [items]="leaveTypes"
+                    bindLabel="typeName" bindValue="id"
+                    [ngClass]="{'is-invalid': (leaveApplyForm.controls['application'].get('lTypedID').touched || leaveApplyForm.controls['application'].get('lTypedID').dirty || isSubmitted) && leaveApplyForm.controls['application'].get('lTypedID').invalid}"
+                    placeholder="Select Leave Type">
+                  </ng-select>
+                  <!-- <div *ngIf="hasPendingApplication==true" class="text-danger">
+                                        <i>You already have pending application!</i>
+                                    </div> -->
+                  <div
+                    *ngIf="leaveApplyForm.controls['application'].get('lTypedID').invalid && (leaveApplyForm.controls['application'].get('lTypedID').touched || leaveApplyForm.controls['application'].get('lTypedID').dirty || isSubmitted)"
+                    class="text-danger">
+                    <i *ngIf="leaveApplyForm.controls['application'].get('lTypedID').errors.required">
+                      Leave Type is
+                      required
+                    </i>
+                  </div>
+                </div>
+              </div>
+              <!-- From Date -->
+              <div class="form-group row">
+                <label class="col-form-label col-sm-4 ">From Date</label>
+                <div class="col-sm-8">
+                  <div class="input-group">
+                    <input formControlName="lsDateNgb" (onChange)="checkAvailableDate()" class="form-control"
+                      name="fromDate" placeholder="dd-mm-yyyy"
+                      [ngClass]="{'is-invalid': (leaveApplyForm.controls['application'].get('lsDateNgb').touched || leaveApplyForm.controls['application'].get('lsDateNgb').dirty || isSubmitted) && leaveApplyForm.controls['application'].get('lsDateNgb').invalid}"
+                      ngbDatepicker [maxDate]="applicationControl.leDateNgb" #d1="ngbDatepicker" readonly>
+                    <div class="input-group-append">
+                      <button class="input-group-text" (click)="d1.toggle();" type="button">
+                        <span class="ion ion-md-calendar" style="cursor: pointer;"></span>
+                      </button>
+                    </div>
+                  </div>
+                  <div
+                    *ngIf="leaveApplyForm.controls['application'].get('lsDateNgb').invalid && (leaveApplyForm.controls['application'].get('lsDateNgb').touched || leaveApplyForm.controls['application'].get('lsDateNgb').dirty || isSubmitted)"
+                    class="text-danger">
+                    <i *ngIf="leaveApplyForm.controls['application'].get('lsDateNgb').errors.required">
+                      Start Date is
+                      required
+                    </i>
+                  </div>
+                </div>
+              </div>
+              <!-- To Date -->
+              <div class="form-group row">
+                <label class="col-form-label col-sm-4 ">To Date</label>
+                <div class="col-sm-8">
+                  <div class="input-group">
+                    <input formControlName="leDateNgb" (ngModelChange)="dateDiff()" class="form-control" name="toDate"
+                      placeholder="dd-mm-yyyy" ngbDatepicker #d2="ngbDatepicker"
+                      [ngClass]="{'is-invalid': (leaveApplyForm.controls['application'].get('leDateNgb').touched || leaveApplyForm.controls['application'].get('leDateNgb').dirty || isSubmitted) && leaveApplyForm.controls['application'].get('leDateNgb').invalid}"
+                      [minDate]="applicationControl.lsDateNgb" readonly>
+                    <div class="input-group-append">
+                      <button class="input-group-text" (click)="d2.toggle()" type="button">
+                        <span class="ion ion-md-calendar" style="cursor: pointer;"></span>
+                      </button>
+                    </div>
+                  </div>
+                  <div
+                    *ngIf="leaveApplyForm.controls['application'].get('leDateNgb').invalid && (leaveApplyForm.controls['application'].get('leDateNgb').touched || leaveApplyForm.controls['application'].get('leDateNgb').dirty || isSubmitted)"
+                    class="text-danger">
+                    <i *ngIf="leaveApplyForm.controls['application'].get('leDateNgb').errors.required">
+                      End Date is
+                      required
+                    </i>
+                  </div>
+                </div>
+              </div>
+              <!-- Leave Duration -->
+              <div class="form-group row">
+                <label class="col-form-label col-sm-4 ">Leave Duration</label>
+                <div class="col-sm-8">
+                  <input formControlName="accepteDuration" type="text" [ngClass]="{'is-invalid':!isExistBalance}"
+                    class="form-control" placeholder="Leave Duration">
+                  <div *ngIf="!isExistBalance" class="text-danger">
+                    <i>Leave balance not available</i>
+                  </div>
+                </div>
+              </div>
+              <!-- Apply Date -->
+              <div class="form-group row">
+                <label class="col-form-label col-sm-4 ">Apply Date</label>
+                <div class="col-sm-8">
+                  <div class="input-group">
+                    <input formControlName="laDateNgb" class="form-control" name="applyDate" placeholder="dd-mm-yyyy"
+                      ngbDatepicker #d3="ngbDatepicker" readonly>
+                    <div class="input-group-append">
+                      <button class="input-group-text" (click)="d3.toggle()" type="button">
+                        <span class="ion ion-md-calendar" style="cursor: pointer;"></span>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- Reason -->
+              <div class="form-group row">
+                <label class="col-form-label col-sm-4 ">Reason</label>
+                <div class="col-sm-8">
+                  <input formControlName="reason" type="text" class="form-control" placeholder="Reason">
+                </div>
+              </div>
+              <!-- Emergency Contact -->
+              <div class="form-group row">
+                <label class="col-form-label col-sm-4 ">Emergency Contact No</label>
+                <div class="col-sm-8">
+                  <input formControlName="emgContructNo" type="text" class="form-control"
+                    placeholder="Emergency Contact">
+                </div>
+              </div>
+              <!-- Address -->
+              <div class="form-group row">
+                <label class="col-form-label col-sm-4 ">Address</label>
+                <div class="col-sm-8">
+                  <input formControlName="emgAddress" type="text" class="form-control" placeholder="Address">
+                </div>
+              </div>
+              <!-- Radios -->
+              <div class="form-group row ">
+                <label class="col-form-label col-sm-4 "></label>
+                <div class="col-sm-4">
+                  <label class="custom-control custom-radio">
+                    <input formControlName="withpay" name="withpay" value="1" type="radio" class="custom-control-input"
+                      checked>
+                    <span class="custom-control-label">With Pay</span>
+                  </label>
+                </div>
+                <div class="col-sm-4">
+                  <label class="custom-control custom-radio">
+                    <input formControlName="withpay" name="withpay" value="0" type="radio" class="custom-control-input">
+                    <span class="custom-control-label">Without Pay</span>
+                  </label>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div formGroupName="recommendTo" class="card">
+            <!-- Employee Id -->
+            <h5 class="card-header bg-light">Supervisor</h5>
+            <div class="card-body">
+              <div class="form-group row">
+                <label class="col-form-label col-sm-4 ">Employee ID</label>
+                <div class="col-sm-8">
+                  <div class="input-group">
+                    <input formControlName="empCode" (keyup)="getEmpForRecommendTo(recommendToControl.empCode)"
+                      [ngClass]="{'is-invalid': (leaveApplyForm.controls['recommendTo'].get('empCode').touched || leaveApplyForm.controls['recommendTo'].get('empCode').dirty || isSubmitted) && leaveApplyForm.controls['recommendTo'].get('empCode').invalid}"
+                      class="form-control" type="text" placeholder="Employee ID" readonly>
+                    <div class="input-group-append">
+                      <button (click)="onSearchClick(applyToSearchModal)" class="input-group-text btn btn-primary"
+                        type="button">
+                        <span class="fas fa-search" style="cursor: pointer;"></span>
+                      </button>
+                    </div>
+                  </div>
+                  <div
+                    *ngIf="leaveApplyForm.controls['recommendTo'].get('empCode').invalid && (leaveApplyForm.controls['recommendTo'].get('empCode').touched || leaveApplyForm.controls['recommendTo'].get('empCode').dirty || isSubmitted)"
+                    class="text-danger">
+                    <i *ngIf="leaveApplyForm.controls['recommendTo'].get('empCode').errors.required">
+                      Employee ID is
+                      required
+                    </i>
+                  </div>
+                </div>
+              </div>
+              <!-- Employee Name -->
+              <div class="form-group row">
+                <label class="col-form-label col-sm-4 ">Employee Name</label>
+                <div class="col-sm-8">
+                  <input formControlName="empName" type="text" class="form-control" placeholder="Employee Name"
+                    readonly>
+                </div>
+              </div>
+              <!-- Designation Name -->
+              <div class="form-group row">
+                <label class="col-form-label col-sm-4 ">Designation</label>
+                <div class="col-sm-8">
+                  <input formControlName="designation" type="text" class="form-control" placeholder="Designation"
+                    readonly>
+                </div>
+              </div>
+            </div>
+          </div>
+          <br>
+          <div formGroupName="applyTo" class="card">
+            <!-- Employee Id -->
+            <h5 class="card-header bg-light">Apply To</h5>
+            <div class="card-body">
+              <div class="form-group row">
+                <label class="col-form-label col-sm-4 ">Employee ID</label>
+                <div class="col-sm-8">
+                  <div class="input-group">
+                    <input formControlName="empCode" (keyup)="getEmpForApply(applyToControl.empCode)"
+                      [ngClass]="{'is-invalid': (leaveApplyForm.controls['applyTo'].get('empCode').touched || leaveApplyForm.controls['applyTo'].get('empCode').dirty || isSubmitted) && leaveApplyForm.controls['applyTo'].get('empCode').invalid}"
+                      class="form-control" type="text" placeholder="Employee ID" readonly>
+                    <div class="input-group-append">
+                      <button (click)="onSearchClick(applyToSearchModal)" class="input-group-text btn btn-primary"
+                        type="button">
+                        <span class="fas fa-search" style="cursor: pointer;"></span>
+                      </button>
+                    </div>
+                  </div>
+                  <div
+                    *ngIf="leaveApplyForm.controls['applyTo'].get('empCode').invalid && (leaveApplyForm.controls['applyTo'].get('empCode').touched || leaveApplyForm.controls['applyTo'].get('empCode').dirty || isSubmitted)"
+                    class="text-danger">
+                    <i *ngIf="leaveApplyForm.controls['applyTo'].get('empCode').errors.required">
+                      Employee ID is
+                      required
+                    </i>
+                  </div>
+                </div>
+              </div>
+              <!-- Employee Name -->
+              <div class="form-group row">
+                <label class="col-form-label col-sm-4 ">Employee Name</label>
+                <div class="col-sm-8">
+                  <input formControlName="empName" type="text" class="form-control" placeholder="Employee Name"
+                    readonly>
+                </div>
+              </div>
+              <!-- Designation Name -->
+              <div class="form-group row">
+                <label class="col-form-label col-sm-4 ">Designation</label>
+                <div class="col-sm-8">
+                  <input formControlName="designation" type="text" class="form-control" placeholder="Designation"
+                    readonly>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          
+          <br>
+          <div formGroupName="performBy" class="card">
+            <!-- Employee Id -->
+            <h5 class="card-header bg-light">Duties will be performed by:</h5>
+            <div class="card-body">
+              <!-- Employee Id -->
+              <div class="form-group row">
+                <label class="col-form-label col-sm-4 ">Employee ID</label>
+                <div class="col-sm-8">
+                  <div class="input-group">
+                    <input formControlName="empCode" (keyup)="getEmpForPerformBy(performByControl.empCode)"
+                      class="form-control" type="text" placeholder="Employee ID">
+                    <div class="input-group-append">
+                      <button (click)="onSearchClick(performBySearchModal)" class="input-group-text btn btn-primary"
+                        type="button">
+                        <span class="fas fa-search" style="cursor: pointer;"></span>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- Employee Name -->
+              <div class="form-group row">
+                <label class="col-form-label col-sm-4 ">Employee Name</label>
+                <div class="col-sm-8">
+                  <input formControlName="empName" type="text" class="form-control" placeholder="Employee Name"
+                    readonly>
+                </div>
+              </div>
+              <!-- Designation Name -->
+              <div class="form-group row">
+                <label class="col-form-label col-sm-4 ">Designation</label>
+                <div class="col-sm-8">
+                  <input formControlName="designation" type="text" class="form-control" placeholder="Designation"
+                    readonly>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row p-3 center">
+        <!-- Button -->
+        <div class="form-group row m-auto">
+          <label class="col-form-label col-sm-2 "></label>
+          <div class="demo-inline-spacing mt-3">
+            <button (click)="reset()" class="btn btn-info">
+              <span class="far fa-refresh"></span>
+              Reset
+            </button>
+            <button (click)="apply()" type="submit" class="btn btn-success">
+              Apply
+            </button>
+          </div>
+        </div>
+      </div>
+
+
+
+    </form>
+  </div>
+  <!-- end Card body -->
+</div>
+
+
+<ng-template #applicantSearchModal>
+  <app-search-employee (selectEvent)="getSelectedEmpForApplicant($event)"></app-search-employee>
+</ng-template>
+
+
+<ng-template #applyToSearchModal>
+  <app-search-employee (selectEvent)="getSelectedEmpForApplyTo($event)"></app-search-employee>
+</ng-template>
+
+
+<ng-template #performBySearchModal>
+  <app-search-employee (selectEvent)="getSelectedEmpForPerformBy($event)"></app-search-employee>
+</ng-template>
+<ng-template #View>
+  <div class="card">
+    <h4 class="card-header text-center bg-light">Details</h4>
+
+
+    <div class="card-body">
+      <table class="table table-bordered table-striped">
+        <thead>
+          <tr>
+            <th>Leave Name</th>
+            <th>Duration</th>
+            <th>Remark</th>
+            <th>Last Position</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of leaveDetailsStatus;let i=index">
+            <td>{{item.typeName}}</td>
+            <td>{{item.accepteDuration}}</td>
+            <td>{{item.remarks}}</td>
+            <td>{{item.empName}}</td>
+            <td>{{item.status}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="card-footer text-center">
+      <button (click)="close()" type="submit">
+        Close
+      </button>
+    </div>
+  </div>
+</ng-template>

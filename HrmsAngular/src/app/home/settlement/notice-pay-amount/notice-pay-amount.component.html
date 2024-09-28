@@ -1,0 +1,93 @@
+<div class="card">
+    <h4 class="card-header text-center bg-light">{{title}}</h4>
+    <div class="card-body">
+        <form [formGroup]="noticeAmountSetupForm">
+            <div class="row">
+                <div class="col-md-6 center">
+                    <div class="form-group row">
+                        <label for="empType" class="col-md-4">Employee Type <i class="text-danger">*</i></label>
+                        <div class="col-md-8">
+                            <app-employee-type-list [ngClass]="{'is-invalid': (isSubmitted || f['empGrade'].touched || f['empGrade'].dirty) && f['empGrade'].invalid}" [empTypeModel]="f['empGrade'].value" (onChange)="f['empGrade'].setValue($event.gradeID)"></app-employee-type-list>
+                            <div *ngIf="(isSubmitted || f['empGrade'].touched || f['empGrade'].dirty) && f['empGrade'].invalid" class="text-danger">
+                                <i *ngIf="f['empGrade'].errors.required">Emlpoyee Type is required</i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="allowances" class="col-md-4">Allowances<i class="text-danger">*</i></label>
+                        <div class="col-md-8">
+                            <app-salaryhead-select-list [ngClass]="{'is-invalid': (isSubmitted || f['salaryHead'].touched || f['salaryHead'].dirty) && f['salaryHead'].invalid}" [salaryhead]="f['salaryHead'].value" (onChange)="f['salaryHead'].setValue($event.id)"></app-salaryhead-select-list>
+                            <div *ngIf="(isSubmitted || f['salaryHead'].touched || f['salaryHead'].dirty) && f['salaryHead'].invalid" class="text-danger">
+                                <i *ngIf="f['salaryHead'].errors.required">Allowance is required</i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="numOfTime" class="col-md-4">Number of Times <i class="text-danger">*</i></label>
+                        <div class="col-md-8">
+                            <input [ngClass]="{'is-invalid': (isSubmitted || f['numberoftimes'].touched || f['numberoftimes'].dirty) && f['numberoftimes'].invalid}" formControlName="numberoftimes" type="number" name="numOfTime" id="daysForEmp" class="form-control" placeholder="Number of Times">
+                            <div *ngIf="(isSubmitted || f['numberoftimes'].touched || f['numberoftimes'].dirty) && f['numberoftimes'].invalid" class="text-danger">
+                                <i *ngIf="f['numberoftimes'].errors.required">Number of time is required</i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="date" class="col-md-4">Date</label>
+                        <div class="input-group col-md-8">
+                            <app-date-control [setNgbDate]="f['eDateNgb'].value" (getNgbDate)="f['eDateNgb'].setValue($event)" (getLocalDate)="f['eDate'].setValue($event)"></app-date-control>
+
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="note" class="col-md-4">Note<i class="text-danger">*</i></label>
+                        <div class="col-md-8">
+                            <textarea [ngClass]="{'is-invalid': (isSubmitted || f['note'].touched || f['note'].dirty) && f['note'].invalid}" formControlName="note" name="note" id="note" rows="2" class="form-control"></textarea>
+                            <div *ngIf="(isSubmitted || f['note'].touched || f['note'].dirty) && f['note'].invalid" class="text-danger">
+                                <i *ngIf="f['note'].errors.required">Note is required</i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="center demo-inline-spacing">
+                    <button (click)="reset()" class="btn btn-info"><span class="ion ion-ios-refresh"></span> Reset</button>
+                    <button (click)="onSubmit()" class="btn btn-success">{{btnStatus}}</button>
+                </div>
+            </div>
+        </form>
+        <div class="row">
+            <div class="col-md-4 ml-auto">
+                <input type="text" [(ngModel)]="filterVal" (input)="currentPage = 1; update()" class="form-control form-control-md d-inline-block w-auto float-sm-right" placeholder="Search...">
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="data-table">
+                <table class="table table-hover table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <th>Employee Type</th>
+                            <th>Salary Head</th>
+                            <th>Number</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngIf="tempItems.length==0">
+                            <td colspan="11" class="font-italic text-center">No Item available</td>
+                        </tr>
+                        <tr *ngFor="let item of tempItems">
+                            <td>{{item.gradeName}}</td>
+                            <td>{{item.accountName}}</td>
+                            <td>{{item.numberoftimes}}</td>
+                            <td>
+                                <button (click)="getByID(item.id)" class="btn btn-primary btn-sm"><span class="fas fa-edit"></span></button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

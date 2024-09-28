@@ -1,0 +1,186 @@
+<div class="card">
+    <h4 class="card-header text-center bg-light">
+        {{title}}
+    </h4>
+    <div class="card-body">
+        <form [formGroup]="shiftSetupForm">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group row">
+                        <label for="shfitName" class="col-md-4">Shift Name</label>
+                        <div class="col-md-5">
+                            <input [ngClass]="{'is-invalid': (isSubmitted || f['shfitName'].touched || f['shfitName'].dirty) && f['shfitName'].invalid}" formControlName="shfitName" type="text" name="shfitName" id="shfitName" class="form-control" placeholder="Shift Name">
+                        </div>
+                        <label class="col-form-label col-sm-4 "></label>
+                        <div *ngIf="f['shfitName'].invalid && (isSubmitted || f['shfitName'].touched || f['shfitName'].dirty)" class="text-danger">
+                            <i *ngIf="f['shfitName'].errors['required']">Shift Name is required</i>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="shiftStartHour" class="col-md-4">Shift Start Hour</label>
+                        <div class="col-md-5">
+                            <input [ngClass]="{'is-invalid': (isSubmitted || f['shiftStartHour'].touched || f['shiftStartHour'].dirty) && f['shiftStartHour'].invalid}" formControlName="shiftStartHour" type="number" name="shiftStartHour" id="shiftStartHour" class="form-control" placeholder="Start Hour">
+                        </div>
+                        <label class="col-form-label col-sm-4 "></label>
+                        <div *ngIf="f['shiftStartHour'].invalid && (isSubmitted || f['shiftStartHour'].touched || f['shiftStartHour'].dirty)" class="text-danger">
+                            <i *ngIf="f['shiftStartHour'].errors['required']">Start Hour required</i>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="shiftStartMin" class="col-md-4">Late Minute</label>
+                        <div class="col-md-5">
+                            <input [ngClass]="{'is-invalid': (isSubmitted || f['shiftStartMin'].touched || f['shiftStartMin'].dirty) && f['shiftStartMin'].invalid}" formControlName="shiftStartMin" type="number" name="shiftStartMin" id="shiftStartMin" class="form-control" placeholder="Shift Start Minute">
+                        </div>
+                        <label class="col-form-label col-sm-4 "></label>
+                        <div *ngIf="f['shiftStartMin'].invalid && (isSubmitted || f['shiftStartMin'].touched || f['shiftStartMin'].dirty)" class="text-danger">
+                            <i *ngIf="f['shiftStartMin'].errors['required']">Late Munit required</i>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="shiftEndtHour" class="col-md-4">Shift End Hour</label>
+                        <div class="col-md-5">
+                            <input [ngClass]="{'is-invalid': (isSubmitted || f['shiftEndtHour'].touched || f['shiftEndtHour'].dirty) && f['shiftEndtHour'].invalid}" formControlName="shiftEndtHour" type="number" name="shiftEndtHour" id="shiftEndtHour" class="form-control" placeholder="End Hour">
+                        </div>
+                        <label class="col-form-label col-sm-4 "></label>
+                        <div *ngIf="f['shiftEndtHour'].invalid && (isSubmitted || f['shiftEndtHour'].touched || f['shiftEndtHour'].dirty)" class="text-danger">
+                            <i *ngIf="f['shiftEndtHour'].errors['required']">End Hour required</i>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="shiftEndMin" class="col-md-4">Early Out Minute</label>
+                        <div class="col-md-5">
+                            <input [ngClass]="{'is-invalid': (isSubmitted || f['shiftEndMin'].touched || f['shiftEndMin'].dirty) && f['shiftEndMin'].invalid}" formControlName="shiftEndMin" type="text" name="shiftEndMin" id="shiftEndMin" class="form-control" placeholder="Shift End Minute">
+                        </div>
+                        <label class="col-form-label col-sm-4 "></label>
+                        <div *ngIf="f['shiftEndMin'].invalid && (isSubmitted || f['shiftEndMin'].touched || f['shiftEndMin'].dirty)" class="text-danger">
+                            <i *ngIf="f['shiftEndMin'].errors['required']">Early Out required</i>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="minLogout" class="col-md-4">Minimum Logout Hour</label>
+                        <div class="col-md-5">
+                            <input [ngClass]="{'is-invalid': (isSubmitted || f['minLogout'].touched || f['minLogout'].dirty) && f['minLogout'].invalid}" formControlName="minLogout" type="number" name="minLogout" id="minLogout" class="form-control" placeholder="Minimum Logout hour">
+                        </div>
+                        <label class="col-form-label col-sm-4 "></label>
+                        <div *ngIf="f['minLogout'].invalid && (isSubmitted || f['minLogout'].touched || f['minLogout'].dirty)" class="text-danger">
+                            <i *ngIf="f['minLogout'].errors['required']">Mini Log Out required</i>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="maxLogout" class="col-md-4">Maximum Logout Hour</label>
+                        <div class="col-md-5">
+                            <input [ngClass]="{'is-invalid': (isSubmitted || f['maxLogout'].touched || f['maxLogout'].dirty) && f['maxLogout'].invalid}" formControlName="maxLogout" type="number" name="maxLogout" id="maxLogout" class="form-control" placeholder="Maximum Logout hour">
+                        </div>
+                        <label class="col-form-label col-sm-4 "></label>
+                        <div *ngIf="f['maxLogout'].invalid && (isSubmitted || f['maxLogout'].touched || f['maxLogout'].dirty)" class="text-danger">
+                            <i *ngIf="f['maxLogout'].errors['required']">Max Log Out required</i>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group row">
+                        <label for="minIntime" class="col-md-4">Minimum In time Hour</label>
+                        <div class="col-md-5">
+                            <input [ngClass]="{'is-invalid': (isSubmitted || f['minIntime'].touched || f['minIntime'].dirty) && f['minIntime'].invalid}" formControlName="minIntime" type="number" name="minIntime" id="minIntime" class="form-control" placeholder="Minimum In time">
+                        </div>
+                        <label class="col-form-label col-sm-4 "></label>
+                        <div *ngIf="f['maxIntime'].invalid && (isSubmitted || f['maxIntime'].touched || f['maxIntime'].dirty)" class="text-danger">
+                            <i *ngIf="f['maxIntime'].errors['required']">Min In Out required</i>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="maxIntime" class="col-md-4">Maximum In time Hour</label>
+                        <div class="col-md-5">
+                            <input [ngClass]="{'is-invalid': (isSubmitted || f['maxIntime'].touched || f['maxIntime'].dirty) && f['maxIntime'].invalid}" formControlName="maxIntime" type="number" name="maxIntime" id="maxIntime" class="form-control" placeholder="Maximum In time">
+                        </div>
+                        <label class="col-form-label col-sm-4 "></label>
+                        <div *ngIf="f['maxIntime'].invalid && (isSubmitted || f['maxIntime'].touched || f['maxIntime'].dirty)" class="text-danger">
+                            <i *ngIf="f['maxIntime'].errors['required']">Max In Out required</i>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="nextDate" class="col-md-4">Next Day Shift</label>
+                        <div class="col-md-8">
+                            <div class="row">
+                                <div class="col-md-4 demo-inline-spacing">
+                                    <input formControlName="nextDate" type="radio" name="nextDate" id="yes" [value]="1">
+                                    <label for="yes">Yes</label>
+                                </div>
+                                <div class="col-md-4 demo-inline-spacing">
+                                    <input formControlName="nextDate" type="radio" name="nextDate" id="no" [value]="0">
+                                    <label for="no">No</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="roaster" class="col-md-4">Roaster Shift</label>
+                        <div class="col-md-8">
+                            <ng-select [ngClass]="{'is-invalid': (isSubmitted || f['nextShiftID'].touched || f['nextShiftID'].dirty) && f['nextShiftID'].invalid}" formControlName="nextShiftID" [items]="allShift" bindLabel="shfitName" bindValue="id" placeholder="Select Next Shift"></ng-select>
+                        </div>
+                        <label class="col-form-label col-sm-4 "></label>
+                        <div *ngIf="f['nextShiftID'].invalid && (isSubmitted || f['nextShiftID'].touched || f['nextShiftID'].dirty)" class="text-danger">
+                            <i *ngIf="f['nextShiftID'].errors['required']">Next Shift ID required</i>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-md-4">Duty</label>
+                        <div class="col-md-8">
+                            <div class="row">
+                                <div class="col-sm-4 pull-left">
+                                    <div class="form-group row">
+                                        <label for="dutyHours" class="form-label-sm">Hour</label>
+                                        <input [ngClass]="{'is-invalid': (isSubmitted || f['dutyHours'].touched || f['dutyHours'].dirty) && f['dutyHours'].invalid}" formControlName="dutyHours" type="number" name="dutyHours" id="hour" class="form-control" placeholder="Duty Hour">
+                                    </div>
+                                </div>
+                                <div class="col-sm-4 pull-right">
+                                    <div class="form-group row">
+                                        <label for="dutyMinute" class="form-label-sm">Minutes</label>
+                                        <input [ngClass]="{'is-invalid': (isSubmitted || f['dutyMinute'].touched || f['dutyMinute'].dirty) && f['dutyMinute'].invalid}" formControlName="dutyMinute" type="number" name="dutyMinute" id="dutyMinute" class="form-control" placeholder="Duty Min">
+                                    </div>
+                                </div>
+                            </div>
+                            <label class="col-form-label col-sm-4 "></label>
+                            <div *ngIf="f['dutyHours'].invalid && (isSubmitted || f['dutyHours'].touched || f['dutyHours'].dirty)" class="text-danger">
+                                <i *ngIf="f['dutyHours'].errors['required']">Time required</i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row">
+                <!-- <label for="" class="col-md-4"></label> -->
+                <div class=" center demo-inline-spacing">
+                    <button (click)="reset()" class="btn btn-info"><span class="ion ion-ios-refresh"></span> Reset</button>
+                    <button (click)="onSubmit()" class="btn btn-success">Save</button>
+                </div>
+            </div>
+        </form>
+        <div class="row" style="overflow:scroll;max-height: 300px;">
+            <div class="data-table">
+                <table class="table table-hover table-bordered table-striped mb-0">
+                    <thead>
+                        <tr>
+                            <th>Shift Name</th>
+                            <th>Shift Start Hour</th>
+                            <th>Shift End Hour</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngIf="tempItems.length==0">
+                            <td colspan="3" class="font-italic text-center">No Item available</td>
+                        </tr>
+                        <tr *ngFor="let shift of tempItems">
+                            <td>{{shift.shfitName}}</td>
+                            <td>{{shift.shiftStartHour}}</td>
+                            <td>{{shift.shiftEndtHour}}</td>
+                            <td><button (click)="edit(shift.id)" class="btn btn-info btn-sm"><span class="fa fa-edit"></span></button></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+</div>

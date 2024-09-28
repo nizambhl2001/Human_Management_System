@@ -1,0 +1,15 @@
+<div class="overflow-hidden">
+  <div class="container d-flex align-items-stretch ui-mh-100vh p-0">
+    <div class="d-flex col-md justify-content-center align-items-center order-2 order-md-1 position-relative p-5">
+      <div class="error-bg-skew bg-white"></div>
+      <div class="text-md-left text-center">
+        <h4 class="display-4 font-weight-light mb-4 error">An error has occurred!</h4>
+        <div class="font-weight-normal mb-5">
+        <p>{{errorText}}</p>  
+        </div>
+        <button type="button" (click)="goBack()"  class="btn btn-primary">←&nbsp; Go Back</button>
+       
+      </div>
+    </div>
+  </div>
+</div>

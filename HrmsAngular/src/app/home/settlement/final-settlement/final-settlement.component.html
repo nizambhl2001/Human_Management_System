@@ -1,0 +1,271 @@
+<div class="card">
+    <h4 class="card-header text-center bg-light">{{title}}</h4>
+    <div class="card-body">
+        <form [formGroup]="finalSettlementForm">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group row">
+                        <label for="empId" class="col-form-label col-sm-4 ">Employee Id</label>
+                        <div class="col-sm-6">
+                            <ng-select formControlName="empCode" [ngClass]="{'is-invalid': (isSubmitted || f['empCode'].touched || f['empCode'].dirty) && f['empCode'].invalid}" [items]="empCodes" bindLabel="empCode" bindValue="empCode" placeholder="Select Employee" (change)="getEmpInfo(f['empCode'].value)">
+                            </ng-select>
+                            <div *ngIf="(isSubmitted || f['empCode'].touched || f['empCode'].dirty) && f['empCode'].invalid" class="text-danger">
+                                <i *ngIf="f['empCode'].errors.required">Employee Code is required</i>
+                            </div>
+                        </div>
+                        <div class="input-group-append">
+                            <button (click)="modalService.open(searchModal,{size:'lg'})" class="input-group-text btn btn-primary" type="button">
+                        <span  class="fas fa-search" style="cursor: pointer;"></span>
+                      </button>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label for="empName" class="col-form-label col-sm-4 ">Employee Name</label>
+                        <div class="col-sm-8">
+                            <input formControlName="empName" type="text" class="form-control" readonly>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="salaryPeriod" class="col-form-label col-sm-4 ">Salary Period</label>
+                        <div class="col-sm-8">
+
+                            <app-period-select-list [setPeriodId]="f['periodID'].value" (onChange)="f['periodID'].setValue($event.id)" [isRequired]>
+                            </app-period-select-list>
+
+                            <div *ngIf="(isSubmitted || f['periodID'].touched || f['periodID'].dirty) && f['periodID'].invalid" class="text-danger">
+                                <i *ngIf="f['periodID'].errors.required">Period is Required</i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="lastWorkingDate" class="col-form-label col-sm-4 " isRequired>Last Working Date</label>
+                        <div class="col-sm-8">
+                            <app-date-control (getYyyymmdd)="f['lastWorkingDate'].patchValue($event)"></app-date-control>
+                            <!-- <input type="date" formControlName="lastWorkingDate" class="form-control" placeholder="dd-mm-yyyy" ngbDatepicker> -->
+                            <div *ngIf="(isSubmitted || f['lastWorkingDate'].touched || f['lastWorkingDate'].dirty) && f['lastWorkingDate'].invalid" class="text-danger">
+                                <i *ngIf="f['lastWorkingDate'].errors.required">Last Working Date is Required</i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group row">
+                        <div class="col-sm-4">
+                            <label> <input formControlName="calculationtype" #show type="checkbox" name="size"> Manual Calculation</label>
+                        </div>
+                        <div class="col-sm-8" *ngIf="show.checked">
+                            <div class="form-group row">
+                                <label for="empId" class="col-form-label col-sm-3 ">EmpDay</label>
+                                <div class="col-sm-9">
+                                    <input formControlName="empnoticeday" type="number" name="empDay" id="empDay" class="form-control" placeholder="Empployee Notice day">
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label for="empId" class="col-form-label col-sm-3 ">ComDay</label>
+                                <div class="col-sm-9">
+                                    <input formControlName="comnoticeday" type="number" name="comDay" id="comDay" class="form-control" placeholder="Company Notice day">
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-sm-12">
+                            <label> <input type="checkbox" formControlName="nodeduct"> No Deduction</label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <button (click)="reset()" class="btn btn-info right"><span class="ion ion-ios-refresh"></span> Reset</button>&nbsp;&nbsp;
+                        <button [ladda]="isLoading" (click)="CalculateSatellment()" class="btn btn-primary right">Calculate</button>
+                    </div>
+                </div>
+            </div>
+            <br>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="card">
+                        <h6 class="card-header">Payable to Employee Salary</h6>
+                        <div class="card-body">
+                            <div class="form-group row">
+                                <label for="dueSalary" class="col-md-6">Dues Salary of Month</label>
+                                <div class="col-md-6">
+                                    <input formControlName="dueSalary" type="number" name="dueSalary" id="dueSalary" class="form-control" placeholder="Dues Salary of Month">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="noticePay" class="col-md-6">Notice Pay</label>
+                                <div class="col-md-6">
+                                    <input formControlName="noticeEmp" type="number" name="noticePay" id="noticePay" class="form-control" placeholder="Notice Pay">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="elEncashment" class="col-md-6">Encashment of EL</label>
+                                <div class="col-md-6">
+                                    <input formControlName="el" type="text" name="elEncashment" id="elEncashment" class="form-control" placeholder="Encashment of EL">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="driverAllowance" class="col-md-6">Driver Allowance</label>
+                                <div class="col-md-6">
+                                    <input formControlName="driverAllowance" type="text" name="driverAllowance" id="driverAllowance" class="form-control" placeholder="Driver Allowance">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <h6 class="card-header">Gratuity</h6>
+                        <div class="card-body">
+                            <div class="form-group row">
+                                <label for="amount" class="col-md-6">Amount</label>
+                                <div class="col-md-6">
+                                    <input formControlName="gratuty" type="number" name="amount" id="amount" class="form-control" placeholder="Amount">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <h6 class="card-header">Death Benefit</h6>
+                        <div class="card-body">
+                            <div class="form-group row">
+                                <label for="amount" class="col-md-6">Amount</label>
+                                <div class="col-md-6">
+                                    <input formControlName="death" type="number" name="amount" id="amount" class="form-control" placeholder="Amount">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="" class="col-md-6">Exgratia</label>
+                                <div class="col-md-6">
+                                    <input formControlName="exgratia" type="text" name="" id="" class="form-control" placeholder="Exgratia">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <h6 class="card-header">Overtime and Shift Allowance</h6>
+                        <div class="card-body">
+                            <div class="form-group row">
+                                <label for="overtime" class="col-md-6">Overtime/Shift-Allowance/Others</label>
+                                <div class="col-md-6">
+                                    <input formControlName="overTime" type="text" name="overtime" id="overtime" class="form-control" placeholder="Overtime/Shift-Allowance/Others">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <h6 class="card-header">Bonus</h6>
+                        <div class="card-body">
+                            <div class="form-group row">
+                                <label for="" class="col-md-6">Performance Bonus</label>
+                                <div class="col-md-6">
+                                    <input formControlName="performanceBonus" type="text" name="" id="" class="form-control" placeholder="Performance bonus">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="card">
+                        <h6 class="card-header">Payable to Company</h6>
+                        <div class="card-body">
+                            <div class="form-group row">
+                                <label for="compNoticePay" class="col-md-6">Notice Pay</label>
+                                <div class="col-md-6">
+                                    <input formControlName="noticePayCompany" type="number" name="compNoticePay" id="compNoticePay" class="form-control" placeholder="Notice Pay">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="excessSalary" class="col-md-6">Excess Salary</label>
+                                <div class="col-md-6">
+                                    <input formControlName="excessSalary" type="number" name="excessSalary" id="excessSalary" class="form-control" placeholder="Excess Salary">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="epsOutstanding" class="col-md-6">EPS Outstanding</label>
+                                <div class="col-md-6">
+                                    <input formControlName="eps" type="text" name="epsOutstanding" id="epsOutstanding" class="form-control" placeholder="EPS Outstanding">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="billOutstanding" class="col-md-6">Mobile Bill Outstanding</label>
+                                <div class="col-md-6">
+                                    <input formControlName="mobile" type="text" name="billOutstanding" id="billOutstanding" class="form-control" placeholder="Mobile Bill Outstanding">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="iou" class="col-md-6">Advance to Staff and Others (IOU)</label>
+                                <div class="col-md-6">
+                                    <input formControlName="staffOther" type="text" name="iou" id="iou" class="form-control" placeholder="Advance to Staff and Others">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="incomeTax" class="col-md-6">Income Tax</label>
+                                <div class="col-md-6">
+                                    <input formControlName="tax" type="number" name="incomeTax" id="incomeTax" class="form-control" placeholder="Income Tax">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="providentFund" class="col-md-6">WPPF Portion Provident Fund</label>
+                                <div class="col-md-6">
+                                    <input formControlName="wppf" type="number" name="providentFund" id="providentFund" class="form-control" placeholder="WPPF Portion Provident Fund">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="ownContribution" class="col-md-6">Own Contribution</label>
+                                <div class="col-md-6">
+                                    <input formControlName="pfOwn" type="number" name="ownContribution" id="ownContribution" class="form-control" placeholder="Own Contribution">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="compContribution" class="col-md-6">Company Contribution</label>
+                                <div class="col-md-6">
+                                    <input formControlName="pfCompany" for="compContribution" type="number" name="compContribution" id="compContribution" class="form-control" placeholder="Comp Contribution">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="compContribution" class="col-md-6">Due Hospitalization Coverage</label>
+                                <div class="col-md-6">
+                                    <input formControlName="dueHospitalizationCoverage" for="dueHospitalizationCoverage" type="number" name="dueHospitalizationCoverage" id="dueHospitalizationCoverage" class="form-control" placeholder="Hospitalization Coverage">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="compContribution" class="col-md-6">Laptop Advance</label>
+                                <div class="col-md-6">
+                                    <input formControlName="laptopAdv" for="laptopAdv" type="number" name="laptopAdv" id="laptopAdv" class="form-control" placeholder="Laptop Advance">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <h6 class="card-header">Less</h6>
+                        <div class="card-body">
+                            <div class="form-group row">
+                                <label for="loanAdjust" class="col-md-6">Loan Adjusted</label>
+                                <div class="col-md-6">
+                                    <input formControlName="pfLoan" type="number" name="loanAdjust" id="loanAdjust" class="form-control" placeholder="Loan Adjusted">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="interestAdjust" class="col-md-6">Interested Adjusted</label>
+                                <div class="col-md-6">
+                                    <input formControlName="pflInterest" type="number" name="interestAdjust" id="interestAdjust" class="form-control" placeholder="Interest Adjusted">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br>
+            <div class="row">
+                <div class="center demo-inline-spacing">
+                    <button (click)="reset()" class="btn btn-info"><span class="ion ion-ios-refresh"></span> Clear</button>
+                    <button (click)="onSubmit()" class="btn btn-success">Save</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<ng-template #searchModal>
+    <app-search-employee [status]="'Inactive'" (selectEvent)="onSearchBtnClick($event)"></app-search-employee>
+</ng-template>

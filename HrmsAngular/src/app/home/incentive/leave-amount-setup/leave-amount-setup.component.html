@@ -1,0 +1,98 @@
+<div class="card">
+    <h4 class="card-header text-center bg-light">{{title}}</h4>
+    <div class="card-body">
+        <form [formGroup]="EncashAmountGroup">
+            <div class="row">
+                <div class="col-md-6 center">
+                    <div class="form-group row">
+                        <label for="empType" class="col-md-4">Employee Type</label>
+                        <div class="col-md-6">
+                            <ng-select [ngClass]="{'is-invalid': (isSubmitted || f['empGrade'].touched || f['empGrade'].dirty) && f['empGrade'].invalid}" [items]="allEmployeeType" bindLabel="gradeName" bindValue="gradeID" formControlName="empGrade" placeholder="Employee Type"></ng-select>
+                        </div>
+                        <label class="col-form-label col-sm-4 "></label>
+                        <div *ngIf="f['empGrade'].invalid && (isSubmitted || f['empGrade'].touched || f['empGrade'].dirty)" class="text-danger">
+                            <i *ngIf="f['empGrade'].errors['required']">Employee Type required</i>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="allowance" class="col-md-4">Allowances</label>
+                        <div class="col-md-6">
+                            <ng-select [ngClass]="{'is-invalid': (isSubmitted || f['salaryHead'].touched || f['salaryHead'].dirty) && f['salaryHead'].invalid}" [items]="salaryHeadModel" bindLabel="accountName" bindValue="id" formControlName="salaryHead" placeholder="Allowance"></ng-select>
+                        </div>
+                        <label class="col-form-label col-sm-4 "></label>
+                        <div *ngIf="f['salaryHead'].invalid && (isSubmitted || f['salaryHead'].touched || f['salaryHead'].dirty)" class="text-danger">
+                            <i *ngIf="f['salaryHead'].errors['required']">Salary head required</i>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="numberOfTimes" class="col-md-4">Number of Times</label>
+                        <div class="col-md-6">
+                            <input [ngClass]="{'is-invalid': (isSubmitted || f['numberoftimes'].touched || f['numberoftimes'].dirty) && f['numberoftimes'].invalid}" formControlName="numberoftimes" type="number" class="form-control" placeholder="Number Of Time">
+                        </div>
+                        <label class="col-form-label col-sm-4 "></label>
+                        <div *ngIf="f['numberoftimes'].invalid && (isSubmitted || f['numberoftimes'].touched || f['numberoftimes'].dirty)" class="text-danger">
+                            <i *ngIf="f['numberoftimes'].errors['required']">Number Of Time  required</i>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="form-label col-md-4" for="date">Date</label>
+                        <div class="input-group col-md-6">
+                            <input [ngClass]="{'is-invalid': (isSubmitted || f['eDateNgb'].touched || f['eDateNgb'].dirty) && f['eDateNgb'].invalid}" formControlName="eDateNgb" readonly class="form-control" placeholder="dd-mm-yyyy" id="date" name="date" ngbDatepicker [displayMonths]="1"
+                                #d2="ngbDatepicker">
+                            <div class="input-group-append">
+                                <button class="input-group-text" (click)="d2.toggle()" type="button">
+                    <span class="ion ion-md-calendar" style="cursor: pointer;"></span>
+                  </button>
+                            </div>
+                        </div>
+                        <label class="col-form-label col-sm-4 "></label>
+                        <div *ngIf="f['eDateNgb'].invalid && (isSubmitted || f['eDateNgb'].touched || f['eDateNgb'].dirty)" class="text-danger">
+                            <i *ngIf="f['eDateNgb'].errors['required']">EDate required</i>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="note" class="col-md-4">Note</label>
+                        <div class="col-md-6">
+                            <textarea [ngClass]="{'is-invalid': (isSubmitted || f['note'].touched || f['note'].dirty) && f['note'].invalid}" formControlName="note" name="note" id="note" rows="2" class="form-control" placeholder="Note"></textarea>
+                        </div>
+                        <label class="col-form-label col-sm-4 "></label>
+                        <div *ngIf="f['note'].invalid && (isSubmitted || f['note'].touched || f['note'].dirty)" class="text-danger">
+                            <i *ngIf="f['note'].errors['required']">Note required</i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="center demo-inline-spacing">
+                    <button (click)="reset()" class="btn btn-info"><span class="ion ion-ios-refresh"></span> Reset</button>
+                    <button (click)="save()" class="btn btn-success">{{btnStatus}}</button>
+                </div>
+            </div>
+        </form>
+        <div class="card-body ">
+            <div class="row">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>#SN</th>
+                            <th>Employee type</th>
+                            <th>Leave Type Name</th>
+                            <th>Number</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let leave of allEnCashAmount;let i = index">
+                            <td>{{i+1}}</td>
+                            <td>{{leave.gradeName}}</td>
+                            <td>{{leave.accountName}}</td>
+                            <td>{{leave.numberoftimes}}</td>
+                            <td><button (click)="getById(leave.id)" type="" class="btn btn-info btn-sm">
+                              <span class="fas fa-edit"></span></button>&nbsp;</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,186 @@
+<div class="card">
+    <h4 class="card-header text-center bg-light">Asset Disposal</h4>
+    <div class="card-body">
+        <div class="pt-3" style="border: 1px solid lightgray;">
+            <form [formGroup]="propDisForm" class="row">
+                <!--Left column-->
+                <div class="col-6">
+
+                    <h5 class="text-center">Last User Information</h5>
+                    <!--Employee Id-->
+                    <div class="form-group row">
+                        <label class="col-form-label col-sm-4 ">Employee ID</label>
+                        <div class="col-sm-6">
+                            <app-employee-select-list [fixedWidth]="'200px'" [isRequired]="f['empCode'].invalid && (isSubmitted || f['empCode'].touched || f['empCode'].dirty)" (onChange)="getEmpInfo($event.empCode);f['empCode'].setValue($event.empCode);getDisposeByEmpCode($event.empCode)"
+                                [setEmpCode]="formVal.empCode">
+                            </app-employee-select-list>
+                            <div *ngIf="f['empCode'].invalid && (isSubmitted || f['empCode'].touched || f['empCode'].dirty)" class="text-danger">
+                                <i *ngIf="f['empCode'].errors.required">Employee Code is required</i>
+                            </div>
+                        </div>
+                    </div>
+                    <!--Employee Name-->
+                    <div class="form-group row">
+                        <label class="col-form-label col-sm-4 ">Employee Name</label>
+                        <div class="col-sm-6">
+                            <input readonly formControlName="empName" type="text" class="form-control" placeholder="Employee Name">
+                        </div>
+                    </div>
+                    <!--Designation Name-->
+                    <div class="form-group row">
+                        <label class="col-form-label col-sm-4 ">Designation</label>
+                        <div class="col-sm-6">
+                            <input readonly formControlName="designation" type="text" class="form-control" placeholder="Designation">
+                        </div>
+                    </div>
+                    <!--Department Name-->
+                    <div class="form-group row">
+                        <label class="col-form-label col-sm-4 ">Department</label>
+                        <div class="col-sm-6">
+                            <input readonly formControlName="department" type="text" class="form-control" placeholder="Department ">
+                        </div>
+                    </div>
+                    <!--Disposal Date-->
+                    <div class="form-group row">
+                        <label class="col-form-label col-sm-4 ">Disposal Date</label>
+                        <div class="col-sm-6">
+                            <div class="input-group">
+                                <input readonly formControlName="disposeDateNgb" class="form-control" name="disposeDateNgb" ngbDatepicker #d1="ngbDatepicker">
+                                <div class="input-group-append">
+                                    <button class="input-group-text" (click)="d1.toggle()" type="button">
+                    <span class="ion ion-md-calendar" style="cursor: pointer;"></span>
+                  </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Type-->
+                    <div class="form-group row">
+                        <label class="col-form-label col-sm-4 ">Type</label>
+                        <div class="col-sm-6">
+                            <select [ngClass]="{'is-invalid': (isSubmitted || f['disType'].touched || f['disType'].dirty) && f['disType'].invalid}" formControlName="disType" class="form-control">
+                <option value="0">--Select--</option>
+                <option value="Disposal">Dispose</option>
+                <option value="Back">Back</option>
+              </select>
+                        </div>
+                        <label class="col-form-label col-sm-4 "></label>
+                        <div *ngIf="f['disType'].invalid && (isSubmitted || f['disType'].touched || f['disType'].dirty)" class="text-danger">
+                            <i *ngIf="f['disType'].errors.required"> Type required</i>
+                        </div>
+                    </div>
+                    <!--Note-->
+                    <div class="form-group row">
+                        <label class="col-form-label col-sm-4 ">Note</label>
+                        <div class="col-sm-6">
+                            <textarea formControlName="note" class="form-control" placeholder="Note"></textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="vertical"></div>
+                <!--Right column-->
+                <div class="col-6">
+                    <h5 class="text-center">Property Information</h5>
+                    <!--Category Name-->
+                    <div class="form-group row">
+                        <label class="col-form-label col-sm-4 ">Category Name</label>
+                        <div class="col-sm-6">
+                            <ng-select [ngClass]="{'is-invalid': (isSubmitted || f['categoryID'].touched || f['categoryID'].dirty) && f['categoryID'].invalid}" formControlName="categoryID" name="categoryID" [items]="catagories" bindLabel="categoryName" bindValue="id" (change)="GetAssetByCategory(f['categoryID'].value)"
+                                placeholder="Category Name">
+                            </ng-select>
+                        </div>
+                        <label class="col-form-label col-sm-4 "></label>
+                        <div *ngIf="f['categoryID'].invalid && (isSubmitted || f['categoryID'].touched || f['categoryID'].dirty)" class="text-danger">
+                            <i *ngIf="f['categoryID'].errors.required"> Category required</i>
+                        </div>
+                    </div>
+                    <!--Property Name-->
+                    <div class="form-group row">
+                        <label class="col-form-label col-sm-4 ">Property Name</label>
+                        <div class="col-sm-6">
+                            <ng-select [ngClass]="{'is-invalid': (isSubmitted || f['propertyID'].touched || f['propertyID'].dirty) && f['propertyID'].invalid}" formControlName="propertyID" (change)="getAssetModel(f['propertyID'].value)" name="propertyID" [items]="assetName" bindLabel="assetName"
+                                bindValue="id" placeholder="Property Name">
+                            </ng-select>
+                        </div>
+                        <label class="col-form-label col-sm-4 "></label>
+                        <div *ngIf="f['propertyID'].invalid && (isSubmitted || f['propertyID'].touched || f['propertyID'].dirty)" class="text-danger">
+                            <i *ngIf="f['propertyID'].errors.required"> Property Name required</i>
+                        </div>
+                    </div>
+                    <!--Model-->
+                    <div class="form-group row">
+                        <label class="col-form-label col-sm-4 ">Model</label>
+                        <div class="col-sm-6">
+                            <ng-select [ngClass]="{'is-invalid': (isSubmitted || f['modelID'].touched || f['modelID'].dirty) && f['modelID'].invalid}" formControlName="modelID" (change)="onAssetModelChange(f['modelID'].value)" [items]="assetModels" bindLabel="model" bindValue="id"
+                                placeholder="Select Asset Model">
+                            </ng-select>
+                        </div>
+                        <label class="col-form-label col-sm-4 "></label>
+                        <div *ngIf="f['modelID'].invalid && (isSubmitted || f['modelID'].touched || f['modelID'].dirty)" class="text-danger">
+                            <i *ngIf="f['modelID'].errors.required"> Model required</i>
+                        </div>
+                    </div>
+                    <!--Serial-->
+                    <div class="form-group row">
+                        <label class="col-form-label col-sm-4 ">Serial</label>
+                        <div class="col-sm-6">
+                            <input formControlName="serial" type="text" class="form-control" placeholder="Serial" readonly>
+                        </div>
+                    </div>
+                    <!--Configuration-->
+                    <div class="form-group row">
+                        <label class="col-form-label col-sm-4 ">Configuration</label>
+                        <div class="col-sm-6">
+                            <textarea formControlName="confiruration" class="form-control" placeholder="Configuration" readonly></textarea>
+                        </div>
+                    </div>
+                    <!--Button-->
+                    <div class="form-group row m-auto">
+                        <label class="col-form-label col-sm-2 "></label>
+                        <div class="demo-inline-spacing mt-3">
+                            <button (click)="reset()" type="clear" class="btn btn-info">
+                            <span class="ion ion-ios-refresh"></span> Reset</button>
+                            <button (click)="SaveUpdatePropertyDispose()" type="submit" class="btn btn-success">{{btnStatus}}</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <!--End row-->
+
+        <!--end body Card-->
+        <!-- Table-->
+        <div class="row">
+            <div class="data-table">
+                <table class="table table-hover table-bordered table-striped mb-0">
+                    <thead>
+                        <tr>
+                            <th>SN</th>
+                            <th>Model</th>
+                            <th>Serial</th>
+                            <th>Configuration</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let item of disposalAssets; let i=index">
+                            <td>{{i+1}}</td>
+                            <td>{{item.model}}</td>
+                            <td>{{item.serial}}</td>
+                            <td>{{item.confiruration}}</td>
+                            <td><button (click)="getDisposalById(item.id)" type="" class="btn btn-info btn-sm">
+
+          <span class="fas fa-edit"></span></button>&nbsp;
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Employee Search Modal -->
+<ng-template #PropDisposalSearchModal>
+    <app-search-employee (selectEvent)="onSelectEmp($event)"></app-search-employee>
+</ng-template>

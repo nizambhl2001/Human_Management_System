@@ -1,0 +1,250 @@
+<div class="card">
+  <h4 class="card-header text-center bg-light">Enrolment Information</h4>
+  <div class="card-body">
+    <form [formGroup]="empEnrolmentForm" >
+    <div class="row pt-3">
+      <!--Left column-->
+      <div class="col-6">
+      <!--Employee Id-->
+      <div class="form-group row">
+        <label class="col-form-label col-sm-4 ">Employee ID</label>
+        <div class="col-sm-8">
+          <div class="input-group">
+            <app-employee-select-list
+            [isSearchBtnHide]="false"
+            [setEmpCode]="f['empCode'].value"
+            (onChange)="getById($event);">
+           </app-employee-select-list>
+           <div *ngIf="f['empCode'].invalid && (isSubmitted || f['empCode'].touched || f['empCode'].dirty)" class="text-danger">
+            <i *ngIf="f['empCode'].errors.required">Please input EmpCode</i>
+          </div>
+          </div>
+        </div>
+      </div>
+        <!--Empty Name-->
+        <div class="form-group row">
+            <label for="empName" class="col-form-label col-sm-4 ">Employee Name</label>
+            <div class="col-md-8">
+              <input formControlName="empName" type="text" name="empName" id="empName" class="form-control" readonly>
+
+            </div>
+          </div>
+        <!-- Bank-->
+        <div class="form-group row">
+          <label class="col-form-label col-sm-4 ">Bank</label>
+          <div class="col-sm-8">
+            <ng-select formControlName="bank" [items]="allBank" placeholder="Select Bank" bindLabel="description" bindValue="id">
+
+            </ng-select>
+            <div *ngIf="f['bank'].invalid && (isSubmitted || f['bank'].touched || f['bank'].dirty)" class="text-danger">
+              <i *ngIf="f['bank'].errors.required">Please select bank</i>
+            </div>
+          </div>
+        </div>
+        <!--Bank Branch-->
+        <div class="form-group row">
+          <label class="col-form-label col-sm-4 ">Bank Branch</label>
+          <div class="col-sm-8">
+            <ng-select formControlName="bankBranch" [items]="bankBranch" placeholder="Select Bank Branch" bindLabel="description" bindValue="id">
+
+            </ng-select>
+            <div *ngIf="f['bankBranch'].invalid && (isSubmitted || f['bankBranch'].touched || f['bankBranch'].dirty)" class="text-danger">
+              <i *ngIf="f['bankBranch'].errors.required">Please select bank branch</i>
+            </div>
+          </div>
+        </div>
+        <!--Account No-->
+        <div class="form-group row">
+          <label class="col-form-label col-sm-4 ">Account No</label>
+          <div class="col-sm-8">
+            <input formControlName="accountNo" type="text" class="form-control" placeholder="Account No">
+            <div *ngIf="f['accountNo'].invalid && (isSubmitted || f['accountNo'].touched || f['accountNo'].dirty)" class="text-danger">
+              <i *ngIf="f['accountNo'].errors.required">Please input AccountNo</i>
+            </div>
+          </div>
+        </div>
+        <!--Account Name-->
+        <div class="form-group row">
+          <label class="col-form-label col-sm-4 ">Account Name</label>
+          <div class="col-sm-8">
+            <input formControlName="accountName" type="text" class="form-control" placeholder="Account Name">
+            <div *ngIf="f['accountName'].invalid && (isSubmitted || f['accountName'].touched || f['accountName'].dirty)" class="text-danger">
+              <i *ngIf="f['accountName'].errors.required">Please input Account Name</i>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!--Right column-->
+      <div class="col-6">
+        <!--Payment Method-->
+        <div class="form-group row">
+          <label class="col-form-label col-sm-4 ">Payment Method</label>
+          <div class="col-sm-8">
+            <ng-select formControlName="payby" placeholder="Cash/Bank" (change)="clickCash()" >
+                <ng-option value="Bank">Bank</ng-option>
+              <ng-option value="Cash">Cash</ng-option>
+
+            </ng-select>
+            <div *ngIf="f['payby'].invalid && (isSubmitted || f['payby'].touched || f['payby'].dirty)" class="text-danger">
+              <i *ngIf="f['payby'].errors.required">Please select Payment Method</i>
+            </div>
+          </div>
+        </div>
+        <!--Provident Fund-->
+        <div class="form-group row">
+          <label class="col-form-label col-sm-4 ">Provident Fund</label>
+          <div class="col-sm-8">
+            <ng-select formControlName="providentFund" placeholder="Yes/No" >
+              <ng-option value="Yes">Yes</ng-option>
+                <ng-option value="No">No</ng-option>
+
+            </ng-select>
+            <div *ngIf="f['providentFund'].invalid && (isSubmitted || f['providentFund'].touched || f['providentFund'].dirty)" class="text-danger">
+              <i *ngIf="f['providentFund'].errors.required">Please Select Provident Fund</i>
+            </div>
+          </div>
+        </div>
+        <!--Income Tax-->
+        <div class="form-group row">
+          <label class="col-form-label col-sm-4 ">Income Tax</label>
+          <div class="col-sm-8">
+              <ng-select formControlName="incomeTax" placeholder="Yes/No">
+                <ng-option value="Yes">Yes</ng-option>
+                <ng-option value="No">No</ng-option>
+
+                </ng-select>
+                <div *ngIf="f['incomeTax'].invalid && (isSubmitted || f['incomeTax'].touched || f['incomeTax'].dirty)" class="text-danger">
+                  <i *ngIf="f['incomeTax'].errors.required">Please Select Income Tax</i>
+                </div>
+          </div>
+        </div>
+        <!--Tax Payby Company-->
+        <div class="form-group row">
+          <label class="col-form-label col-sm-4 ">Tax Payby Company</label>
+          <div class="col-sm-8">
+              <ng-select formControlName="taxpaybycompany" placeholder="Yes/No">
+                <ng-option value="Yes">Yes</ng-option>
+                <ng-option value="No">No</ng-option>
+                </ng-select>
+                <div *ngIf="f['taxpaybycompany'].invalid && (isSubmitted || f['taxpaybycompany'].touched || f['taxpaybycompany'].dirty)" class="text-danger">
+                  <i *ngIf="f['taxpaybycompany'].errors.required">Please select Payby Company</i>
+                </div>
+          </div>
+        </div>
+        <!--Pay Scale Grade-->
+        <div class="form-group row">
+          <label class="col-form-label col-sm-4 ">Payscale Grade</label>
+          <div class="col-sm-8">
+            <ng-select formControlName="test" (change)="payScaleList(f['test'].value)"  [items]="allSalaryGrade" placeholder="Select Payscale" bindLabel="payScale" bindValue="payScale" >
+
+            </ng-select>
+            <div *ngIf="f['test'].invalid && (isSubmitted || f['test'].touched || f['test'].dirty)" class="text-danger">
+              <i *ngIf="f['test'].errors.required">Please Select Payscale Grade</i>
+            </div>
+          </div>
+        </div>
+        <!--Pay Scale -->
+        <div class="form-group row">
+          <label class="col-form-label col-sm-4 ">Payscale </label>
+          <div class="col-sm-8">
+            <ng-select formControlName="payScaleID" [items]="salaryGradePayScale" placeholder="Select Payscale" bindLabel="gradeName" bindValue="id">
+
+            </ng-select>
+            <div *ngIf="f['payScaleID'].invalid && (isSubmitted || f['payScaleID'].touched || f['payScaleID'].dirty)" class="text-danger">
+              <!-- <i *ngIf="f['payScaleID'].errors.required">Please Select Payscale </i> -->
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group row">
+          <label class="col-form-label col-sm-4 ">Effective Period </label>
+          <div class="col-sm-8">
+            <app-period-select-list [setPeriodId]="f['effectivePeriodID'].value" (onChange)="onSelectPeriod($event)"
+            [isRequired]="true"></app-period-select-list>
+            <div *ngIf="f['effectivePeriodID'].invalid && (isSubmitted || f['effectivePeriodID'].touched || f['effectivePeriodID'].dirty)" class="text-danger">
+              <!-- <i *ngIf="f['payScaleID'].errors.required">Please Select Payscale </i> -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    </form>
+    <!--End row-->
+  </div>
+  <!--end body Card-->
+  <div class="card-footer p-0">
+        <div class="form-group row my-1">
+          <div class="m-auto">
+            <button (click)="onSubmit()" type="submit" class="btn btn-success"> {{btnStatus}}</button>
+            <button (click)="Reset()" class="btn btn-info">
+              <span class="ion ion-ios-refresh"></span> Reset</button>
+          </div>
+        </div>
+  </div>
+</div>
+<!--Table-->
+<div class="card">
+    <div class="card-header">
+        <div class="row">
+            <div class="col">
+                Per page: &nbsp;
+                <select [(ngModel)]="perPage" (change)="update()" class="custom-select custom-select-md d-inline-block w-auto">
+            <option *ngFor="let limit of [5,10, 20, 30, 40, 50]">{{limit}}</option>
+          </select>
+            </div>
+            <div class="col">
+                <input type="text" [(ngModel)]="filterVal" (input)="currentPage = 1; update()" class="form-control form-control-md d-inline-block w-auto float-sm-right" placeholder="Search...">
+            </div>
+        </div>
+    </div>
+    <div class="card-body p-0">
+      <form autocomplete="off">
+        <div class="form-group">
+          <div class="table-responsive mb-4">
+            <table class="table table-hover table-striped mb-0">
+              <thead>
+                <tr>
+                  <th>Bank_Name</th>
+                  <th>Bank_Branch</th>
+                  <th>Payment_Method</th>
+                  <th>Account_No</th>
+                  <th>PeriodName</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngIf="tempItems.length==0">
+                  <td colspan="13" class="font-italic text-center">No item available</td>
+                </tr>
+                <tr (click)="getByIdEdit(item)" *ngFor="let item of tempItems; let i=index">
+                  <td>{{item.bankName}}</td>
+                  <td>{{item.bankBranchName}}</td>
+                  <td>{{item.paymentMethod}}</td>
+                  <td>{{item.accountNo}}</td>
+                  <td>{{item.periodName}}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+
+          <!-- Pagination -->
+          <div class="card-body py-0">
+
+            <div class="row">
+              <div class="col-sm text-sm-left text-center pt-3">
+                <span class="text-muted" *ngIf="totalItems">Page {{ currentPage }} of {{ totalPages }}</span>
+              </div>
+              <div class="col-sm pt-3">
+                <ngb-pagination [collectionSize]="totalItems" [pageSize]="perPage" [(page)]="currentPage"
+                  (pageChange)="update()" size="sm" class="d-flex justify-content-center justify-content-sm-end m-0">
+                </ngb-pagination>
+              </div>
+            </div>
+
+          </div>
+          <!-- / Pagination -->
+        </div>
+      </form>
+    </div>
+  </div>

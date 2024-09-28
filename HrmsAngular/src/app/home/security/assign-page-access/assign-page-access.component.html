@@ -1,0 +1,47 @@
+<div class="card">
+    <h4 class="card-header text-center bg-light">{{title}}</h4>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-6 center">
+                <form [formGroup]="assignForm">
+                    <div class="form-group row">
+                        <label for="userTypeID" class="col-md-4">User Name</label>
+                        <div class="col-md-7">
+                            <ng-select (ngModelChange)="onSelectUser($event)" formControlName="userID" [items]="users" bindLabel="userName" bindValue="id" placeholder="Select User Name" [ngClass]="{'is-invalid':(frmControl['userID'].touched || frmControl['userID'].dirty || isSubmitted) && frmControl['userID'].invalid}"
+                                id="userName">
+                            </ng-select>
+                            <div *ngIf="(frmControl['userID'].touched || frmControl['userID'].dirty || isSubmitted) && frmControl['userID'].invalid" class="text-danger">
+                                <i *ngIf="frmControl['userID'].errors.required">User Name is required</i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modules">
+                        <div class="list-group list-group-root well" style="max-height: 500px; overflow-y: scroll;">
+                            <ul *ngFor="let moduleForm of moduleForms.controls" [formGroup]="moduleForm" class="m-0">
+                                <li [attr.href]="'#'+moduleForm.value.name.replace(' ','')" class="list-group-item module-list border-0" data-toggle="collapse">
+                                    <div class="custom-control custom-checkbox">
+                                        <input (change)="onSelectModule(moduleForm.value.id,$event.target.checked)" formControlName="isSelected" type="checkbox" class="custom-control-input" [id]="moduleForm.value.name.replace(' ','')">
+                                        <label class="custom-control-label" [for]="moduleForm.value.name.replace(' ','')">{{moduleForm.value.name}} ({{moduleForm.value.pages?.length}})</label>
+                                        <span class="fas fa-chevron-right pull-right"></span>
+                                    </div>
+                                </li>
+                                <ul class="list-group m-0">
+                                    <li *ngFor="let pageForm of moduleForm['controls'].pages['controls']" [formGroup]="pageForm" class="list-group collapse page-list" [id]="moduleForm.value.name.replace(' ','')">
+                                        <div class="custom-control custom-checkbox ml-5">
+                                            <input (change)="onSelectPage(moduleForm.value.id)" formControlName="isSelected" type="checkbox" class="custom-control-input" [id]="pageForm.value.name.replace(' ','')+pageForm.value.id">
+                                            <label class="custom-control-label ml-3" [for]="pageForm.value.name.replace(' ','')+pageForm.value.id">{{pageForm.value.name}}</label>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </ul>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row">
+                        <button (click)="onSubmit()" class="btn btn-success center"> Save</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

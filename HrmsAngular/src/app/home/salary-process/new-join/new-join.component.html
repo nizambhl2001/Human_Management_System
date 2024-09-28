@@ -1,0 +1,118 @@
+<div class="card">
+  <h4 class="card-header text-center bg-light">New Employee Information</h4>
+  <div class="card-body">
+    <form [formGroup]="newJoinForm">
+      <div class="row pt-3">
+        <div class="col-6">
+          <div class="form-group row">
+            <label class="col-form-label col-sm-4 "> From Date</label>
+            <div class="col-sm-8">
+              <div class="input-group">
+                <input formControlName="ngbStartDate" class="form-control" name="fromDate" placeholder="dd-mm-yyyy"
+                  ngbDatepicker readonly #d1="ngbDatepicker">
+                <div class="input-group-append">
+                  <button class="input-group-text" (click)="d1.toggle()" type="button">
+                    <span class="ion ion-md-calendar" style="cursor: pointer;"></span>
+                  </button>
+                </div>
+              </div>
+              <div
+                *ngIf="f['ngbStartDate'].invalid && (isSubmitted || f['ngbStartDate'].touched || f['ngbStartDate'].dirty)"
+                class="text-danger">
+                <i *ngIf="f['ngbStartDate'].errors.required">Please Select Form Data</i>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-6">
+          <div class="form-group row">
+            <label class="col-form-label col-sm-4 "> To Date</label>
+            <div class="col-sm-8">
+              <div class="input-group">
+                <input formControlName="ngbEndDate" class="form-control" name="toDate" placeholder="dd-mm-yyyy"
+                  ngbDatepicker readonly #d2="ngbDatepicker">
+                <div class="input-group-append">
+                  <button class="input-group-text" (click)="d2.toggle()" type="button">
+                    <span class="ion ion-md-calendar" style="cursor: pointer;"></span>
+                  </button>
+                </div>
+              </div>
+              <div *ngIf="f['ngbEndDate'].invalid && (isSubmitted || f['ngbEndDate'].touched || f['ngbEndDate'].dirty)"
+                class="text-danger">
+                <i *ngIf="f['ngbEndDate'].errors.required">Please Select To Date</i>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="form-group row m-auto">
+        <label class="col-form-label col-sm-5 "></label>
+        <div class="demo-inline-spacing mt-3">
+          <button (click)="Reset()" class="btn btn-info">
+            <span class="far fa-reset"></span> Reset</button>
+          <button (click)="getNewJoinInfo()" [ladda]="isShowEmplowee" class="btn btn-success">Show Data</button>
+        </div>
+      </div>
+    </form>
+    <div class="card">
+      <div class="card-header">
+        <div class="row">
+          <div class="col">
+            Per page: &nbsp;
+            <select [(ngModel)]="perPage" (change)="update()"
+              class="custom-select custom-select-md d-inline-block w-auto">
+              <option *ngFor="let limit of [5,10, 20, 30, 40, 50]">{{limit}}</option>
+            </select>
+          </div>
+          <div class="col">
+            <input type="text" [(ngModel)]="filterVal" (input)="currentPage = 1; update()"
+              class="form-control form-control-md d-inline-block w-auto float-sm-right" placeholder="Search...">
+          </div>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="data-table m-0">
+          <table class="table table-hover table-striped mb-0">
+            <thead>
+              <tr>
+                <th>Code</th>
+                <th> Employee Name</th>
+                <th>Designation</th>
+                <th>Department</th>
+                <th>Joining Date</th>
+                <th>Type</th>
+
+
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngIf="tempItems.length==0">
+                <td colspan="6" class="font-italic text-center">No item available</td>
+              </tr>
+              <tr *ngFor="let item of tempItems; let i=index">
+                <td>{{item.empCode}}</td>
+                <td>{{item.empName}}</td>
+                <td>{{item.designation}}</td>
+                <td>{{item.department}}</td>
+                <td>{{item.joinDate|date:'dd-MMM-yyyy'}}</td>
+                <td>{{item.enrolment}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="card-footer py-0">
+        <div class="row">
+          <div class="col-sm text-sm-left text-center pt-3">
+            <span class="text-muted" *ngIf="totalItems">Page {{ currentPage }} of {{ totalPages }}</span>
+          </div>
+          <div class="col-sm pt-3">
+            <ngb-pagination [collectionSize]="totalItems" [pageSize]="perPage" [(page)]="currentPage"
+              (pageChange)="update()" size="sm" class="d-flex justify-content-center justify-content-sm-end m-0">
+            </ngb-pagination>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

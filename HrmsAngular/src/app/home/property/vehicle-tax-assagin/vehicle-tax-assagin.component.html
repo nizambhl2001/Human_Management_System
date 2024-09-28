@@ -1,0 +1,119 @@
+<div class="card">
+    <h4 class="card-header text-center bg-light">
+        Vehicle/Accommodation Tax Assagin
+    </h4>
+    <form [formGroup]="taxAssainForm">
+        <div class="card-body">
+            <div class="col-md-7 center">
+                <!--Employee Id-->
+                <div class="form-group row">
+                    <label class="col-form-label col-sm-4 ">Employee ID</label>
+                    <div class="col-sm-8">
+                        <app-employee-select-list [isRequired]="f['empCode'].invalid && (isSubmitted || f['empCode'].touched || f['empCode'].dirty)" (onChange)="getEmpInfo($event.empCode)" [setEmpCode]="formVal.empCode">
+                        </app-employee-select-list>
+                        <label class="col-form-label col-sm-4 "></label>
+                        <div *ngIf="f['empCode'].invalid && (isSubmitted || f['empCode'].touched || f['empCode'].dirty)" class="text-danger">
+                            <i *ngIf="f['empCode'].errors.required">Employee Code is required</i>
+                        </div>
+                    </div>
+                </div>
+                <!--Employee Name-->
+                <div class="form-group row">
+                    <label class="col-form-label col-sm-4 ">Employee Name</label>
+                    <div class="col-sm-6">
+                        <input readonly formControlName="empName" type="text" class="form-control" placeholder="Employee Name">
+                    </div>
+                </div>
+                <!--Department Name-->
+                <div class="form-group row">
+                    <label class="col-form-label col-sm-4 ">Department</label>
+                    <div class="col-sm-6">
+                        <input readonly formControlName="department" type="text" class="form-control" placeholder="Department">
+                    </div>
+                </div>
+                <!--Designation Name-->
+                <div class="form-group row">
+                    <label class="col-form-label col-sm-4 ">Designation</label>
+                    <div class="col-sm-6">
+                        <input readonly formControlName="designation" type="text" class="form-control" placeholder="Designation">
+                    </div>
+                </div>
+                <!--Joining Date-->
+                <div class="form-group row">
+                    <label class="col-form-label col-sm-4 ">Joining Date</label>
+                    <div class="col-sm-6">
+                        <div class="input-group">
+                            <input readonly formControlName="joiningDateNgb" class="form-control" placeholder="dd-mm-yyyy" ngbDatepicker #d1="ngbDatepicker">
+                            <div class="input-group-append">
+                                <button disabled class="input-group-text" (click)="d1.toggle()" type="button">
+                <span class="ion ion-md-calendar" style="cursor: pointer;"></span>
+              </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--Property Type-->
+                <div class="form-group row">
+                    <label class="col-form-label col-sm-4 ">Property Type</label>
+                    <div class="col-sm-6">
+                        <select [ngClass]="{'is-invalid': (isSubmitted || f['type'].touched || f['type'].dirty) && f['type'].invalid}" formControlName="type" class="form-control">
+            <option value="0">--Select--</option>
+            <option value="1">Car</option>
+            <option value="2">House</option>
+          </select>
+                    </div>
+                    <label class="col-form-label col-sm-4 "></label>
+                    <div *ngIf="f['type'].invalid && (isSubmitted || f['type'].touched || f['type'].dirty)" class="text-danger">
+                        <i *ngIf="f['type'].errors.required">Type is required</i>
+                    </div>
+                </div>
+                <!--Assain Type-->
+                <div class="form-group row">
+                    <label class="col-form-label col-sm-4 ">Assain Type</label>
+                    <div class="col-sm-6">
+                        <select [ngClass]="{'is-invalid': (isSubmitted || f['active'].touched || f['active'].dirty) && f['active'].invalid}" formControlName="active" class="form-control">
+            <option value="0">--Select--</option>
+            <option value="1">Assain</option>
+            <option value="2">Withdraw</option>
+          </select>
+                    </div>
+                    <label class="col-form-label col-sm-4 "></label>
+                    <div *ngIf="f['active'].invalid && (isSubmitted || f['active'].touched || f['active'].dirty)" class="text-danger">
+                        <i *ngIf="f['active'].errors.required">Assain Type is required</i>
+                    </div>
+                </div>
+                <!--Assain Date-->
+                <div class="form-group row">
+                    <label class="col-form-label col-sm-4 ">Assain Date</label>
+                    <div class="col-sm-6">
+                        <div class="input-group">
+                            <input [ngClass]="{'is-invalid': (isSubmitted || f['assainDateNgb'].touched || f['assainDateNgb'].dirty) && f['assainDateNgb'].invalid}" readonly formControlName="assainDateNgb" class="form-control" name="assainDateNgb" placeholder="dd-mm-yyyy" ngbDatepicker
+                                #d2="ngbDatepicker">
+                            <div class="input-group-append">
+                                <button class="input-group-text" (click)="d2.toggle()" type="button">
+                <span class="ion ion-md-calendar" style="cursor: pointer;"></span>
+              </button>
+                            </div>
+                        </div>
+                        <label class="col-form-label col-sm-4 "></label>
+                        <div *ngIf="f['assainDateNgb'].invalid && (isSubmitted || f['assainDateNgb'].touched || f['assainDateNgb'].dirty)" class="text-danger">
+                            <i *ngIf="f['assainDateNgb'].errors.required">Assain Date is required</i>
+                        </div>
+                    </div>
+                </div>
+                <!--Button-->
+                <div class="form-group row">
+                    <div class="demo-inline-spacing mt-3 center">
+                        <button (click)="reset()" type="clear" class="btn btn-info">
+                        <span class="ion ion-ios-refresh"></span> Reset</button>
+                        <button (click)="save()" type="submit" class="btn btn-success"> {{btnStatus}}</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<!-- Employee Search Modal -->
+<ng-template #searchModal>
+    <app-search-employee (selectEvent)="getById($event)"></app-search-employee>
+</ng-template>

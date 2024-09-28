@@ -1,0 +1,67 @@
+<div class="card section">
+    <h4 class="card-header text-center bg-light">
+        Other Tax Calculation
+    </h4>
+    <div class="card-body">
+        <div class="col-md-7 center">
+            <form [formGroup]="otherTaxCalculationForm">
+                <div class="form-group row">
+                    <label class="col-form-label col-sm-4 "> Period
+              </label>
+                    <div class="col-sm-8">
+                        <ng-select formControlName="periodID" placeholder="Select Period" [items]="salaryPeriod" bindLabel="periodName" bindValue="id">
+
+                        </ng-select>
+                        <div *ngIf="f['taxYearID'].invalid && (isSubmitted || f['taxYearID'].touched || f['taxYearID'].dirty)" class="text-danger">
+                            <i *ngIf="f['taxYearID'].errors['required']">Please Select Period</i>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-form-label col-sm-4 ">Income Year
+                </label>
+                    <div class="col-sm-8">
+                        <ng-select placeholder="Tax Year" formControlName="taxYearID" [items]="taxYearInfo" bindLabel="taxYearName" bindValue="id">
+                        </ng-select>
+                        <div *ngIf="f['taxYearID'].invalid && (isSubmitted || f['taxYearID'].touched || f['taxYearID'].dirty)" class="text-danger">
+                            <i *ngIf="f['taxYearID'].errors['required']">Please Select taxYear </i>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-form-label col-sm-4 ">Bonus Type
+                  </label>
+                    <div class="col-sm-8">
+                        <ng-select formControlName="bonusTypeID" placeholder="Bonus Type" [items]="allPaymentType" bindLabel="paymentType" bindValue="id">
+
+                        </ng-select>
+                        <div *ngIf="f['bonusTypeID'].invalid && (isSubmitted || f['bonusTypeID'].touched || f['bonusTypeID'].dirty)" class="text-danger">
+                            <i *ngIf="f['bonusTypeID'].errors['required']">Please Select Payment Type</i>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-form-label col-sm-4 ">Employee Code
+                    </label>
+                    <div class="col-sm-8">
+                        <ng-select formControlName="empCode" placeholder="Employee Code" [items]="processIncomeTaxModel" bindLabel="empCode" bindValue="empCode">
+                        </ng-select>
+                        <div *ngIf="f['empCode'].invalid && (isSubmitted || f['empCode'].touched || f['empCode'].dirty)" class="text-danger">
+                            <i *ngIf="f['empCode'].errors['required']">Please Input empCode</i>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="row">
+            <div class="demo-inline-spacing mt-3" style="margin:0 auto">
+                <button (click)="Reset()" type="" class="btn btn-info ">
+                      <span class="ion ion-ios-refresh"></span> Reset
+                  </button>
+                <button (click)="processOtherTaxCalculation()" class="btn btn-success">
+                        <span class="fas fa-save">Process</span>
+                      </button>
+            </div>
+        </div>
+    </div>
+</div>

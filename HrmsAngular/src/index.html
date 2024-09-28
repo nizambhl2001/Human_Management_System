@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en" class="default-style">
+  <head>
+    <base href="/">
+    <title>TheDailyStar</title>
+
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="IE=edge,chrome=1">
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+    <!-- <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link rel="shortcut icon" href="/favicon.ico" /> -->
+    <link rel="icon" href="assets/img/pic/master_favicon_thumbnail.png" width="50" type="image/x-icon" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    
+     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.0.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" /> -->
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,500,500i,700,700i,900" rel="stylesheet">
+    <!-- Icon fonts -->
+    <link rel="stylesheet" href="assets/vendor/fonts/fontawesome.css">
+    <link rel="stylesheet" href="assets/vendor/fonts/ionicons.css">
+    <link rel="stylesheet" href="assets/vendor/fonts/linearicons.css">
+    <link rel="stylesheet" href="assets/vendor/fonts/open-iconic.css">
+    <link rel="stylesheet" href="assets/vendor/fonts/pe-icon-7-stroke.css">
+
+    <!-- Core stylesheets -->
+    <link rel="stylesheet" href="vendor/styles/bootstrap.css" class="theme-settings-bootstrap-css">
+    <link rel="stylesheet" href="vendor/styles/appwork.css" class="theme-settings-appwork-css">
+    <link rel="stylesheet" href="vendor/styles/theme-corporate.css" class="theme-settings-theme-css">
+    <link rel="stylesheet" href="vendor/styles/colors.css" class="theme-settings-colors-css">
+    <link rel="stylesheet" href="vendor/styles/uikit.css">
+
+    <script src="assets/vendor/js/material-ripple.js"></script>
+    <script src="assets/vendor/js/layout-helpers.js"></script>
+
+    <!-- Theme settings -->
+    <!-- This file MUST be included after core stylesheets and layout-helpers.js in the <head> section -->
+    <!-- <script src="assets/vendor/js/theme-settings.js"></script> -->
+    <script>
+      window.themeSettings = new ThemeSettings({
+        cssPath: 'vendor/styles/',
+        themesPath: 'vendor/styles/'
+      });
+    </script>
+
+    <!-- Ace editor dependencies -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/agate.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="style/css" href="vendor/libs/ng-select/ng-select.scss" />
+    <!-- Splash screen -->
+    <style>
+      .app-splash-screen { background: #fff; position: fixed; display: block; z-index: 99999999; top: 0; right: 0; bottom: 0; left: 0; opacity: 1; -webkit-transition: opacity .3s; transition: opacity .3s; }
+      .app-splash-screen-content { position: absolute; top: 50%; left: 50%; transform: translate3d(0, 0, 0); -webkit-transform: translate3d(0, 0, 0); -webkit-animation: appSplashScreenAnimation 1.2s ease-in-out 0s infinite; animation: appSplashScreenAnimation 1.2s ease-in-out 0s infinite; }
+      @-webkit-keyframes appSplashScreenAnimation {
+        0%, 20% { -webkit-transform: translate3d(-50%, -50%, 0) rotateY(0); transform: translate3d(-50%, -50%, 0) rotateY(0); }
+        50% { -webkit-transform: translate3d(-50%, -50%, 0) rotateY(180deg); transform: translate3d(-50%, -50%, 0) rotateY(180deg); }
+        80%, 100% { -webkit-transform: translate3d(-50%, -50%, 0) rotateY(360deg); transform: translate3d(-50%, -50%, 0) rotateY(360deg); }
+      }
+      @keyframes appSplashScreenAnimation {
+        0%, 20% { -webkit-transform: translate3d(-50%, -50%, 0) rotateY(0); transform: translate3d(-50%, -50%, 0) rotateY(0); }
+        50% { -webkit-transform: translate3d(-50%, -50%, 0) rotateY(180deg); transform: translate3d(-50%, -50%, 0) rotateY(180deg); }
+        80%, 100% { -webkit-transform: translate3d(-50%, -50%, 0) rotateY(360deg); transform: translate3d(-50%, -50%, 0) rotateY(360deg); }
+      }
+    </style>
+    <!-- / Splash screen -->
+
+  </head>
+  <body>
+
+    <!-- Splash screen -->
+    <div class="app-splash-screen">
+      <div class="app-splash-screen-content">
+        <div class="ui-w-55">
+          <img src="assets/img/pic/star.png">
+        </div>
+      </div>
+    </div>
+    <!-- / Splash screen -->
+
+    <!-- App root -->
+    <app-root></app-root>
+    <!-- / App root -->
+
+    <!-- Ace editor dependencies -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/agate.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.2.9/ace.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/0.3.7/marked.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+
+    <script src = "https://code.jquery.com/jquery-3.3.1.slim.min.js"
+    integrity = "sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+    crossorigin = "anonymous">
+   </script>
+   <script src = "https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
+    integrity = "sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+    crossorigin = "anonymous">
+   </script>
+   <script src = "https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
+    integrity = "sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
+    crossorigin = "anonymous">
+   </script>
+
+  </body>
+</html>

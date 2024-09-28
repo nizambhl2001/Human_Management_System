@@ -1,0 +1,102 @@
+<div class="card">
+    <h4 class="card-header text-center bg-light">
+        {{title}}
+    </h4>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-5">
+                <form [formGroup]="leaveTypeForm">
+                    <!--Employee Type-->
+                    <div class="form-group row">
+                        <label class="col-form-label col-sm-4">Employee Type <span class="text-danger">*</span></label>
+                        <div class="col-sm-8">
+                            <ng-select formControlName="gradeValue" [items]="empTypes" bindLabel="gradeName" bindValue="gradeValue" (change)="getLeaveType(f.gradeValue.value)" placeholder="Select Employee Type" [ngClass]="{'is-invalid':(isSubmitted || f.gradeValue.touched || f.gradeValue.dirty) && f.gradeValue.invalid}">
+                            </ng-select>
+                            <div *ngIf="(isSubmitted || f.gradeValue.touched || f.gradeValue.dirty) && f.gradeValue.invalid" class="text-danger">
+                                <i *ngIf="f.gradeValue.errors.required">Employee type grade is required</i>
+                            </div>
+                        </div>
+                    </div>
+                    <!--Leave Type Name-->
+                    <div class="form-group row">
+                        <label class="col-form-label col-sm-4">Leave Type Name  <span class="text-danger">*</span></label>
+                        <div class="col-sm-8">
+                            <input formControlName="typeName" type="text" class="form-control" [ngClass]="{'is-invalid':(isSubmitted || f.typeName.touched || f.typeName.dirty) && f.typeName.invalid}" placeholder="Leave Type Name">
+                            <div *ngIf="(isSubmitted || f.typeName.touched || f.typeName.dirty) && f.typeName.invalid" class="text-danger">
+                                <i *ngIf="f.typeName.errors.required">Leave type name is required</i>
+                            </div>
+                        </div>
+                    </div>
+                    <!--Short Name-->
+                    <div class="form-group row">
+                        <label class="col-form-label col-sm-4">Short Name <span class="text-danger">*</span></label>
+                        <div class="col-sm-5">
+                            <input formControlName="shortn" [ngClass]="{'is-invalid':(isSubmitted || f.shortn.touched || f.shortn.dirty) && f.shortn.invalid}" type="text" class="form-control" placeholder="Short Name">
+                            <div *ngIf="(isSubmitted || f.shortn.touched || f.shortn.dirty) && f.shortn.invalid" class="text-danger">
+                                <i *ngIf="f.shortn.errors.required">Short name is required</i>
+                            </div>
+                        </div>
+                    </div>
+                    <!--Leave Day-->
+                    <div class="form-group row">
+                        <label class="col-form-label col-sm-4">Leave Day <span class="text-danger">*</span></label>
+                        <div class="col-sm-5">
+                            <input formControlName="maxDays" [ngClass]="{'is-invalid':(isSubmitted || f.maxDays.touched || f.maxDays.dirty) && f.maxDays.invalid}" type="number" class="form-control" placeholder="Leave Day">
+                            <div *ngIf="(isSubmitted || f.maxDays.touched || f.maxDays.dirty) && f.maxDays.invalid" class="text-danger">
+                                <i *ngIf="f.maxDays.errors.required">Max day is required</i>
+                            </div>
+                        </div>
+                    </div>
+                    <!--Apply Maximum-->
+                    <div class="form-group row">
+                        <label class="col-form-label col-sm-4">Apply Maximum  <span class="text-danger">*</span></label>
+                        <div class="col-sm-5">
+                            <input formControlName="applyMax" [ngClass]="{'is-invalid':(isSubmitted || f.applyMax.touched || f.applyMax.dirty) && f.applyMax.invalid}" type="number" class="form-control" placeholder="Apply Maximum">
+                            <div *ngIf="(isSubmitted || f.applyMax.touched || f.applyMax.dirty) && f.applyMax.invalid" class="text-danger">
+                                <i *ngIf="f.applyMax.errors.required">Maximum applicable day is required</i>
+                            </div>
+                        </div>
+                    </div>
+                    <!--Button-->
+                    <div class="form-group row">
+                        <div class="demo-inline-spacing mt-3 center">
+                          <button (click)="reset()" type="clear" class="btn btn-info">
+              <span class="ion ion-ios-refresh"></span> Reset</button>
+                            <button (click)="onSubmit()" class="btn btn-success"> {{btnStatus}}</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="col-md-7">
+                <div class="data-table">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>#SN</th>
+                                <th>Leave_Type_Name</th>
+                                <th>Leave_Days</th>
+                                <th>Apply_Max</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let item of leaveTypes; let i = index;">
+                                <td>{{i+1}}</td>
+                                <td>{{item.typeName}}</td>
+                                <td class="text-right">{{item.maxDays}}</td>
+                                <td class="text-right">{{item.applyMax}}</td>
+                                <td class="demo-inline-spacing">
+                                    <button (click)="edit(item.id)" class="btn btn-sm btn-info"><span class="fas fa-edit"></span></button>
+                                    <button (click)="delete(item.id,deleteModal)" class="btn btn-sm btn-danger"><span class="fas fa-trash"></span></button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<ng-template #deleteModal>
+    <app-delete-confirmation [rowId]="selectedIdForDelete" (onConfirmedId)="confirmDelete($event)"></app-delete-confirmation>
+</ng-template>

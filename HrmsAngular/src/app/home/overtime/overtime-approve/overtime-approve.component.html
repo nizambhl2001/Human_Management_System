@@ -1,0 +1,90 @@
+<div class="card">
+  <h4 class="card-header text-center bg-light py-2">Approve OT Requisition</h4>
+  <div class="card-body">
+    <div class="row">
+      <div class="col-md-10 center">
+        <div class="data-table">
+          <table class="table table-bordered">
+            <thead>
+              <tr>
+                <th>SL</th>
+                <th>Date</th>
+                <th>Status</th>
+                <th>Section</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let or of allOtRequisition; let i=index">
+                <td>{{i+1}}</td>
+                <td>{{or.requisitionDate | date:'dd MMM,yyyy'}}</td>
+                <td>
+                  <span [ngClass]="{'badge-success':or.isApprove,'badge-danger':!or.isApprove}" class="badge badge-pill text-white">{{or.isApprove?'Approved':'Pending'}}</span>
+                </td>
+                <td>{{or.section}}</td>
+                <td>
+                  <button (click)="getOtRequisitionDetails(or.id)" class="btn btn-primary py-1 px-2">Show</button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div *ngIf="isLoadingData" class="row">
+      <div class="col">
+        <h5 class="py-2 text-center text-success">Loading...</h5>
+      </div>
+    </div>
+    <form *ngIf="requisitionDetialsForm.controls.length>0" [formGroup]="requisitionApproveForm">
+      <div class="row">
+        <label for="reasonOfOt" class="col-sm-2 text-muted">Reasone of OT <span class="text-danger">*</span>
+        </label>
+        <div class="col-sm-8">
+          <textarea formControlName="reasonOfOt" rows="1" id="reasonOfOt" class="form-control" placeholder="Reason Of OT" readonly></textarea>
+        </div>
+      </div>
+      <div class="row">
+        <div class="data-table">
+          <table class="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th>#SL</th>
+                <th>Code</th>
+                <th>Name</th>
+                <th>Designation</th>
+                <th *ngFor="let col of dateColumns">{{col}}</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let dr of requisitionDetialsForm.controls; let i =index" [formGroup]="dr">
+                  <td>{{i+1}}</td>
+                  <td class="p-0">
+                    <input formControlName="empCode" type="text" class="form-control" readonly>
+                  </td>
+                  <td>{{dr.value.empName}}</td>
+                  <td>{{dr.value.designation}}</td>
+                  <td *ngFor="let col of dateColumns; let j=index" class="p-0">
+                      <input [formControlName]="'approved'+j" type="number" class="form-control" [readonly]="formVal.isApprove">
+                      <div class="custom-control custom-checkbox py-1 m-0 badge">
+                          <input [formControlName]="'replace'+j" type="checkbox" [id]="'replace'+i+'_'+j"
+                              class="pull-left" [disabled]="formVal.isApprove" />
+                          <label [for]="'replace'+i+'_'+j"
+                              class="ml-1 text-muted font-weight-normal"><small>Replace</small></label>
+                      </div>
+                  </td>
+              </tr>
+          </tbody>
+          </table>
+        </div>
+      </div>
+      <div *ngIf="!formVal.isApprove" class="row">
+        <div class="demo-inline-spacing mt-3" style="margin:0 auto">
+          <button (click)="reset()" class="btn btn-secondary">Reset</button>
+          <button [ladda]="isUpdating" (click)="onSubmit()" class="btn btn-success">Update</button>
+          <button [ladda]="isApproving" (click)="onSubmit(true)" class="btn btn-primary">Approve</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

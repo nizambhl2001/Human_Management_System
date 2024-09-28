@@ -1,0 +1,56 @@
+<div class="card  section">
+    <h4 class="card-header text-center bg-light">
+        {{title}}
+    </h4>
+    <div class="card-body col-md-9" style="margin: 0 auto">
+        <form [formGroup]="holydayForm">
+            <div class="form-group row">
+                <label class="form-label col-sm-3">Select Month/Date</label>
+                <i class="text-danger">*</i>
+                <div class="input-group col-sm-6 row">
+                    <div class="col-6 pr-5">
+                        <app-date-control [setNgbDate]="f['hYear'].value" (getLocalDate)="f['hYear'].setValue($event)" (getNgbDate)="f['hYear'].setValue($event)"></app-date-control>
+                        <div *ngIf="f['hYear'].invalid && (isSubmitted || f['hYear'].touched || f['hYear'].dirty)" class="text-danger">
+                            <i *ngIf="f['hYear'].errors.required">Select Date First</i>
+                        </div>
+                     </div> 
+                   
+                </div>
+                <div class="col-2">
+                    <button class="btn btn-primary" (click)="getAllDivisionList()" type="button"> Get List</button>
+                </div>
+            </div>
+        </form>
+        <div class="row">
+            <div class="data-table">
+                <table class="table table-hover table-bordered table-striped mb-0">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Perticular</th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngIf="holydayEditForm.controls.length==0">
+                            <td colspan="13" class="font-italic text-center">No item available</td>
+                        </tr>
+                        <tr *ngFor="let salaryEditItem of holydayEditForm.controls; let i=index" [formGroup]="salaryEditItem">
+
+                            <td>{{salaryEditItem.value.hdate}}</td>
+                            <td><input formControlName="note" type="text" class="form-control" /></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+    <div class="row">
+        <label for="" class="col-form-label col-sm-2 "></label>
+        <div class="demo-inline-spacing mt-3 center">
+            <button (click)="Reset()" class="btn btn-info"><span class="ion ion-ios-refresh"></span> Reset</button>
+            <button *ngIf="btnStatus==true && f['hYear'].value" (click)="saveHolyDay()" class="btn btn-success"> Save</button>
+
+        </div>
+    </div>

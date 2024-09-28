@@ -1,0 +1,87 @@
+<div class="card center">
+    <h4 class="card-header text-center bg-light">
+        Process Import Bonus
+    </h4>
+    <form [formGroup]="processBonus">
+        <div class="container">
+            <br />
+            <div class="col-md-7 center">
+                <div class="form-group row">
+                    <label class="col-form-label col-sm-4 ">Period
+            </label>
+                    <div class="col-sm-6">
+                        <ng-select [ngClass]="{'is-invalid':(f['periodID'].invalid && (f['periodID'].touched || f['periodID'].dirty || isSubmitted))}" [items]="allBonusPeriod" formControlName="periodID" bindLabel="periodName" bindValue="id" placeholder="Period">
+                            ></ng-select>
+                    </div>
+                    <label class="col-form-label col-sm-4">
+            </label>
+                    <div class="text-danger" *ngIf="(f['periodID'].invalid && (f['periodID'].touched || f['periodID'].dirty || isSubmitted))">
+                        <i *ngIf="f['periodID'].errors['required']">Bonus Type is required</i>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-form-label col-sm-4 ">Bonus Head
+          </label>
+                    <div class="col-sm-6">
+                        <ng-select [items]="allBonusAllowance" formControlName="salaryHeadID" bindLabel="accountName" bindValue="id" placeholder="Select Head"></ng-select>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-form-label col-sm-4 ">Bonus Type
+            </label>
+                    <div class="col-sm-6">
+                        <ng-select [ngClass]="{'is-invalid':(f['bonustype'].invalid && (f['bonustype'].touched || f['bonustype'].dirty || isSubmitted))}" [items]="allBonusType" formControlName="bonustype" bindLabel="paymentType" bindValue="id" placeholder="Select Type"></ng-select>
+                    </div>
+                    <label class="col-form-label col-sm-4">
+            </label>
+                    <div class="text-danger" *ngIf="(f['bonustype'].invalid && (f['bonustype'].touched || f['bonustype'].dirty || isSubmitted))">
+                        <i *ngIf="f['bonustype'].errors['required']">Bonus Type is required</i>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="demo-inline-spacing mt-3" style="margin:0 auto">
+                    <button (click)="getAllProcess()" type="" class="btn btn-primary">
+          <span class="fas fa-file-download">Show Data</span>
+        </button>
+                </div>
+            </div>
+            <table class="table table-bordered table-striped text-center">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Code</th>
+                        <th>Employee Name</th>
+                        <th>Designation</th>
+                        <th>Department</th>
+                        <th>Basic Amount</th>
+                        <th>Bonus</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of getImportBonus;let i=index">
+                        <td>{{i+1}}</td>
+                        <td>{{item.empCode}}</td>
+                        <td>{{item.empName}}</td>
+                        <td>{{item.designation}}</td>
+                        <td>{{item.department}}</td>
+                        <td>{{item.bonusAmount}}</td>
+                        <td>{{item.amount}}</td>
+                    </tr>
+
+                </tbody>
+            </table>
+            <div class="row">
+                <div class="demo-inline-spacing mt-3" style="margin:0 auto">
+                    <button (click)="save()" type="" class="btn btn-success">
+          <span class="fas fa-save"> Save</span>
+        </button>
+
+                    <button type="" class="btn btn-secondary">
+          <span class="far fa-window-close"></span> Close</button>
+                </div>
+            </div>
+
+        </div>
+    </form>
+</div>

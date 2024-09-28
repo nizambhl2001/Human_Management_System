@@ -1,0 +1,95 @@
+<div class="card">
+  <div class="card-header py-2">
+    <h4 class="mb-0 text-center">Reset Agree Status</h4>
+  </div>
+  <div class="card-body">
+    <div class="row m-0 p-0">
+      <div class="col-md-6 mx-auto">
+        <div class="form-group row my-2">
+          <label for="yearId" class="col-md-3">Year <span class="text-danger">*</span></label>
+          <div class="col-md-9">
+            <ng-select [(ngModel)]="resetForm.yearId" (change)="onChangeYear($event)" [items]="years" bindLabel="yearName" bindValue="id" name="year" id="year" placeholder="Select Year">
+            </ng-select>
+          </div>
+        </div>
+        <div class="form-group row my-2">
+          <label for="yearId" class="col-md-3">Quarter <span class="text-danger">*</span></label>
+          <div class="col-md-9">
+            <ng-select [(ngModel)]="resetForm.quarterId" (change)="onChangeQuarter($event)" name="quarterid" [items]="quarters" bindLabel="shortName" bindValue="id"
+              name="quarter" id="quarter" placeholder="Select Quarter">
+            </ng-select>
+          </div>
+        </div>
+        <div class="form-group row my-2">
+          <label for="employeeId" class="col-md-3">Employee <span class="text-danger">*</span></label>
+          <div class="col-md-9">
+            <ng-select [(ngModel)]="resetForm.empCode" name="empCode" [items]="employees" bindLabel="empName"
+             (change)="onChangeEmployee($event)" bindValue="empCode" name="empCode" id="employeeId" placeholder="Select EmpCode">
+            </ng-select>
+          </div>
+        </div>
+        <div class="row mt-3">
+          <div class="ml-auto mr-3">
+            <button (click)="openConfirmModal(appriasalConfirmation)" class="btn btn-primary">Reset Appriasal</button>
+            <button (click)="openConfirmModal(kpiConfirmation)" class="btn btn-primary">Reset KPI</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<ng-template #kpiConfirmation>
+  <div class="card">
+    <div class="card-header py-3">
+      <h4 class="mb-0">Are you sure want to reset this KPI</h4>
+    </div>
+    <div class="card-body">
+      <div class="d-block">
+        <label for="">Name: </label>
+        <label class="ml-3" for="">{{resetForm.empName}}</label>
+      </div>
+      <div class="d-block">
+        <label for="">Year: </label>
+        <label class="ml-3" for="">{{resetForm.yearName}}</label>
+      </div>
+      <div class="d-block">
+        <label for="">Quarter: </label>
+        <label class="ml-3" for="">{{resetForm.quarterName}}</label>
+      </div>
+    </div>
+    <div class="card-footer row">
+      <div class="ml-auto">
+        <button (click)="modalService.dismissAll()" class="btn btn-info mx-2">Cancel</button>
+        <button (click)="resetKpi()" class="btn btn-danger">Confirm</button>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #appriasalConfirmation>
+  <div class="card">
+    <div class="card-header py-3">
+      <h4 class="mb-0">Are you sure want to reset this KPI</h4>
+    </div>
+    <div class="card-body">
+      <div class="d-block">
+        <label for="">Name: </label>
+        <label class="ml-3" for="">{{resetForm.empName}}</label>
+      </div>
+      <div class="d-block">
+        <label for="">Year: </label>
+        <label class="ml-3" for="">{{resetForm.yearName}}</label>
+      </div>
+      <div class="d-block">
+        <label for="">Quarter: </label>
+        <label class="ml-3" for="">{{resetForm.quarterName}}</label>
+      </div>
+    </div>
+    <div class="card-footer row">
+      <div class="ml-auto">
+        <button (click)="modalService.dismissAll()" class="btn btn-info mx-2">Cancel</button>
+        <button (click)="resetAppriasal()" class="btn btn-danger">Confirm</button>
+      </div>
+    </div>
+  </div>
+</ng-template>

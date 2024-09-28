@@ -1,0 +1,38 @@
+<div class="card section">
+    <h4 class="card-header text-center bg-light">
+        Tax Card Report
+    </h4>
+    <div class="card-body">
+        <div class="col-md-6 center">
+            <form [formGroup]="taxCardForm">
+                <div class="form-group row">
+                    <label class="col-form-label col-sm-4"> Employee Id
+          <i class="text-danger">*</i>
+        </label>
+                    <div class="input-group col-sm-8">
+                        <app-employee-select-list [setEmpCode]="frmVal.EmpCode" (onChange)="frmControl['EmpCode'].setValue($event.empCode)" [isRequired]="true">
+                        </app-employee-select-list>
+                        <div *ngIf="(frmControl['EmpCode'].touched || frmControl['EmpCode'].dirty) && frmControl['EmpCode'].invalid" class="text-danger">
+                            <i *ngIf="frmControl['EmpCode'].errors.required">Employee Code is required</i>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-form-label col-sm-4">Select Tax Year
+          <i class="text-danger">*</i>
+        </label>
+                    <div class="col-sm-8">
+                        <app-tax-year-select-list [setTaxYearId]="frmVal.TaxYearID" (onChange)="frmControl['TaxYearID'].setValue($event.id)" [isRequired]="true">
+                        </app-tax-year-select-list>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col mt-3">
+                        <button [ladda]="isExporting" (click)="onSubmit('pdf')" class="btn btn-info pull-right">Generate Report</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+    </div>
+</div>

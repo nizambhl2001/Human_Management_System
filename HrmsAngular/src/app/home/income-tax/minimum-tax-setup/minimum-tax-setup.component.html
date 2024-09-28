@@ -1,0 +1,134 @@
+<div class="card section">
+    <h4 class="card-header text-center bg-light">
+        Minimum Tax Setup
+    </h4>
+    <div class="card-body">
+        <br/>
+        <div class="col-md-7 center">
+            <form [formGroup]="minTaxForm">
+                <div class="form-group row">
+
+                    <label class="col-form-label col-sm-4 ">Tax Year
+          </label>
+                    <div class="col-sm-8">
+                        <ng-select formControlName="taxYearID" placeholder="2015-2016" [items]="taxYearInfo" (change)="getByMinTaxListById(f['taxYearID'].value)" bindLabel="taxYearName" bindValue="id">
+                        </ng-select>
+                        <div *ngIf="f['taxYearID'].invalid && (isSubmitted || f['taxYearID'].touched || f['taxYearID'].dirty)" class="text-danger">
+                            <i *ngIf="f['taxYearID'].errors.required">Please Select Tax Year</i>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-form-label col-sm-4 ">Minimum Tax
+          </label>
+                    <div class="col-sm-8">
+                        <input formControlName="minimumTax" type="number" class="form-control" placeholder="Minimum Tax">
+                        <div *ngIf="f['minimumTax'].invalid && (isSubmitted || f['minimumTax'].touched || f['minimumTax'].dirty)" class="text-danger">
+                            <i *ngIf="f['minimumTax'].errors.required">Please insert minimum tax</i>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-form-label col-sm-4 ">Invest Rate
+          </label>
+                    <div class="col-sm-8">
+                        <input formControlName="investRate" type="number" class="form-control" placeholder="Invest Rate">
+                        <div *ngIf="f['investRate'].invalid && (isSubmitted || f['investRate'].touched || f['investRate'].dirty)" class="text-danger">
+                            <i *ngIf="f['investRate'].errors.required">Please insert invest rate</i>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-form-label col-sm-4 ">Invest Amount Limit
+          </label>
+                    <div class="col-sm-8">
+                        <input formControlName="investMaxamount" type="number" class="form-control" placeholder="Invest Amount Limit">
+                        <div *ngIf="f['investMaxamount'].invalid && (isSubmitted || f['investMaxamount'].touched || f['investMaxamount'].dirty)" class="text-danger">
+                            <i *ngIf="f['investMaxamount'].errors.required">Please insert invest amount</i>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-form-label col-sm-4 ">Rebate Rate
+          </label>
+                    <div class="col-sm-8">
+                        <input formControlName="rebateRate" type="number" class="form-control" placeholder="Rebate Rate">
+                        <div *ngIf="f['rebateRate'].invalid && (isSubmitted || f['rebateRate'].touched || f['rebateRate'].dirty)" class="text-danger">
+                            <i *ngIf="f['rebateRate'].errors.required">Please insert rebate rate</i>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-form-label col-sm-4 ">Car Percentage
+          </label>
+                    <div class="col-sm-8">
+                        <input formControlName="carPersent" type="number" class="form-control" placeholder=" Car Percentage">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-form-label col-sm-4 ">House Percentage
+          </label>
+                    <div class="col-sm-8">
+                        <input formControlName="housePersent" type="number" class="form-control" placeholder="House Percentage">
+                        <div *ngIf="f['housePersent'].invalid && (isSubmitted || f['housePersent'].touched || f['housePersent'].dirty)" class="text-danger">
+                            <i *ngIf="f['housePersent'].errors.required">Please insert Percent</i>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-form-label col-sm-4 ">Note
+          </label>
+                    <div class="col-sm-8">
+                        <input formControlName="note" type="text" class="form-control" placeholder="Note">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-form-label col-sm-4 "> From Date
+
+          </label>
+
+                    <div class="input-group col-sm-8">
+                        <app-date-control (getLocalDate)="f['sDate'].setValue($event)" (getNgbDate)="f['sDateNgb'].setValue($event)" [setNgbDate]="f['sDateNgb'].value"></app-date-control>
+
+                        <div *ngIf="f['sDateNgb'].invalid && (isSubmitted || f['sDateNgb'].touched || f['sDateNgb'].dirty)" class="text-danger">
+                            <i *ngIf="f['sDateNgb'].errors.required">Please select Date</i>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="row">
+            <div class="demo-inline-spacing mt-3" style="margin:0 auto">
+                <button (click)="reset()" type="" class="btn btn-info ">
+          <span class="ion ion-ios-refresh"> Reset</span>
+        </button>
+                <button (click)="saveMinimumTax()" type="" class="btn btn-success">{{btnStatus}}</button>
+            </div>
+        </div>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>#SN</th>
+                    <th>Minimum Tax</th>
+                    <th>Invest Rate</th>
+                    <th>Rebate Rate</th>
+                    <th>Car Percent</th>
+                    <th>House Present</th>
+
+                </tr>
+            </thead>
+            <tbody>
+                <tr (click)="getMinimumTaxBy(minTax.id)" *ngFor="let minTax of taxMinimumTax; let i = index">
+                    <td>{{i+1}}</td>
+                    <td>{{minTax.minimumTax|number:'.2'}}</td>
+                    <td>{{minTax.investRate|number:'.2'}}</td>
+                    <td>{{minTax.rebateRate|number:'.2'}}</td>
+                    <td>{{minTax.carPersent|number:'.2'}}</td>
+                    <td>{{minTax.housePersent|number:'.2'}}</td>
+                    <td></td>
+                </tr>
+
+            </tbody>
+        </table>
+    </div>
+</div>

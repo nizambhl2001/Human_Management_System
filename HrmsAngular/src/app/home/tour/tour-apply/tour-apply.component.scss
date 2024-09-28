@@ -1,0 +1,29 @@
+.section {
+    box-shadow: 1px 1px 3px 0px;
+}
+
+tbody {
+    display: block;
+    max-height: 425px;
+    overflow: auto;
+}
+
+thead,
+tbody tr {
+    display: table;
+    width: 100%;
+    table-layout: fixed;
+    /* even columns width , fix width of table too*/
+}
+
+thead {
+    width: calc( 100%)/* scrollbar is average 1em/16px width, remove it from thead width */
+}
+
+table {
+    widows: 100%;
+}
+
+.card {
+    min-height: 300px!important;
+}

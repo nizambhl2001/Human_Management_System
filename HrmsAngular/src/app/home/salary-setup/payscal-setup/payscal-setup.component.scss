@@ -1,0 +1,20 @@
+td .form-control-plaintext{
+    padding-top: 0.438rem;
+    padding-right: 0.875rem;
+    padding-bottom: 0.438rem;
+    padding-left: 0.875rem;
+}
+td{
+    padding: 0;
+}
+
+td .form-control-plaintext:focus{
+    background: #fff;
+
+}
+.custom-col-lg{
+    min-width: 150px;
+}
+.custom-col-md{
+    min-width: 80px;
+}

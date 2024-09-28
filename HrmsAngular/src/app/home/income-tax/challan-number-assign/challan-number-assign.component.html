@@ -1,0 +1,95 @@
+<div class="card section">
+    <h4 class="card-header text-center bg-light">
+        Challan Number Assign
+    </h4>
+    <div class="card-body">
+
+        <div class="col-md-7 center">
+            <form [formGroup]="challanPrepareForm">
+                <div class="form-group row">
+                    <label class="col-form-label col-sm-4 ">Period
+              </label>
+                    <div class="col-sm-8">
+                        <ng-select formControlName="periodID" placeholder="January 2017" [items]="salaryPeriod" bindLabel="periodName" bindValue="id" placeholder="Select Period">
+                        </ng-select>
+                        <div *ngIf="f['periodID'].invalid && (isSubmitted || f['periodID'].touched || f['periodID'].dirty)" class="text-danger">
+                            <i *ngIf="f['periodID'].errors.required">Select Period </i>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-form-label col-sm-4 ">Challan Group
+                </label>
+                    <div class="col-sm-8">
+                        <ng-select formControlName="gruopID" placeholder="Dhaka" [items]="taxGroup" bindLabel="groupName" bindValue="id" placeholder="Select Group">
+                        </ng-select>
+                        <div *ngIf="f['gruopID'].invalid && (isSubmitted || f['gruopID'].touched || f['gruopID'].dirty)" class="text-danger">
+                            <i *ngIf="f['gruopID'].errors.required">Select Challan Group </i>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-form-label col-sm-4 ">Challan Number
+                  </label>
+                    <div class="col-sm-8">
+                        <input formControlName="challanNo" type="text" class="form-control" placeholder="Challan Number">
+                        <div *ngIf="f['challanNo'].invalid && (isSubmitted || f['challanNo'].touched || f['challanNo'].dirty)" class="text-danger">
+                            <i *ngIf="f['challanNo'].errors.required">Please Input Challan Number </i>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-form-label col-sm-4 "> Challan Date
+
+                    </label>
+
+                    <div class="input-group col-sm-8">
+                        <input formControlName="challanDateNgb" class="form-control" name="dp1" placeholder="dd-mm-yyyy" ngbDatepicker #d1="ngbDatepicker" readonly>
+                        <div class="input-group-append">
+                            <button class="input-group-text" (click)="d1.toggle()" type="button">
+                          <span class="ion ion-md-calendar" style="cursor: pointer;"></span>
+                        </button>
+                        </div>
+                        <div *ngIf="f['challanDateNgb'].invalid && (isSubmitted || f['challanDateNgb'].touched || f['challanDateNgb'].dirty)" class="text-danger">
+                            <i *ngIf="f['challanDateNgb'].errors.required">Select Challan Date </i>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label class="col-form-label col-sm-4 "> Tax Type
+                      </label>
+                    <div class="col-sm-8">
+                        <select formControlName="paymentType" class="custom-select ">
+                          <option value="0">--Select--</option>
+                          <option value="1">Salary Payment</option>
+                          <option value="2">Other Payment</option>
+                        </select>
+                        <div *ngIf="f['paymentType'].invalid && (isSubmitted || f['paymentType'].touched || f['paymentType'].dirty)" class="text-danger">
+                            <i *ngIf="f['paymentType'].errors.required">Select Tax Type </i>
+                        </div>
+                    </div>
+                </div>
+                <div *ngIf="f['paymentType'].value==2" class="form-group row">
+                    <label class="col-form-label col-sm-4 ">Bonus Type
+                    </label>
+                    <div class="col-sm-8">
+                        <ng-select formControlName="bonusType" [items]="allPaymentType" bindLabel="paymentType" bindValue="id">
+                        </ng-select>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="row">
+            <div class="demo-inline-spacing mt-3" style="margin:0 auto">
+                <button (click)="Reset()" type="" class="btn btn-info ">
+                <span class="ion ion-ios-refresh"> Reset</span>
+              </button>
+                <button (click)="updateChallanNumberAssaign()" type="" class="btn btn-success">
+                        Process
+                      </button>
+
+            </div>
+        </div>
+    </div>
+</div>

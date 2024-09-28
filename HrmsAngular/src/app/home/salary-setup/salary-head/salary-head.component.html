@@ -1,0 +1,125 @@
+<div class="card">
+  <h4 class="card-header text-center bg-light">
+    Create New Salary Head
+  </h4>
+  <div class="card-body row">
+    <div class="col-md-6">
+      <form [formGroup]="salaryHeadForm">
+        <!--Month-->
+        <div class="form-group row">
+          <label for="salaryHeadType" class="col-form-label col-sm-3 ">Salary Type<i class="text-danger">*</i></label>
+          <div class="col-sm-7">
+            <ng-select
+              [ngClass]="{'is-invalid':(f['salaryHeadType'].touched || f['salaryHeadType'].dirty || isSaveBtnClick )&& f['salaryHeadType'].invalid}"
+              formControlName="salaryHeadType" [items]="salaryType"
+              (change)="onSelectedSalaryHead(f.salaryHeadType.value)" bindLabel="salaryTypeName"
+              bindValue="salaryTypeName" name="salaryHeadType" id="salaryHeadType"
+              placeholder="Select Salary Head Type"></ng-select>
+            <div
+              *ngIf="(f['salaryHeadType'].touched || f['salaryHeadType'].dirty || isSaveBtnClick )&& f['salaryHeadType'].invalid"
+              class="text-danger">
+              <i *ngIf="f['salaryHeadType'].errors.required">Salary Head is required</i>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group row">
+          <label for="slNo" class="col-form-label col-sm-3 ">SL NO</label>
+          <div class="col-sm-7">
+            <input formControlName="slNo" id="slNo" name="slNo" type="number" class="form-control" placeholder="SL NO">
+          </div>
+        </div>
+        <!--Salary Head-->
+        <div class="form-group row">
+          <label for="accountName" class="col-form-label col-sm-3 ">Salary Head<i class="text-danger">*</i></label>
+          <div class="col-sm-7">
+            <input formControlName="accountName"
+              [ngClass]="{'is-invalid':(f['accountName'].touched || f['accountName'].dirty || isSaveBtnClick )&& f['accountName'].invalid}"
+              id="accountName" name="accountName" type="text" class="form-control" placeholder="Salary Head">
+            <div
+              *ngIf="(f['accountName'].touched || f['accountName'].dirty || isSaveBtnClick )&& f['accountName'].invalid"
+              class="text-danger">
+              <i *ngIf="f['accountName'].errors.required">Salary Head is required</i>
+            </div>
+          </div>
+        </div>
+        <!--Salary Code-->
+        <div class="form-group row">
+          <label class="col-form-label col-sm-3 ">Salary code<i class="text-danger">*</i></label>
+          <div class="col-sm-7">
+            <input
+              [ngClass]="{'is-invalid':(f['accountCode'].touched || f['accountCode'].dirty || isSaveBtnClick )&& f['accountCode'].invalid}"
+              formControlName="accountCode" id="accountCode" name="accountCode" type="text" class="form-control"
+              placeholder="Salary Code">
+            <div
+              *ngIf="(f['accountCode'].touched || f['accountCode'].dirty || isSaveBtnClick )&& f['accountCode'].invalid"
+              class="text-danger">
+              <i *ngIf="f['accountCode'].errors.required">Salary Head is required</i>
+            </div>
+          </div>
+        </div>
+        <!--Is Income Tex-->
+        <div class="form-group row">
+          <label class="col-form-label col-sm-3 ">Is Income Tax<i class="text-danger">*</i></label>
+          <div class="col-sm-7">
+            <ng-select
+              [ngClass]="{'is-invalid':(f['isIncomeTax'].touched || f['isIncomeTax'].dirty || isSaveBtnClick )&& f['isIncomeTax'].invalid}"
+              formControlName="isIncomeTax" id="isIncomeTax" name="isIncomeTax" placeholder="Select IncomeTax">
+              <ng-option value="No">No</ng-option>
+              <ng-option value="Yes">Yes</ng-option>
+            </ng-select>
+            <div
+              *ngIf="(f['isIncomeTax'].touched || f['isIncomeTax'].dirty || isSaveBtnClick )&& f['isIncomeTax'].invalid"
+              class="text-danger">
+              <i *ngIf="f['isIncomeTax'].errors.required">Salary Head is required</i>
+            </div>
+          </div>
+        </div>
+        <!--Button-->
+        <div class="form-group row text-right">
+          <div class="demo-inline-spacing mt-3 center">
+            <button (click)="reset()" class="btn btn-info">
+              <span class="fas fa-refresh"></span> Refresh</button>
+            <button (click)="onSubmit()" type="submit" class="btn btn-success">{{btnStatus}}</button>
+          </div>
+        </div>
+      </form>
+    </div>
+    <div class="col-md-6">
+      <div class="row">
+        <div class="col-md-8 ml-auto mr-3">
+          <input (keyup)="onFilter($event.target.value)" type="text" class="form-control" placeholder="Search by SalaryHead or Code">
+        </div>
+      </div>
+      <div class="data-table">
+        <table class="table table-hover table-bordered table-striped mb-0">
+          <thead>
+            <tr>
+              <th>#SN</th>
+              <th>Salary_Head</th>
+              <th>Code</th>
+              <th>Type </th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngIf="filteredSalaryHead.length==0">
+              <td colspan="5" class="font-italic text-center">No item available</td>
+            </tr>
+            <tr *ngFor="let item of filteredSalaryHead; let i=index">
+              <td>{{i+1}}</td>
+              <td>{{item.accountName}}</td>
+              <td>{{item.accountCode}}</td>
+              <td>{{item.salaryHeadType}}</td>
+              <td>
+                <button (click)="getById(item.id)" class="btn btn-sm btn-primary">
+                  <span class="fas fa-edit"></span>
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

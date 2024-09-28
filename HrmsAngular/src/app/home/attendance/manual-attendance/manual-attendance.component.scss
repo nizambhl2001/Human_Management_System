@@ -1,0 +1,62 @@
+td .form-control-plaintext {
+    padding-top: 0.438rem;
+    padding-right: 0.875rem;
+    padding-bottom: 0.438rem;
+    padding-left: 0.875rem;
+}
+
+td {
+    padding: 0;
+}
+
+td .form-control-plaintext:focus {
+    background: #fff;
+}
+
+.tablediv {
+    padding: 30px;
+}
+
+tbody {
+    display: block;
+    height: 200px;
+    overflow: auto;
+}
+
+thead,
+tbody tr {
+    display: table;
+    width: 100%;
+    table-layout: fixed;
+    /* even columns width , fix width of table too*/
+}
+
+thead {
+    width: calc( 100% - 1em)/* scrollbar is average 1em/16px width, remove it from thead width */
+}
+
+table {
+    widows: 100%;
+}
+
+td {
+    padding: 1px;
+    padding-left: 10px;
+}
+
+p {
+  font-family: Lato;
+}
+.datepicker
+{
+  color:black!important;
+  border:1px solid silver
+}
+
+button.calendar, button.calendar:active {
+  width: 2.75rem;
+  background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACIAAAAcCAYAAAAEN20fAAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAAOxAAADsQBlSsOGwAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAAEUSURBVEiJ7ZQxToVAEIY/YCHGxN6XGOIpnpaEsBSeQC9ArZbm9TZ6ADyBNzAhQGGl8Riv4BLAWAgmkpBYkH1b8FWT2WK/zJ8ZJ4qiI6XUI3ANnGKWBnht2/ZBDRK3hgVGNsCd7/ui+JkEIrKtqurLpEWaphd933+IyI3LEIdpCYCiKD6HcuOa/nwOa0ScJEnk0BJg0UTUWJRl6RxCYEzEmomsIlPU3IPW+grIAbquy+q6fluy/28RIBeRMwDXdXMgXLj/B2uimRXpui4D9sBeRLKl+1N+L+t6RwbWrZliTTTr1oxYtzVWiTQAcRxvTX+eJMnlUDaO1vpZRO5NS0x48sIwfPc87xg4B04MCzQi8hIEwe4bl1DnFMCN2zsAAAAASUVORK5CYII=') !important;
+  background-repeat: no-repeat;
+  background-size: 23px;
+  background-position: center;
+}

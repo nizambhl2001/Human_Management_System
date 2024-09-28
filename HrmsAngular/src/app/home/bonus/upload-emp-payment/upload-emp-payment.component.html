@@ -1,0 +1,67 @@
+<div class="card section">
+    <h4 class="card-header text-center bg-light">
+        Upload Employee Payment Information
+    </h4>
+    <form [formGroup]="uploadFormGroup">
+        <div class="container">
+            <br />
+            <div class="col-md-7 center">
+                <div class="form-group row">
+                    <label class="col-form-label col-sm-4 ">Period
+          </label>
+                    <div class="col-sm-6">
+                        <ng-select [ngClass]="{'is-invalid': (isSubmitted || f['periodID'].touched ||f['periodID'].dirty) && f['periodID'].invalid}" (change)="onPeriodChange($event)" [items]="allBonusPeriod" formControlName="periodID" bindLabel="periodName" bindValue="id" placeholder="Period">
+                            ></ng-select>
+                    </div>
+                    <label class="col-form-label col-sm-4 ">
+          </label>
+                    <div *ngIf="f['periodID'].invalid && (isSubmitted || f['periodID'].touched || f['periodID'].dirty)" class="text-danger">
+                        <i *ngIf="f['periodID'].errors['required']">Period is required</i>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-form-label col-sm-4 ">Select Salary Head
+          </label>
+                    <div class="col-sm-6">
+                        <ng-select [ngClass]="{'is-invalid': (isSubmitted || f['salaryHead'].touched ||f['salaryHead'].dirty) && f['salaryHead'].invalid}" [items]="allBonusAllowance" formControlName="salaryHead" bindLabel="accountName" bindValue="id" placeholder="Bonus Head"></ng-select>
+                    </div>
+                    <label class="col-form-label col-sm-4 ">
+          </label>
+                    <div *ngIf="f['salaryHead'].invalid && (isSubmitted || f['salaryHead'].touched || f['salaryHead'].dirty)" class="text-danger">
+                        <i *ngIf="f['salaryHead'].errors['required']">Salary Head is required</i>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-form-label col-sm-4 ">Select Payment Type
+          </label>
+                    <div class="col-sm-6">
+                        <ng-select [ngClass]="{'is-invalid': (isSubmitted || f['bonusType'].touched ||f['bonusType'].dirty) && f['bonusType'].invalid}" [items]="allBonusType" formControlName="bonusType" bindLabel="paymentType" bindValue="id" placeholder="Bonus Type"></ng-select>
+                    </div>
+                    <label class="col-form-label col-sm-4 ">
+          </label>
+                    <div *ngIf="f['bonusType'].invalid && (isSubmitted || f['bonusType'].touched || f['bonusType'].dirty)" class="text-danger">
+                        <i *ngIf="f['bonusType'].errors['required']">Payment Type required</i>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-form-label col-sm-4 ">Upload File
+          </label>
+                    <div class="custom-file col-sm-6">
+                        <input [ngClass]="{'is-invalid': (isSubmitted || f['excelFiles'].touched ||f['excelFiles'].dirty) && f['excelFiles'].invalid}" (change)="onFileChange($event.target.files)" type="file" class="custom-file-input" id="excelFiles" required accept=".xls, .xlsx">
+                        <label class="custom-file-label" for="excelFiles"></label>
+                        <div class="text-primary">{{formVal.fileCount}}</div>
+                        <div *ngIf="f['excelFiles'].invalid && (isSubmitted || f['excelFiles'].touched || f['excelFiles'].dirty)" class="text-danger"><i>file structure(EmpCode EmpName Designation Amount)</i></div>
+                    </div>
+                </div>
+            </div>
+            <br/>
+            <div class="row">
+                <div class="demo-inline-spacing mt-3" style="margin:0 auto">
+                    <button [ladda]="_isProcessing" (click)="importFileData()" type="" class="btn btn-success">
+            <span class="fas fa-file-upload"></span> Upload
+          </button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

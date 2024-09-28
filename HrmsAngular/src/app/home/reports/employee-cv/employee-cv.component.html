@@ -1,0 +1,17 @@
+<div class="card">
+    <h4 class="card-header text-center bg-light">
+        View Employee CV
+    </h4>
+    <div class="card-body">
+      <form [formGroup]="singleEmpCvReportForm">
+      <!--Button-->
+        <div class="form-group row">
+            <div class="demo-inline-spacing mt-3 center">
+              <button [ladda]="exportingPdf" (click)="exportToPdf('pdf')" type="submit" class="btn btn-info">
+              <span class="fas fa-eye"></span> View Employee CV</button>
+          </div>
+        </div>
+      </form>
+     
+  
+  </div>

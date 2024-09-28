@@ -1,0 +1,50 @@
+<div class="card">
+  <h4 class="card-header text-center bg-light">{{title}}</h4>
+  <div class="card-body">
+    <form [formGroup]="importAdditionForm">
+      <div class="row">
+        <div class="col-md-6 center">
+          <div class="form-group row">
+            <label for="periodID" class="col-md-3">Period</label>
+            <div class="col-md-8">
+              <ng-select [ngClass]="{'is-invalid':(isSubmitted || f['periodID'].touched || f['periodID'].dirty)&& f['periodID'].invalid}" (change)="onPeriodChange($event)" formControlName="periodID" name="periodID" id="periodID"  [items]="salaryPeriod" bindLabel="periodName" bindValue="id" placeholder="Select Period">
+              </ng-select>  
+              <div *ngIf="f['periodID'].invalid && (isSubmitted || f['periodID'].touched || f['periodID'].dirty)" class="text-danger">
+                <i *ngIf="f['periodID'].errors.required">Period is required</i>                
+              </div>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="salaryHead" class="col-md-3">Salary Head</label>
+            <div class="col-md-8">
+              <ng-select [ngClass]="{'is-invalid':(isSubmitted || f['salaryHead'].touched || f['salaryHead'].dirty)&& f['salaryHead'].invalid}" formControlName="salaryHead" [items]="additionSalaryHead" bindLabel="accountName" bindValue="id" name="salaryHead" id="salaryHeadID"placeholder="Select Salary Head" >
+                
+              </ng-select>
+              <div *ngIf="f['salaryHead'].invalid && (isSubmitted || f['salaryHead'].touched || f['salaryHead'].dirty)" class="text-danger">
+                <i *ngIf="f['salaryHead'].errors.required">Salary Head is required</i>                
+              </div>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="file" class="col-md-3">File</label>
+            <div class="col-md-8">
+              <input  (change)="onFileChange($event.target.files)" type="file" class="custom-file-input" id="excelFiles" required accept=".xls, .xlsx">
+                <!-- <div *ngIf="(isSubmitted || f['excelFiles'].touched || f['excelFiles'].dirty) && f['excelFiles'].invalid" class="text-danger">
+                  <i *ngIf="f['excelFiles'].errors.required">Note is required</i>
+                </div> -->
+            <label class="custom-file-label" for="excelFiles">Choose file...</label>
+            <div class="text-primary">{{f['fileCount'].value}}</div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="demo-inline-spacing mt-3" style="margin:0 auto">
+              <button [ladda]="_isProcessing" (click)="importFileData()" type="" class="btn btn-success">
+                <span class="fas fa-file-upload"></span> Upload
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

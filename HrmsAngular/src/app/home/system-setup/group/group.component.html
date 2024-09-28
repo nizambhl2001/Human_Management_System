@@ -1,0 +1,71 @@
+<div class="card">
+    <h4 class="card-header text-center bg-light">
+        {{title}}
+    </h4>
+    <div class="card-body col-md-9" style="margin: 0 auto">
+        <form [formGroup]="academicDisForm">
+            <div class="form-group row">
+                <label class="col-form-label col-sm-3 " for="groupName">Group Name</label>
+                <i class="text-danger">*</i>
+                <div class="col-sm-6">
+                    <input formControlName="description" type="text" name="groupName" id="groupName" class="form-control" placeholder="Group Name">
+                    <div *ngIf="f['description'].invalid && (isSubmitted || f['description'].touched || f['description'].dirty)" class="text-danger">
+                        <i *ngIf="f['description'].errors.required">Group Name is required</i>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-form-label col-sm-3 " for="code">Code</label>
+                <div class="col-sm-6">
+                    <input formControlName="code" type="text" name="code" id="code" class="form-control" placeholder="Code">
+                </div>
+            </div>
+
+        </form>
+        <div class="row">
+            <label for="" class="col-form-label col-sm-2 "></label>
+            <div class="demo-inline-spacing mt-3 center">
+                <button (click)="Reset()" class="btn btn-info"><span class="ion ion-ios-refresh"></span> Reset</button>
+                <button (click)="onSubmit()" class="btn btn-success">{{btnStatus}}</button>
+
+
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4 ml-auto">
+                <input (keyup)="onFilter($event)" class="form-control" placeholder="Search by branch name">
+            </div>
+        </div>
+        <div class="row">
+            <div class="data-table">
+                <table class="table table-hover table-bordered table-striped mb-0">
+                    <thead>
+                        <tr>
+                            <th>Description</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngIf="filteredItem.length==0">
+                            <td colspan="3" class="font-italic text-center">No Item available</td>
+                        </tr>
+                        <tr *ngFor="let item of filteredItem">
+                            <td>{{item.description}}</td>
+                            <td class="demo-inline-spacing">
+                                <button (click)="getById(item.id)" class="btn btn-info py-1 px-2 rounded-0"><span
+                      class="fas fa-edit"></span></button>
+                                <button (click)="deleteGroup(item.id,deleteModal)" class="btn btn-danger py-1 px-2"><span class="fas fa-trash-alt"></span></button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<ng-template #deleteModal>
+    <app-delete-confirmation [rowId]="selectedItemId" (onConfirmedId)="confirmDelete($event)"></app-delete-confirmation>
+</ng-template>

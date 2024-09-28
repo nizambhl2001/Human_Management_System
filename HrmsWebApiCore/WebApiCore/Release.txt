@@ -1,0 +1,3 @@
+﻿1. Api Versioning	-Done
+2. JWT Token		-Done
+3. CORS				-Done

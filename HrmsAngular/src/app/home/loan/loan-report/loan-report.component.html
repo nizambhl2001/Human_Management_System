@@ -1,0 +1,85 @@
+<div class="card">
+    <h4 class="card-header text-center bg-light">
+        {{title}}
+    </h4>
+    <div class="card-body">
+        <form [formGroup]="loanReportForm">
+            <div class="row">
+                <div class="col-md-6 center">
+                    <div class="form-group row">
+                        <label class="col-form-label col-sm-3">Report Type</label>
+                        <div class="col-sm-9">
+                            <ng-select formControlName="ReportId" [ngClass]="{'is-invalid':(formControl['ReportId'].invalid && (formControl['ReportId'].touched || formControl['ReportId'].dirty || isSubmitted))}" [items]="reportTypeList" bindLabel="TypeName" bindValue="ReportId"
+                                placeholder="Select Report Type">
+                            </ng-select>
+                            <div class="text-danger" *ngIf="(formControl['ReportId'].invalid && (formControl['ReportId'].touched || formControl['ReportId'].dirty || isSubmitted))">
+                                <i *ngIf="formControl['ReportId'].errors.required">Report Type is required</i>
+                            </div>
+                        </div>
+                    </div>
+                    <div *ngIf="[86,87,88,89,90].includes(formControl['ReportId'].value)" class="form-group row">
+                        <label for="LoanType" class="col-form-label col-sm-3">Employee</label>
+                        <div class="col-sm-9">
+                            <app-employee-select-list (onChange)="formControl['EmpCode'].setValue($event.empCode)"></app-employee-select-list>
+                        </div>
+                    </div>
+                    <div *ngIf="[89,90].includes(formControl['ReportId'].value)" class="form-group row">
+                        <label class="col-form-label col-sm-3">From Date</label>
+                        <div class="col-sm-9">
+                            <app-date-control (getLocalDate)="formControl['StartDate'].setValue($event)"></app-date-control>
+                        </div>
+                    </div>
+                    <div *ngIf="[89,90].includes(formControl['ReportId'].value)" class="form-group row">
+                        <label class="col-form-label col-sm-3">To Date</label>
+                        <div class="col-sm-9">
+                            <app-date-control (getLocalDate)="formControl['EndDate'].setValue($event)"></app-date-control>
+                        </div>
+                    </div>
+                    <div *ngIf="[85,86,87,88,89,90].includes(formControl['ReportId'].value)" class="form-group row">
+                        <label for="LoanType" class="col-form-label col-sm-3">Loan Type</label>
+                        <div class="col-sm-9">
+                            <app-loan-type-select-list (onChange)="onSelectLoanType($event.id)"></app-loan-type-select-list>
+                        </div>
+                    </div>
+                    <div *ngIf="[85,86,87].includes(formControl['ReportId'].value)" class="form-group row">
+                        <label for="LoanType" class="col-form-label col-sm-3">Department</label>
+                        <div class="col-sm-9">
+                            <app-department-select-list (onChange)="formControl['Depertment'].setValue($event.id)"></app-department-select-list>
+                        </div>
+                    </div>
+
+                    <div *ngIf="[85].includes(formControl['ReportId'].value)" class="form-group row">
+                        <label for="LoanType" class="col-form-label col-sm-3">Period</label>
+                        <div class="col-sm-9">
+                            <app-period-select-list (onChange)="formControl['Period'].setValue($event.id)"></app-period-select-list>
+                        </div>
+                    </div>
+
+
+
+
+
+
+                    
+
+
+                    <div *ngIf="[85,86,87].includes(formControl['ReportId'].value)" class="form-group row">
+                        <label for="Branch" class="col-form-label col-sm-3">Branch</label>
+                        <div class="col-sm-9">
+                            <app-branch-select-list (onChange)="formControl['Branch'].setValue($event.id)"></app-branch-select-list>
+                        </div>
+                    </div>
+                    <div *ngIf="[85,86,87].includes(formControl['ReportId'].value)" class="form-group row">
+                        <label for="ProjectID" class="col-form-label col-sm-3">Project</label>
+                        <div class="col-sm-9">
+                            <app-project-select-list (onChange)="formControl['ProjectID'].setValue($event.id)"></app-project-select-list>
+                        </div>
+                    </div>
+                    <div class="row mt-2">
+                        <button [ladda]="exportingPdf" (click)="exportToPdf('pdf')" class="btn btn-info ml-auto mr-3"><span class="fas fa-file-download"></span> Generate Report</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

@@ -1,0 +1,99 @@
+<div class="card">
+    <h4 class="card-header text-center bg-light">
+        Asset Name Setup
+    </h4>
+    <div class="card-body">
+        <form [formGroup]="propertyNameForm">
+            <div class="col-md-7 center">
+                <!--Asset Category Name-->
+                <div class="form-group row">
+                    <label class="col-form-label col-sm-4 ">Asset Category Name</label>
+                    <div class="col-sm-6">
+                        <ng-select [ngClass]="{'is-invalid': (isSubmitted || f['aCateoryID'].touched || f['aCateoryID'].dirty) && f['aCateoryID'].invalid}" [items]="categories" bindLabel="categoryName" bindValue="id" formControlName="aCateoryID" placeholder="Category Name">
+                        </ng-select>
+                    </div>
+                    <label class="col-form-label col-sm-4 "></label>
+                    <div *ngIf="f['aCateoryID'].invalid && (isSubmitted || f['aCateoryID'].touched || f['aCateoryID'].dirty)" class="text-danger">
+                        <i *ngIf="f['aCateoryID'].errors['required']">Category required</i>
+                    </div>
+                </div>
+                <!--Asset Name-->
+                <div class="form-group row">
+                    <label class="col-form-label col-sm-4 ">Asset Name</label>
+                    <div class="col-sm-6">
+                        <input [ngClass]="{'is-invalid': (isSubmitted || f['assetName'].touched || f['assetName'].dirty) && f['assetName'].invalid}" formControlName="assetName" name="assetName" type="text" class="form-control" placeholder="Asset Name">
+                    </div>
+                    <label class="col-form-label col-sm-4 "></label>
+                    <div *ngIf="f['assetName'].invalid && (isSubmitted || f['assetName'].touched || f['assetName'].dirty)" class="text-danger">
+                        <i *ngIf="f['assetName'].errors['required']">Asset Name required</i>
+                    </div>
+                </div>
+                <!--Description-->
+                <div class="form-group row">
+                    <label class="col-form-label col-sm-4 ">Description</label>
+                    <div class="col-sm-6">
+                        <textarea [ngClass]="{'is-invalid': (isSubmitted || f['description'].touched || f['description'].dirty) && f['description'].invalid}" formControlName="description" name="description" class="form-control" placeholder="Description"></textarea>
+                    </div>
+                    <label class="col-form-label col-sm-4 "></label>
+                    <div *ngIf="f['description'].invalid && (isSubmitted || f['description'].touched || f['description'].dirty)" class="text-danger">
+                        <i *ngIf="f['description'].errors['required']">Asset Name required</i>
+                    </div>
+                </div>
+                <!--Button-->
+                <div class="form-group row">
+
+                    <div class="demo-inline-spacing mt-3  center">
+                        <button (click)="reset()" type="clear" class="btn btn-info">
+                        <span class="ion ion-ios-refresh"></span> Reset</button>
+                        <button (click)="onStatus()" type="clear" class="btn btn-success">{{btnStatus}}</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+        <!-- Table-->
+        <div class="row">
+            <div class="col">
+                <input type="text" [(ngModel)]="filterVal" (input)="currentPage = 1; update()" class="form-control form-control-md d-inline-block w-auto float-sm-right" placeholder="Search...">
+            </div>
+        </div>
+        <div class="row">
+            <div class="data-table">
+                <table class="table table-hover table-bordered table-striped mb-0">
+                    <thead>
+                        <tr>
+                            <th>SN</th>
+                            <th>Asset Name</th>
+                            <th>Description</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let prop of tempItems;let i = index">
+                            <td>{{i+1}}</td>
+                            <td>{{prop.assetName}}</td>
+                            <td>{{prop.description}}</td>
+                            <td><button (click)="getById(prop.id)" type="" class="btn btn-info btn-sm">
+            <span class="fas fa-edit"></span></button>&nbsp;
+                                <!-- <button (click)="delete(prop.id,deleteModal)" type="" class="btn btn-danger">
+            <span class="fas fa-trash"></span></button> -->
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+
+    <ng-template #deleteModal>
+        <div class="modal-header">
+            <h5 class="modal-title">Confirmation</h5>
+        </div>
+        <div class="modal-body">
+            <p>Are you sure want to delete?</p>
+        </div>
+        <div class="modal-footer">
+            <button (click)="cancel()" class="btn btn-secondary">Cancel</button>
+            <button (click)="confirm()" class="btn btn-danger">Confirm</button>
+        </div>
+    </ng-template>

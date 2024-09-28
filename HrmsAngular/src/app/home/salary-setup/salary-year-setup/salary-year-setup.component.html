@@ -1,0 +1,89 @@
+<div class="card">
+  <h4 class="card-header text-center bg-light">
+    Create Salary Year
+  </h4>
+  <div class="card-body row">
+    <div class="col-md-6">
+      <form [formGroup]="salaryYearform">
+        <!--Salary Year Name-->
+        <div class="form-group row">
+          <label class="col-form-label col-sm-4 "><i class="text-danger">*</i>Salary Year Name</label>
+          <div class="col-sm-5">
+            <input formControlName="yearName"
+              [ngClass]="{'is-invalid': (f['yearName'].touched || f['yearName'].dirty || isSaveBtnClick) && f['yearName'].invalid}"
+              class="form-control" name="yearName" id="yearName" placeholder="Salary Year Name">
+            <div *ngIf="f['yearName'].errors && (isSaveBtnClick || f['yearName'].touched || f['yearName'].dirty)"
+              class="text-danger">
+              <i *ngIf="f['yearName'].errors.required">Year is required</i>
+            </div>
+          </div>
+        </div>
+        <!--Start Date-->
+        <div class="form-group row">
+          <label class="col-form-label col-sm-4 "><i class="text-danger">*</i> Start Date
+
+          </label>
+
+          <div class="input-group col-sm-8">
+            <app-date-control
+              [ngClass]="{'is-invalid': (f['startDateNgb'].touched || f['startDateNgb'].dirty || isSaveBtnClick) && f['startDateNgb'].invalid}"
+              (getLocalDate)="f['startDate'].setValue($event)" (getNgbDate)="f['startDateNgb'].setValue($event)"
+              [setNgbDate]="f['startDateNgb'].value"></app-date-control>
+            <div *ngIf="f.startDateNgb.invalid && (f.startDateNgb.touched || f.startDateNgb.dirty || isSaveBtnClick)"
+              class="text-danger">
+              <i *ngIf="f.startDateNgb.errors.required">Start date is required</i>
+            </div>
+          </div>
+        </div>
+        <!--End Date-->
+        <div class="form-group row">
+          <label class="col-form-label col-sm-4 "> <i class="text-danger">*</i>End Date
+          </label>
+          <div class="input-group col-sm-8">
+            <app-date-control
+              [ngClass]="{'is-invalid': (f['endDateNgb'].touched || f['endDateNgb'].dirty || isSaveBtnClick) && f['endDateNgb'].invalid}"
+              (getLocalDate)="f['endDate'].setValue($event)" (getNgbDate)="f['endDateNgb'].setValue($event)"
+              [setNgbDate]="f['endDateNgb'].value"></app-date-control>
+            <div *ngIf="f.endDateNgb.invalid && (f.endDateNgb.touched || f.endDateNgb.dirty || isSaveBtnClick)"
+              class="text-danger">
+              <i *ngIf="f.endDateNgb.errors.required">End date is required</i>
+            </div>
+          </div>
+        </div>
+        <!--Button-->
+        <div class="form-group row text-right">
+          <div class="demo-inline-spacing mt-3 center">
+            <button (click)="reset()" type="clear" class="btn btn-info">
+              <span class="fas fa-refresh"></span> Refresh</button>
+            <button (click)="onSubmit()" type="submit" class="btn btn-success"> {{btnStatus}}</button>
+          </div>
+        </div>
+      </form>
+    </div>
+    <div class="col-md-6">
+      <div class="data-table">
+        <table class="table table-hover table-bordered table-striped mb-0 ">
+          <thead>
+            <tr>
+              <th>Salary_Year_Name</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngIf="tempItems.length==0">
+              <td colspan="13" class="font-italic text-center">No item available</td>
+            </tr>
+            <tr *ngFor="let item of salaryYear; let i=index">
+              <td>{{item.yearName}}</td>
+              <td>
+                <button (click)="getById(item.id)" class="btn btn-sm btn-primary">
+                  <span class="fas fa-edit"></span>
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

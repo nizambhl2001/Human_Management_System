@@ -1,0 +1,98 @@
+<div class="card section">
+    <h4 class="card-header text-center bg-light">
+        Employee Performance Bonus
+    </h4>
+    <div class="container">
+        <br />
+        <form [formGroup]="performanceBonusForm">
+            <div class="col-md-7 center">
+                <div class="form-group row">
+                    <label class="col-form-label col-sm-4 ">Period
+          </label>
+                    <div class="col-sm-6">
+                        <ng-select [ngClass]="{'is-invalid': (isSubmitted || f['periodID'].touched ||f['periodID'].dirty) && f['periodID'].invalid}" [items]="allBonusPeriod" formControlName="periodID" bindLabel="periodName" bindValue="id" placeholder="Period">
+                            ></ng-select>
+                    </div>
+                    <label class="col-form-label col-sm-4 ">
+          </label>
+                    <div *ngIf="f['periodID'].invalid && (isSubmitted || f['periodID'].touched || f['periodID'].dirty)" class="text-danger">
+                        <i *ngIf="f['periodID'].errors['required']">Period is required</i>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-form-label col-sm-4 ">Bonus Type
+          </label>
+                    <div class="col-sm-6">
+                        <ng-select [ngClass]="{'is-invalid': (isSubmitted || f['bonusType'].touched ||f['bonusType'].dirty) && f['bonusType'].invalid}" [items]="allBonusType" formControlName="bonusType" bindLabel="paymentType" bindValue="id" placeholder="Bonus Type"></ng-select>
+                    </div>
+                    <label class="col-form-label col-sm-4 ">
+          </label>
+                    <div *ngIf="f['bonusType'].invalid && (isSubmitted || f['bonusType'].touched || f['bonusType'].dirty)" class="text-danger">
+                        <i *ngIf="f['bonusType'].errors['required']">Bonus Type is required</i>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-form-label col-sm-4 ">Department
+          </label>
+                    <div class="col-sm-6">
+                        <ng-select [items]="allDepartment" formControlName="depertmentID" bindLabel="description" bindValue="id" placeholder="Department"></ng-select>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-form-label col-sm-4 ">Bonus Head
+          </label>
+                    <div class="col-sm-6">
+                        <ng-select [ngClass]="{'is-invalid': (isSubmitted || f['salaryHeadID'].touched ||f['salaryHeadID'].dirty) && f['salaryHeadID'].invalid}" [items]="allBonusAllowance" formControlName="salaryHeadID" bindLabel="accountName" bindValue="id" placeholder="Bonus Head"></ng-select>
+                    </div>
+                    <label class="col-form-label col-sm-4 ">
+          </label>
+                    <div *ngIf="f['salaryHeadID'].invalid && (isSubmitted || f['salaryHeadID'].touched || f['salaryHeadID'].dirty)" class="text-danger">
+                        <i *ngIf="f['salaryHeadID'].errors['required']">Salary Head is required</i>
+                    </div>
+                </div>
+            </div>
+        </form>
+        <form [formGroup]="employeesForm">
+            <table class="table table-striped table-bordered text-center">
+                <thead>
+                    <tr>
+                        <th>Employee Code</th>
+                        <th>Employee Name</th>
+                        <th>Designation</th>
+                        <th>Department</th>
+                        <th>Amount</th>
+                        <th>Add Row</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let emp of employeesForm.controls; let i=index" [formGroup]="emp">
+                        <td>
+                            <app-employee-select-list [ngClass]="{'is-invalid':(employeesForm.controls[i].get('empCode').touched || employeesForm.controls[i].get('empCode').dirty || isSubmitted) &&  employeesForm.controls[i].get('empCode').invalid}" [isSearchBtnHide]="true" [fixedWidth]="'150px'"
+                                (onChange)="getEmployment($event.empCode,i)" [setEmpCode]="formVal.empCode">
+                            </app-employee-select-list>
+                        </td>
+                        <td><input formControlName="empName" readonly type="text" class="form-control"></td>
+                        <td><input formControlName="department" readonly type="text" class="form-control"></td>
+                        <td><input formControlName="designation" readonly type="text" class="form-control"></td>
+                        <td><input formControlName="amount" [ngClass]="{'is-invalid':(employeesForm.controls[i].get('amount').touched || employeesForm.controls[i].get('amount').dirty || isSubmitted) &&  employeesForm.controls[i].get('amount').invalid}" type="number"
+                                class="form-control"></td>
+                        <td class="row">
+                            <button class="col-md-3" *ngIf="employeesForm.controls.length==(i+1)" (click)="addRow()">
+                  <span class="fa fa-plus"></span>
+                </button>
+                            <button class="col-md-3" (click)="removeRow(i)">
+                  <span class="fa fa-window-close text-danger"></span>
+                </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </form>
+        <div class="row">
+            <div class="demo-inline-spacing mt-3" style="margin:0 auto">
+                <button (click)="save()" type="" class="btn btn-success">Save</button>
+            </div>
+        </div>
+
+    </div>
+</div>

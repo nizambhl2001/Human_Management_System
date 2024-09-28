@@ -1,0 +1,222 @@
+<div class="card">
+    <h4 class="card-header text-center bg-light">{{title}}</h4>
+    <div class="card-body">
+        <form [formGroup]="empLoanInfoForm">
+            <div class="card">
+                <h5 class="card-header">Employee Basic Information</h5>
+                <div class="card-body row mt-2">
+                    <div class="col-md-6">
+                        <div class="form-group row">
+                            <label for="empCode" class="col-md-4">Employee Code<i class="text-danger">*</i></label>
+                            <div class="input-group col-md-8">
+                                <app-employee-select-list [ngClass]="{'is-invalid':(f.empCode.touched || f.empCode.dirty || isSaveBtnClick) && f.empCode.invalid}" [setEmpCode]="f['empCode'].value" (onChange)="onSelectEmp($event)"></app-employee-select-list>
+
+                                <div *ngIf="f.empCode.invalid && (f.empCode.touched || f.empCode.dirty || isSaveBtnClick)" class="text-danger">
+                                    <i *ngIf="f.empCode.errors.required" class="text-danger">Employee code is required</i>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="empName" class="col-md-4">Employee Name</label>
+                            <div class="col-md-6">
+                                <input formControlName="empName" type="text" name="employeeName" id="empName" class="form-control" placeholder="Employee Name" readonly>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="companyAddress" class="col-md-4">Location</label>
+                            <div class="col-md-6">
+                                <input formControlName="companyAddress" type="text" name="companyAddress" id="companyAddress" class="form-control" placeholder="Location" readonly>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group row">
+                            <label class="form-label col-md-4" for="joiningDate">Joining Date</label>
+                            <div class="input-group col-md-6">
+                                <input class="form-control" formControlName="joinDate" placeholder="dd-mm-yyyy" id="joiningDate" name="joiningDate" readonly>
+
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="designation" class="col-md-4">Designation</label>
+                            <div class="col-md-6">
+                                <input formControlName="designation" type="text" name="designation" id="designation" class="form-control" placeholder="Designation" readonly>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div> <br>
+            <div class="card">
+                <h5 class="card-header">Employee Loan Information</h5>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-4 border padding-top">
+                            <div class="form-group row">
+                                <label for="type" class="col-md-4">Loan Type<i class="text-danger">*</i></label>
+                                <div class="col-md-8">
+                                    <ng-select [ngClass]="{'is-invalid':(f.salaryHeadID.touched || f.salaryHeadID.dirty || isSaveBtnClick) && f.salaryHeadID.invalid}" formControlName="salaryHeadID" [items]="loanHeadData" bindLabel="accountName" bindValue="id" name="type" id="type" placeholder="Select Loan Type">
+
+                                    </ng-select>
+                                    <div *ngIf="f.salaryHeadID.invalid && (f.salaryHeadID.touched || f.salaryHeadID.dirty || isSaveBtnClick)" class="text-danger">
+                                        <i *ngIf="f.salaryHeadID.errors.required" class="text-danger">Employee Loan Information is required</i>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="col-md-4 border padding-top">
+                            <div class="form-group row">
+                                <label class="form-label col-md-5" for="loanDate">Loan Date<i class="text-danger">*</i></label>
+                                <div class="input-group col-md-7">
+                                    <app-date-control style="width: 150px; ;" (getLocalDate)="f['loanDate'].setValue($event)" (getNgbDate)="f['loanDateNgb'].setValue($event)" [setNgbDate]="f['loanDateNgb'].value"></app-date-control>
+                                    <div *ngIf="f.loanDateNgb.invalid && (f.loanDateNgb.touched || f.loanDateNgb.dirty || isSaveBtnClick)" class="text-danger">
+                                        <i *ngIf="f.loanDateNgb.errors.required">Loan date is required</i>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="amount" class="col-md-5">Loan Amount<i class="text-danger">*</i></label>
+                                <div class="col-md-7">
+                                    <input [ngClass]="{'is-invalid':(f.loanAmount.touched || f.loanAmount.dirty || isSaveBtnClick) && f.loanAmount.invalid}" formControlName="loanAmount" value="{{loanAmount}}" type="number" name="amount" id="amount" class="form-control" placeholder="Amount">
+                                    <div *ngIf="f.loanAmount.invalid && (f.loanAmount.touched || f.loanAmount.dirty || isSaveBtnClick)" class="text-danger">
+                                        <i *ngIf="f.loanAmount.errors.required" class="text-danger">Loan Amount is required</i>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="downPayment" class="col-md-5">Down Payment</label>
+                                <div class="col-md-7">
+                                    <input formControlName="downPayment"  value="{{downPayment}}" type="number" name="downPayment" id="downPayment" class="form-control" placeholder="Down Payment">
+
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="netLoan" class="col-md-5">Net Loan</label>
+                                <div class="col-md-7">
+                                    <input formControlName="netLoan" readonly type="number" value="{{netLoan}}" name="netLoan" id="netLoan" class="form-control" placeholder="Net Loan">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="remarks" class="col-md-5">Remarks</label>
+                                <div class="col-md-7">
+                                    <textarea rows="2" formControlName="remarks" name="remarks" id="remarks" class="form-control" placeholder="Remarks"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4 border padding-top">
+                            <div class="form-group row">
+                                <label for="installment" class="col-md-5">Installment Start<i class="text-danger">*</i></label>
+                                <div class="col-md-7">
+                                    <ng-select [ngClass]="{'is-invalid':(f.installmentStart.touched || f.installmentStart.dirty || isSaveBtnClick) && f.installmentStart.invalid}" formControlName="installmentStart" [items]="salaryPeriod" bindLabel="periodName" bindValue="id" name="installment"
+                                        id="installment" placeholder="Select Installment Start">
+
+                                    </ng-select>
+                                    <div *ngIf="f.installmentStart.invalid && (f.installmentStart.touched || f.installmentStart.dirty || isSaveBtnClick)" class="text-danger">
+                                        <i *ngIf="f.installmentStart.errors.required" class="text-danger">Installment Start is required</i>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="noOfInst" class="col-md-5">No of Installment<i class="text-danger">*</i></label>
+                                <div class="col-md-7">
+                                    <input [ngClass]="{'is-invalid':(f.noofInstallment.touched || f.noofInstallment.dirty || isSaveBtnClick) && f.noofInstallment.invalid}" formControlName="noofInstallment" (keyup)="onSelect()" value="{{noofInstallment}}" type="number" name="noOfInstallment"
+                                        id="noOfInst" class="form-control" placeholder="No Of Installment">
+                                    <div *ngIf="f.noofInstallment.invalid && (f.noofInstallment.touched || f.noofInstallment.dirty || isSaveBtnClick)" class="text-danger">
+                                        <i *ngIf="f.noofInstallment.errors.required" class="text-danger">No of Installment is required</i>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-md-5">Installment Type</label>
+                                <div class="col-md-7">
+                                    <select formControlName="installmentType" name="installmentType" id="installmentType" class="form-control" placeholder="Select Installment type">
+                        <option value="0" >-Please Select Type-</option>
+                      <option value="1">Monthly</option>
+                      <option value="2">Yearly</option>
+                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="interest" class="col-md-5">Interest<i class="text-danger">*</i></label>
+                                <div class="col-md-7">
+                                    <input [ngClass]="{'is-invalid':(f.interest.touched || f.interest.dirty || isSaveBtnClick) && f.interest.invalid}" formControlName="interest" value="{{interest}}" (keyup)="onSelect()" type="number" name="interest" id="interest" class="form-control" placeholder="Interest">
+                                    <div *ngIf="f.interest.invalid && (f.interest.touched || f.interest.dirty || isSaveBtnClick)" class="text-danger">
+                                        <i *ngIf="f.interest.errors.required" class="text-danger">Interest rate is required</i>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="size" class="col-md-5">Installment Size</label>
+                                <div class="col-md-7">
+                                    <input formControlName="installmentamount" value="{{installmentamount | number:'2.2-2'}}" type="text" name="installmentamount" id="size" class="form-control" placeholder="Installment Size">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4"></div>
+                        <div class="col-md-4"></div>
+                        <div class="col-md-4 demo-inline-spacing">
+                            <button (click)="reset()" class="btn btn-info"><span class="ion ion-ios-refresh"></span> Reset</button>
+                            <button (click)="onSubmit()" class="btn btn-success">{{btnStatus}}</button>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+        <div class="row">
+            <div class="col-md-8">
+                <div class="row">
+                    <table class="table table-hover table-bordered table-striped mb-2">
+                        <thead>
+                            <tr>
+                                <th>Loan Date</th>
+                                <th>Loan Amount</th>
+                                <th>Net Loan</th>
+                                <th>Monthly Adjust</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let item of emploanInfo">
+                                <td>{{item.loanDate}}</td>
+                                <td>{{item.loanAmount}}</td>
+                                <td>{{item.netLoan}}</td>
+                                <td>{{item.installmentamount}}</td>
+                                <td>
+                                    <button (click)="getEmployeeLoanInfobyId(item.id)" type="" class="btn btn-info btn-sm">
+                                    <span class="fas fa-edit"></span></button>&nbsp;
+                                    <button [ladda]="exportingPdf" (click)="extoPdf('pdf', item.id)" class="btn btn-info btn-sm"><span class="fas fa-file-download"></span>EMI</button></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="col-md-4 padding-top">
+                <div class="form-group row">
+                    <label for="totalLoan" class="col-md-5">Total Loan</label>
+                    <div class="col-md-7">
+                        <input type="number" name="totalLoan" id="totalLoan" class="form-control" placeholder="Total Loan">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="totalLoanBack" class="col-md-5">Total Loan Back</label>
+                    <div class="col-md-7">
+                        <input type="number" name="totalLoanBack" id="totalLoanBack" class="form-control" placeholder="Total Loan Back">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="totalDue" class="col-md-5">Total Due</label>
+                    <div class="col-md-7">
+                        <input type="number" name="totalDue" id="totalDue" class="form-control" placeholder="Total Due">
+                    </div>
+                </div>
+
+            </div>
+            <!-- / Pagination -->
+        </div>
+
+    </div>
+</div>

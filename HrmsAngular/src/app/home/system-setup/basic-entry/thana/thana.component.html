@@ -1,0 +1,98 @@
+<div class="card">
+    <h4 class="card-header text-center bg-light">
+        Thana
+    </h4>
+    <div class="card-body">
+        <form [formGroup]="thana">
+            <div class="col-md-6 center">
+                <div class="form-group row">
+                    <label class="col-form-label col-sm-3">Division
+      <i class="text-danger">*</i>
+    </label>
+                    <div class="col-sm-9">
+                        <ng-select [ngClass]="{'is-invalid': (f['preDivisionID'].touched || f['preDivisionID'].dirty || isSubmitted) && f['preDivisionID'].invalid}" 
+                        [items]="allDivision" bindLabel="divisionName" bindValue="divisionID" formControlName="preDivisionID" placeholder="Select division"
+                            (change)="getPreDistrict($event)" [disabled]="false">
+                        </ng-select>
+                        <div *ngIf="f['preDivisionID'].invalid && (f['preDivisionID'].touched || f['preDivisionID'].dirty || isSubmitted)" class="text-danger">
+                            <i *ngIf="f['preDivisionID'].errors.required">Division is required</i>
+                            <i *ngIf="f['preDivisionID'].errors.min">Select a division</i>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-form-label col-sm-3">District
+      <i class="text-danger">*</i>
+    </label>
+                    <div class="col-sm-9">
+                        <ng-select [ngClass]="{'is-invalid': (f['preDistrictID'].touched || f['preDistrictID'].dirty || isSubmitted) && f['preDistrictID'].invalid}" [items]="allPreDistrict" bindLabel="districtName" bindValue="districtID" formControlName="preDistrictID" 
+                        (change)="getPreUpazila($event)"
+                            placeholder="Select District" [disabled]="false">
+                        </ng-select>
+                        <div *ngIf="f['preDistrictID'].invalid && (f['preDistrictID'].touched || f['preDistrictID'].dirty || isSubmitted)" class="text-danger">
+                            <i *ngIf="f['preDistrictID'].errors.required">District is required</i>
+                            <i *ngIf="f['preDistrictID'].errors.min">Select a district</i>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-form-label col-sm-3">Upozila
+      <i class="text-danger">*</i>
+    </label>
+                    <div class="col-sm-9">
+                        <ng-select [ngClass]="{'is-invalid': (f['preUpazilaID'].touched || f['preUpazilaID'].dirty || isSubmitted) && f['preUpazilaID'].invalid}"
+                         [items]="allPreUpazila" bindLabel="upazilaName" bindValue="upazilaID" formControlName="preUpazilaID" 
+                         (change)="getPreThana($event)"
+                            placeholder="Select Upazila" [disabled]="false">
+                        </ng-select>
+                        <div *ngIf="f['preUpazilaID'].invalid && (f['preUpazilaID'].touched || f['preUpazilaID'].dirty || isSubmitted)" class="text-danger">
+                            <i *ngIf="f['preUpazilaID'].errors.required">Upazila is required</i>
+                            <i *ngIf="f['preUpazilaID'].errors.min">Select a upazila</i>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-form-label col-sm-3">Thana
+      <i class="text-danger">*</i>
+    </label>
+                    <div class="col-sm-9">
+                        <input type="text" [ngClass]="{'is-invalid': (f['thanaName'].touched || f['thanaName'].dirty || isSubmitted) && f['thanaName'].invalid}" formControlName="thanaName" class="form-control" placeholder="Thana Name">
+                        <div *ngIf="f['thanaName'].invalid && (f['thanaName'].touched || f['thanaName'].dirty || isSubmitted)" class="text-danger">
+                            <i *ngIf="f['thanaName'].errors.min">Insert Thana Name</i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+        <div class="row">
+            <div class="col-sm-3"></div>
+            <label for="" class="col-form-label col-sm-2"></label>
+            <div class="demo-inline-spacing mt-3">
+                <button (click)="reset()" class="btn btn-info"><span class="ion ion-ios-refresh"></span> Reset</button>
+                <button (click)="saveThana()" class="btn btn-success">Save </button>
+            </div>
+        </div>
+        <div class="row">
+            <table class="table  table-bordered table-striped mb-0 center" style="width: 500px;">
+                <thead>
+                    <tr>
+                        <th>Thana ID</th>
+                        <th>Thana Name</th>
+                        <!-- <th>Action</th> -->
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <tr *ngFor="let item of allPreThana; let i=index">
+                            <td>{{item.thanaID}}</td>
+                            <td>{{item.thanaName}}</td>
+                            <!-- <td>
+                                <button (click)="edit(item.thanaId)" class="btn btn-sm success"><i class="fas fa-pencil">Edit</i></button>
+                            </td> -->
+                        </tr>
+                </tbody>
+            </table>
+        </div>
+        <ng-template #countryModal>
+            <app-country (getItems)="allCountry = $event"></app-country>
+        </ng-template>

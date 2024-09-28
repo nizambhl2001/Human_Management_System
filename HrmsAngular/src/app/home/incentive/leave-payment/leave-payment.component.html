@@ -1,0 +1,140 @@
+<div class="card">
+    <h4 class="card-header text-center bg-light">{{title}}</h4>
+    <form [formGroup]="subtitutionLeaveAmountGroup">
+        <div class="row mt-3">
+            <div class="col-md-6">
+                <div class="form-group row">
+                    <label for="branch" class="col-md-4">Branch</label>
+                    <div class="col-md-8">
+                        <ng-select [items]="allBranch" bindLabel="description" bindValue="id" formControlName="branchID" placeholder="Branch"></ng-select>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group row">
+                    <label for="department" class="col-md-4">Department</label>
+                    <div class="col-md-8">
+                        <ng-select [items]="allDepartment" formControlName="departmentID" bindLabel="description" bindValue="id" placeholder="Department"></ng-select>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group row">
+                    <label for="period" class="col-md-4">Salary Period</label>
+                    <div class="col-md-8">
+                        <ng-select [ngClass]="{'is-invalid': (isSubmitted || f['salaryPeriodID'].touched || f['salaryPeriodID'].dirty) && f['salaryPeriodID'].invalid}" [items]="allBonusPeriod" formControlName="salaryPeriodID" bindLabel="periodName" bindValue="id" placeholder="Period">
+                            ></ng-select>
+                    </div>
+                    <label class="col-form-label col-sm-4 "></label>
+                    <div *ngIf="f['salaryPeriodID'].invalid && (isSubmitted || f['salaryPeriodID'].touched || f['salaryPeriodID'].dirty)" class="text-danger">
+                        <i *ngIf="f['salaryPeriodID'].errors['required']">Salary Period required</i>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group row">
+                    <label for="toYear" class="col-md-4">Substitute to Year</label>
+                    <div class="col-md-8">
+                        <ng-select [ngClass]="{'is-invalid': (isSubmitted || f['yearID'].touched || f['yearID'].dirty) && f['yearID'].invalid}" [items]="allSalaryyear" formControlName="yearID" bindLabel="yearName" bindValue="id" placeholder="Salary Year">
+                            ></ng-select>
+                    </div>
+                    <label class="col-form-label col-sm-4 "></label>
+                    <div *ngIf="f['yearID'].invalid && (isSubmitted || f['yearID'].touched || f['yearID'].dirty)" class="text-danger">
+                        <i *ngIf="f['yearID'].errors['required']">Year required</i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group row">
+                    <label for="bonusType" class="col-md-4">Bonus Type</label>
+                    <div class="col-md-8">
+                        <ng-select [ngClass]="{'is-invalid': (isSubmitted || f['bonusType'].touched || f['bonusType'].dirty) && f['bonusType'].invalid}" [items]="allBonusType" formControlName="bonusType" bindLabel="paymentType" bindValue="id" placeholder="Bonus Type"></ng-select>
+                    </div>
+                    <label class="col-form-label col-sm-4 "></label>
+                    <div *ngIf="f['bonusType'].invalid && (isSubmitted || f['bonusType'].touched || f['bonusType'].dirty)" class="text-danger">
+                        <i *ngIf="f['bonusType'].errors['required']"> Bonus Type required</i>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group row">
+                    <label for="bonusHead" class="col-md-4">Bonus Head</label>
+                    <div class="col-md-8">
+                        <ng-select [ngClass]="{'is-invalid': (isSubmitted || f['salaryHeadID'].touched || f['salaryHeadID'].dirty) && f['salaryHeadID'].invalid}" [items]="allBonusAllowance" formControlName="salaryHeadID" bindLabel="accountName" bindValue="id" placeholder="Bonus Head"></ng-select>
+                    </div>
+                    <label class="col-form-label col-sm-4 "></label>
+                    <div *ngIf="f['salaryHeadID'].invalid && (isSubmitted || f['salaryHeadID'].touched || f['salaryHeadID'].dirty)" class="text-danger">
+                        <i *ngIf="f['salaryHeadID'].errors['required']"> Salary Head required</i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group row">
+                    <label for="paymentPeriod" class="col-md-4">Payment Period</label>
+                    <div class="col-md-8">
+                        <ng-select [ngClass]="{'is-invalid': (isSubmitted || f['periodID'].touched || f['periodID'].dirty) && f['periodID'].invalid}" [items]="allBonusPeriod" formControlName="periodID" bindLabel="periodName" bindValue="id" placeholder="Period">
+                            ></ng-select>
+                    </div>
+                    <label class="col-form-label col-sm-4 "></label>
+                    <div *ngIf="f['periodID'].invalid && (isSubmitted || f['periodID'].touched || f['periodID'].dirty)" class="text-danger">
+                        <i *ngIf="f['periodID'].errors['required']"> Period required</i>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group row">
+                    <label class="form-label col-md-4" for="paymentDate">Payment Date</label>
+                    <div class="input-group col-md-8">
+                        <input readonly formControlName="dateNgb" class="form-control" placeholder="dd-mm-yyyy" id="paymentDate" name="paymentDate" ngbDatepicker [displayMonths]="1" #d2="ngbDatepicker">
+                        <div class="input-group-append">
+                            <button class="input-group-text" (click)="d2.toggle()" type="button">
+                  <span class="ion ion-md-calendar" style="cursor: pointer;"></span>
+                </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <button (click)="getAll()" class="btn btn-success center">Show Data</button>
+        </div>
+
+        <div class="card-body ">
+            <div class="row">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>EmpCode</th>
+                            <th>Name</th>
+                            <th>Designation</th>
+                            <th>Department</th>
+                            <th>Amount</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let emp of employeesForm.controls; let i=index" [formGroup]="emp">
+                            <td><input formControlName="empCode" value="employeesForm.empCode" type="text" class="form-control"></td>
+                            <td><input formControlName="empName" type="text" class="form-control"></td>
+                            <td><input formControlName="department" type="text" class="form-control"></td>
+                            <td><input formControlName="designation" type="text" class="form-control"></td>
+                            <td><input formControlName="amount" type="number" class="form-control"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="row">
+            <div class="demo-inline-spacing center">
+                <button (click)="reset()" class="btn btn-info"><span class="ion ion-ios-refresh"></span> Reset</button>
+                <button (click)=" save()" class="btn btn-success">Save</button>
+            </div>
+        </div>
+    </form>
+</div>

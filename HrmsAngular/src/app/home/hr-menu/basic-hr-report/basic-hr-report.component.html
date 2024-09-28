@@ -1,0 +1,102 @@
+<div class="card">
+    <h4 class="card-header text-center bg-light">
+        Basic HR Report
+    </h4>
+    <div class="container row">
+        <div class="col-md-6 center">
+            <br>
+            <form [formGroup]="_basicHrReportForm">
+                <!--Report Type-->
+                <div class="form-group row">
+                    <label class="col-form-label col-sm-4">Report Type <span class="text-danger">*</span></label>
+                    <div class="col-sm-8">
+                        <ng-select formControlName="ReportId" [ngClass]="{'is-invalid':(_basicHrReportForm.controls['ReportId'].invalid && (_basicHrReportForm.controls['ReportId'].touched || _basicHrReportForm.controls['ReportId'].dirty || _isSubmit))}" [items]="_reportTypeList"
+                            bindLabel="TypeName" bindValue="ReportId" placeholder="Select report Type">
+                        </ng-select>
+                        <div class="text-danger" *ngIf="(_basicHrReportForm.controls['ReportId'].invalid && (_basicHrReportForm.controls['ReportId'].touched || _basicHrReportForm.controls['ReportId'].dirty || _isSubmit))">
+                            <i *ngIf="_basicHrReportForm.controls['ReportId'].errors['required']">Report Type Is Required</i>
+                        </div>
+                    </div>
+                </div>
+                <div *ngIf="formVal.ReportId==3" class="form-group row">
+                    <label class="col-form-label col-sm-4">Separation Type</label>
+                    <div class="col-sm-8">
+                        <ng-select formControlName="Type" [items]="_separationTypeList" bindLabel="TypeName" bindValue="Id" placeholder="Select Separation Type">
+                        </ng-select>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-form-label col-sm-4">From Date</label>
+                    <div class="col-sm-8">
+                        <div class="input-group">
+                            <!-- <input formControlName="StrDate" class="form-control" placeholder="dd-mm-yyyy" ngbDatepicker #d1="ngbDatepicker" readonly>
+                            <div class="input-group-append">
+                                <button class="input-group-text" (click)="d1.toggle();" type="button">
+                <span class="ion ion-md-calendar" style="cursor: pointer;"></span>
+              </button> -->
+              <app-date-control (getYyyymmdd)="f['StrDate'].setValue($event)"></app-date-control>
+
+                            </div>
+                        </div>
+                    </div>
+                <!-- </div> -->
+                <div *ngIf="formVal.ReportId!=6" class="form-group row">
+                    <label class="col-form-label col-sm-4 ">To Date</label>
+                    <div class="input-group col-sm-8">
+                        <!-- <div class="input-group"> -->
+                            <!-- <input formControlName="EndDate" class="form-control" placeholder="dd-mm-yyyy" ngbDatepicker #d2="ngbDatepicker" readonly> -->
+
+                            <app-date-control (getYyyymmdd)="f['EndDate'].setValue($event)"></app-date-control>
+
+                            <!-- <div class="input-group-append">
+                                <button class="input-group-text" (click)="d2.toggle();" type="button">
+                <span class="ion ion-md-calendar" style="cursor: pointer;"></span>
+              </button>
+                            </div> -->
+                        <!-- </div> -->
+                    </div>
+                </div>
+                <div *ngIf="formVal.ReportId==6" class="form-group row">
+                    <label class="col-form-label col-sm-4">Age</label>
+                    <div class="col-sm-5">
+                        <input formControlName="Age" type="number" formControlName="Age" placeholder="Age" class="form-control">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-form-label col-sm-4">Department</label>
+                    <div class="col-sm-8">
+                        <ng-select formControlName="DepartmentID" (change)="onDeptChange()" formControlName="DepartmentID" [items]="_departments" bindLabel="description" bindValue="id" placeholder="Select Department">
+                        </ng-select>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-form-label col-sm-4">Branch</label>
+                    <div class="col-sm-8">
+                        <ng-select formControlName="BranchID" (change)="onBranchChange()" [items]="_branches" bindLabel="description" bindValue="id" placeholder="Select Branch">
+                        </ng-select>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-form-label col-sm-4">Project</label>
+                    <div class="col-sm-8">
+                        <ng-select formControlName="ProjectID" (change)="onProjectChange()" [items]="_projects" bindLabel="description" bindValue="id" placeholder="Select Project">
+                        </ng-select>
+                    </div>
+                </div>
+                <!--Button-->
+                <div class="form-group row mt-2">
+                    <div class="col-12">
+                        <ng-select class="pull-right mr-1" formControlName="ExportType" [items]="[{typeName:'pdf'},{typeName:'xls'}, {typeName:'xlsx'}]" bindLabel="typeName" bindValue="typeName"></ng-select>
+                        <button [ladda]="exporting" (click)="export()" type="submit" class="btn btn-info pull-right m2-1">
+            <b>Generate Report</b></button>
+                    </div>
+                </div>
+                <div *ngIf="exporting" class="row">
+                    <div class="m-auto">
+                        <img src="../../../../assets/img/loading_icon.gif" height="80" width="80"> Please wait...
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

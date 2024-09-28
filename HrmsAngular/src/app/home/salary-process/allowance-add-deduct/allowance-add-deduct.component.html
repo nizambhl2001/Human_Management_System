@@ -1,0 +1,146 @@
+<div class="card">
+  <h4 class="card-header text-center bg-light">
+    Allowance Add Deduct
+  </h4>
+  <div class="card-body">
+    <div class="col-md-7 center">
+      <form [formGroup]="payscaleAddDeductForm">
+        <!--Employee Id-->
+        <div class="form-group row">
+          <label class="col-form-label col-sm-3 ">Employee ID</label>
+          <div class="col-sm-7">
+            <div class="input-group">
+              <app-employee-select-list [fixedWidth]="'150px'" [isSearchBtnHide]="false"
+                [setEmpCode]="f['empCode'].value" (onChange)="getAddDeductList($event);" [fixedWidth]="'357px'">
+              </app-employee-select-list>
+              <div *ngIf="f['empCode'].invalid && (isSubmitted || f['empCode'].touched || f['empCode'].dirty)"
+                class="text-danger">
+                <i *ngIf="f['empCode'].errors['required']">Please input empCode</i>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <div class="form-group row">
+          <label class="col-form-label col-sm-3 ">Employee Name</label>
+          <div class="col-sm-7">
+            <input formControlName="empName" type="text" class="form-control" placeholder="Monthly Amount">
+
+          </div>
+        </div>
+        <!--Allowance-->
+        <div class="form-group row">
+          <label class="col-form-label col-sm-3 ">Allowance</label>
+          <div class="col-sm-7">
+            <ng-select formControlName="salaryHeadID" placeholder="Select Allowance" [items]="allsalaryHeadModel"
+              bindLabel="accountName" bindValue="id">
+
+            </ng-select>
+            <div
+              *ngIf="f['salaryHeadID'].invalid && (isSubmitted || f['salaryHeadID'].touched || f['salaryHeadID'].dirty)"
+              class="text-danger">
+              <i *ngIf="f['salaryHeadID'].errors['required']">Please Select allowance</i>
+            </div>
+          </div>
+        </div>
+        <!--Effect From-->
+        <div class="form-group row">
+          <label class="col-form-label col-sm-3 ">Effect From</label>
+          <div class="col-sm-7">
+            <div class="input-group">
+              <input formControlName="startDateNgb" class="form-control" name="fromDate" placeholder="dd-mm-yyyy"
+                ngbDatepicker readonly #d1="ngbDatepicker">
+              <div class="input-group-append">
+                <button class="input-group-text" (click)="d1.toggle()" type="button">
+                  <span class="ion ion-md-calendar" style="cursor: pointer;"></span>
+                </button>
+              </div>
+              <div
+                *ngIf="f['startDateNgb'].invalid && (isSubmitted || f['startDateNgb'].touched || f['startDateNgb'].dirty)"
+                class="text-danger">
+                <i *ngIf="f['startDateNgb'].errors.required">Please select Date</i>
+              </div>
+            </div>
+
+          </div>
+        </div>
+        <div class="form-group row">
+          <label class="col-form-label col-sm-3 ">Monthly Amount</label>
+          <div class="col-sm-7">
+            <input formControlName="amount" type="text" class="form-control" placeholder="Monthly Amount">
+            <div *ngIf="f['amount'].invalid && (isSubmitted || f['amount'].touched || f['amount'].dirty)"
+              class="text-danger">
+              <i *ngIf="f['amount'].errors['required']">Please input Monthly amount</i>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+
+  </div>
+</div>
+<div class="form-group row m-auto">
+  <div class="demo-inline-spacing mt-3 center">
+    <button (click)="Reset()" class="btn btn-info">
+      <span class="ion ion-ios-refresh"></span> Reset</button>
+    <button (click)="SaveOrUpdate()" class="btn btn-success">
+      {{btnStatus}}</button>
+  </div>
+</div>
+<!--Table-->
+<div class="card row col-md-7 m-auto">
+  <div class="card-header">
+    <div class="row">
+      <div class="col">
+        Per page: &nbsp;
+        <select [(ngModel)]="perPage" (change)="update()" class="custom-select custom-select-md d-inline-block w-auto">
+          <option *ngFor="let limit of [5,10, 20, 30, 40, 50]">{{limit}}</option>
+        </select>
+      </div>
+      <div class="col">
+        <input type="text" [(ngModel)]="filterVal" (input)="currentPage = 1; update()"
+          class="form-control form-control-md d-inline-block w-auto float-sm-right" placeholder="Search...">
+      </div>
+    </div>
+  </div>
+  <div class="card-body p-0">
+    <table class="table table-hover table-bordered table-striped mb-0">
+      <thead>
+        <tr>
+          <th>Allowance</th>
+          <th>Date</th>
+          <th>Amount</th>
+          <th>Delete</th>
+        </tr>
+      </thead>
+      <tbody>
+
+        <tr (click)="getByID(item.id,item.empCode,item.companyID)" *ngFor="let item of payscaleAddDeduct; let i=index">
+          <td>{{item.accountName}}</td>
+          <td>{{item.startDate|date:'dd-MM-yyyy'}}</td>
+          <td class="text-right">{{item.amount}}</td>
+          <td><button (click)="deleteAllowanceAndDeduct(item.id,deleteModal)" class="btn btn-sm btn-danger"><span
+                class="fa fa-trash"></span> </button></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <!-- Pagination -->
+  <div class="card-footer py-0">
+    <div class="row">
+      <div class="col-sm text-sm-left text-center pt-3">
+        <span class="text-muted" *ngIf="totalItems">Page {{ currentPage }} of {{ totalPages }}</span>
+      </div>
+      <div class="col-sm pt-3">
+        <ngb-pagination [collectionSize]="totalItems" [pageSize]="perPage" [(page)]="currentPage"
+          (pageChange)="update()" size="sm" class="d-flex justify-content-center justify-content-sm-end m-0">
+        </ngb-pagination>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #deleteModal>
+  <app-delete-confirmation [rowId]="selectedItemId" (onConfirmedId)="confirmDelete($event)"></app-delete-confirmation>
+</ng-template>

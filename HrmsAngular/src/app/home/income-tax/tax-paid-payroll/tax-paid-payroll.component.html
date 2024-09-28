@@ -1,0 +1,89 @@
+<div class="card section">
+    <h4 class="card-header text-center bg-light">
+        Tax Paid Payroll
+    </h4>
+    <div class="card-body">
+        <div class="col-md-7 center">
+            <form [formGroup]="taxAdvanceForm">
+                <div class="form-group row">
+                    <label class="col-form-label col-sm-3 "> Employee Id
+            <i class="text-danger">*</i>
+        </label>
+                    <div class="input-group col-sm-9">
+                        <app-employee-select-list [isSearchBtnHide]="false" [setEmpCode]="f['empCode'].value" (onChange)="getEmpInfoById($event);" [fixedWidth]="'357px'">
+                        </app-employee-select-list>
+                        <div *ngIf="f['empCode'].invalid && (isSubmitted || f['empCode'].touched || f['empCode'].dirty)" class="text-danger">
+                            <i *ngIf="f['empCode'].errors['required']">Please insert empCode</i>
+                        </div>
+                        <div *ngIf="f['empCode'].invalid && (isSubmitted || f['empCode'].touched || f['empCode'].dirty)" class="text-danger">
+                            <i *ngIf="f['empCode'].errors.required">Please Input empCode  </i>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-form-label col-sm-3 ">Employee Name
+      </label>
+                    <div class="col-sm-8">
+                        <input formControlName="empName" type="text" class="form-control" readonly placeholder="Employee Name">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-form-label col-sm-3 ">Department
+      </label>
+                    <div class="col-sm-8">
+                        <input formControlName="department" type="text" class="form-control" readonly placeholder="Department">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-form-label col-sm-3 ">Designation
+      </label>
+                    <div class="col-sm-8">
+                        <input formControlName="designation" type="text" class="form-control" readonly placeholder="Designation">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-form-label col-sm-3 ">Tax Year
+          <i class="text-danger">*</i>
+      </label>
+                    <div class="col-sm-8">
+                        <ng-select formControlName="taxYear" [items]="taxYearList" bindLabel="taxYearName" bindValue="id" placeholder="Select Tax Year">
+                        </ng-select>
+                        <div *ngIf="f['taxYear'].invalid && (isSubmitted || f['taxYear'].touched || f['taxYear'].dirty)" class="text-danger">
+                            <i *ngIf="f['taxYear'].errors.required">Please Select Tax Year  </i>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-form-label col-sm-3 ">Amount
+              <i class="text-danger">*</i>
+          </label>
+                    <div class="col-sm-8">
+                        <input formControlName="amount" [ngClass]="{'is-invalid':isSubmitted && f.amount.errors}" type="number" class="form-control" placeholder="Amount">
+                        <div *ngIf="f['amount'].invalid && (isSubmitted || f['amount'].touched || f['amount'].dirty)" class="text-danger">
+                            <i *ngIf="f['amount'].errors.required">Please Input Amount  </i>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="form-group row">
+                    <label class="col-form-label col-sm-3 ">Remarks
+            </label>
+                    <div class="col-sm-8">
+                        <textarea formControlName="note" rows="4" type="text" class="form-control" placeholder="Remarks"></textarea>
+                        <div *ngIf="f['note'].invalid && (isSubmitted || f['note'].touched || f['note'].dirty)" class="text-danger">
+                            <i *ngIf="f['note'].errors.required">Please Input Remark  </i>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="row">
+            <div class="demo-inline-spacing mt-3" style="margin:0 auto">
+                <button (click)="reset()" class="btn btn-info ">
+                <span class="ion ion-ios-refresh"></span> Reset</button>
+                <button [disabled]="taxAdvanceForm.errors" class="btn btn-success" (click)="saveTaxAdvancePayRoll()" type="" class="btn btn-success"> Save </button>
+
+            </div>
+        </div>
+    </div>
+</div>

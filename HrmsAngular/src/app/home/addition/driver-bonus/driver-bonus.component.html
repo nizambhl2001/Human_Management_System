@@ -1,0 +1,88 @@
+<div class="card">
+    <h4 class="card-header text-center bg-light">{{title}}</h4>
+    <div class="card-body">
+        <form [formGroup]="driverAllwBonusForm">
+            <div class="row">
+                <div class="col-md-6 center">
+                    <div class="form-group row">
+                        <label for="" class="col-md-3">Period
+              <i class="text-danger">*</i>
+            </label>
+                        <div class="col-md-8">
+                            <ng-select formControlName="periodID" [ngClass]="{'is-invalid':(isSaveBtnClick || f.periodID.touched || f.periodID.dirty)&& f.periodID.invalid}" name="periodID" id="periodID" [items]="salaryPeriodmodel" bindLabel="periodName" bindValue="id" placeholder="Select Period">
+                            </ng-select>
+                            <div *ngIf="f['periodID'].invalid && (isSaveBtnClick || f['periodID'].touched || f['periodID'].dirty)" class="text-danger">
+                                <i *ngIf="f['periodID'].errors.required">Period is required</i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="" class="col-md-3">Bonus Type
+              <i class="text-danger">*</i>
+            </label>
+                        <div class="col-md-8">
+                            <ng-select [ngClass]="{'is-invalid':(isSaveBtnClick || f.bonusID.touched || f.bonusID.dirty)&& f.bonusID.invalid}" formControlName="bonusID" [items]="bonusTypesModel" bindLabel="paymentType" bindValue="id" placeholder="Select Bonus Type">
+                            </ng-select>
+                            <div *ngIf="f['bonusID'].invalid && (isSaveBtnClick || f['bonusID'].touched || f['bonusID'].dirty)" class="text-danger">
+                                <i *ngIf="f['bonusID'].errors.required">Bonus Type is required</i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="salaryHeadID" class="col-md-3">Bonus Head
+              <i class="text-danger">*</i>
+            </label>
+                        <div class="col-md-8">
+                            <ng-select [ngClass]="{'is-invalid':(isSaveBtnClick || f.salaryHeadID.touched || f.salaryHeadID.dirty)&& f.salaryHeadID.invalid}" formControlName="salaryHeadID" [items]="salaryHeadModel" bindLabel="accountName" bindValue="id" placeholder="Select Bonus Head">
+                            </ng-select>
+                            <div *ngIf="f['salaryHeadID'].invalid && (isSaveBtnClick || f['salaryHeadID'].touched || f['salaryHeadID'].dirty)" class="text-danger">
+                                <i *ngIf="f['salaryHeadID'].errors.required">Bonus Head is required</i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group row m-auto">
+                <div class="demo-inline-spacing mt-3 center">
+                    <button (click)="reset()" type="submit" class="btn btn-info center "><span class="ion ion-ios-refresh"></span> Refresh</button>
+                    <button (click)="getAll()" type="submit" class="btn btn-primary center">Show Data</button>
+                </div>
+
+            </div>
+
+            <br>
+            <div class="row">
+                <div class="data-table">
+                    <table class="table table-hover table-bordered table-striped mb-0">
+                        <thead>
+                            <tr>
+                                <th>Code</th>
+                                <th>Employee Name</th>
+                                <th>Designation</th>
+                                <th>Department</th>
+                                <th>Amount</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let item of driverAllowanceModel">
+                                <td>{{item.empCode}}</td>
+                                <td>{{item.empName}}</td>
+                                <td>{{item.designation}}</td>
+                                <td>{{item.department}}</td>
+                                <td>{{item.amount}}</td>
+                                <td><button (click)="removeDriver(item.empCode)" class="btn btn-danger btn-sm"><span class="fas fa-trash"></span></button></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </form>
+        <div class="row">
+            <div class="demo-inline-spacing center">
+                <button (click)="saveOrUpdate()" class="btn btn-success">{{btnStatus}}</button>
+            </div>
+        </div>
+    </div>
+</div>

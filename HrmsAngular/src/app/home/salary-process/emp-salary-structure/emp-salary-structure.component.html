@@ -1,0 +1,184 @@
+<div class="card">
+  <h4 class="card-header text-center bg-light">Employee Salary Structure</h4>
+  <div class="card-body">
+    <form [formGroup]="empSalaryForm">
+      <div class="row pt-3">
+        <!--Left column-->
+        <div class="col-6">
+          <!--Employee Id-->
+
+          <div class="form-group row">
+            <label class="col-form-label col-sm-4 ">Employee ID</label>
+            <div class="col-sm-8">
+              <div class="input-group">
+                <!-- <input class="form-control" formControlName="empCode"  (keyup)="getEmpInfoById(f['empCode'].value)" type="text" placeholder="Employee ID">
+              <div class="input-group-append">
+                <button class="input-group-text btn btn-primary" type="button">
+                  <span class="fas fa-search" style="cursor: pointer;"></span>
+                </button>
+              </div> -->
+                <app-employee-select-list [isSearchBtnHide]="false" [setEmpCode]="f['empCode'].value"
+                  (onChange)="getEmpInfoById($event);" [fixedWidth]="'310px'">
+                </app-employee-select-list>
+
+                <div *ngIf="f['empCode'].invalid && (isSubmitted || f['empCode'].touched || f['empCode'].dirty)"
+                  class="text-danger">
+                  <i *ngIf="f['empCode'].errors.required">Employee Code is required</i>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Salary Structure-->
+          <div class="form-group row">
+            <label class="col-form-label col-sm-4 ">Salary Structure</label>
+            <div class="col-sm-8">
+              <ng-select formControlName="structureID" (change)="getAdditionOrDeductionList(f['structureID'].value)"
+                placeholder="Select Present Scale" [items]="structureModel" bindLabel="structureName" bindValue="id">
+
+              </ng-select>
+              <div
+                *ngIf="f['structureID'].invalid && (isSubmitted || f['structureID'].touched || f['structureID'].dirty)"
+                class="text-danger">
+                <i *ngIf="f['structureID'].errors.required">Please Select Salary Structure</i>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-6">
+          <!--Employee Name-->
+          <div class="form-group row">
+            <label class="col-form-label col-sm-4 ">Employee Name</label>
+            <div class="col-sm-8">
+              <input formControlName="empName" readonly type="text" class="form-control" placeholder="Employee Name">
+
+            </div>
+          </div>
+          <!--Pay Amount-->
+          <div class="form-group row">
+            <label class="col-form-label col-sm-4">Basic Salary</label>
+            <div class="col-sm-8">
+              <input  formControlName="amount"  type="number" (keydown)="paymentChangeAdditionOrDeduction(f['amount'].value , $event)"
+                  id="amount" class="form-control" placeholder="Pay Amount">
+              <div *ngIf="f['amount'].invalid && (isSubmitted || f['amount'].touched || f['amount'].dirty)"
+                class="text-danger">
+                <i *ngIf="f['amount'].errors.required">Please Input Amount</i>
+              </div>
+            </div>
+            <!--End row-->
+          </div>
+        </div>
+      </div>
+    </form>
+    <div class="row">
+      <div class="col-md-6">
+        <div class="card">
+          <div class="card-header py-2">
+            <h5 class="mb-0">Addition </h5>
+          </div>
+          <div class="card-body">
+            <div class="data-table m-0">
+              <table class="table  table-hover table-striped mb-0">
+                <thead>
+                  <tr class="text-center">
+                    <th>Salary_Head</th>
+                    <th style="width:50px">Amount</th>
+                    <th>Type</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let emp of empAdditionForm.controls; let i=index" [formGroup]="emp">
+                    <td>
+                      <ng-select formControlName="salaryHeadID" [items]="salaryHeadModel" bindLabel="accountName"
+                        bindValue="id"></ng-select>
+                    </td>
+                    <td style="width:50px"><input formControlName="amount" (change)="amountChangeAddition()" type="number"
+                        class="form-control"></td>
+                    <td>
+                      <ng-select formControlName="salaryTypeID" [items]="typeItem" bindLabel="typeName" bindValue="id">
+                      </ng-select>
+                    </td>
+
+                    <td>
+                      <span class="btn btn-sm btn-danger" (click)="removeAdditionRow(i)">X</span>
+                      <span class="btn btn-sm btn-success" *ngIf="empAdditionForm.controls.length==(i+1)"
+                        (click)="addAdditionRow()">+</span>
+                    </td>
+                  </tr>
+
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div class="card-footer py-0 bg-card-footer">
+            <div class="form-group row">
+              <label class="col-form-label col ">Gross Salary</label>
+              <div class="col">
+                <div class="input-group">
+                  <input class="form-control" [value]="totalAdditionAmount" type="number" placeholder="Addition Amount">
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="card">
+          <div class="card-header py-2">
+            <h5 class="mb-0">Deduction</h5>
+          </div>
+          <div class="card-body">
+            <div class="data-table m-0">
+              <table class="table table-hover table-striped mb-0">
+                <thead>
+                  <tr>
+                    <th>Salary_Head</th>
+                    <th>Amount</th>
+                    <th>Type</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody class="small">
+                  <tr *ngFor="let emp of empDeductionForm.controls; let i=index" [formGroup]="emp">
+                    <td>
+                      <ng-select formControlName="salaryHeadID" [items]="salaryHeadModel" bindLabel="accountName"
+                        bindValue="id"></ng-select>
+                    </td>
+                    <td><input formControlName="amount" (change)="amountChangeDeduction()" type="number"
+                        class="form-control"></td>
+                    <td>
+                      <ng-select formControlName="salaryTypeID" [items]="typeItem" bindLabel="typeName" bindValue="id">
+                      </ng-select>
+                    </td>
+                    <td>
+                      <span class="btn btn-sm btn-danger" (click)="removeDeductionRow(i)">X</span>
+                      <span *ngIf="empDeductionForm.controls.length==(i+1)" (click)="addDedutionRow()"
+                        class="btn btn-sm btn-success">+</span>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div class="card-footer py-0 bg-card-footer">
+            <div class="form-group row">
+              <label class="col-form-label col-sm-4 ">Total Deduction</label>
+              <div class="col-sm-8">
+                <div class="input-group">
+                  <input class="form-control" [value]="totalDeductionAmount" type="number"
+                    placeholder="Dedication Amount">
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="card-footer row">
+    <div class="m-auto">
+      <button (click)="Reset()" class="btn btn-info">
+        <span class="far fa-reset"></span> Reset</button>
+      <button (click)="saveEmpSalaryStructure()" class="btn btn-success"> Save</button>
+    </div>
+  </div>

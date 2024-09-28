@@ -1,0 +1,37 @@
+<div class="card">
+  <h4 class="card-header text-center bg-light">
+    Process Pay Slip To Send Employee Email
+  </h4>
+  <div class="card-body">
+    <div class="col-md-7 center">
+        <form [formGroup]="paySlipEmailForm">
+            <!--Employee Code-->
+            <div class="form-group row">
+              <label class="col-form-label col-sm-3 ">Employee Code</label>
+              <div class="col-sm-7">
+                <app-employee-select-list [setEmpCode]="f['empCode'].value" (onChange)="onSelectEmpCode($event)"></app-employee-select-list>
+              </div>
+            </div>
+            <!--Salary Period-->
+            <div class="form-group row">
+              <label class="col-form-label col-sm-3 ">Salary Period</label>
+              <div class="col-sm-7">
+                <ng-select formControlName="periodID" [items]="salaryPeriodItem" bindLabel="periodName" bindValue="id" placeholder="Select Period">
+
+                </ng-select>
+                <div *ngIf="f['periodID'].invalid && (isSubmitted || f['periodID'].touched || f['periodID'].dirty)" class="text-danger">
+                    <i *ngIf="f['periodID'].errors['required']">Select Period</i>
+                  </div>
+              </div>
+            </div>
+            <!--Button-->
+            <div class="form-group row">
+              <div class="demo-inline-spacing mt-3 center">
+                <button class="btn btn-info">
+                  <span class="fa fa-paper-plane"></span> Send Pay Slip </button>
+                <button (click)="processPaySlip()" class="btn btn-success"> Process Pay Slip </button>
+              </div>
+            </div>
+          </form>
+    </div>
+  </div>
